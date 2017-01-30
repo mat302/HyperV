@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperV", "HyperV\HyperV\HyperV.csproj", "{3169727A-3799-443C-A29A-3BDA5C818E8A}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "HyperVContent", "HyperV\HyperVContent\HyperVContent.contentproj", "{E0A8DDF7-7B5B-474C-9440-73AD83B816E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperVContent", "HyperV\HyperVContent\HyperVContent.contentproj", "{E0A8DDF7-7B5B-474C-9440-73AD83B816E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
