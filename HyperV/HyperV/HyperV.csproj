@@ -79,6 +79,7 @@
     <Compile Include="CubeTexturé.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Niveau.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Atelier.cs" />

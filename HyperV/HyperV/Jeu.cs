@@ -35,7 +35,7 @@ namespace HyperV
             RessourcesManager<Song> gestionnaireDeMusiques = Game.Services.GetService(typeof(RessourcesManager<Song>)) as RessourcesManager<Song>;
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             RessourcesManager<SoundEffect> gestionnaireDeSons = Game.Services.GetService(typeof(RessourcesManager<SoundEffect>)) as RessourcesManager<SoundEffect>;
-            ListeModeles = new List<string[]>();
+            ListeModeles = new List<string[]>();            
         }
 
         public override void Update(GameTime gameTime)
@@ -50,7 +50,7 @@ namespace HyperV
 
         private void GénérerCubesFlottants(List<Vector2> listePoints)
         {
-            Game.Components.Add(new CubeTexturé(Game, 1f, Vector3.Zero, new Vector3(0, 0, 0), "CielBleu", Vector3.One, INTERVALLE_MAJ_STANDARD));
+            Game.Components.Add(new CubeTexturé(Game, 1f, new Vector3(1,1,1), new Vector3(10, 10, 10), "CielBleu", Vector3.One, INTERVALLE_MAJ_STANDARD));
         }
 
         private void LireFichierNiveau(string nomFichier)
