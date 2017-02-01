@@ -15,9 +15,21 @@ namespace HyperV
     //Classe qui lirait le fichier texte qui lui dit quoi load comme models et leur position ...
     public class Niveau : Microsoft.Xna.Framework.GameComponent
     {
-        public Niveau(Game game)
+        Model Modele3D { get; set; } //le modele 3d quon veut placer
+        Texture3D Texture3D { get; set; } //la texture qui va avec le modele
+        Vector3 Position { get; set; } //la position du modele dans le monde
+        float Homothesie { get; set; } //la grosseur du modele
+
+        public Niveau(Game game): base(game) { }
+
+        public Niveau(Game game, Model modele3D, Texture3D texture3D, Vector3 position, float homothesie)
             : base(game)
-        { }
+        {
+            Modele3D = modele3D;
+            Texture3D = texture3D;
+            Position = position;
+            Homothesie = homothesie;
+        }
 
         public override void Initialize()
         {
@@ -28,6 +40,6 @@ namespace HyperV
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-        }
+        }        
     }
 }
