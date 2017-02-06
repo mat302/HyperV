@@ -1,15 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.IO;
-using System.Diagnostics;
 
 namespace HyperV
 {
@@ -50,13 +44,14 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<Texture2D>), new RessourcesManager<Texture2D>(this, "Textures"));
             Services.AddService(typeof(InputManager), GestionInput);
             Services.AddService(typeof(CaméraSubjective), CaméraJeu);
-            Services.AddService(typeof(SpriteBatch), new SpriteBatch(GraphicsDevice));            
+            Services.AddService(typeof(SpriteBatch), new SpriteBatch(GraphicsDevice));
             base.Initialize();
         }
+
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
-            base.Update(gameTime);            
+            base.Update(gameTime);         
         }
 
         private void GérerClavier()

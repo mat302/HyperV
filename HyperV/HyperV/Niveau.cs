@@ -33,7 +33,6 @@ namespace HyperV
 
         public override void Initialize()
         {
-            Game.Components.Add(new CubeTexturé(Game, 1, Vector3.Zero, Vector3.Zero, "CielBleu", new Vector3(10, 10, 10), 60));
             base.Initialize();
         }
         

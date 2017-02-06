@@ -12,11 +12,15 @@ using Microsoft.Xna.Framework.Media;
 
 namespace HyperV
 {    
-    public class Player : Microsoft.Xna.Framework.GameComponent
+    public class Player : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        const float VITESSE_INITIALE_TRANSLATION = 0.5f;
+
         InputManager GestionInput { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         float IntervalleMAJ { get; set; }
+        CaméraSubjective Camera { get; set; }
+        float VitesseTranslation { get; set; }
 
         public Player(Game game, float intervalleMAJ)
             : base(game)
@@ -28,8 +32,14 @@ namespace HyperV
         {
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             base.Initialize();
+            VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
         }
-        
+
+        protected override void LoadContent()
+        {
+            Camera = Game.Services.GetService(typeof(CaméraSubjective)) as CaméraSubjective;
+        }
+
         public override void Update(GameTime gameTime)
         {
             float TempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -39,6 +49,7 @@ namespace HyperV
                 if(GestionInput.EstEnfoncée(Keys.W) || GestionInput.EstEnfoncée(Keys.S) || GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.D))
                 {
                     GererDeplacement();
+                    GererSprint();
                 }
                 TempsÉcouléDepuisMAJ = 0;
             }
@@ -54,8 +65,14 @@ namespace HyperV
         {
             float deplacementDirection = (GérerTouche(Keys.W) - GérerTouche(Keys.S));
             float deplacementLatéral = (GérerTouche(Keys.A) - GérerTouche(Keys.D));
-            CaméraSubjective Camera = Game.Services.GetService(typeof(CaméraSubjective)) as CaméraSubjective;
-            Camera.DeplacerCamera(deplacementDirection, deplacementLatéral, 0.5f, false);
+            Camera.GererDeplacementCamera(deplacementDirection, deplacementLatéral);
+        }
+        private void GererSprint()
+        {
+            if(GestionInput.EstEnfoncée(Keys.LeftShift) || GestionInput.EstEnfoncée(Keys.RightShift))
+            {
+                Camera.GérerAccélération(0.5f);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace HyperV
 {
@@ -7,7 +8,6 @@ namespace HyperV
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         const float ACCÉLÉRATION = 0.001f;
         const float VITESSE_INITIALE_ROTATION = 5f;
-        const float VITESSE_INITIALE_TRANSLATION = 0.5f;
         const float DELTA_LACET = MathHelper.Pi / 180; // 1 degré à la fois
         const float DELTA_TANGAGE = MathHelper.Pi / 180; // 1 degré à la fois
         const float DELTA_ROULIS = MathHelper.Pi / 180; // 1 degré à la fois
@@ -19,7 +19,7 @@ namespace HyperV
 
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
-        
+
         bool estEnZoom;
         bool EstEnZoom
         {
@@ -82,21 +82,25 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
+            float TempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TempsÉcouléDepuisMAJ += TempsÉcoulé;
+            if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
+            {
+                CréerPointDeVue();
+                
+                TempsÉcouléDepuisMAJ = 0;
+            }
             base.Update(gameTime);
         }
 
-        public void DeplacerCamera(float deplacementDirection, float deplacementLatéral, float vitesse, bool zoom)
+        public void GérerAccélération(float valAccélération)
         {
-            GérerDéplacement(deplacementDirection, deplacementLatéral, vitesse);
-            //GérerRotation();
-            GérerZoom(zoom);
+            IntervalleMAJ += ACCÉLÉRATION * valAccélération;
+            IntervalleMAJ = MathHelper.Max(INTERVALLE_MAJ_STANDARD, IntervalleMAJ);
         }
 
-        private void GérerDéplacement(float deplacementDirection, float deplacementLatéral, float vitesse)
+        public void GererDeplacementCamera(float déplacementDirection, float déplacementLatéral)
         {
-            float déplacementDirection = deplacementDirection * vitesse;
-            float déplacementLatéral = deplacementLatéral * vitesse;
-
             Direction = Vector3.Normalize(Direction);
             Position += déplacementDirection * Direction;
 
@@ -117,11 +121,11 @@ namespace HyperV
 
         //    if (GestionInput.EstEnfoncée(Keys.Left))
         //    {
-        //        matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET*VITESSE_INITIALE_ROTATION);
+        //        matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET * VITESSE_INITIALE_ROTATION);
         //    }
-        //    if(GestionInput.EstEnfoncée(Keys.Right))
+        //    if (GestionInput.EstEnfoncée(Keys.Right))
         //    {
-        //        matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, -DELTA_LACET* VITESSE_INITIALE_ROTATION);
+        //        matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, -DELTA_LACET * VITESSE_INITIALE_ROTATION);
         //    }
 
         //    Direction = Vector3.Transform(Direction, matriceLacet);
@@ -133,11 +137,11 @@ namespace HyperV
 
         //    if (GestionInput.EstEnfoncée(Keys.Up))
         //    {
-        //        matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE* VITESSE_INITIALE_ROTATION);
+        //        matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE * VITESSE_INITIALE_ROTATION);
         //    }
-        //    if(GestionInput.EstEnfoncée(Keys.Down))
+        //    if (GestionInput.EstEnfoncée(Keys.Down))
         //    {
-        //        matriceTangage = Matrix.CreateFromAxisAngle(Latéral, -DELTA_TANGAGE* VITESSE_INITIALE_ROTATION);
+        //        matriceTangage = Matrix.CreateFromAxisAngle(Latéral, -DELTA_TANGAGE * VITESSE_INITIALE_ROTATION);
         //    }
 
         //    Direction = Vector3.Transform(Direction, matriceTangage);
@@ -160,12 +164,12 @@ namespace HyperV
         //    OrientationVerticale = Vector3.Transform(OrientationVerticale, matriceRoulis);
         //}
 
-        private void GérerZoom(bool zoom)
-        {
-            if (zoom)
-            {
-                EstEnZoom = !EstEnZoom;
-            }
-        }
+        //private void GestionClavier()
+        //{
+        //    if (GestionInput.EstNouvelleTouche(Keys.Z))
+        //    {
+        //        EstEnZoom = !EstEnZoom;
+        //    }
+        //}
     }
 }

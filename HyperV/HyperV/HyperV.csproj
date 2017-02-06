@@ -76,7 +76,6 @@
     <Compile Include="Composants de base\RessourceDeBase.cs" />
     <Compile Include="Composants de base\RessourcesManager.cs" />
     <Compile Include="Composants de base\TexteCentré.cs" />
-    <Compile Include="CubeTexturé.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Niveau.cs" />
     <Compile Include="Player.cs" />
