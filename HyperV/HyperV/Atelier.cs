@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
 using System.Diagnostics;
+using AtelierXNA;
 
 namespace HyperV
 {
@@ -22,6 +23,14 @@ namespace HyperV
         CaméraSubjective CaméraJeu { get; set; }                
         InputManager GestionInput { get; set; }
 
+        //GraphicsDeviceManager PériphériqueGraphique { get; set; }
+        SpriteBatch GestionSprites { get; set; }
+
+        RessourcesManager<SpriteFont> GestionnaireDeFonts { get; set; }
+        RessourcesManager<Texture2D> GestionnaireDeTextures { get; set; }
+        RessourcesManager<Model> GestionnaireDeModèles { get; set; }
+        //Caméra CaméraJeu { get; set; }
+
         public Atelier()
         {
             PériphériqueGraphique = new GraphicsDeviceManager(this);
@@ -33,23 +42,30 @@ namespace HyperV
 
         protected override void Initialize()
         {
+            const float ÉCHELLE_OBJET = 0.01f;
+            Vector3 positionObjet = new Vector3(0, -10, -50);
+            Vector3 rotationObjet = new Vector3(0, MathHelper.PiOver2, 0);
+            GestionnaireDeFonts = new RessourcesManager<SpriteFont>(this, "Fonts");
+            GestionnaireDeTextures = new RessourcesManager<Texture2D>(this, "Textures");
+            GestionnaireDeModèles = new RessourcesManager<Model>(this, "Models");
+            //CaméraJeu = new CaméraFixe(this, Vector3.Zero, positionObjet, Vector3.Up);
+            CaméraJeu = new CaméraSubjective(this, Vector3.Zero, positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
-            CaméraJeu = new CaméraSubjective(this, Vector3.Zero, Vector3.Zero, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
             Components.Add(CaméraJeu);
-            Components.Add(new ArrièrePlanSpatial(this, "CielBleu", INTERVALLE_MAJ_STANDARD));
             Components.Add(new Afficheur3D(this));
-            Components.Add(new AfficheurFPS(this, "Arial", Color.Red, INTERVALLE_CALCUL_FPS));
-            Components.Add(new Niveau(this));
-
-            Services.AddService(typeof(Random), new Random());
-            Services.AddService(typeof(RessourcesManager<SpriteFont>), new RessourcesManager<SpriteFont>(this, "Fonts"));
-            Services.AddService(typeof(RessourcesManager<SoundEffect>), new RessourcesManager<SoundEffect>(this, "Sounds"));
-            Services.AddService(typeof(RessourcesManager<Song>), new RessourcesManager<Song>(this, "Songs"));
-            Services.AddService(typeof(RessourcesManager<Texture2D>), new RessourcesManager<Texture2D>(this, "Textures"));
+            Components.Add(new ObjetDeBase(this, "ship", ÉCHELLE_OBJET, rotationObjet, positionObjet));
+            //Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
+            Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
+            Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD));
+            Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
+            Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
+            Services.AddService(typeof(RessourcesManager<Model>), GestionnaireDeModèles);
             Services.AddService(typeof(InputManager), GestionInput);
-            Services.AddService(typeof(CaméraSubjective), CaméraJeu);
-            Services.AddService(typeof(SpriteBatch), new SpriteBatch(GraphicsDevice));            
+            Services.AddService(typeof(Caméra), CaméraJeu);
+            GestionSprites = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), GestionSprites);
             base.Initialize();
         }
         protected override void Update(GameTime gameTime)
