@@ -87,7 +87,6 @@ namespace HyperV
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 CréerPointDeVue();
-                
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
@@ -106,63 +105,40 @@ namespace HyperV
 
             Latéral = Vector3.Cross(Direction, OrientationVerticale);
             Position -= déplacementLatéral * Latéral;
+        }        
+
+        public void GererLacet(float deplacement)
+        {
+            Matrix matriceLacet = Matrix.Identity;
+
+            if (deplacement < 0)
+            {
+                matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET * VITESSE_INITIALE_ROTATION);
+            }
+            else
+            {
+                matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, -DELTA_LACET * VITESSE_INITIALE_ROTATION);
+            }
+
+            Direction = Vector3.Transform(Direction, matriceLacet);
         }
 
-        //private void GérerRotation()
-        //{
-        //    GérerLacet();
-        //    GérerTangage();
-        //    GérerRoulis();
-        //}
+        public void GererTangage(float deplacement)
+        {
+            Matrix matriceTangage = Matrix.Identity;
 
-        //private void GérerLacet()
-        //{
-        //    Matrix matriceLacet = Matrix.Identity;
+            if (deplacement < 0)
+            {
+                matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE * VITESSE_INITIALE_ROTATION);
+            }
+            else
+            {
+                matriceTangage = Matrix.CreateFromAxisAngle(Latéral, -DELTA_TANGAGE * VITESSE_INITIALE_ROTATION);
+            }
 
-        //    if (GestionInput.EstEnfoncée(Keys.Left))
-        //    {
-        //        matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET * VITESSE_INITIALE_ROTATION);
-        //    }
-        //    if (GestionInput.EstEnfoncée(Keys.Right))
-        //    {
-        //        matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, -DELTA_LACET * VITESSE_INITIALE_ROTATION);
-        //    }
-
-        //    Direction = Vector3.Transform(Direction, matriceLacet);
-        //}
-
-        //private void GérerTangage()
-        //{
-        //    Matrix matriceTangage = Matrix.Identity;
-
-        //    if (GestionInput.EstEnfoncée(Keys.Up))
-        //    {
-        //        matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE * VITESSE_INITIALE_ROTATION);
-        //    }
-        //    if (GestionInput.EstEnfoncée(Keys.Down))
-        //    {
-        //        matriceTangage = Matrix.CreateFromAxisAngle(Latéral, -DELTA_TANGAGE * VITESSE_INITIALE_ROTATION);
-        //    }
-
-        //    Direction = Vector3.Transform(Direction, matriceTangage);
-        //    OrientationVerticale = Vector3.Transform(OrientationVerticale, matriceTangage);
-        //}
-
-        //private void GérerRoulis()
-        //{
-        //    Matrix matriceRoulis = Matrix.Identity;
-
-        //    if (GestionInput.EstEnfoncée(Keys.PageUp))
-        //    {
-        //        matriceRoulis = Matrix.CreateFromAxisAngle(Direction, DELTA_ROULIS * VITESSE_INITIALE_ROTATION);
-        //    }
-        //    if (GestionInput.EstEnfoncée(Keys.PageDown))
-        //    {
-        //        matriceRoulis = Matrix.CreateFromAxisAngle(Direction, -DELTA_ROULIS * VITESSE_INITIALE_ROTATION);
-        //    }
-
-        //    OrientationVerticale = Vector3.Transform(OrientationVerticale, matriceRoulis);
-        //}
+            Direction = Vector3.Transform(Direction, matriceTangage);
+            OrientationVerticale = Vector3.Transform(OrientationVerticale, matriceTangage);
+        }
 
         //private void GestionClavier()
         //{

@@ -76,6 +76,7 @@
     <Compile Include="Composants de base\RessourceDeBase.cs" />
     <Compile Include="Composants de base\RessourcesManager.cs" />
     <Compile Include="Composants de base\TexteCentré.cs" />
+    <Compile Include="Skybox.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Niveau.cs" />
     <Compile Include="Player.cs" />

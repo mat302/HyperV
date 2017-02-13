@@ -21,6 +21,8 @@ namespace HyperV
         float IntervalleMAJ { get; set; }
         CaméraSubjective Camera { get; set; }
         float VitesseTranslation { get; set; }
+        Point AnciennePositionSouris { get; set; }
+        Point DeplacementSouris { get; set; }
 
         public Player(Game game, float intervalleMAJ)
             : base(game)
@@ -33,6 +35,7 @@ namespace HyperV
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             base.Initialize();
             VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
+            AnciennePositionSouris = GestionInput.GetPositionSouris();
         }
 
         protected override void LoadContent()
@@ -46,7 +49,8 @@ namespace HyperV
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
-                if(GestionInput.EstEnfoncée(Keys.W) || GestionInput.EstEnfoncée(Keys.S) || GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.D))
+                GérerRotation();
+                if (GestionInput.EstEnfoncée(Keys.W) || GestionInput.EstEnfoncée(Keys.S) || GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.D))
                 {
                     GererDeplacement();
                     GererSprint();
@@ -63,16 +67,31 @@ namespace HyperV
 
         private void GererDeplacement()
         {
-            float deplacementDirection = (GérerTouche(Keys.W) - GérerTouche(Keys.S));
-            float deplacementLatéral = (GérerTouche(Keys.A) - GérerTouche(Keys.D));
+            float deplacementDirection = (GérerTouche(Keys.W) - GérerTouche(Keys.S)) * VitesseTranslation;
+            float deplacementLatéral = (GérerTouche(Keys.A) - GérerTouche(Keys.D)) * VitesseTranslation;
             Camera.GererDeplacementCamera(deplacementDirection, deplacementLatéral);
         }
+
         private void GererSprint()
         {
             if(GestionInput.EstEnfoncée(Keys.LeftShift) || GestionInput.EstEnfoncée(Keys.RightShift))
             {
                 Camera.GérerAccélération(0.5f);
             }
+        }
+
+        private void GérerRotation()
+        {
+            DeplacementSouris = new Point((GestionInput.GetPositionSouris().X - AnciennePositionSouris.X), GestionInput.GetPositionSouris().Y - AnciennePositionSouris.Y);
+            if(DeplacementSouris.X != 0)
+            {
+                Camera.GererLacet(DeplacementSouris.X);
+            }
+            if(DeplacementSouris.Y != 0)
+            {
+                Camera.GererTangage(DeplacementSouris.Y);
+            }
+            AnciennePositionSouris = GestionInput.GetPositionSouris();
         }
     }
 }

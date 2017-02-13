@@ -31,19 +31,23 @@ namespace HyperV
             Components.Add(GestionInput);
             CaméraJeu = new CaméraSubjective(this, Vector3.Zero, Vector3.One, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Components.Add(CaméraJeu);
-            Components.Add(new ArrièrePlan(this, "CielBleu"));
             Components.Add(new Afficheur3D(this));
             Components.Add(new AfficheurFPS(this, "Arial", Color.Red, INTERVALLE_CALCUL_FPS));
             Components.Add(new Jeu(this));
             Components.Add(new Player(this, INTERVALLE_MAJ_STANDARD));
-            Components.Add(new Niveau(this, "Models_Rockwall", "Texture_Rockwall", Vector3.Zero));
+            Components.Add(new Niveau(this, "ship", new Vector3(0, -10, 0)));
+            Components.Add(new Skybox(this, "Texture_Skybox"));
 
             Services.AddService(typeof(Random), new Random());
+
             Services.AddService(typeof(RessourcesManager<SpriteFont>), new RessourcesManager<SpriteFont>(this, "Fonts"));
             Services.AddService(typeof(RessourcesManager<SoundEffect>), new RessourcesManager<SoundEffect>(this, "Sounds"));
             Services.AddService(typeof(RessourcesManager<Song>), new RessourcesManager<Song>(this, "Songs"));
             Services.AddService(typeof(RessourcesManager<Texture2D>), new RessourcesManager<Texture2D>(this, "Textures"));
+            Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
             Services.AddService(typeof(RessourcesManager<Model>), new RessourcesManager<Model>(this, "Models"));
+            Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
+
             Services.AddService(typeof(InputManager), GestionInput);
             Services.AddService(typeof(CaméraSubjective), CaméraJeu);
             Services.AddService(typeof(SpriteBatch), new SpriteBatch(GraphicsDevice));

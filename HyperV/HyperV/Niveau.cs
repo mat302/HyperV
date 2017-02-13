@@ -34,11 +34,10 @@ namespace HyperV
 
         public Niveau(Game game): base(game) { }
 
-        public Niveau(Game game, string modele3D, string texture2D, Vector3 position)
+        public Niveau(Game game, string modele3D, Vector3 position)
             : base(game)
         {
             NomModele3D = modele3D;
-            NomTexture2D = texture2D;
             Position = position;
         }
 
@@ -51,7 +50,7 @@ namespace HyperV
 
 
             Modele3D = ModelManager.Find(NomModele3D);
-            Texture2D = TextureManager.Find(NomTexture2D);
+            //Texture2D = TextureManager.Find(NomTexture2D);
         }
 
         public override void Initialize()
@@ -68,28 +67,18 @@ namespace HyperV
 
         public override void Draw(GameTime gameTime)
         {
-            // Copy any parent transforms.
             Matrix[] transforms = new Matrix[Modele3D.Bones.Count];
             Modele3D.CopyAbsoluteBoneTransformsTo(transforms);
 
-            // Draw the model. A model can have multiple meshes, so loop.
             foreach (ModelMesh mesh in Modele3D.Meshes)
             {
-                // This is where the mesh orientation is set, as well 
-                // as our camera and projection.
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.World = transforms[mesh.ParentBone.Index] *
-                        Matrix.CreateRotationY(RotationModele)
-                        * Matrix.CreateTranslation(Position);
-                    effect.View = Matrix.CreateLookAt(Camera.Position,
-                        Vector3.Zero, Vector3.Up);
-                    effect.Projection = Matrix.CreatePerspectiveFieldOfView(
-                        MathHelper.ToRadians(45.0f), AspectRatio,
-                        1.0f, 10000.0f);
+                    effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(new Vector3(0.05f, 0.05f, 0.05f)) * Matrix.CreateRotationY(RotationModele) * Matrix.CreateTranslation(Position);
+                    effect.View = Matrix.CreateLookAt(Camera.Position, Vector3.Zero, Vector3.Up);
+                    effect.Projection = Camera.Projection;
                 }
-                // Draw the mesh, using the effects set above.
                 mesh.Draw();
             }
             base.Draw(gameTime);
