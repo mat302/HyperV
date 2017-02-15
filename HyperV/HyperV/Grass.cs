@@ -1,3 +1,13 @@
+/*
+Grass.cs
+--------
+
+By Mathieu Godin
+
+Role : Used to create a flat grass surface
+
+Created : 2/13/17
+*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,8 +87,6 @@ namespace HyperV
             CréerTableauPoints();
             CréerTableauSommets();
             Position = PositionInitiale;
-            GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            TempsÉcouléDepuisMAJ = 0;
             base.Initialize();
         }
 
