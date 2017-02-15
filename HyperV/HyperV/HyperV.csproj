@@ -60,7 +60,6 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caméra\Caméra.cs" />
     <Compile Include="Caméra\CaméraSubjective.cs" />
     <Compile Include="Skybox.cs" />
     <Compile Include="Jeu.cs" />
