@@ -45,8 +45,8 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ComposantsDeBase">
-      <HintPath>..\..\..\..\..\Desktop\AS3D_2016\ComposantsDeBase\bin\x86\Debug\ComposantsDeBase.dll</HintPath>
+    <Reference Include="BasicComponents">
+      <HintPath>..\..\..\..\..\Downloads\BasicComponents.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -62,20 +62,6 @@
   <ItemGroup>
     <Compile Include="Caméra\Caméra.cs" />
     <Compile Include="Caméra\CaméraSubjective.cs" />
-    <Compile Include="Composants de base\Afficheur3D.cs" />
-    <Compile Include="Composants de base\AfficheurFPS.cs" />
-    <Compile Include="Composants de base\ArrièrePlan.cs" />
-    <Compile Include="Composants de base\ArrièrePlanDéroulant.cs" />
-    <Compile Include="Composants de base\ArrièrePlanSpatial.cs" />
-    <Compile Include="Composants de base\Caméra.cs" />
-    <Compile Include="Composants de base\ICollisionable.cs" />
-    <Compile Include="Composants de base\IDestructible.cs" />
-    <Compile Include="Composants de base\InputManager.cs" />
-    <Compile Include="Composants de base\PrimitiveDeBase.cs" />
-    <Compile Include="Composants de base\PrimitiveDeBaseAnimée.cs" />
-    <Compile Include="Composants de base\RessourceDeBase.cs" />
-    <Compile Include="Composants de base\RessourcesManager.cs" />
-    <Compile Include="Composants de base\TexteCentré.cs" />
     <Compile Include="Skybox.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Niveau.cs" />
