@@ -45,21 +45,19 @@ namespace HyperV
         
         public override void Draw(GameTime gametime)
         {
-            Graphics.GraphicsDevice.RasterizerState.CullMode = CullMode.CullClockwiseFace;
             foreach (ModelMesh mesh in SkyBox.Meshes)
             {
                 foreach (ModelMeshPart part in mesh.MeshParts)
                 {
                     part.Effect = SkyBoxEffect;
-                    part.Effect.Parameters["World"].SetValue(Matrix.CreateScale(GROSSEUR) * Matrix.CreateTranslation(Vector3.Zero));
+                    part.Effect.Parameters["World"].SetValue(Matrix.CreateScale(GROSSEUR) * Matrix.CreateTranslation(Camera.Position));
                     part.Effect.Parameters["View"].SetValue(Camera.Vue);
                     part.Effect.Parameters["Projection"].SetValue(Camera.Projection);
                     part.Effect.Parameters["SkyBoxTexture"].SetValue(SkyBoxTexture);
-                    part.Effect.Parameters["CameraPosition"].SetValue(Camera.Position);
+                    //part.Effect.Parameters["CameraPosition"].SetValue(Camera.Position);
                 }
                 mesh.Draw();
             }
-            Graphics.GraphicsDevice.RasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
         }
     }
 }
