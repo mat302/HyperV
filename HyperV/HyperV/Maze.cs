@@ -140,7 +140,7 @@ namespace HyperV
                 }
             }
         }
-        int bonjour;
+        
         protected override void LoadContent()
         {
             BasicEffect = new BasicEffect(GraphicsDevice);
