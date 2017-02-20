@@ -26,7 +26,7 @@ namespace HyperV
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Grass : PrimitiveDeBase
+    public class Gazon : PrimitiveDeBase
     {
         Vector3 Position { get; set; }
         float IntervalleMAJ { get; set; }
@@ -69,7 +69,7 @@ namespace HyperV
             return (valeur >= borneA && valeur <= borneB || valeur <= borneA && valeur >= borneB);
         }
 
-        public Grass(Game jeu, float homothétieInitiale, Vector3 rotationInitiale,
+        public Gazon(Game jeu, float homothétieInitiale, Vector3 rotationInitiale,
                      Vector3 positionInitiale, Vector2 étendue, string nomTextureTuile,
                      float intervalleMAJ) 
             : base(jeu, homothétieInitiale, rotationInitiale, positionInitiale)

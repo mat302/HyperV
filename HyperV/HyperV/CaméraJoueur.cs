@@ -19,7 +19,7 @@ namespace HyperV
 
         Vector3 Direction { get; set; }
         Vector3 Latéral { get; set; }
-        Grass Gazon { get; set; }
+        Gazon Gazon { get; set; }
         float VitesseTranslation { get; set; }
         float VitesseRotation { get; set; }
         Point AnciennePositionSouris { get; set; }
@@ -45,7 +45,7 @@ namespace HyperV
             TempsÉcouléDepuisMAJ = 0;
             base.Initialize();
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            Gazon = Game.Services.GetService(typeof(Grass)) as Grass;
+            Gazon = Game.Services.GetService(typeof(Gazon)) as Gazon;
             NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
             Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
@@ -84,6 +84,9 @@ namespace HyperV
 
                 GérerHauteur();
                 CréerPointDeVue();
+
+
+
 
                 Game.Window.Title = Position.ToString();
 

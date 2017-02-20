@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caméra\CaméraSubjective.cs" />
-    <Compile Include="Grass.cs" />
+    <Compile Include="Gazon.cs" />
     <Compile Include="Skybox.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Niveau.cs" />

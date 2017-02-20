@@ -16,7 +16,7 @@ namespace HyperV
 
         CaméraJoueur CaméraJeu { get; set; }                
         InputManager GestionInput { get; set; }
-        Grass Gazon { get; set; }
+        Gazon Gazon { get; set; }
 
         public Atelier()
         {
@@ -31,9 +31,9 @@ namespace HyperV
         {
             GestionInput = new InputManager(this);
 
-            Gazon = new Grass(this, 1f, Vector3.Zero, new Vector3(0,0,0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
+            Gazon = new Gazon(this, 1f, Vector3.Zero, new Vector3(0,0,0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
             Components.Add(Gazon);
-            Services.AddService(typeof(Grass), Gazon);
+            Services.AddService(typeof(Gazon), Gazon);
             CaméraJeu = new CaméraJoueur(this, Vector3.Zero, new Vector3(0, 0, 20), Vector3.Up, INTERVALLE_MAJ_STANDARD);
 
             Components.Add(GestionInput);
@@ -51,6 +51,8 @@ namespace HyperV
             Services.AddService(typeof(Caméra), CaméraJeu);
             Services.AddService(typeof(InputManager), GestionInput);
             Services.AddService(typeof(SpriteBatch), new SpriteBatch(GraphicsDevice));
+
+
 
             base.Initialize();
         }
