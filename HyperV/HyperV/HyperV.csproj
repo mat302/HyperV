@@ -64,7 +64,7 @@
     <Compile Include="Skybox.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Niveau.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="CaméraJoueur.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Atelier.cs" />

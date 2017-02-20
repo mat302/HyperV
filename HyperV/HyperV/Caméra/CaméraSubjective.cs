@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AtelierXNA;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using AtelierXNA;
 
