@@ -19,7 +19,7 @@ namespace HyperV
 
         Vector3 Direction { get; set; }
         Vector3 Latéral { get; set; }
-        //Grass Gazon { get; set; }
+        Grass Gazon { get; set; }
         float VitesseTranslation { get; set; }
         float VitesseRotation { get; set; }
         Point AnciennePositionSouris { get; set; }
@@ -45,9 +45,10 @@ namespace HyperV
             TempsÉcouléDepuisMAJ = 0;
             base.Initialize();
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            //Gazon = Game.Services.GetService(typeof(Grass)) as Grass;
-            NouvellePositionSouris = GestionInput.GetPositionSouris();
-            AnciennePositionSouris = GestionInput.GetPositionSouris();
+            Gazon = Game.Services.GetService(typeof(Grass)) as Grass;
+            NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
+            AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
+            Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
         }
 
         protected override void CréerPointDeVue()
@@ -57,7 +58,6 @@ namespace HyperV
             Vector3.Normalize(Latéral);
 
             Vue = Matrix.CreateLookAt(Position, Position + Direction, OrientationVerticale);
-
         }
 
         protected override void CréerPointDeVue(Vector3 position, Vector3 cible, Vector3 orientation)
@@ -194,8 +194,9 @@ namespace HyperV
 
         private void GérerHauteur()
         {
-            //Position = Gazon.GetPositionAvecHauteur(Position, HAUTEUR_PERSONNAGE);
+            Position = Gazon.GetPositionAvecHauteur(Position, HAUTEUR_PERSONNAGE);
         }
+
         private int GérerTouche(Keys touche)
         {
             return GestionInput.EstEnfoncée(touche) ? 1 : 0;
