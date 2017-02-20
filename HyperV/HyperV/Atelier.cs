@@ -20,7 +20,7 @@ namespace HyperV
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
 
-        CaméraJoueur CaméraJeu { get; set; }                
+        CaméraSubjective CaméraJeu { get; set; }                
         InputManager GestionInput { get; set; }
 
         //GraphicsDeviceManager PériphériqueGraphique { get; set; }
@@ -49,17 +49,18 @@ namespace HyperV
             GestionnaireDeTextures = new RessourcesManager<Texture2D>(this, "Textures");
             GestionnaireDeModèles = new RessourcesManager<Model>(this, "Models");
             //CaméraJeu = new CaméraFixe(this, Vector3.Zero, positionObjet, Vector3.Up);
-            CaméraJeu = new CaméraJoueur(this, Vector3.Zero, positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            CaméraJeu = new CaméraSubjective(this, Vector3.Zero, positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
-            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            //Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
             Components.Add(CaméraJeu);
             Components.Add(new Afficheur3D(this));
             Components.Add(new ObjetDeBase(this, "ship", ÉCHELLE_OBJET, rotationObjet, positionObjet));
             //Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
             Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
             Grass gazon = new Grass(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
-            Components.Add(gazon);
+            //Components.Add(gazon);
+            Components.Add(new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "Grass", "Fence", INTERVALLE_MAJ_STANDARD, "Maze"));
             Services.AddService(typeof(Grass), gazon);
             Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
             Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
@@ -86,7 +87,7 @@ namespace HyperV
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.Orchid);
             base.Draw(gameTime);
         }
     }
