@@ -1,0 +1,4 @@
+Models_Rockwall;0;0;0;1;0;
+Models_Rockwall;0;-10;0;1;0;
+Models_Rockwall;0;-20;0;1;0;
+Models_Rockwall;0;-40;0;1;0;
