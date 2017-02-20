@@ -1,16 +1,9 @@
 using AtelierXNA;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
-using AtelierXNA;
 
 
 namespace HyperV
@@ -18,13 +11,13 @@ namespace HyperV
     public class Jeu : Microsoft.Xna.Framework.DrawableGameComponent
     {
         Skybox Skybox { get; set; }
-        const string CHEMIN_FICHIER = "../../";
+        const string CHEMIN_FICHIER = "../../../";
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         Rectangle ZoneAffichage { get; set; }
         Caméra CaméraJeu { get; set; }
         Song ChansonJeu { get; set; }
         InputManager GestionInput { get; set; }
-        List<string[]> ListeModeles { get; set; } //liste de tous les modeles a placer dans un niveau (qui sont dans le fichier texte)
+        List<string> ListeModeles { get; set; } //liste de tous les modeles a placer dans un niveau (qui sont dans le fichier texte)
 
         public Jeu(Game game)
             : base(game)
@@ -38,7 +31,8 @@ namespace HyperV
             RessourcesManager<Song> gestionnaireDeMusiques = Game.Services.GetService(typeof(RessourcesManager<Song>)) as RessourcesManager<Song>;
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             RessourcesManager<SoundEffect> gestionnaireDeSons = Game.Services.GetService(typeof(RessourcesManager<SoundEffect>)) as RessourcesManager<SoundEffect>;
-            ListeModeles = new List<string[]>();            
+            ListeModeles = new List<string>();
+            LireFichierNiveau("Hub.txt");         
         }
         
         public override void Update(GameTime gameTime)
@@ -46,19 +40,18 @@ namespace HyperV
 
         }
 
-        private void InitialiserCaméra()
-        {
-            Vector3 positionCaméra = Vector3.One;
-        }
-
         private void LireFichierNiveau(string nomFichier)
         {
             StreamReader fichier = new StreamReader(CHEMIN_FICHIER + nomFichier);
-            while (fichier.EndOfStream)
+            while (!fichier.EndOfStream)
             {
-                string ligneLu = fichier.ReadLine();
-                ListeModeles.Add(ligneLu.Split(';'));  //1.nom modele, 2.nom texture modele, 3.position x, 4.position y, 5.position z, 6.homothesie
-
+                string[] ligneLu = fichier.ReadLine().Split(';');
+                foreach(string s in ligneLu)
+                {
+                    ListeModeles.Add(s);  //0.nom modele, 1.position x, 2.position y, 3.position z, 4.homothesie, 5.rotation
+                }
+                Niveau modele = new Niveau(Game, ListeModeles[0], new Vector3(float.Parse(ListeModeles[1]), float.Parse(ListeModeles[2]), float.Parse(ListeModeles[3])));
+                Game.Components.Add(modele);
             }
         }        
     }

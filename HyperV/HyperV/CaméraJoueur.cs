@@ -79,10 +79,10 @@ namespace HyperV
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
-                FonctionsSouris();
+                //FonctionsSouris();
                 FonctionsClavier();
 
-                GérerHauteur();
+                //GérerHauteur();
                 CréerPointDeVue();
 
                 Game.Window.Title = Position.ToString();

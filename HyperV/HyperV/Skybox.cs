@@ -16,7 +16,7 @@ namespace HyperV
 
         public Model SkyBox;
         string SkyboxTexture { get; set; }
-        CaméraSubjective Camera { get; set; }
+        CaméraJoueur Camera { get; set; }
 
         RessourcesManager<Model> ModelManager { get; set; }
         RessourcesManager<TextureCube> TextureManager { get; set; }
@@ -36,7 +36,7 @@ namespace HyperV
             ModelManager = Game.Services.GetService(typeof(RessourcesManager<Model>)) as RessourcesManager<Model>;
             TextureManager = Game.Services.GetService(typeof(RessourcesManager<TextureCube>)) as RessourcesManager<TextureCube>;
             EffectManager = Game.Services.GetService(typeof(RessourcesManager<Effect>)) as RessourcesManager<Effect>;
-            Camera = Game.Services.GetService(typeof(CaméraSubjective)) as CaméraSubjective;
+            Camera = Game.Services.GetService(typeof(CaméraJoueur)) as CaméraJoueur;
             Graphics = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
 
             SkyBox = ModelManager.Find("Cube");
@@ -55,7 +55,7 @@ namespace HyperV
                     part.Effect.Parameters["View"].SetValue(Camera.Vue);
                     part.Effect.Parameters["Projection"].SetValue(Camera.Projection);
                     part.Effect.Parameters["SkyBoxTexture"].SetValue(SkyBoxTexture);
-                    //part.Effect.Parameters["CameraPosition"].SetValue(Camera.Position);
+                    part.Effect.Parameters["CameraPosition"].SetValue(Camera.Position);
                 }
                 mesh.Draw();
             }
