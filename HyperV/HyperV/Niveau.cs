@@ -40,7 +40,7 @@ namespace HyperV
 
 
             Modele3D = ModelManager.Find(NomModele3D);
-            Texture2D = TextureManager.Find("Texture_Rockwall");
+            //Texture2D = TextureManager.Find("Texture_Rockwall");
         }
 
         public override void Initialize()
