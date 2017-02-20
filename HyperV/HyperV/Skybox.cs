@@ -13,6 +13,7 @@ namespace HyperV
     {
         const float GROSSEUR = 50f;
 
+
         public Model SkyBox;
         string SkyboxTexture { get; set; }
         CaméraSubjective Camera { get; set; }
