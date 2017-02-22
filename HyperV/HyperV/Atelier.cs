@@ -41,7 +41,7 @@ namespace HyperV
             Components.Add(new AfficheurFPS(this, "Arial", Color.Red, INTERVALLE_CALCUL_FPS));
             //Components.Add(new Jeu(this));
             Components.Add(CaméraJeu);
-            Components.Add(new ObjetDeDémo(this, "ship", 0.01f, Vector3.Zero, new Vector3(0, 0, 20), INTERVALLE_MAJ_STANDARD));
+            //Components.Add(new ObjetDeDémo(this, "ship", 0.01f, Vector3.Zero, new Vector3(0, 0, 20), INTERVALLE_MAJ_STANDARD));
 
 
             Services.AddService(typeof(Random), new Random());
