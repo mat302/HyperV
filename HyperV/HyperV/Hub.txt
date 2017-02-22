@@ -1,1 +1,2 @@
-Models_Rockwall;0;-10;0;1;0
+Models_CastleWall;20;0;20;1;0
+ship;0;0;0;1;0

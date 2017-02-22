@@ -6,7 +6,7 @@ namespace HyperV
 {
     public class Skybox : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        const float GROSSEUR = 20f;
+        const float GROSSEUR = 5f;
 
         public Model SkyBox;
         string SkyboxTexture { get; set; }

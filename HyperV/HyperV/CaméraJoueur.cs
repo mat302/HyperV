@@ -79,7 +79,7 @@ namespace HyperV
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
-                //FonctionsSouris();
+                FonctionsSouris();
                 FonctionsClavier();
 
                 //GérerHauteur();

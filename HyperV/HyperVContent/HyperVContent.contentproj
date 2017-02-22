@@ -44,13 +44,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Models_Rockwall.fbx">
-      <Name>Models_Rockwall</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\Models_Tree.fbx">
       <Name>Models_Tree</Name>
       <Importer>FbxImporter</Importer>
