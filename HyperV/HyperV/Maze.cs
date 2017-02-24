@@ -53,7 +53,6 @@ namespace HyperV
         Vector2[,] TileTexturePositions { get; set; }
         Vector2[,] WallTexturePositions { get; set; }
         string TileTextureName { get; set; }
-        string WallTextureName { get; set; }
         string MazeImageName { get; set; }
         int NumRows { get; set; }
         int NumColumns { get; set; }
@@ -61,13 +60,12 @@ namespace HyperV
         Color[] TextureData { get; set; }
         Vector3 Range { get; set; }
 
-        public Maze(Game jeu, float homothétieInitiale, Vector3 rotationInitiale, Vector3 positionInitiale, Vector3 range, string tileTextureName, string wallTextureName, float intervalleMAJ, string mazeImageName) : base(jeu, homothétieInitiale, rotationInitiale, positionInitiale)
+        public Maze(Game jeu, float homothétieInitiale, Vector3 rotationInitiale, Vector3 positionInitiale, Vector3 range, string tileTextureName, float intervalleMAJ, string mazeImageName) : base(jeu, homothétieInitiale, rotationInitiale, positionInitiale)
         {
             Range = range;
             IntervalleMAJ = intervalleMAJ;
             TileTextureName = tileTextureName;
             MazeImageName = mazeImageName;
-            WallTextureName = wallTextureName;
         }
 
         /// <summary>
@@ -78,10 +76,9 @@ namespace HyperV
         {
             TextureManager = Game.Services.GetService(typeof(RessourcesManager<Texture2D>)) as RessourcesManager<Texture2D>;
             TileTexture = TextureManager.Find(TileTextureName);
-            WallTexture = TextureManager.Find(WallTextureName);
             InitializeMazeData();
-            Origin = new Vector3(-Range.X / 2, 0, -Range.Z / 2);
-            VerticesPositions = new Vector3[MazeMap.Width * 2 * 5, MazeMap.Height * 2 * 5];
+            Origin = new Vector3(/*-Range.X / 2, 0, -Range.Z / 2*/0, 0, 0);
+            VerticesPositions = new Vector3[MazeMap.Width * 2 * 3, MazeMap.Height * 2 * 3];
             CreateVerticesPositions();
             CreateTexturePositions();
             Position = PositionInitiale;
@@ -109,9 +106,9 @@ namespace HyperV
         {
             //Delta = new Vector2(Range.X / NumRows, Range.Z / NumColumns);
             Delta = new Vector2(1.66666f, 1.66666f);
-            for (int i = 0; i < NumRows * 6 - 6; i += 6)
+            for (int i = 0; i < VerticesPositions.GetLength(0) - 6; i += 6)
             {
-                for (int j = 0; j < NumColumns * 6 - 6; j += 6)
+                for (int j = 0; j < VerticesPositions.GetLength(1) - 6; j += 6)
                 {
                     VerticesPositions[i, j] = Origin + new Vector3(Delta.X * i - 5, TextureData[i / 6 * MazeMap.Height + j / 6].B == 0 ? 10 : 0, Delta.Y * j - 5);
                     VerticesPositions[i + 1, j] = Origin + new Vector3(Delta.X * i + 5, TextureData[i / 6 * MazeMap.Height + j / 6].B == 0 ? 10 : 0, Delta.Y * j - 5);
@@ -208,7 +205,7 @@ namespace HyperV
             MazeMap.GetData<Color>(TextureData);
             NumRows = MazeMap.Width;
             NumColumns = MazeMap.Height;
-            NbTriangles = NumRows * NumColumns * NUM_TRIANGLES_PER_TILE * 4 * 5;
+            NbTriangles = NumRows * NumColumns * NUM_TRIANGLES_PER_TILE * 5;
             NbSommets = NbTriangles * NUM_VERTICES_PER_TRIANGLE;
         }
 
