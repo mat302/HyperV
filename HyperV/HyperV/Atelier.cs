@@ -60,7 +60,7 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
             Grass gazon = new Grass(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
             //Components.Add(gazon);
-            Components.Add(new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "Grass", "Fence", INTERVALLE_MAJ_STANDARD, "Maze"));
+            Components.Add(new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "Grass", "Fence", INTERVALLE_MAJ_STANDARD, "test2"));
             Services.AddService(typeof(Grass), gazon);
             Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
             Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
