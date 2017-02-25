@@ -65,18 +65,21 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
             //Grass gazon = new Grass(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
             //Components.Add(gazon);
+            Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
+            Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
             Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "Grass", INTERVALLE_MAJ_STANDARD, "Maze");
             Components.Add(Maze);
-
             Services.AddService(typeof(Maze), Maze);
             //Services.AddService(typeof(Grass), gazon);
             CaméraJeu = new CaméraJoueur(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Services.AddService(typeof(Caméra), CaméraJeu);
             Components.Add(CaméraJeu);
+            Services.AddService(typeof(RessourcesManager<Model>), GestionnaireDeModèles);
+            //Components.Add(new Skybox(this, "Texture_Skybox"));
+                    
             Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
             Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
-            Services.AddService(typeof(RessourcesManager<Model>), GestionnaireDeModèles);
             Services.AddService(typeof(InputManager), GestionInput);
-            Services.AddService(typeof(Caméra), CaméraJeu);
             GestionSprites = new SpriteBatch(GraphicsDevice);
             Services.AddService(typeof(SpriteBatch), GestionSprites);
             base.Initialize();
