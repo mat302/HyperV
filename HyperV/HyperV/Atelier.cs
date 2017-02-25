@@ -44,6 +44,9 @@ namespace HyperV
             //Components.Add(new ObjetDeDémo(this, "ship", 0.01f, Vector3.Zero, new Vector3(0, 0, 20), INTERVALLE_MAJ_STANDARD));
 
 
+            Components.Add(new SphèreRamassable(this, 1, new Vector3(0, 0, 0), Vector3.Zero, 1f, new Vector2(20, 20), "BleuBlancRouge", INTERVALLE_MAJ_STANDARD));
+
+
             Services.AddService(typeof(Random), new Random());
             Services.AddService(typeof(RessourcesManager<SpriteFont>), new RessourcesManager<SpriteFont>(this, "Fonts"));
             Services.AddService(typeof(RessourcesManager<Texture2D>), new RessourcesManager<Texture2D>(this, "Textures"));
@@ -60,6 +63,8 @@ namespace HyperV
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
+
+
             base.Update(gameTime);         
         }
 

@@ -1,6 +1,7 @@
 using AtelierXNA;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace HyperV
 {
@@ -86,9 +87,9 @@ namespace HyperV
                 CréerPointDeVue();
 
 
+                GérerRamassage();
 
-
-                Game.Window.Title = Position.ToString();
+                //Game.Window.Title = Position.ToString();
 
                 TempsÉcouléDepuisMAJ = 0;
             }
@@ -203,6 +204,24 @@ namespace HyperV
         private int GérerTouche(Keys touche)
         {
             return GestionInput.EstEnfoncée(touche) ? 1 : 0;
+        }
+
+        private void GérerRamassage()
+        {
+            Ray viseur = new Ray(Position, Direction);
+
+            foreach (SphèreRamassable sphereRamassable in Game.Components.Where(composant => composant is SphèreRamassable))
+            {
+                Game.Window.Title = sphereRamassable.EstEnCollision(viseur).ToString();
+                //if (sphereRamassable.EstEnCollision(viseur) != null)
+                //{
+                //    Game.Window.Title = "true";
+                //}
+                //else
+                //{
+                //    Game.Window.Title = "false";
+                //}
+            }
         }
 
     }
