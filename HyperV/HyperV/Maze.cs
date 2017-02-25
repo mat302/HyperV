@@ -124,7 +124,7 @@ namespace HyperV
         {
             //Delta = new Vector2(Range.X / NumRows, Range.Z / NumColumns);
             bool collision;
-            Delta = new Vector2(1.66666f, 1.66666f);
+            Delta = new Vector2(5f / 3f, 5f / 3f);
             for (int i = 0; i < VerticesPositions.GetLength(0); i += 6)
             {
                 for (int j = 0; j < VerticesPositions.GetLength(1); j += 6)

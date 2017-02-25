@@ -39,7 +39,12 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
+            PériphériqueGraphique.PreferredBackBufferHeight = 1080;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1920;
+
         }
+
+        Gazon Gazon { get; set; }
 
         protected override void Initialize()
         {
@@ -58,12 +63,13 @@ namespace HyperV
             Components.Add(new ObjetDeBase(this, "ship", ÉCHELLE_OBJET, rotationObjet, positionObjet));
             //Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
             Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
-            Grass gazon = new Grass(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
+            //Grass gazon = new Grass(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
             //Components.Add(gazon);
             Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "Grass", INTERVALLE_MAJ_STANDARD, "Maze");
             Components.Add(Maze);
+
             Services.AddService(typeof(Maze), Maze);
-            Services.AddService(typeof(Grass), gazon);
+            //Services.AddService(typeof(Grass), gazon);
             CaméraJeu = new CaméraJoueur(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Components.Add(CaméraJeu);
             Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
@@ -79,7 +85,7 @@ namespace HyperV
         {
             GérerClavier();
             Window.Title = CaméraJeu.Position.ToString();
-            base.Update(gameTime);            
+            base.Update(gameTime);
         }
 
         private void GérerClavier()
