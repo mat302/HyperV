@@ -20,7 +20,8 @@ namespace HyperV
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
 
-        CaméraSubjective CaméraJeu { get; set; }                
+        Caméra CaméraJeu { get; set; }  
+        Maze Maze { get; set; }              
         InputManager GestionInput { get; set; }
 
         //GraphicsDeviceManager PériphériqueGraphique { get; set; }
@@ -49,19 +50,22 @@ namespace HyperV
             GestionnaireDeTextures = new RessourcesManager<Texture2D>(this, "Textures");
             GestionnaireDeModèles = new RessourcesManager<Model>(this, "Models");
             //CaméraJeu = new CaméraFixe(this, Vector3.Zero, positionObjet, Vector3.Up);
-            CaméraJeu = new CaméraSubjective(this, Vector3.Zero, positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            //CaméraJeu = new CaméraSubjective(this, new Vector3(0, 0, 0), positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
             //Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
-            Components.Add(CaméraJeu);
             Components.Add(new Afficheur3D(this));
             Components.Add(new ObjetDeBase(this, "ship", ÉCHELLE_OBJET, rotationObjet, positionObjet));
             //Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
             Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
             Grass gazon = new Grass(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
             //Components.Add(gazon);
-            Components.Add(new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "Grass", INTERVALLE_MAJ_STANDARD, "test1"));
+            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "Grass", INTERVALLE_MAJ_STANDARD, "test5");
+            Components.Add(Maze);
+            Services.AddService(typeof(Maze), Maze);
             Services.AddService(typeof(Grass), gazon);
+            CaméraJeu = new CaméraJoueur(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Components.Add(CaméraJeu);
             Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
             Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
             Services.AddService(typeof(RessourcesManager<Model>), GestionnaireDeModèles);
@@ -74,6 +78,7 @@ namespace HyperV
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
+            Window.Title = CaméraJeu.Position.ToString();
             base.Update(gameTime);            
         }
 
