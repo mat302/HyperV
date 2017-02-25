@@ -20,8 +20,8 @@ namespace HyperV
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
 
-        Caméra CaméraJeu { get; set; }  
-        Maze Maze { get; set; }              
+        Caméra CaméraJeu { get; set; }
+        Maze Maze { get; set; }
         InputManager GestionInput { get; set; }
 
         //GraphicsDeviceManager PériphériqueGraphique { get; set; }
@@ -58,7 +58,7 @@ namespace HyperV
             //CaméraJeu = new CaméraSubjective(this, new Vector3(0, 0, 0), positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
-            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            //Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
             Components.Add(new Afficheur3D(this));
             Components.Add(new ObjetDeBase(this, "ship", ÉCHELLE_OBJET, rotationObjet, positionObjet));
             //Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
@@ -76,7 +76,7 @@ namespace HyperV
             Components.Add(CaméraJeu);
             Services.AddService(typeof(RessourcesManager<Model>), GestionnaireDeModèles);
             //Components.Add(new Skybox(this, "Texture_Skybox"));
-                    
+
             Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
             Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
             Services.AddService(typeof(InputManager), GestionInput);
@@ -106,4 +106,6 @@ namespace HyperV
         }
     }
 }
+
+
 
