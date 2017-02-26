@@ -79,8 +79,6 @@ namespace HyperV
             //Components.Add(CaméraJeu);
             Services.AddService(typeof(RessourcesManager<Model>), GestionnaireDeModèles);
             ////Components.Add(new Skybox(this, "Texture_Skybox"));
-
-            
             
             Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
             Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);

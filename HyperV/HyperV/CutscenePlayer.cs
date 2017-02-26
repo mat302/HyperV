@@ -24,6 +24,8 @@ namespace HyperV
         RessourcesManager<Video> VideoManager { get; set; }
         Rectangle Screen { get; set; }
         string VideoName { get; set; }
+        InputManager InputManager { get; set; }
+        SkipCutsceneLabel Label { get; set; }
 
         public CutscenePlayer(Game game, string videoName) : base(game)
         {
@@ -36,23 +38,21 @@ namespace HyperV
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
             base.Initialize();
             Player = new VideoPlayer();
             Video = VideoManager.Find(VideoName);
             Screen = new Rectangle(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             Player.Play(Video);
-            
-            
         }
-
 
         protected override void LoadContent()
         {
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
             VideoManager = Game.Services.GetService(typeof(RessourcesManager<Video>)) as RessourcesManager<Video>;
+            InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            Label = new SkipCutsceneLabel(Game);
+            Game.Components.Add(Label);
             base.LoadContent();
-            
         }
 
         /// <summary>
@@ -61,36 +61,32 @@ namespace HyperV
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            //if (Player.State == MediaState.Stopped)
+            //{
+            //    Player.IsLooped = true;
+            //    Player.Play(Video);
+            //}
+            if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space))
+            {
+                Player.Stop();
+            }
             if (Player.State == MediaState.Stopped)
             {
-                Player.IsLooped = true;
-                Player.Play(Video);
+                Game.Components.Remove(this);
+                Game.Components.Remove(Label);
             }
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            // Only call GetTexture if a video is playing or paused
             VideoTexture = Player.GetTexture();
-
-            // Drawing to the rectangle will stretch the 
-            // video to fill the screen
-            Rectangle screen = new Rectangle(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-
-            // Draw the video, if we have a texture to draw.
             if (VideoTexture != null)
             {
                 SpriteBatch.Begin();
-                SpriteBatch.Draw(VideoTexture, screen, Color.White);
+                SpriteBatch.Draw(VideoTexture, Screen, Color.White);
                 SpriteBatch.End();
             }
-
-
-            //SpriteBatch.Begin();
-            //VideoTexture = Player.GetTexture();
-            //SpriteBatch.Draw(VideoTexture, Screen, Color.White);
-            //SpriteBatch.End();
             base.Draw(gameTime);
         }
     }
