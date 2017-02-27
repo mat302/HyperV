@@ -48,35 +48,52 @@ namespace HyperV
 
         RessourcesManager<Video> VideoManager { get; set; }
         CutscenePlayer CutscenePlayer { get; set; }
+        Walls Walls { get; set; }
 
         protected override void Initialize()
         {
-            //const float ÉCHELLE_OBJET = 0.01f;
-            //Vector3 positionObjet = new Vector3(0, -10, -50);
-            //Vector3 rotationObjet = new Vector3(0, MathHelper.PiOver2, 0);
+            const float ÉCHELLE_OBJET = 0.01f;
+            Vector3 positionObjet = new Vector3(0, -10, -50);
+            Vector3 rotationObjet = new Vector3(0, MathHelper.PiOver2, 0);
             GestionnaireDeFonts = new RessourcesManager<SpriteFont>(this, "Fonts");
             GestionnaireDeTextures = new RessourcesManager<Texture2D>(this, "Textures");
             GestionnaireDeModèles = new RessourcesManager<Model>(this, "Models");
-            ////CaméraJeu = new CaméraFixe(this, Vector3.Zero, positionObjet, Vector3.Up);
-            ////CaméraJeu = new CaméraSubjective(this, new Vector3(0, 0, 0), positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            //CaméraJeu = new CaméraFixe(this, Vector3.Zero, positionObjet, Vector3.Up);
+            //CaméraJeu = new CaméraSubjective(this, new Vector3(0, 0, 0), positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
             GestionInput = new InputManager(this);
             Components.Add(GestionInput);
-            //Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
-            //Components.Add(new Afficheur3D(this));
-            //Components.Add(new ObjetDeBase(this, "ship", ÉCHELLE_OBJET, rotationObjet, positionObjet));
-            ////Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
+            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            Components.Add(new Afficheur3D(this));
+            Components.Add(new ObjetDeBase(this, "ship", ÉCHELLE_OBJET, rotationObjet, positionObjet));
+            //Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
             Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
-            ////Grass gazon = new Grass(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector2(256, 256), "Grass", INTERVALLE_MAJ_STANDARD);
-            ////Components.Add(gazon);
+            Grass grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(20, 20), "Ceiling", INTERVALLE_MAJ_STANDARD);
+            Components.Add(grass);
+            for (int i = 0; i < 9; ++i)
+            {
+                for (int j = 0; j < 4; ++j)
+                {
+                    Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(20 - i * 20, -20, 10 + j * 20), new Vector2(20, 20), "Ceiling", INTERVALLE_MAJ_STANDARD));
+                }
+            }
+            for (int i = 0; i < 9; ++i)
+            {
+                for (int j = 0; j < 4; ++j)
+                {
+                    Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(20 - i * 20, 0, 10 + j * 20), new Vector2(20, 20), "Ceiling", INTERVALLE_MAJ_STANDARD));
+                }
+            }
             Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
             Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
-            //Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "Grass", INTERVALLE_MAJ_STANDARD, "Maze");
+            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", INTERVALLE_MAJ_STANDARD, "Maze");
+            Walls = new Walls(this, INTERVALLE_MAJ_STANDARD, "Rockwall", "../../../Data.txt");
+            Components.Add(Walls);
             //Components.Add(Maze);
             //Services.AddService(typeof(Maze), Maze);
-            ////Services.AddService(typeof(Grass), gazon);
-            //CaméraJeu = new CaméraJoueur(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            //Services.AddService(typeof(Caméra), CaméraJeu);
-            //Components.Add(CaméraJeu);
+            Services.AddService(typeof(Grass), grass);
+            CaméraJeu = new CaméraJoueur(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Services.AddService(typeof(Caméra), CaméraJeu);
+            Components.Add(CaméraJeu);
             Services.AddService(typeof(RessourcesManager<Model>), GestionnaireDeModèles);
             ////Components.Add(new Skybox(this, "Texture_Skybox"));
             
@@ -88,28 +105,14 @@ namespace HyperV
             VideoManager = new RessourcesManager<Video>(this, "Videos");
             Services.AddService(typeof(RessourcesManager<Video>), VideoManager);
             CutscenePlayer = new CutscenePlayer(this, "test1");
-            Components.Add(CutscenePlayer);
-            //vidPlayer = new VideoPlayer();
+            //Components.Add(CutscenePlayer);
             base.Initialize();
         }
-
-        //Video vid;
-        //VideoPlayer vidPlayer;
-        //Texture2D vidTexture;
-        //Rectangle vidRectangle;
-
-        //protected override void LoadContent()
-        //{
-        //    vid = Content.Load<Video>("Videos\\test1");
-        //    vidRectangle = new Rectangle(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-        //    vidPlayer.Play(vid);
-        //    base.LoadContent();
-        //}
 
         protected override void Update(GameTime gameTime)
         {
             GérerClavier();
-            //Window.Title = CaméraJeu.Position.ToString();
+            Window.Title = CaméraJeu.Position.ToString();
             base.Update(gameTime);
         }
 
@@ -124,10 +127,6 @@ namespace HyperV
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            //vidTexture = vidPlayer.GetTexture();
-            //GestionSprites.Begin();
-            //GestionSprites.Draw(vidTexture, vidRectangle, Color.White);
-            //GestionSprites.End();
             base.Draw(gameTime);
         }
     }

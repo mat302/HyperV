@@ -107,17 +107,17 @@ namespace HyperV
 
         void CreateCollisions()
         {
-            StreamWriter s = new StreamWriter("../../test.txt");
+            //StreamWriter s = new StreamWriter("../../test.txt");
             for (int i = 0; i < Collisions.GetLength(0); ++i)
             {
                 for (int j = 0; j < Collisions.GetLength(1); ++j)
                 {
                     Collisions[i, j] = TextureData[j * MazeMap.Height + i].B == 0;
-                    s.Write(Collisions[i, j] + " ");
+                    //s.Write(Collisions[i, j] + " ");
                 }
-                s.WriteLine();
+                //s.WriteLine();
             }
-            s.Close();
+            //s.Close();
         }
 
         void CreateVerticesPositions()

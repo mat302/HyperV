@@ -1,12 +1,12 @@
 /*
-Grass.cs
---------
+Ceiling.cs
+----------
 
 By Mathieu Godin
 
-Role : Used to create a flat grass surface
+Role : Used to create a flat ceiling surface
 
-Created : 2/13/17
+Created : 2/27/17
 */
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace HyperV
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class Grass : PrimitiveDeBase
+    public class Ceiling : PrimitiveDeBase
     {
         Vector3 Position { get; set; }
         float IntervalleMAJ { get; set; }
@@ -52,7 +52,7 @@ namespace HyperV
         public Vector3 GetPositionAvecHauteur(Vector3 position, int hauteur)
         {
             Vector3 positionAvecHauteur;
-            if(EstEntre(position.Z, PtsSommets[0,0].Z, PtsSommets[PtsSommets.GetLength(0)-1, PtsSommets.GetLength(1)-1].Z) &&
+            if (EstEntre(position.Z, PtsSommets[0, 0].Z, PtsSommets[PtsSommets.GetLength(0) - 1, PtsSommets.GetLength(1) - 1].Z) &&
                 EstEntre(position.X, PtsSommets[0, 0].X, PtsSommets[PtsSommets.GetLength(0) - 1, PtsSommets.GetLength(1) - 1].X))
             {
                 positionAvecHauteur = new Vector3(position.X, PtsSommets[0, 0].Y + hauteur, position.Z);
@@ -69,9 +69,9 @@ namespace HyperV
             return (valeur >= borneA && valeur <= borneB || valeur <= borneA && valeur >= borneB);
         }
 
-        public Grass(Game jeu, float homothétieInitiale, Vector3 rotationInitiale,
+        public Ceiling(Game jeu, float homothétieInitiale, Vector3 rotationInitiale,
                      Vector3 positionInitiale, Vector2 étendue, string nomTextureTuile,
-                     float intervalleMAJ) 
+                     float intervalleMAJ)
             : base(jeu, homothétieInitiale, rotationInitiale, positionInitiale)
         {
             NomTextureTuile = nomTextureTuile;
@@ -93,8 +93,8 @@ namespace HyperV
         private void CréerTableauPoints()
         {
             PtsSommets[0, 0] = new Vector3(Origine.X, Origine.Y, Origine.Z);
-            PtsSommets[1, 0] = new Vector3(Origine.X - Delta.X, Origine.Y, Origine.Z);
-            PtsSommets[0, 1] = new Vector3(Origine.X, Origine.Y, Origine.Z + Delta.Y);
+            PtsSommets[0, 1] = new Vector3(Origine.X - Delta.X, Origine.Y, Origine.Z);
+            PtsSommets[1, 0] = new Vector3(Origine.X, Origine.Y, Origine.Z + Delta.Y);
             PtsSommets[1, 1] = new Vector3(Origine.X - Delta.X, Origine.Y, Origine.Z + Delta.Y);
         }
 

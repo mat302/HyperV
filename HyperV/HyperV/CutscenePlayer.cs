@@ -1,3 +1,13 @@
+/*
+CutscenePlayer.cs
+-----------------
+
+By Mathieu Godin
+
+Role : Creates a cutscene
+
+Created : 2/25/17
+*/
 using System;
 using System.Collections.Generic;
 using System.Linq;

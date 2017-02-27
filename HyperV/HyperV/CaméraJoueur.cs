@@ -220,7 +220,8 @@ namespace HyperV
 
         Vector3 Direction { get; set; }
         Vector3 Latéral { get; set; }
-        Maze Maze { get; set; }
+        //Maze Maze { get; set; }
+        Grass Maze { get; set; }
         float VitesseTranslation { get; set; }
         float VitesseRotation { get; set; }
         Point AnciennePositionSouris { get; set; }
@@ -230,6 +231,7 @@ namespace HyperV
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         InputManager GestionInput { get; set; }
+        float Height { get; set; }
 
         public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ)
            : base(jeu)
@@ -237,6 +239,7 @@ namespace HyperV
             IntervalleMAJ = intervalleMAJ;
             CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, DISTANCE_PLAN_ÉLOIGNÉ);
             CréerPointDeVue(positionCaméra, cible, orientation);
+            Height = positionCaméra.Y;
         }
 
         public override void Initialize()
@@ -246,7 +249,8 @@ namespace HyperV
             TempsÉcouléDepuisMAJ = 0;
             base.Initialize();
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            Maze = Game.Services.GetService(typeof(Maze)) as Maze;
+            //Maze = Game.Services.GetService(typeof(Maze)) as Maze;
+            Maze = Game.Services.GetService(typeof(Grass)) as Grass;
             NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
             Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
@@ -291,7 +295,7 @@ namespace HyperV
 
 
                 Game.Window.Title = Position.ToString();
-                Position = new Vector3(Position.X, 4, Position.Z);
+                Position = new Vector3(Position.X, Height, Position.Z);
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
@@ -355,11 +359,11 @@ namespace HyperV
             Latéral = Vector3.Cross(Direction, OrientationVerticale);
             Position += déplacementDirection * Direction;
             Position -= déplacementLatéral * Latéral;
-            if (Maze.CheckForCollisions(Position))
-            {
-                Position -= déplacementDirection * Direction;
-                Position += déplacementLatéral * Latéral;
-            }
+            //if (Maze.CheckForCollisions(Position))
+            //{
+            //    Position -= déplacementDirection * Direction;
+            //    Position += déplacementLatéral * Latéral;
+            //}
         }
 
         private void GérerRotationClavier()
