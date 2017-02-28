@@ -113,13 +113,7 @@ namespace HyperV
 
         void CreateCollisions()
         {
-            for (int i = 0; i < Collisions.GetLength(0); ++i)
-            {
-                for (int j = 0; j < Collisions.GetLength(1); ++j)
-                {
-                    Collisions[i, j] = false;
-                }
-            }
+            
         }
 
         float FindMaxX()
