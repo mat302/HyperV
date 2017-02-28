@@ -43,7 +43,8 @@ namespace HyperV
         int NumTriangles { get; set; }
         int NumVertices { get; set; }
         Vector3[] VerticesPositions { get; set; }
-        bool[,] Collisions { get; set; }
+        List<Vector4> PlaneEquations { get; set; }
+        List<Vector3> PlanePoints { get; set; }
         Vector2[,] TexturePositions { get; set; }
         VertexPositionTexture[] Vertices { get; set; }
         BlendState BlendState { get; set; }
@@ -69,8 +70,8 @@ namespace HyperV
             TileTexture = TexturesManager.Find(TileTextureName);
             InitializeWallsData();
             VerticesPositions = new Vector3[NumVertices];
-            Collisions = new bool[(int)FindMaxX() * 11 / 10, (int)FindMaxY() * 11 / 10];
-            CreateCollisions();
+            //Collisions = new bool[(int)FindMaxX() * 11 / 10, (int)FindMaxY() * 11 / 10];
+            //CreateCollisions();
             CreateVerticesPositions();
             CreateTexturePositions();
             InitializeVertices();
@@ -111,11 +112,6 @@ namespace HyperV
             }
         }
 
-        void CreateCollisions()
-        {
-            
-        }
-
         float FindMaxX()
         {
             return FirstVertices.Select(v => v.X).Max();
@@ -136,6 +132,8 @@ namespace HyperV
             char[] separator = new char[1] { ';' };
             FirstVertices = new List<Vector2>();
             SecondVertices = new List<Vector2>();
+            PlaneEquations = new List<Vector4>();
+            PlanePoints = new List<Vector3>();
             Heights = new List<float>();
             while (!reader.EndOfStream)
             {
@@ -155,6 +153,8 @@ namespace HyperV
                 SecondVertices.Add(new Vector2(aXPosition, aYPosition));
 
                 Heights.Add(float.Parse(vectors[2]));
+
+
             }
             reader.Close();
             NumTriangles = FirstVertices.Count * NUM_TRIANGLES_PER_TILE;
