@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace HyperV
 {
-    public class CaméraSubjective : Caméra
+    public class CaméraSubjective : AtelierXNA.Caméra
     {
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         const float ACCÉLÉRATION = 0.001f;

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using AtelierXNA;
+using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace AtelierXNA
+namespace HyperV
 {
     class SphèreRamassable : PrimitiveDeBaseAnimée//, ICollisionable
    {
@@ -13,6 +14,7 @@ namespace AtelierXNA
         readonly string NomTexture;
 
         readonly Vector3 Origine;
+        CaméraJoueur CaméraJoueur { get; set; }
 
         //Initialement gérées par des fonctions appellées par base.Initialize()
         Vector3[,] PtsSommets { get; set; }
@@ -33,6 +35,8 @@ namespace AtelierXNA
 
         public BoundingSphere SphèreDeCollision { get { return new BoundingSphere(Position, Rayon); } }
 
+        public bool EstRamassée { get; set; }
+
         public SphèreRamassable(Game jeu, float homothétieInitiale, Vector3 rotationInitiale,
                               Vector3 positionInitiale, float rayon, Vector2 charpente,
                               string nomTexture, float intervalleMAJ)
@@ -44,6 +48,8 @@ namespace AtelierXNA
             NomTexture = nomTexture;
 
             Origine = new Vector3(0,0,0);
+
+            EstRamassée = false;
         }
 
         public override void Initialize()
@@ -54,6 +60,22 @@ namespace AtelierXNA
             AllouerTableaux();
             base.Initialize();
             InitialiserParamètresEffetDeBase();
+            CaméraJoueur = CaméraJeu as CaméraJoueur;
+        }
+
+        protected override void EffectuerMiseÀJour()
+        {
+            base.EffectuerMiseÀJour();
+
+            if (EstRamassée)
+            {
+                Position = CaméraJeu.Position + 4 * Vector3.Normalize(CaméraJoueur.Direction) 
+                            + 2.5f *Vector3.Normalize(CaméraJoueur.Latéral) 
+                            - 1.5f* Vector3.Normalize(Vector3.Cross(CaméraJoueur.Latéral, CaméraJoueur.Direction));
+                InitialiserSommets();
+
+                Game.Window.Title = Position.ToString();
+            }
         }
 
         void AllouerTableaux()
@@ -87,9 +109,9 @@ namespace AtelierXNA
             {
                 for (int i = 0; i < PtsSommets.GetLength(1); ++i)
                 {
-                    PtsSommets[i, j] = new Vector3(Origine.X + Rayon * (float)(Math.Sin(phi)*Math.Cos(theta)),
-                                                   Origine.Z + Rayon * (float)(Math.Cos(phi)),
-                                                   Origine.Y + Rayon * (float)(Math.Sin(phi) * Math.Sin(theta)));
+                    PtsSommets[i, j] = new Vector3(Position.X + Rayon * (float)(Math.Sin(phi)*Math.Cos(theta)),
+                                                   Position.Y + Rayon * (float)(Math.Cos(phi)),
+                                                   Position.Z + Rayon * (float)(Math.Sin(phi) * Math.Sin(theta)));
                     theta += angle;
                 }
                 phi += (float)Math.PI / NbLignes;

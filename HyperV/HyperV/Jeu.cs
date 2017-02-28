@@ -20,7 +20,7 @@ namespace HyperV
         const string CHEMIN_FICHIER = "../../";
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         Rectangle ZoneAffichage { get; set; }
-        Caméra CaméraJeu { get; set; }
+        CaméraJoueur CaméraJeu { get; set; }
         Song ChansonJeu { get; set; }
         InputManager GestionInput { get; set; }
         List<string[]> ListeModeles { get; set; } //liste de tous les modeles a placer dans un niveau (qui sont dans le fichier texte)
@@ -33,7 +33,7 @@ namespace HyperV
         {
             base.Initialize();
             ZoneAffichage = new Rectangle(0, 0, Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height);
-            CaméraJeu = Game.Services.GetService(typeof(Caméra)) as Caméra;
+            //CaméraJeu = Game.Services.GetService(typeof(AtelierXNA.Caméra)) as AtelierXNA.Caméra;
             RessourcesManager<Song> gestionnaireDeMusiques = Game.Services.GetService(typeof(RessourcesManager<Song>)) as RessourcesManager<Song>;
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             RessourcesManager<SoundEffect> gestionnaireDeSons = Game.Services.GetService(typeof(RessourcesManager<SoundEffect>)) as RessourcesManager<SoundEffect>;

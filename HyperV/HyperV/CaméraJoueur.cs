@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace HyperV
 {
-    public class CaméraJoueur : Caméra
+    public class CaméraJoueur : AtelierXNA.Caméra
     {
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         const float ACCÉLÉRATION = 0.001f;
@@ -18,8 +18,8 @@ namespace HyperV
         const float RAYON_COLLISION = 1f;
         const int HAUTEUR_PERSONNAGE = 10;
 
-        Vector3 Direction { get; set; }
-        Vector3 Latéral { get; set; }
+        public Vector3 Direction { get; private set; }//
+        public Vector3 Latéral { get; private set; }//
         Gazon Gazon { get; set; }
         float VitesseTranslation { get; set; }
         float VitesseRotation { get; set; }
@@ -213,16 +213,12 @@ namespace HyperV
             foreach (SphèreRamassable sphereRamassable in Game.Components.Where(composant => composant is SphèreRamassable))
             {
                 Game.Window.Title = sphereRamassable.EstEnCollision(viseur).ToString();
-                //if (sphereRamassable.EstEnCollision(viseur) != null)
-                //{
-                //    Game.Window.Title = "true";
-                //}
-                //else
-                //{
-                //    Game.Window.Title = "false";
-                //}
+                if (sphereRamassable.EstEnCollision(viseur) <= 45 && 
+                    GestionInput.EstNouveauClicGauche()|| GestionInput.EstAncienClicGauche())
+                {
+                    sphereRamassable.EstRamassée = true;
+                }
             }
         }
-
     }
 }
