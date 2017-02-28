@@ -43,8 +43,9 @@ namespace HyperV
         int NumTriangles { get; set; }
         int NumVertices { get; set; }
         Vector3[] VerticesPositions { get; set; }
-        List<Vector4> PlaneEquations { get; set; }
+        List<Vector3> PlaneEquations { get; set; }
         List<Vector3> PlanePoints { get; set; }
+        List<float> Magnitudes { get; set; }
         Vector2[,] TexturePositions { get; set; }
         VertexPositionTexture[] Vertices { get; set; }
         BlendState BlendState { get; set; }
@@ -128,11 +129,14 @@ namespace HyperV
             string[] vectors = new string[2];
             int startInd;
             float aXPosition, aYPosition;
+            Vector2 u2;
+            Vector3 u, v;
             StreamReader reader = new StreamReader(DataFileName);
             char[] separator = new char[1] { ';' };
             FirstVertices = new List<Vector2>();
             SecondVertices = new List<Vector2>();
-            PlaneEquations = new List<Vector4>();
+            PlaneEquations = new List<Vector3>();
+            Magnitudes = new List<float>();
             PlanePoints = new List<Vector3>();
             Heights = new List<float>();
             while (!reader.EndOfStream)
@@ -154,7 +158,12 @@ namespace HyperV
 
                 Heights.Add(float.Parse(vectors[2]));
 
-
+                PlanePoints.Add(new Vector3(aXPosition, 0, aYPosition));
+                u2 = SecondVertices.Last() - FirstVertices.Last();
+                u = new Vector3(u2.X, 0, u2.Y);
+                v = new Vector3(0, Heights.Last(), 0);
+                PlaneEquations.Add(Vector3.Cross(u, v));
+                Magnitudes.Add(PlaneEquations.Last().Length());
             }
             reader.Close();
             NumTriangles = FirstVertices.Count * NUM_TRIANGLES_PER_TILE;
@@ -186,6 +195,22 @@ namespace HyperV
         Matrix GetWorld()
         {
             return World;
+        }
+
+        const int MAX_DISTANCE = 1;
+
+        public bool CheckForCollisions(Vector3 Position)
+        {
+            Vector3 AP;
+            bool result = false;
+
+            for (int i = 0; i < PlaneEquations.Count && !result; ++i)
+            {
+                AP = Position - PlanePoints[i];
+                result = Math.Abs(Vector3.Dot(AP, PlaneEquations[i])) / Magnitudes[i] < MAX_DISTANCE && (Position - new Vector3(FirstVertices[i].X, -16, FirstVertices[i].Y)).Length() < Vector2.Distance(FirstVertices[i], SecondVertices[i]) && (Position - new Vector3(SecondVertices[i].X, -16, SecondVertices[i].Y)).Length() < Vector2.Distance(FirstVertices[i], SecondVertices[i]);
+            }
+
+            return result;
         }
 
         public override void Draw(GameTime gameTime)

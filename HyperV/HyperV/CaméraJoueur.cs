@@ -221,7 +221,8 @@ namespace HyperV
         Vector3 Direction { get; set; }
         Vector3 Latéral { get; set; }
         //Maze Maze { get; set; }
-        Grass Maze { get; set; }
+        Grass Grass { get; set; }
+        Walls Walls { get; set; }
         float VitesseTranslation { get; set; }
         float VitesseRotation { get; set; }
         Point AnciennePositionSouris { get; set; }
@@ -250,7 +251,8 @@ namespace HyperV
             base.Initialize();
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             //Maze = Game.Services.GetService(typeof(Maze)) as Maze;
-            Maze = Game.Services.GetService(typeof(Grass)) as Grass;
+            Grass = Game.Services.GetService(typeof(Grass)) as Grass;
+            Walls = Game.Services.GetService(typeof(Walls)) as Walls;
             NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
             Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
@@ -364,6 +366,11 @@ namespace HyperV
             //    Position -= déplacementDirection * Direction;
             //    Position += déplacementLatéral * Latéral;
             //}
+            if (Walls.CheckForCollisions(Position))
+            {
+                Position -= déplacementDirection * Direction;
+                Position += déplacementLatéral * Latéral;
+            }
         }
 
         private void GérerRotationClavier()
@@ -407,7 +414,7 @@ namespace HyperV
 
         private void GérerHauteur()
         {
-            Position = Maze.GetPositionWithHeight(Position, HAUTEUR_PERSONNAGE);
+            Position = Grass.GetPositionWithHeight(Position, HAUTEUR_PERSONNAGE);
         }
 
         private int GérerTouche(Keys touche)
