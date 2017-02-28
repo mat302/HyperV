@@ -366,9 +366,11 @@ namespace HyperV
             //    Position -= déplacementDirection * Direction;
             //    Position += déplacementLatéral * Latéral;
             //}
-            if (Walls.CheckForCollisions(Position))
+            Vector3 newDirection = new Vector3(0, 0, 0);
+            if (Walls.CheckForCollisions(Position, ref newDirection, Direction))
             {
                 Position -= déplacementDirection * Direction;
+                //Position += déplacementDirection * newDirection;
                 Position += déplacementLatéral * Latéral;
             }
         }

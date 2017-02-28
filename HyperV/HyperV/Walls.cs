@@ -199,18 +199,31 @@ namespace HyperV
 
         const int MAX_DISTANCE = 1;
 
-        public bool CheckForCollisions(Vector3 Position)
+        public bool CheckForCollisions(Vector3 Position, ref Vector3 newDirection, Vector3 Direction)
         {
             Vector3 AP;
             bool result = false;
+            int i;
+            float wallDistance;
 
-            for (int i = 0; i < PlaneEquations.Count && !result; ++i)
+            for (i = 0; i < PlaneEquations.Count && !result; ++i)
             {
                 AP = Position - PlanePoints[i];
-                result = Math.Abs(Vector3.Dot(AP, PlaneEquations[i])) / Magnitudes[i] < MAX_DISTANCE && (Position - new Vector3(FirstVertices[i].X, -16, FirstVertices[i].Y)).Length() < Vector2.Distance(FirstVertices[i], SecondVertices[i]) && (Position - new Vector3(SecondVertices[i].X, -16, SecondVertices[i].Y)).Length() < Vector2.Distance(FirstVertices[i], SecondVertices[i]);
+                wallDistance = Vector2.Distance(FirstVertices[i], SecondVertices[i]);
+                result = Math.Abs(Vector3.Dot(AP, PlaneEquations[i])) / Magnitudes[i] < MAX_DISTANCE && (Position - new Vector3(FirstVertices[i].X, -16, FirstVertices[i].Y)).Length() < wallDistance && (Position - new Vector3(SecondVertices[i].X, -16, SecondVertices[i].Y)).Length() < wallDistance;
             }
+            //CreateNewDirection(result, i, Direction, ref newDirection);
 
             return result;
+        }
+
+        void CreateNewDirection(bool result, int i, Vector3 Direction, ref Vector3 newDirection)
+        {
+            if (result)
+            {
+                Vector2 wall = SecondVertices[i] - FirstVertices[i], direction = new Vector2(Direction.X, Direction.Z), projection = ((Vector2.Dot(direction, wall) / wall.LengthSquared()) * wall) * wall;
+                newDirection = Direction + PlaneEquations[i] / (PlaneEquations[i].Length() * 1);//new Vector3(projection.X, 0, projection.Y);
+            }
         }
 
         public override void Draw(GameTime gameTime)
