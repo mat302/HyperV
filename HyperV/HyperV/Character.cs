@@ -53,6 +53,11 @@ namespace HyperV
             base.Initialize();
         }
 
+        public Vector3 GetPosition()
+        {
+            return new Vector3(Position.X, Position.Y, Position.Z);
+        }
+
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>

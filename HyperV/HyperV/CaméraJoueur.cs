@@ -1,6 +1,7 @@
 ﻿using AtelierXNA;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace HyperV
 {
@@ -233,6 +234,7 @@ namespace HyperV
         float TempsÉcouléDepuisMAJ { get; set; }
         InputManager GestionInput { get; set; }
         float Height { get; set; }
+        List<Character> Characters { get; set; }
 
         public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ)
            : base(jeu)
@@ -253,6 +255,7 @@ namespace HyperV
             //Maze = Game.Services.GetService(typeof(Maze)) as Maze;
             Grass = Game.Services.GetService(typeof(Grass)) as Grass;
             Walls = Game.Services.GetService(typeof(Walls)) as Walls;
+            Characters = Game.Services.GetService(typeof(List<Character>)) as List<Character>;
             NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
             Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
@@ -367,12 +370,27 @@ namespace HyperV
             //    Position += déplacementLatéral * Latéral;
             //}
             Vector3 newDirection = new Vector3(0, 0, 0);
-            if (Walls.CheckForCollisions(Position, ref newDirection, Direction))
+            if (Walls.CheckForCollisions(Position, ref newDirection, Direction) || CheckForCharacterCollision())
             {
                 Position -= déplacementDirection * Direction;
                 //Position += déplacementDirection * newDirection;
                 Position += déplacementLatéral * Latéral;
             }
+        }
+
+        const float MAX_DISTANCE = 4.5f;
+
+        bool CheckForCharacterCollision()
+        {
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Characters.Count && !result; ++i)
+            {
+                result = Vector3.Distance(Characters[i].GetPosition(), Position) < MAX_DISTANCE;
+            }
+
+            return result;
         }
 
         private void GérerRotationClavier()
