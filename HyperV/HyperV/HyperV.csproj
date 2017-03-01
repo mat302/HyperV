@@ -79,6 +79,8 @@
   <ItemGroup>
     <Compile Include="CaméraJoueur.cs" />
     <Compile Include="Ceiling.cs" />
+    <Compile Include="Character.cs" />
+    <Compile Include="CharacterScript.cs" />
     <Compile Include="CreateurModele.cs" />
     <Compile Include="CutscenePlayer.cs" />
     <Compile Include="Gazon.cs" />
@@ -124,6 +126,9 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CharacterScripts\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

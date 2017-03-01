@@ -52,8 +52,8 @@ namespace HyperV
 
         protected override void Initialize()
         {
-            const float ÉCHELLE_OBJET = 0.01f;
-            Vector3 positionObjet = new Vector3(0, -10, -50);
+            const float ÉCHELLE_OBJET = 0.02f;
+            Vector3 positionObjet = new Vector3(-50, -20, 60);
             Vector3 rotationObjet = new Vector3(0, MathHelper.PiOver2, 0);
             GestionnaireDeFonts = new RessourcesManager<SpriteFont>(this, "Fonts");
             GestionnaireDeTextures = new RessourcesManager<Texture2D>(this, "Textures");
@@ -64,23 +64,24 @@ namespace HyperV
             Components.Add(GestionInput);
             Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
             Components.Add(new Afficheur3D(this));
-            Components.Add(new ObjetDeBase(this, "ship", ÉCHELLE_OBJET, rotationObjet, positionObjet));
+            //Components.Add(new ObjetDeBase(this, "Robot", ÉCHELLE_OBJET, rotationObjet, positionObjet));
+            Components.Add(new Character(this, "Robot", ÉCHELLE_OBJET, rotationObjet, positionObjet, "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle"));
             //Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
             Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
-            Grass grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(20, 20), "Ceiling", INTERVALLE_MAJ_STANDARD);
+            Grass grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD);
             Components.Add(grass);
             for (int i = 0; i < 15; ++i)
             {
                 for (int j = 0; j < 15; ++j)
                 {
-                    Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, -20, 10 + j * 20), new Vector2(20, 20), "Ceiling", INTERVALLE_MAJ_STANDARD));
+                    Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, -20, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
                 }
             }
             for (int i = 0; i < 15; ++i)
             {
                 for (int j = 0; j < 15; ++j)
                 {
-                    Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, 0, 10 + j * 20), new Vector2(20, 20), "Ceiling", INTERVALLE_MAJ_STANDARD));
+                    Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, 0, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
                 }
             }
             Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
