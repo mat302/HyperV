@@ -38,7 +38,7 @@ namespace HyperV
         RessourcesManager<SpriteFont> FontManager { get; set; }
         SpriteFont Font { get; set; }
         Rectangle FaceImageRectangle { get; set; }
-        Vector2 ScriptRectanglePosition { get; set; }
+        Rectangle ScriptRectanglePosition { get; set; }
         string ScriptRectangleName { get; set; }
         Vector2 TextPosition { get; set; }
 
@@ -56,11 +56,11 @@ namespace HyperV
         public override void Initialize()
         {
             base.Initialize();
-            int height = 160;
-            FaceImageRectangle = new Rectangle(10, Game.Window.ClientBounds.Height - height - 10, 250, height);
-            ScriptRectanglePosition = new Vector2(FaceImageRectangle.X + FaceImageRectangle.Width + 10, FaceImageRectangle.Y + 10);
+            float height = (160f / 600f) * Game.Window.ClientBounds.Height;
+            FaceImageRectangle = new Rectangle(10, (int)(Game.Window.ClientBounds.Height - height - 10) - 20, (int)((250f / 800f) * Game.Window.ClientBounds.Width) - 100, (int)height + 20);
+            ScriptRectanglePosition = new Rectangle(FaceImageRectangle.X + FaceImageRectangle.Width + 10, FaceImageRectangle.Y + 10, (int)((510f / 800f) * Game.Window.ClientBounds.Width) + 140, (int)((143f / 600f) * Game.Window.ClientBounds.Height) + 25);
             TextPosition = new Vector2(ScriptRectanglePosition.X + 10, ScriptRectanglePosition.Y + 10);
-        }
+        } // 800x600 510x143
 
         protected override void LoadContent()
         {
@@ -103,7 +103,7 @@ namespace HyperV
             SpriteBatch.Begin();
             SpriteBatch.Draw(ScriptRectangle, ScriptRectanglePosition, Color.White);
             SpriteBatch.Draw(FaceImage, FaceImageRectangle, Color.White);
-            SpriteBatch.DrawString(Font, TextFile, TextPosition, Color.Black);
+            SpriteBatch.DrawString(Font, TextFile, TextPosition, Color.Black, 0, Vector2.Zero, (float)(ScriptRectanglePosition.Width) / (Game.Window.ClientBounds.Width * 1.6f), SpriteEffects.None, 0);
             SpriteBatch.End();
         }
     }

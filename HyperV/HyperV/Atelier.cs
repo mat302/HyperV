@@ -1,3 +1,6 @@
+// By Mathieu Godin
+// Created on January 2017
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,16 +23,16 @@ namespace HyperV
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
 
-        Caméra CaméraJeu { get; set; }
+        Caméra Camera { get; set; }
         Maze Maze { get; set; }
-        InputManager GestionInput { get; set; }
+        InputManager InputManager { get; set; }
 
         //GraphicsDeviceManager PériphériqueGraphique { get; set; }
-        SpriteBatch GestionSprites { get; set; }
+        SpriteBatch SpriteBatch { get; set; }
 
-        RessourcesManager<SpriteFont> GestionnaireDeFonts { get; set; }
-        RessourcesManager<Texture2D> GestionnaireDeTextures { get; set; }
-        RessourcesManager<Model> GestionnaireDeModèles { get; set; }
+        RessourcesManager<SpriteFont> FontManager { get; set; }
+        RessourcesManager<Texture2D> TextureManager { get; set; }
+        RessourcesManager<Model> ModelManager { get; set; }
         //Caméra CaméraJeu { get; set; }
 
         public Atelier()
@@ -39,8 +42,8 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 1080;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1920;
+            PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
 
         }
 
@@ -51,31 +54,61 @@ namespace HyperV
         Walls Walls { get; set; }
         Character Robot { get; set; }
         List<Character> Characters { get; set; }
+        int SaveNumber { get; set; }
+        int Level { get; set; }
+        Vector3 Position { get; set; }
 
-        protected override void Initialize()
+        void LoadSave()
         {
-            const float ÉCHELLE_OBJET = 0.02f;
-            Vector3 positionObjet = new Vector3(-50, -20, 60);
-            Vector3 rotationObjet = new Vector3(0, MathHelper.PiOver2, 0);
-            GestionnaireDeFonts = new RessourcesManager<SpriteFont>(this, "Fonts");
-            GestionnaireDeTextures = new RessourcesManager<Texture2D>(this, "Textures");
-            GestionnaireDeModèles = new RessourcesManager<Model>(this, "Models");
-            //CaméraJeu = new CaméraFixe(this, Vector3.Zero, positionObjet, Vector3.Up);
-            //CaméraJeu = new CaméraSubjective(this, new Vector3(0, 0, 0), positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            GestionInput = new InputManager(this);
-            Components.Add(GestionInput);
-            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            SaveNumber = int.Parse(reader.ReadLine());
+            reader.Close();
+            reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            string line = reader.ReadLine();
+            char[] separator = new char[] { ' ' };
+            string[] parts = line.Split(separator);
+            Level = int.Parse(parts[1]);
+            line = reader.ReadLine();
+            reader.Close();
+            //parts = line.Split(separator);
+            //int startInd = parts[1].IndexOf("X:") + 2;
+            //float aXPosition = float.Parse(parts[1].Substring(startInd, parts[1].IndexOf(" Y") - startInd));
+            //startInd = parts[1].IndexOf("Y:") + 2;
+            //float aYPosition = float.Parse(parts[1].Substring(startInd, parts[1].IndexOf(" Z") - startInd));
+            //startInd = parts[1].IndexOf("Z:") + 2;
+            //float aZPosition = float.Parse(parts[1].Substring(startInd, parts[1].IndexOf("}") - startInd));
+            //Position = new Vector3(aXPosition, aYPosition, aZPosition);
+        }
+
+        void SelectWorld()
+        {
+            switch (Level)
+            {
+                case 0:
+                    Level0();
+                    break;
+                case 1:
+                    Level1();
+                    break;
+            }
+        }
+
+        void Level1()
+        {
+            //Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
             Components.Add(new Afficheur3D(this));
-            //Components.Add(new ObjetDeBase(this, "Robot", ÉCHELLE_OBJET, rotationObjet, positionObjet));
-            Characters = new List<Character>();
-            Robot = new Character(this, "Robot", ÉCHELLE_OBJET, rotationObjet, positionObjet, "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
-            Components.Add(Robot);
+            Camera = new CaméraJoueur(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Services.AddService(typeof(Caméra), Camera);
+            Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
             Characters.Add(Robot);
-            Services.AddService(typeof(List<Character>), Characters);
-            //Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
-            Services.AddService(typeof(RessourcesManager<Texture2D>), GestionnaireDeTextures);
+            Components.Add(Robot);
             Grass grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD);
             Components.Add(grass);
+            Services.AddService(typeof(Grass), grass);
+            Walls = new Walls(this, INTERVALLE_MAJ_STANDARD, "Rockwall", "../../../Data.txt");
+            Components.Add(Walls);
+            Services.AddService(typeof(Walls), Walls);
+            Components.Add(Camera);
             for (int i = 0; i < 15; ++i)
             {
                 for (int j = 0; j < 15; ++j)
@@ -90,43 +123,119 @@ namespace HyperV
                     Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, 0, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
                 }
             }
-            Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
-            Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
-            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", INTERVALLE_MAJ_STANDARD, "Maze");
-            Walls = new Walls(this, INTERVALLE_MAJ_STANDARD, "Rockwall", "../../../Data.txt");
-            Components.Add(Walls);
-            Services.AddService(typeof(Walls), Walls);
-            //Components.Add(Maze);
-            //Services.AddService(typeof(Maze), Maze);
-            Services.AddService(typeof(Grass), grass);
-            CaméraJeu = new CaméraJoueur(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            Services.AddService(typeof(Caméra), CaméraJeu);
-            Components.Add(CaméraJeu);
-            Services.AddService(typeof(RessourcesManager<Model>), GestionnaireDeModèles);
-            ////Components.Add(new Skybox(this, "Texture_Skybox"));
-            
-            Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
-            Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
-            Services.AddService(typeof(InputManager), GestionInput);
-            GestionSprites = new SpriteBatch(GraphicsDevice);
-            Services.AddService(typeof(SpriteBatch), GestionSprites);
+        }
+
+        void Level0()
+        {
+            CutscenePlayer = new CutscenePlayer(this, "test1", false);
+            Components.Add(CutscenePlayer);
+        }
+
+        protected override void Initialize()
+        {
+            TextureManager = new RessourcesManager<Texture2D>(this, "Textures");
+            Services.AddService(typeof(RessourcesManager<Texture2D>), TextureManager);
+            ModelManager = new RessourcesManager<Model>(this, "Models");
+            Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
+            FontManager = new RessourcesManager<SpriteFont>(this, "Fonts");
+            InputManager = new InputManager(this);
+            Components.Add(InputManager);
+            Services.AddService(typeof(RessourcesManager<SpriteFont>), FontManager);
+            Services.AddService(typeof(InputManager), InputManager);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), SpriteBatch);
             VideoManager = new RessourcesManager<Video>(this, "Videos");
             Services.AddService(typeof(RessourcesManager<Video>), VideoManager);
-            CutscenePlayer = new CutscenePlayer(this, "test1");
-            //Components.Add(CutscenePlayer);
+            Characters = new List<Character>();
+            Services.AddService(typeof(List<Character>), Characters);
+            LoadSave();
+            SelectWorld();
+
+            //const float ÉCHELLE_OBJET = 0.02f;
+            //Vector3 positionObjet = new Vector3(-50, -20, 60);
+            //Vector3 rotationObjet = new Vector3(0, MathHelper.PiOver2, 0);
+            ////CaméraJeu = new CaméraFixe(this, Vector3.Zero, positionObjet, Vector3.Up);
+            ////CaméraJeu = new CaméraSubjective(this, new Vector3(0, 0, 0), positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            //Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            ////Components.Add(new ObjetDeBase(this, "Robot", ÉCHELLE_OBJET, rotationObjet, positionObjet));
+            
+            //Robot = new Character(this, "Robot", ÉCHELLE_OBJET, rotationObjet, positionObjet, "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
+            //Components.Add(Robot);
+            //Characters.Add(Robot);
+            //Services.AddService(typeof(List<Character>), Characters);
+            ////Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
+            
+            //Grass grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD);
+            //Components.Add(grass);
+            //for (int i = 0; i < 15; ++i)
+            //{
+            //    for (int j = 0; j < 15; ++j)
+            //    {
+            //        Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, -20, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
+            //    }
+            //}
+            //for (int i = 0; i < 15; ++i)
+            //{
+            //    for (int j = 0; j < 15; ++j)
+            //    {
+            //        Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, 0, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
+            //    }
+            //}
+            //Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
+            //Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
+            //Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", INTERVALLE_MAJ_STANDARD, "Maze");
+            //Walls = new Walls(this, INTERVALLE_MAJ_STANDARD, "Rockwall", "../../../Data.txt");
+            //Components.Add(Walls);
+            //Services.AddService(typeof(Walls), Walls);
+            ////Components.Add(Maze);
+            ////Services.AddService(typeof(Maze), Maze);
+            //Services.AddService(typeof(Grass), grass);
+            //Camera = new CaméraJoueur(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            //Services.AddService(typeof(Caméra), Camera);
+            //Components.Add(Camera);
+            //Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
+            //////Components.Add(new Skybox(this, "Texture_Skybox"));
+
+            //Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
+            //Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
+            //Services.AddService(typeof(InputManager), GestionInput);
+            //GestionSprites = new SpriteBatch(GraphicsDevice);
+            //Services.AddService(typeof(SpriteBatch), GestionSprites);
+            //VideoManager = new RessourcesManager<Video>(this, "Videos");
+            //Services.AddService(typeof(RessourcesManager<Video>), VideoManager);
+            //CutscenePlayer = new CutscenePlayer(this, "test1");
+            ////Components.Add(CutscenePlayer);
             base.Initialize();
         }
 
+        float Timer { get; set; }
+
         protected override void Update(GameTime gameTime)
         {
-            GérerClavier();
-            Window.Title = CaméraJeu.Position.ToString();
+            ManageKeyboard();
+            Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Timer >= INTERVALLE_MAJ_STANDARD)
+            {
+                CheckForCutscene();
+                Timer = 0;
+            }
+            //Window.Title = CaméraJeu.Position.ToString();
             base.Update(gameTime);
         }
 
-        private void GérerClavier()
+        void CheckForCutscene()
         {
-            if (GestionInput.EstEnfoncée(Keys.Escape))
+            if (CutscenePlayer.CutsceneFinished)
+            {
+                ++Level;
+                SelectWorld();
+                CutscenePlayer.ResetCutsceneFinished();
+            }
+        }
+
+        void ManageKeyboard()
+        {
+            if (InputManager.EstEnfoncée(Keys.Escape))
             {
                 Exit();
             }

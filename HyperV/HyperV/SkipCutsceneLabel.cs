@@ -76,7 +76,7 @@ namespace HyperV
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch.Begin();
-            SpriteBatch.DrawString(Font, Message, Position, Color.Black, 0, Origin, (float)Math.Abs(Math.Sin(Scale)) / 4 + 1, SpriteEffects.None, 0);
+            SpriteBatch.DrawString(Font, Message, Position, Color.Black, 0, Origin, ((float)Math.Abs(Math.Sin(Scale)) / 4 + 1) * (Game.Window.ClientBounds.Width / 5000f), SpriteEffects.None, 0);
             SpriteBatch.End();
         }
     }

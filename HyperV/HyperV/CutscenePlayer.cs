@@ -36,10 +36,17 @@ namespace HyperV
         string VideoName { get; set; }
         InputManager InputManager { get; set; }
         SkipCutsceneLabel Label { get; set; }
+        public bool CutsceneFinished { get; private set; }
 
-        public CutscenePlayer(Game game, string videoName) : base(game)
+        public CutscenePlayer(Game game, string videoName, bool cutsceneFinished) : base(game)
         {
             VideoName = videoName;
+            CutsceneFinished = cutsceneFinished;
+        }
+
+        public void ResetCutsceneFinished()
+        {
+            CutsceneFinished = false;
         }
 
         /// <summary>
@@ -82,6 +89,7 @@ namespace HyperV
             }
             if (Player.State == MediaState.Stopped)
             {
+                CutsceneFinished = true;
                 Game.Components.Remove(this);
                 Game.Components.Remove(Label);
             }
