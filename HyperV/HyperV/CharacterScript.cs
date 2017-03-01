@@ -1,3 +1,13 @@
+/*
+CharacterScript.cs
+------------------
+
+By Mathieu Godin
+
+Role : Shows the script of the chracter
+
+Created : 2/28/17
+*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +19,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
-
+using System.IO;
 
 namespace HyperV
 {
@@ -30,6 +40,7 @@ namespace HyperV
         Rectangle FaceImageRectangle { get; set; }
         Vector2 ScriptRectanglePosition { get; set; }
         string ScriptRectangleName { get; set; }
+        Vector2 TextPosition { get; set; }
 
         public CharacterScript(Game game, string faceImageName, string textFile, string scriptRectangleName) : base(game)
         {
@@ -48,6 +59,7 @@ namespace HyperV
             int height = 160;
             FaceImageRectangle = new Rectangle(10, Game.Window.ClientBounds.Height - height - 10, 250, height);
             ScriptRectanglePosition = new Vector2(FaceImageRectangle.X + FaceImageRectangle.Width + 10, FaceImageRectangle.Y + 10);
+            TextPosition = new Vector2(ScriptRectanglePosition.X + 10, ScriptRectanglePosition.Y + 10);
         }
 
         protected override void LoadContent()
@@ -59,7 +71,19 @@ namespace HyperV
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
             Font = FontManager.Find("Arial");
+            ReadScript();
             base.LoadContent();
+        }
+
+        void ReadScript()
+        {
+            StreamReader reader = new StreamReader(TextFile);
+            TextFile = "";
+            while(!reader.EndOfStream)
+            {
+                TextFile += reader.ReadLine() + "\n";
+            }
+            reader.Close();
         }
 
         /// <summary>
@@ -68,9 +92,10 @@ namespace HyperV
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
-
-            base.Update(gameTime);
+            if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space))
+            {
+                Visible = !Visible;
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -78,6 +103,7 @@ namespace HyperV
             SpriteBatch.Begin();
             SpriteBatch.Draw(ScriptRectangle, ScriptRectanglePosition, Color.White);
             SpriteBatch.Draw(FaceImage, FaceImageRectangle, Color.White);
+            SpriteBatch.DrawString(Font, TextFile, TextPosition, Color.Black);
             SpriteBatch.End();
         }
     }

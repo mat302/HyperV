@@ -34,6 +34,7 @@ namespace HyperV
         string TextFile { get; set; }
         string FaceImageName { get; set; }
         string ScriptRectangleName { get; set; }
+        float Interval { get; set; }
 
         public Character(Game game, string modelName, float startScale, Vector3 startRotation, Vector3 startPosition, string textFile, string faceImageName, string scriptRectangleName) : base(game, modelName, startScale, startRotation, startPosition)
         {
