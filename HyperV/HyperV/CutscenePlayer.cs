@@ -49,6 +49,8 @@ namespace HyperV
             CutsceneFinished = false;
         }
 
+        public TexteCentré Loading { get; private set; }
+
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
@@ -56,6 +58,7 @@ namespace HyperV
         public override void Initialize()
         {
             base.Initialize();
+            Loading = new TexteCentré(Game, "Loading . . .", "Arial", new Rectangle(Game.Window.ClientBounds.Width / 2 - 200, Game.Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             Player = new VideoPlayer();
             Video = VideoManager.Find(VideoName);
             Screen = new Rectangle(GraphicsDevice.Viewport.X, GraphicsDevice.Viewport.Y, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
@@ -92,6 +95,7 @@ namespace HyperV
                 CutsceneFinished = true;
                 Game.Components.Remove(this);
                 Game.Components.Remove(Label);
+                Game.Components.Add(Loading);
             }
             base.Update(gameTime);
         }

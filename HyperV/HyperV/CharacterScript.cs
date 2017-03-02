@@ -55,6 +55,7 @@ namespace HyperV
         /// </summary>
         public override void Initialize()
         {
+            Visible = false;
             base.Initialize();
             float height = (160f / 600f) * Game.Window.ClientBounds.Height;
             FaceImageRectangle = new Rectangle(10, (int)(Game.Window.ClientBounds.Height - height - 10) - 20, (int)((250f / 800f) * Game.Window.ClientBounds.Width) - 100, (int)height + 20);
@@ -64,6 +65,7 @@ namespace HyperV
 
         protected override void LoadContent()
         {
+            base.LoadContent();
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
             TextureManager = Game.Services.GetService(typeof(RessourcesManager<Texture2D>)) as RessourcesManager<Texture2D>;
             FaceImage = TextureManager.Find(FaceImageName);
@@ -72,7 +74,6 @@ namespace HyperV
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
             Font = FontManager.Find("Arial");
             ReadScript();
-            base.LoadContent();
         }
 
         void ReadScript()

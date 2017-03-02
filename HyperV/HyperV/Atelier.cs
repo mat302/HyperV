@@ -95,13 +95,12 @@ namespace HyperV
 
         void Level1()
         {
-            //Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
             Components.Add(new Afficheur3D(this));
             Camera = new CaméraJoueur(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), Camera);
             Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
             Characters.Add(Robot);
-            Components.Add(Robot);
             Grass grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD);
             Components.Add(grass);
             Services.AddService(typeof(Grass), grass);
@@ -123,6 +122,10 @@ namespace HyperV
                     Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, 0, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
                 }
             }
+            Components.Add(Robot);
+            Robot.AddLabel();
+            Components.Remove(CutscenePlayer.Loading);
+            //Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
         }
 
         void Level0()
@@ -237,6 +240,11 @@ namespace HyperV
         {
             if (InputManager.EstEnfoncée(Keys.Escape))
             {
+                string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                ProcessStartInfo p = new ProcessStartInfo();
+                p.FileName = path;
+                p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
+                Process.Start(p);
                 Exit();
             }
         }

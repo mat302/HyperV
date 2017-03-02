@@ -43,14 +43,9 @@ namespace HyperV
             ScriptRectangleName = scriptRectangleName;
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
-        public override void Initialize()
+        public void AddLabel()
         {
             Game.Components.Add(new CharacterScript(Game, FaceImageName, TextFile, ScriptRectangleName));
-            base.Initialize();
         }
 
         public Vector3 GetPosition()
