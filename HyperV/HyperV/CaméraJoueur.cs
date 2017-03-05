@@ -18,6 +18,7 @@ namespace HyperV
         const float RAYON_COLLISION = 1f;
         const int HAUTEUR_PERSONNAGE = 10;
 
+
         public Vector3 Direction { get; private set; }//
         public Vector3 Latéral { get; private set; }//
         Gazon Gazon { get; set; }

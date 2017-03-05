@@ -46,7 +46,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BasicComponents">
-      <HintPath>..\..\..\..\..\Downloads\BasicComponents.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\HyperV-847bb898491afd5a6875a349cfe25427303f0c81\HyperV-847bb898491afd5a6875a349cfe25427303f0c81\HyperV\HyperV\Libraries\BasicComponents.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
