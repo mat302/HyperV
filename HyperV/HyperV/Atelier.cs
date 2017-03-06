@@ -60,10 +60,12 @@ namespace HyperV
 
         void LoadSave()
         {
-            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
             char[] separator = new char[] { ' ' };
             string[] parts = line.Split(separator);
@@ -108,18 +110,18 @@ namespace HyperV
             Components.Add(Walls);
             Services.AddService(typeof(Walls), Walls);
             Components.Add(Camera);
-            for (int i = 0; i < 15; ++i)
+            for (int i = 0; i < 30; ++i)
             {
-                for (int j = 0; j < 15; ++j)
+                for (int j = 0; j < 30; ++j)
                 {
-                    Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, -20, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
+                    Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, -20, -30 + j * 20), new Vector2(20, 20), "Ceiling", INTERVALLE_MAJ_STANDARD));
                 }
             }
-            for (int i = 0; i < 15; ++i)
+            for (int i = 0; i < 30; ++i)
             {
-                for (int j = 0; j < 15; ++j)
+                for (int j = 0; j < 30; ++j)
                 {
-                    Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, 0, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
+                    Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, 0, -30 + j * 20), new Vector2(20, 20), "Ceiling", INTERVALLE_MAJ_STANDARD));
                 }
             }
             Components.Add(Robot);
@@ -240,7 +242,8 @@ namespace HyperV
         {
             if (InputManager.EstEnfoncée(Keys.Escape))
             {
-                string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
                 ProcessStartInfo p = new ProcessStartInfo();
                 p.FileName = path;
                 p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
