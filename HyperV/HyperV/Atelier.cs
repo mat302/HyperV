@@ -92,14 +92,31 @@ namespace HyperV
                 case 1:
                     Level1();
                     break;
+                case 2:
+                    Level2();
+                    break;
             }
+        }
+
+        void Level2()
+        {
+            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            Components.Add(new Afficheur3D(this));
+            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", INTERVALLE_MAJ_STANDARD, "Maze");
+            Components.Add(Maze);
+            Services.AddService(typeof(Maze), Maze);
+            Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Components.Add(Camera);
+            Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
+            Services.AddService(typeof(Caméra), Camera);
+            base.Initialize();
         }
 
         void Level1()
         {
             Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
             Components.Add(new Afficheur3D(this));
-            Camera = new CaméraJoueur(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), Camera);
             Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
             Characters.Add(Robot);
@@ -127,7 +144,7 @@ namespace HyperV
             Components.Add(Robot);
             Robot.AddLabel();
             Components.Remove(CutscenePlayer.Loading);
-            //Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
+            Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
         }
 
         void Level0()
@@ -154,6 +171,7 @@ namespace HyperV
             Characters = new List<Character>();
             Services.AddService(typeof(List<Character>), Characters);
             LoadSave();
+            //Level = 1;
             SelectWorld();
 
             //const float ÉCHELLE_OBJET = 0.02f;

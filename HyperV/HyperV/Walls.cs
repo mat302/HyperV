@@ -199,7 +199,7 @@ namespace HyperV
 
         const int MAX_DISTANCE = 1;
 
-        public bool CheckForCollisions(Vector3 Position, ref Vector3 newDirection, Vector3 Direction)
+        public bool CheckForCollisions(Vector3 Position)
         {
             Vector3 AP;
             bool result = false;
