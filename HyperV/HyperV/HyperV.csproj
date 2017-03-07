@@ -89,6 +89,7 @@
     <Compile Include="Grass.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Maze.cs" />
+    <Compile Include="Portal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Atelier.cs" />
