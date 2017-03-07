@@ -35,17 +35,19 @@ namespace HyperV
         string FaceImageName { get; set; }
         string ScriptRectangleName { get; set; }
         float Interval { get; set; }
+        float Radius { get; set; }
 
         public Character(Game game, string modelName, float startScale, Vector3 startRotation, Vector3 startPosition, string textFile, string faceImageName, string scriptRectangleName) : base(game, modelName, startScale, startRotation, startPosition)
         {
             TextFile = textFile;
             FaceImageName = faceImageName;
             ScriptRectangleName = scriptRectangleName;
+            Radius = 5;
         }
 
         public void AddLabel()
         {
-            Game.Components.Add(new CharacterScript(Game, FaceImageName, TextFile, ScriptRectangleName));
+            Game.Components.Add(new CharacterScript(Game, this, FaceImageName, TextFile, ScriptRectangleName));
         }
 
         public Vector3 GetPosition()
@@ -63,5 +65,12 @@ namespace HyperV
 
             base.Update(gameTime);
         }
+
+        public float? Collision(Ray ray)
+        {
+            return BoundingSphere.Intersects(ray);
+        }
+
+        public BoundingSphere BoundingSphere { get { return new BoundingSphere(Position, Radius); } }
     }
 }

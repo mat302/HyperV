@@ -41,9 +41,12 @@ namespace HyperV
         Rectangle ScriptRectanglePosition { get; set; }
         string ScriptRectangleName { get; set; }
         Vector2 TextPosition { get; set; }
+        Camera1 Camera { get; set; }
+        Character Character { get; set; }
 
-        public CharacterScript(Game game, string faceImageName, string textFile, string scriptRectangleName) : base(game)
+        public CharacterScript(Game game, Character character, string faceImageName, string textFile, string scriptRectangleName) : base(game)
         {
+            Character = character;
             FaceImageName = faceImageName;
             TextFile = textFile;
             ScriptRectangleName = scriptRectangleName;
@@ -72,6 +75,7 @@ namespace HyperV
             ScriptRectangle = TextureManager.Find(ScriptRectangleName);
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
+            Camera = Game.Services.GetService(typeof(Caméra)) as Camera1;
             Font = FontManager.Find("Arial");
             ReadScript();
         }
@@ -93,11 +97,28 @@ namespace HyperV
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space))
+            float? collision = Character.Collision(new Ray(Camera.Position, Camera.Direction));
+            if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space) && collision <= 5 && collision != null)
             {
                 Visible = !Visible;
             }
         }
+
+        //void GérerRamassage()
+        //{
+        //    Ray viseur = new Ray(Position, Direction);
+
+        //    foreach (SphèreRamassable sphereRamassable in Game.Components.Where(composant => composant is SphèreRamassable))
+        //    {
+        //        Game.Window.Title = sphereRamassable.EstEnCollision(viseur).ToString();
+        //        if (sphereRamassable.EstEnCollision(viseur) <= 45 &&
+        //            sphereRamassable.EstEnCollision(viseur) != null &&
+        //            (GestionInput.EstNouveauClicGauche() || GestionInput.EstAncienClicGauche()))
+        //        {
+        //            sphereRamassable.EstRamassée = true;
+        //        }
+        //    }
+        //}
 
         public override void Draw(GameTime gameTime)
         {

@@ -240,7 +240,7 @@ namespace HyperV
            : base(jeu)
         {
             IntervalleMAJ = intervalleMAJ;
-            CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, DISTANCE_PLAN_ÉLOIGNÉ);
+            CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, 100); // 500 DISTANCE_PLAN_ÉLOIGNÉ
             CréerPointDeVue(positionCaméra, cible, orientation);
             Height = positionCaméra.Y;
         }
