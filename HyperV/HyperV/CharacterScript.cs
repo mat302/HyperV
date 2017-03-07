@@ -91,17 +91,30 @@ namespace HyperV
             reader.Close();
         }
 
+        float Timer { get; set; }
+        float Interval { get; set; }
+
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            float? collision = Character.Collision(new Ray(Camera.Position, Camera.Direction));
-            if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space) && collision <= 5 && collision != null)
+            if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space))
             {
                 Visible = !Visible;
             }
+            Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Timer >= Interval)
+            {
+                float? collision = Character.Collision(new Ray(Camera.Position, Camera.Direction));
+                if (collision > 0.25f || collision == null)
+                {
+                    Visible = false;
+                }
+                Timer = 0;
+            }
+            base.Update(gameTime);
         }
 
         //void GérerRamassage()

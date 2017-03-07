@@ -1,4 +1,4 @@
-//using System;
+ï»¿//using System;
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
@@ -16,7 +16,7 @@
 
 //        public Model SkyBox;
 //        string SkyboxTexture { get; set; }
-//        CaméraSubjective Camera { get; set; }
+//        Camï¿½raSubjective Camera { get; set; }
 
 //        RessourcesManager<Model> ModelManager { get; set; }
 //        RessourcesManager<TextureCube> TextureManager { get; set; }
@@ -36,7 +36,7 @@
 //            ModelManager = Game.Services.GetService(typeof(RessourcesManager<Model>)) as RessourcesManager<Model>;
 //            TextureManager = Game.Services.GetService(typeof(RessourcesManager<TextureCube>)) as RessourcesManager<TextureCube>;
 //            EffectManager = Game.Services.GetService(typeof(RessourcesManager<Effect>)) as RessourcesManager<Effect>;
-//            Camera = Game.Services.GetService(typeof(Caméra)) as CaméraSubjective;
+//            Camera = Game.Services.GetService(typeof(Camï¿½ra)) as Camï¿½raSubjective;
 //            Graphics = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
 
 //            SkyBox = ModelManager.Find("Cube");
@@ -75,7 +75,7 @@ namespace HyperV
 
         public Model SkyBox;
         string SkyboxTexture { get; set; }
-        CaméraJoueur Camera { get; set; }
+        CamÃ©raJoueur Camera { get; set; }
 
         RessourcesManager<Model> ModelManager { get; set; }
         RessourcesManager<TextureCube> TextureManager { get; set; }
@@ -95,7 +95,7 @@ namespace HyperV
             ModelManager = Game.Services.GetService(typeof(RessourcesManager<Model>)) as RessourcesManager<Model>;
             TextureManager = Game.Services.GetService(typeof(RessourcesManager<TextureCube>)) as RessourcesManager<TextureCube>;
             EffectManager = Game.Services.GetService(typeof(RessourcesManager<Effect>)) as RessourcesManager<Effect>;
-            Camera = Game.Services.GetService(typeof(CaméraJoueur)) as CaméraJoueur;
+            Camera = Game.Services.GetService(typeof(CamÃ©raJoueur)) as CamÃ©raJoueur;
             Graphics = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
 
             SkyBox = ModelManager.Find("Cube");

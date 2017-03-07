@@ -42,7 +42,7 @@ namespace HyperV
             TextFile = textFile;
             FaceImageName = faceImageName;
             ScriptRectangleName = scriptRectangleName;
-            Radius = 5;
+            Radius = 6;
         }
 
         public void AddLabel()
