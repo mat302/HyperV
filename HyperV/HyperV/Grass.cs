@@ -165,5 +165,20 @@ namespace HyperV
             //GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, Sommets, 0, NB_TRIANGLES);
             GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleStrip, Sommets, 0, NB_TRIANGLES);
         }
+
+        public Vector3 GetPositionWithHeight(Vector3 position, int hauteur)
+        {
+            Vector3 positionAvecHauteur;
+            if (EstEntre(position.Z, PtsSommets[0, 0].Z, PtsSommets[PtsSommets.GetLength(0) - 1, PtsSommets.GetLength(1) - 1].Z) &&
+                EstEntre(position.X, PtsSommets[0, 0].X, PtsSommets[PtsSommets.GetLength(0) - 1, PtsSommets.GetLength(1) - 1].X))
+            {
+                positionAvecHauteur = new Vector3(position.X, PtsSommets[0, 0].Y + hauteur, position.Z);
+            }
+            else
+            {
+                positionAvecHauteur = position;
+            }
+            return positionAvecHauteur;
+        }
     }
 }
