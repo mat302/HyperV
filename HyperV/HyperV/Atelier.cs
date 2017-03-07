@@ -143,6 +143,9 @@ namespace HyperV
                     Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD));
                 }
             }
+            Portal portal = new Portal(this, 1f, Vector3.Zero, new Vector3(-330, -20, 165), new Vector2(30, 20), "Garden", INTERVALLE_MAJ_STANDARD);
+            Components.Add(portal);
+            Services.AddService(typeof(Portal), portal);
             Components.Add(Robot);
             Robot.AddLabel();
             Components.Remove(CutscenePlayer.Loading);

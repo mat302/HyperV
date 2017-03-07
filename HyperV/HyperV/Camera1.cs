@@ -223,7 +223,7 @@ namespace HyperV
 
         private void GérerHauteur()
         {
-            Position = Grass.GetPositionWithHeight(Position, HAUTEUR_PERSONNAGE);
+            //Position = Grass.GetPositionWithHeight(Position, HAUTEUR_PERSONNAGE);
         }
 
         private int GérerTouche(Keys touche)
