@@ -57,15 +57,16 @@ namespace HyperV
         int SaveNumber { get; set; }
         int Level { get; set; }
         Vector3 Position { get; set; }
+        Portal Portal { get; set; }
 
         void LoadSave()
         {
-            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
-            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
-            //reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
             char[] separator = new char[] { ' ' };
             string[] parts = line.Split(separator);
@@ -143,9 +144,9 @@ namespace HyperV
                     Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD));
                 }
             }
-            Portal portal = new Portal(this, 1f, Vector3.Zero, new Vector3(-330, -20, 165), new Vector2(30, 20), "Garden", INTERVALLE_MAJ_STANDARD);
-            Components.Add(portal);
-            Services.AddService(typeof(Portal), portal);
+            Portal = new Portal(this, 1f, Vector3.Zero, new Vector3(-330, -20, 165), new Vector2(30, 20), "Garden", INTERVALLE_MAJ_STANDARD);
+            Components.Add(Portal);
+            Services.AddService(typeof(Portal), Portal);
             Components.Add(Robot);
             Robot.AddLabel();
             Components.Remove(CutscenePlayer.Loading);
@@ -244,11 +245,30 @@ namespace HyperV
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= INTERVALLE_MAJ_STANDARD)
             {
-                CheckForCutscene();
+                switch (Level)
+                {
+                    case 0:
+                        CheckForCutscene();
+                        break;
+                    case 1:
+                        CheckForPortal();
+                        break;
+                }
                 Timer = 0;
             }
             //Window.Title = CaméraJeu.Position.ToString();
             base.Update(gameTime);
+        }
+
+        void CheckForPortal()
+        {
+            float? collision = Portal.Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
+            if (collision > 0.25f || collision == null)
+            {
+                //++Level;
+                //SelectWorld();
+                Debug.WriteLine("TRUE");
+            }
         }
 
         void CheckForCutscene()
@@ -265,8 +285,8 @@ namespace HyperV
         {
             if (InputManager.EstEnfoncée(Keys.Escape))
             {
-                string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
                 ProcessStartInfo p = new ProcessStartInfo();
                 p.FileName = path;
                 p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);

@@ -63,6 +63,7 @@ namespace HyperV
             IntervalleMAJ = intervalleMAJ;
             Delta = new Vector2(étendue.X, étendue.Y);
             Origine = new Vector3(-Delta.X / 2, 0, -Delta.Y / 2); //pour centrer la primitive au point (0,0,0)
+            Radius = 1;
         }
 
         public override void Initialize()
