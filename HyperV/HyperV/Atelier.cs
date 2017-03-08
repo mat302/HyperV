@@ -48,6 +48,7 @@ namespace HyperV
         }
 
         Gazon Gazon { get; set; }
+        Grass Grass { get; set; }
 
         RessourcesManager<Video> VideoManager { get; set; }
         CutscenePlayer CutscenePlayer { get; set; }
@@ -58,15 +59,16 @@ namespace HyperV
         int Level { get; set; }
         Vector3 Position { get; set; }
         Portal Portal { get; set; }
+        TexteCentré Loading { get; set; }
 
         void LoadSave()
         {
-            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
-            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
-            reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            //reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
             char[] separator = new char[] { ' ' };
             string[] parts = line.Split(separator);
@@ -101,56 +103,65 @@ namespace HyperV
 
         void Level2()
         {
-            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            Components.Add(SpaceBackground);
             Components.Add(new Afficheur3D(this));
+            Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Services.AddService(typeof(Caméra), Camera);
             Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", INTERVALLE_MAJ_STANDARD, "Maze");
             Components.Add(Maze);
             Services.AddService(typeof(Maze), Maze);
-            Components.Remove(Camera);
-            Services.RemoveService(typeof(Caméra));
-            Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Components.Add(Camera);
-            Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
-            Services.AddService(typeof(Caméra), Camera);
+            Components.Remove(Loading);
+            Components.Add(FPSLabel);
             base.Initialize();
         }
 
+        Grass[,] GrassArray { get; set; }
+        Ceiling[,] CeilingArray { get; set; }
+        ArrièrePlanSpatial SpaceBackground { get; set; }
+        AfficheurFPS FPSLabel { get; set; }
+
         void Level1()
         {
-            Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
+            Components.Add(SpaceBackground);
             Components.Add(new Afficheur3D(this));
+            Services.AddService(typeof(List<Character>), Characters);
             Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), Camera);
             Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
             Characters.Add(Robot);
-            Grass grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
-            Components.Add(grass);
-            Services.AddService(typeof(Grass), grass);
+            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
+            Components.Add(Grass);
+            Services.AddService(typeof(Grass), Grass);
             Walls = new Walls(this, INTERVALLE_MAJ_STANDARD, "Rockwall", "../../../Data.txt");
             Components.Add(Walls);
             Services.AddService(typeof(Walls), Walls);
             Components.Add(Camera);
+            GrassArray = new Grass[11, 7];
+            CeilingArray = new Ceiling[11, 7];
             for (int i = 0; i < 11; ++i)
             {
                 for (int j = 0; j < 7; ++j)
                 {
-                    Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD));
+                    GrassArray[i, j] = new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
+                    Components.Add(GrassArray[i, j]);
                 }
             }
             for (int i = 0; i < 11; ++i)
             {
                 for (int j = 0; j < 7; ++j)
                 {
-                    Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD));
+                    CeilingArray[i, j] = new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
+                    Components.Add(CeilingArray[i, j]);
                 }
             }
-            Portal = new Portal(this, 1f, Vector3.Zero, new Vector3(-330, -20, 165), new Vector2(30, 20), "Garden", INTERVALLE_MAJ_STANDARD);
+            Portal = new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", INTERVALLE_MAJ_STANDARD);
             Components.Add(Portal);
             Services.AddService(typeof(Portal), Portal);
             Components.Add(Robot);
             Robot.AddLabel();
             Components.Remove(CutscenePlayer.Loading);
-            Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
+            Components.Add(FPSLabel);
         }
 
         void Level0()
@@ -166,6 +177,9 @@ namespace HyperV
             ModelManager = new RessourcesManager<Model>(this, "Models");
             Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
             FontManager = new RessourcesManager<SpriteFont>(this, "Fonts");
+            SpaceBackground = new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD);
+            FPSLabel = new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS);
+            Loading = new TexteCentré(this, "Loading . . .", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             InputManager = new InputManager(this);
             Components.Add(InputManager);
             Services.AddService(typeof(RessourcesManager<SpriteFont>), FontManager);
@@ -175,7 +189,6 @@ namespace HyperV
             VideoManager = new RessourcesManager<Video>(this, "Videos");
             Services.AddService(typeof(RessourcesManager<Video>), VideoManager);
             Characters = new List<Character>();
-            Services.AddService(typeof(List<Character>), Characters);
             LoadSave();
             //Level = 1;
             SelectWorld();
@@ -263,11 +276,38 @@ namespace HyperV
         void CheckForPortal()
         {
             float? collision = Portal.Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
-            if (collision > 0.25f || collision == null)
+            if (InputManager.EstEnfoncée(Keys.Space) && collision < 30 && collision != null)
             {
-                //++Level;
-                //SelectWorld();
-                Debug.WriteLine("TRUE");
+                Components.Add(Loading);
+                ++Level;
+                Components.Remove(Camera);
+                Services.RemoveService(typeof(Caméra));
+                Components.Remove(Grass);
+                Services.RemoveService(typeof(Grass));
+                Components.Remove(Walls);
+                Services.RemoveService(typeof(Walls));
+                for (int i = 0; i < 11; ++i)
+                {
+                    for (int j = 0; j < 7; ++j)
+                    {
+                        Components.Remove(GrassArray[i, j]);
+                    }
+                }
+                for (int i = 0; i < 11; ++i)
+                {
+                    for (int j = 0; j < 7; ++j)
+                    {
+                        Components.Remove(CeilingArray[i, j]);
+                    }
+                }
+                Components.Remove(Portal);
+                Services.RemoveService(typeof(Portal));
+                Characters.Remove(Robot);
+                Services.RemoveService(typeof(List<Character>));
+                Components.Remove(Robot);
+                Components.Remove(SpaceBackground);
+                Components.Remove(FPSLabel);
+                SelectWorld();
             }
         }
 
@@ -285,8 +325,8 @@ namespace HyperV
         {
             if (InputManager.EstEnfoncée(Keys.Escape))
             {
-                //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
                 ProcessStartInfo p = new ProcessStartInfo();
                 p.FileName = path;
                 p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);

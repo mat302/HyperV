@@ -51,6 +51,7 @@ namespace HyperV
         Vector2[,] PtsTexture { get; set; }
         string NomTextureTuile { get; set; }
         float Radius { get; set; }
+        Vector3 CentrePosition { get; set; }
 
         private bool EstEntre(float valeur, float borneA, float borneB)
         {
@@ -62,8 +63,8 @@ namespace HyperV
             NomTextureTuile = nomTextureTuile;
             IntervalleMAJ = intervalleMAJ;
             Delta = new Vector2(étendue.X, étendue.Y);
-            Origine = new Vector3(-Delta.X / 2, 0, -Delta.Y / 2); //pour centrer la primitive au point (0,0,0)
-            Radius = 1;
+            Origine = new Vector3(0, -Delta.Y / 2, -Delta.X / 2); //pour centrer la primitive au point (0,0,0)
+            Radius = 30;
         }
 
         public override void Initialize()
@@ -73,6 +74,7 @@ namespace HyperV
             CréerTableauPoints();
             CréerTableauSommets();
             Position = PositionInitiale;
+            CentrePosition = Position + Origine;
             base.Initialize();
         }
 
@@ -172,6 +174,6 @@ namespace HyperV
             return BoundingSphere.Intersects(ray);
         }
 
-        public BoundingSphere BoundingSphere { get { return new BoundingSphere(Position, Radius); } }
+        public BoundingSphere BoundingSphere { get { return new BoundingSphere(CentrePosition, Radius); } }
     }
 }
