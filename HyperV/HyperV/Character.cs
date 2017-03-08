@@ -36,6 +36,7 @@ namespace HyperV
         string ScriptRectangleName { get; set; }
         float Interval { get; set; }
         float Radius { get; set; }
+        CharacterScript CharacterScript { get; set; }
 
         public Character(Game game, string modelName, float startScale, Vector3 startRotation, Vector3 startPosition, string textFile, string faceImageName, string scriptRectangleName) : base(game, modelName, startScale, startRotation, startPosition)
         {
@@ -47,7 +48,14 @@ namespace HyperV
 
         public void AddLabel()
         {
-            Game.Components.Add(new CharacterScript(Game, this, FaceImageName, TextFile, ScriptRectangleName));
+            CharacterScript = new CharacterScript(Game, this, FaceImageName, TextFile, ScriptRectangleName);
+            Game.Components.Add(CharacterScript);
+        }
+
+        public void RemoveLabel()
+        {
+            Game.Components.Remove(CharacterScript.PressSpaceLabel);
+            Game.Components.Remove(CharacterScript);
         }
 
         public Vector3 GetPosition()

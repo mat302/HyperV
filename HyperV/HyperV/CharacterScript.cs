@@ -43,6 +43,7 @@ namespace HyperV
         Vector2 TextPosition { get; set; }
         Camera1 Camera { get; set; }
         Character Character { get; set; }
+        public PressSpaceLabel PressSpaceLabel { get; private set; }
 
         public CharacterScript(Game game, Character character, string faceImageName, string textFile, string scriptRectangleName) : base(game)
         {
@@ -64,6 +65,8 @@ namespace HyperV
             FaceImageRectangle = new Rectangle(10, (int)(Game.Window.ClientBounds.Height - height - 10) - 20, (int)((250f / 800f) * Game.Window.ClientBounds.Width) - 100, (int)height + 20);
             ScriptRectanglePosition = new Rectangle(FaceImageRectangle.X + FaceImageRectangle.Width + 10, FaceImageRectangle.Y + 10, (int)((510f / 800f) * Game.Window.ClientBounds.Width) + 140, (int)((143f / 600f) * Game.Window.ClientBounds.Height) + 25);
             TextPosition = new Vector2(ScriptRectanglePosition.X + 10, ScriptRectanglePosition.Y + 10);
+            PressSpaceLabel = new PressSpaceLabel(Game);
+            Game.Components.Add(PressSpaceLabel);
         } // 800x600 510x143
 
         protected override void LoadContent()
@@ -93,6 +96,7 @@ namespace HyperV
 
         float Timer { get; set; }
         float Interval { get; set; }
+        bool First { get; set; }
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -103,6 +107,7 @@ namespace HyperV
             if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space))
             {
                 Visible = !Visible;
+                PressSpaceLabel.Visible = !Visible;
             }
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
@@ -111,6 +116,16 @@ namespace HyperV
                 if (collision > 0.25f || collision == null)
                 {
                     Visible = false;
+                    PressSpaceLabel.Visible = false;
+                    First = true;
+                }
+                else
+                {
+                    if (First)
+                    {
+                        First = false;
+                        PressSpaceLabel.Visible = true;
+                    }
                 }
                 Timer = 0;
             }
