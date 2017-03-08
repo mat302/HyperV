@@ -116,14 +116,14 @@ namespace HyperV
 
         void Level1()
         {
-            Components.Add(new Skybox(this, "Texture_Skybox"));
             Components.Add(new Afficheur3D(this));
             Services.AddService(typeof(List<Character>), Characters);
             Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), Camera);
+            //Components.Add(new Skybox(this, "Texture_Skybox"));
+            Components.Add(new AmmunitionCatapulte(this, "Models_CastleWall", new Vector3(-40, -10, 45), 0.05f, 0));
             Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
             Characters.Add(Robot);
-            Components.Add(new CreateurModele(this, "ship", new Vector3(-42,-16,73), 0.01f, 0));
             Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
             Components.Add(Grass);
             Services.AddService(typeof(Grass), Grass);
@@ -137,7 +137,7 @@ namespace HyperV
             {
                 for (int j = 0; j < 7; ++j)
                 {
-                    GrassArray[i, j] = new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
+                    GrassArray[i, j] = new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "ceiling", INTERVALLE_MAJ_STANDARD);
                     Components.Add(GrassArray[i, j]);
                 }
             }
@@ -160,7 +160,6 @@ namespace HyperV
 
         void Level2()
         {
-            Components.Add(new Skybox(this, "Texture_Skybox"));
             Components.Add(new Afficheur3D(this));
             Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), Camera);
@@ -175,16 +174,15 @@ namespace HyperV
 
         protected override void Initialize()
         {
-            TextureManager = new RessourcesManager<Texture2D>(this, "Textures");
-            Services.AddService(typeof(RessourcesManager<Texture2D>), TextureManager);
-            ModelManager = new RessourcesManager<Model>(this, "Models");
-            Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
-            FontManager = new RessourcesManager<SpriteFont>(this, "Fonts");
+            Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
+            Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
+            Services.AddService(typeof(RessourcesManager<Texture2D>), new RessourcesManager<Texture2D>(this, "Textures"));
+            Services.AddService(typeof(RessourcesManager<Model>), new RessourcesManager<Model>(this, "Models"));
             FPSLabel = new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS);
             Loading = new TexteCentré(this, "Loading . . .", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             InputManager = new InputManager(this);
             Components.Add(InputManager);
-            Services.AddService(typeof(RessourcesManager<SpriteFont>), FontManager);
+            Services.AddService(typeof(RessourcesManager<SpriteFont>), new RessourcesManager<SpriteFont>(this, "Fonts"));
             Services.AddService(typeof(InputManager), InputManager);
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService(typeof(SpriteBatch), SpriteBatch);
@@ -192,7 +190,6 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<Video>), VideoManager);
             Characters = new List<Character>();
             LoadSave();
-            //Level = 1;
             SelectWorld();
 
             //const float ÉCHELLE_OBJET = 0.02f;

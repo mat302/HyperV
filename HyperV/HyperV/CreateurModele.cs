@@ -16,7 +16,7 @@ namespace HyperV
         string NomTexture2D { get; set; } //la texture qui va avec le modele
         Texture2D Texture2D { get; set; }
 
-        Vector3 Position { get; set; } //la position du modele dans le monde
+        protected Vector3 Position { get; set; } //la position du modele dans le monde
         float Rotation { get; set; }
         Caméra Camera { get; set; }
         float Homothésie { get; set; }
