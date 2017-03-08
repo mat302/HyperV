@@ -100,7 +100,7 @@ namespace HyperV
 
             SkyBox = ModelManager.Find("Cube");
             SkyBoxTexture = TextureManager.Find(SkyboxTexture);
-            SkyBoxEffect = EffectManager.Find("Skybox");
+            SkyBoxEffect = EffectManager.Find("Skybox.dds");
         }
 
         public override void Draw(GameTime gametime)

@@ -18,7 +18,7 @@ namespace HyperV
 
         Vector3 Position { get; set; } //la position du modele dans le monde
         float Rotation { get; set; }
-        CaméraJoueur Camera { get; set; }
+        Caméra Camera { get; set; }
         float Homothésie { get; set; }
 
         public CreateurModele(Game game) : base(game) { }
@@ -34,7 +34,7 @@ namespace HyperV
 
         protected override void LoadContent()
         {
-            Camera = Game.Services.GetService(typeof(CaméraJoueur)) as CaméraJoueur;
+            Camera = Game.Services.GetService(typeof(Caméra)) as Caméra;
             ModelManager = Game.Services.GetService(typeof(RessourcesManager<Model>)) as RessourcesManager<Model>;
             TextureManager = Game.Services.GetService(typeof(RessourcesManager<Texture2D>)) as RessourcesManager<Texture2D>;
 
@@ -51,7 +51,8 @@ namespace HyperV
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(Homothésie) * Matrix.CreateRotationY(Rotation) * Matrix.CreateTranslation(Position);
+                    effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(Homothésie) * Matrix.CreateRotationY(Rotation) 
+                                    * Matrix.CreateTranslation(Position);
                     effect.View = Camera.Vue;
                     effect.Projection = Camera.Projection;
                 }
