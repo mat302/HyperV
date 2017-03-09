@@ -113,6 +113,7 @@ namespace HyperV
             Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", INTERVALLE_MAJ_STANDARD, "Maze");
             Components.Add(Maze);
             Services.AddService(typeof(Maze), Maze);
+            Components.Add(new Boss(this, "Bison", 1, Vector3.Zero, new Vector3(20, 20, 20)));
             Components.Add(Camera);
             Components.Remove(Loading);
             Components.Add(FPSLabel);

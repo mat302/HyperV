@@ -1,0 +1,156 @@
+# Blender MTL File: 'project_squirrel_magician_kopie.blend'
+# Material Count: 14
+newmtl Accessories_Mat
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.366425 0.183242 0.000000
+Ks 0.773585 0.378024 0.040024
+Ni 1.000000
+d 1.000000
+illum 2
+
+
+newmtl Bags1_Mat_Texturemap.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.075472 0.024493 0.001006
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Colormap_mh_Squirrel.png
+map_Bump /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Squirrel_Normal.png
+
+
+newmtl Bags2_Mat_Texturemap.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Colormap_mh_Squirrel.png
+map_Bump /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Squirrel_Normal.png
+
+
+newmtl Belt_Mat_Texturemap.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.113208 0.113208 0.113208
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Colormap_mh_Squirrel.png
+map_Bump /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Squirrel_Normal.png
+
+
+newmtl Berries_Mat_Texturemap.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.188679 0.188679 0.188679
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Colormap_mh_Squirrel.png
+
+
+newmtl Chain_Mat
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.326178 0.000000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+
+
+newmtl Coat_Mat_Squirrel_bump.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.017805 0.028302 0.003701
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Squirrel_Normal.png
+map_Bump /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Squirrel_Normal.png
+
+
+newmtl Earring_Mat
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.507879 0.042362
+Ks 0.877358 0.877358 0.877358
+Ni 1.000000
+d 1.000000
+illum 2
+
+
+newmtl Eyes_Mat_Texturemap.png.001
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.103774 0.103774 0.103774
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Colormap_Squirrel.png
+
+
+newmtl Jewellry_Mat
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.598711 0.598711 0.598711
+Ks 0.952830 0.952830 0.952830
+Ni 1.000000
+d 1.000000
+illum 2
+
+
+newmtl Material
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/Sonstige_Images/Ground.jpg
+
+
+newmtl Rope_Mat.001_Texturemap.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Colormap_mh_Squirrel.png
+
+
+newmtl Saphire_Mat
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.079729 0.213403 0.033964
+Ks 0.867925 0.867925 0.867925
+Ni 1.000000
+d 1.000000
+illum 2
+
+
+newmtl Squirrel_Mat_Texturemap.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.037736 0.037736 0.037736
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Colormap_mh_Squirrel.png
+map_Bump /Users/Anika/Documents/Uni SRH/3_Trimester/Modellierung_Pra/blender.anika.eichhorn/UV Maps/Squirrel_Normal.png
+
+
