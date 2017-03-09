@@ -345,6 +345,7 @@ namespace HyperV
         {
             if (InputManager.EstEnfoncée(Keys.Escape))
             {
+                TakeAScreenshot();
                 string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
                 //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
                 ProcessStartInfo p = new ProcessStartInfo();
@@ -353,6 +354,23 @@ namespace HyperV
                 Process.Start(p);
                 Exit();
             }
+        }
+
+        Texture2D Screenshot { get; set; }
+
+        void TakeAScreenshot()
+        {
+            int w = GraphicsDevice.PresentationParameters.BackBufferWidth;
+            int h = GraphicsDevice.PresentationParameters.BackBufferHeight;
+            Draw(new GameTime());
+            int[] backBuffer = new int[w * h];
+            GraphicsDevice.GetBackBufferData(backBuffer);
+            Screenshot = new Texture2D(GraphicsDevice, w, h, false, GraphicsDevice.PresentationParameters.BackBufferFormat);
+            Screenshot.SetData(backBuffer); 
+            Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
+            Screenshot.SaveAsJpeg(stream, w, h);
+            stream.Dispose();
+            Screenshot.Dispose();
         }
 
         protected override void Draw(GameTime gameTime)
