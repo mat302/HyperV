@@ -127,8 +127,8 @@ namespace HyperV
 
         void Level1()
         {
-            Song = SongManager.Find("castle");
-            MediaPlayer.Play(Song);
+            //Song = SongManager.Find("castle");
+            //MediaPlayer.Play(Song);
             Components.Add(SpaceBackground);
             Components.Add(new Afficheur3D(this));
             Services.AddService(typeof(List<Character>), Characters);

@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boss.cs" />
+    <Compile Include="BossLabel.cs" />
     <Compile Include="Camera1.cs" />
     <Compile Include="Camera2.cs" />
     <Compile Include="CaméraJoueur.cs" />
