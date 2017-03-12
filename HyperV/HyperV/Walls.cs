@@ -210,7 +210,7 @@ namespace HyperV
             {
                 AP = Position - PlanePoints[i];
                 wallDistance = Vector2.Distance(FirstVertices[i], SecondVertices[i]);
-                result = Math.Abs(Vector3.Dot(AP, PlaneEquations[i])) / Magnitudes[i] < MAX_DISTANCE && (Position - new Vector3(FirstVertices[i].X, -16, FirstVertices[i].Y)).Length() < wallDistance && (Position - new Vector3(SecondVertices[i].X, -16, SecondVertices[i].Y)).Length() < wallDistance;
+                result = Math.Abs(Vector3.Dot(AP, PlaneEquations[i])) / Magnitudes[i] < MAX_DISTANCE && (Position - new Vector3(FirstVertices[i].X, Position.Y, FirstVertices[i].Y)).Length() < wallDistance && (Position - new Vector3(SecondVertices[i].X, Position.Y, SecondVertices[i].Y)).Length() < wallDistance;
             }
             //CreateNewDirection(result, i, Direction, ref newDirection);
 
