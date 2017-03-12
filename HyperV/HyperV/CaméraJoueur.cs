@@ -17,7 +17,8 @@ namespace HyperV
         const float DELTA_ROULIS = MathHelper.Pi / 180; // 1 degré à la fois
         const float RAYON_COLLISION = 1f;
         const int HAUTEUR_PERSONNAGE = 10;
-
+        const int FACTEUR_COURSE = 4;
+        const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
 
         public Vector3 Direction { get; private set; }//
         public Vector3 Latéral { get; private set; }//
@@ -31,6 +32,14 @@ namespace HyperV
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
         InputManager GestionInput { get; set; }
+        GamePadManager GestionGamePad { get; set; }
+
+
+        bool Sauter { get; set; }
+        bool Courrir { get; set; }
+        bool Ramasser { get; set; }
+
+        Ray Viseur { get; set; }
 
         public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ)
            : base(jeu)
@@ -45,13 +54,30 @@ namespace HyperV
             VitesseRotation = VITESSE_INITIALE_ROTATION;
             VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
             TempsÉcouléDepuisMAJ = 0;
-            base.Initialize();
-            GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            Gazon = Game.Services.GetService(typeof(Gazon)) as Gazon;
+
+            Courrir = false;
+            Sauter = false;
+            Ramasser = false;
+            Viseur = new Ray();
+
             NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
             Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
+
+            base.Initialize();
+            ChargerContenu();
+
+            InitialiserObjetsComplexesSaut();
+            Hauteur = HAUTEUR_PERSONNAGE;
         }
+
+        private void ChargerContenu()
+        {
+            GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
+            Gazon = Game.Services.GetService(typeof(Gazon)) as Gazon;
+        }
+ 
 
         protected override void CréerPointDeVue()
         {
@@ -83,18 +109,23 @@ namespace HyperV
             {
                 FonctionsSouris();
                 FonctionsClavier();
+                FonctionsGamePad();
 
                 GérerHauteur();
                 CréerPointDeVue();
 
+                AffecterCommandes();
 
                 GérerRamassage();
+                GérerCourse();
+                GérerSaut();
 
                 //Game.Window.Title = Position.ToString();
 
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
+            
         }
 
         //Souris
@@ -110,7 +141,6 @@ namespace HyperV
 
             NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
-
         }
 
         private void GérerRotationSouris()
@@ -121,18 +151,14 @@ namespace HyperV
 
         private void GérerLacetSouris()
         {
-            Matrix matriceLacet = Matrix.Identity;
-
-            matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET * VITESSE_INITIALE_ROTATION_SOURIS * -DéplacementSouris.X);
+            Matrix matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET * VITESSE_INITIALE_ROTATION_SOURIS * -DéplacementSouris.X);
 
             Direction = Vector3.Transform(Direction, matriceLacet);
         }
 
         private void GérerTangageSouris()
         {
-            Matrix matriceTangage = Matrix.Identity;
-
-            matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE * VITESSE_INITIALE_ROTATION_SOURIS * -DéplacementSouris.Y);
+            Matrix matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE * VITESSE_INITIALE_ROTATION_SOURIS * -DéplacementSouris.Y);
 
             Direction = Vector3.Transform(Direction, matriceTangage);
         }
@@ -142,14 +168,15 @@ namespace HyperV
         #region
         private void FonctionsClavier()
         {
-            GérerDéplacement();
+            GérerDéplacement((GérerTouche(Keys.W) - GérerTouche(Keys.S)),
+                             (GérerTouche(Keys.A) - GérerTouche(Keys.D)));
             GérerRotationClavier();
         }
 
-        private void GérerDéplacement()
+        private void GérerDéplacement(float direction, float latéral)
         {
-            float déplacementDirection = (GérerTouche(Keys.W) - GérerTouche(Keys.S)) * VitesseTranslation;
-            float déplacementLatéral = (GérerTouche(Keys.A) - GérerTouche(Keys.D)) * VitesseTranslation;
+            float déplacementDirection = direction * VitesseTranslation;
+            float déplacementLatéral = latéral * VitesseTranslation;
 
             Direction = Vector3.Normalize(Direction);
             Position += déplacementDirection * Direction;
@@ -197,9 +224,38 @@ namespace HyperV
         }
         #endregion
 
+        //GamePad
+        #region
+        private void FonctionsGamePad()
+        {
+            if (GestionGamePad.EstGamepadActivé)
+            {
+                GérerDéplacement(GestionGamePad.PositionThumbStickGauche.Y,
+                                 -GestionGamePad.PositionThumbStickGauche.X);
+
+                DéplacementSouris = new Vector2(35, -35) * GestionGamePad.PositionThumbStickDroit;
+                GérerRotationSouris();
+            }
+        }
+        #endregion
+
+        private void AffecterCommandes()
+        {
+            Courrir = GestionInput.EstEnfoncée(Keys.RightShift) || 
+                      GestionInput.EstEnfoncée(Keys.LeftShift) || 
+                      GestionGamePad.EstEnfoncé(Buttons.LeftStick);
+
+            Sauter = GestionInput.EstEnfoncée(Keys.Space) || 
+                     GestionGamePad.EstEnfoncé(Buttons.A);
+
+            Ramasser = GestionInput.EstNouveauClicGauche() ||
+                       GestionInput.EstAncienClicGauche() || 
+                       GestionGamePad.EstNouveauBouton(Buttons.RightStick);
+        }
+
         private void GérerHauteur()
         {
-            Position = Gazon.GetPositionAvecHauteur(Position, HAUTEUR_PERSONNAGE);
+            Position = Gazon.GetPositionAvecHauteur(Position, (int)Hauteur);
         }
 
         private int GérerTouche(Keys touche)
@@ -209,17 +265,87 @@ namespace HyperV
 
         private void GérerRamassage()
         {
-            Ray viseur = new Ray(Position, Direction);
+            Viseur = new Ray(Position, Direction);
 
             foreach (SphèreRamassable sphereRamassable in Game.Components.Where(composant => composant is SphèreRamassable))
             {
-                Game.Window.Title = sphereRamassable.EstEnCollision(viseur).ToString();
-                if (sphereRamassable.EstEnCollision(viseur) <= 45 && 
-                    GestionInput.EstNouveauClicGauche()|| GestionInput.EstAncienClicGauche())
+                Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
+                           sphereRamassable.EstEnCollision(Viseur) != null && 
+                           Ramasser;
+
+                //Game.Window.Title = sphereRamassable.EstEnCollision(Viseur).ToString();
+                if (Ramasser)
                 {
                     sphereRamassable.EstRamassée = true;
                 }
             }
         }
+
+        //Saut
+        #region
+        private void GérerSaut()
+        {
+            if (Sauter)
+            {
+                ContinuerSaut = true;
+            }
+
+            if (ContinuerSaut)
+            {
+                if (t > 60)
+                {
+                    InitialiserObjetsComplexesSaut();
+                    ContinuerSaut = false;
+                    t = 0;
+                }
+                Hauteur = CalculerBesier(t * (1f / 60f), PtsDeControle).Y ;
+                ++t;
+            }
+        }
+
+        bool ContinuerSaut { get; set; }
+        float t { get; set; }
+        float Hauteur { get; set; }
+
+        Vector3 PositionPtsDeControle { get; set; }
+        Vector3 PositionPtsDeControlePlusUn { get; set; }
+        Vector3[] PtsDeControle { get; set; }
+
+        void InitialiserObjetsComplexesSaut()
+        {
+            Position = new Vector3(Position.X, HAUTEUR_PERSONNAGE, Position.Z);
+            PositionPtsDeControle = new Vector3(Position.X, Position.Y, Position.Z);
+            PositionPtsDeControlePlusUn = Position + Vector3.Normalize(new Vector3(Direction.X,0,Direction.Z))*25;
+            //Position = new Vector3(PositionPtsDeControle.X, PositionPtsDeControle.Y, PositionPtsDeControle.Z);//******
+            //Direction = PositionPtsDeControlePlusUn - PositionPtsDeControle;//******
+            PtsDeControle = CalculerPointsControle();
+        }
+
+        private Vector3[] CalculerPointsControle()
+        {
+            Vector3[] pts = new Vector3[4];
+            pts[0] = PositionPtsDeControle;
+            pts[3] = PositionPtsDeControlePlusUn;
+            pts[1] = new Vector3(pts[0].X, pts[0].Y + 20, pts[0].Z);
+            pts[2] = new Vector3(pts[3].X, pts[3].Y + 20, pts[3].Z);
+            return pts;
+        }
+
+        private Vector3 CalculerBesier(float t, Vector3[] PtsDeControle)
+        {
+            float x = (1 - t);
+            return PtsDeControle[0] * (x*x*x) +
+                   3 * PtsDeControle[1] * t * (x*x) +
+                   3 * PtsDeControle[2] * t * t * x +
+                   PtsDeControle[3] * t * t * t;
+
+        }
+        #endregion
+
+        private void GérerCourse()
+        {
+            VitesseTranslation = Courrir ? FACTEUR_COURSE * VITESSE_INITIALE_TRANSLATION : VITESSE_INITIALE_TRANSLATION;
+        }
+
     }
 }

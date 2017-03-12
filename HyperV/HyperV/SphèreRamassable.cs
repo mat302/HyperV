@@ -49,6 +49,8 @@ namespace HyperV
 
             Origine = new Vector3(0,0,0);
 
+            Position = Origine;//*******************
+
             EstRamassée = false;
         }
 
@@ -69,9 +71,9 @@ namespace HyperV
 
             if (EstRamassée)
             {
-                Position = CaméraJeu.Position + 4 * Vector3.Normalize(CaméraJoueur.Direction) 
-                            + 2.5f *Vector3.Normalize(CaméraJoueur.Latéral) 
-                            - 1.5f* Vector3.Normalize(Vector3.Cross(CaméraJoueur.Latéral, CaméraJoueur.Direction));
+                Position = CaméraJeu.Position + 4 * Vector3.Normalize(CaméraJoueur.Direction)
+                            + 2.5f * Vector3.Normalize(CaméraJoueur.Latéral)
+                            - 1.5f * Vector3.Normalize(Vector3.Cross(CaméraJoueur.Latéral, CaméraJoueur.Direction));
                 InitialiserSommets();
 
                 Game.Window.Title = Position.ToString();

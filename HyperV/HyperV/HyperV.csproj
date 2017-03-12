@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caméra\CaméraSubjective.cs" />
+    <Compile Include="GamePadManager.cs" />
     <Compile Include="Gazon.cs" />
     <Compile Include="Skybox.cs" />
     <Compile Include="Jeu.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Atelier.cs" />
     <Compile Include="SphèreRamassable.cs" />
+    <Compile Include="SphèreTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
