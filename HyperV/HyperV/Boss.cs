@@ -83,14 +83,15 @@ namespace HyperV
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (Timer >= Interval)
+            //Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            //if (Timer >= Interval)
+            //{
+
+            //    Timer = 0;
+            //}
+            if (InputManager.EstNouvelleTouche(Keys.E))
             {
-                if (InputManager.EstNouvelleTouche(Keys.E))
-                {
-                    BossLabel.Attack(1);
-                }
-                Timer = 0;
+                BossLabel.Attack(1);
             }
             base.Update(gameTime);
         }

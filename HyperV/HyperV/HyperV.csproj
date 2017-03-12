@@ -87,6 +87,7 @@
     <Compile Include="CharacterScript.cs" />
     <Compile Include="CreateurModele.cs" />
     <Compile Include="CutscenePlayer.cs" />
+    <Compile Include="GamePadManager.cs" />
     <Compile Include="Gazon.cs" />
     <Compile Include="Grass.cs" />
     <Compile Include="Jeu.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="SkipCutsceneLabel.cs" />
     <Compile Include="Skybox.cs" />
     <Compile Include="SphereRamassable.cs" />
+    <Compile Include="SphèreRamassable.cs" />
     <Compile Include="Walls.cs" />
   </ItemGroup>
   <ItemGroup>

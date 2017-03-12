@@ -111,28 +111,34 @@ namespace HyperV
             {
                 Visible = !Visible;
                 PressSpaceLabel.Visible = !Visible;
+                ManageCollision();
             }
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
-                float? collision = Character.Collision(new Ray(Camera.Position, Camera.Direction));
-                if (collision > 0.25f || collision == null)
-                {
-                    Visible = false;
-                    PressSpaceLabel.Visible = false;
-                    First = true;
-                }
-                else
-                {
-                    if (First)
-                    {
-                        First = false;
-                        PressSpaceLabel.Visible = true;
-                    }
-                }
+                ManageCollision();
                 Timer = 0;
             }
             base.Update(gameTime);
+        }
+
+        void ManageCollision()
+        {
+            float? collision = Character.Collision(new Ray(Camera.Position, Camera.Direction));
+            if (collision > 0.25f || collision == null)
+            {
+                Visible = false;
+                PressSpaceLabel.Visible = false;
+                First = true;
+            }
+            else
+            {
+                if (First)
+                {
+                    First = false;
+                    PressSpaceLabel.Visible = true;
+                }
+            }
         }
 
         //void GérerRamassage()
