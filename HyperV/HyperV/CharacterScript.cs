@@ -43,14 +43,17 @@ namespace HyperV
         Vector2 TextPosition { get; set; }
         Camera1 Camera { get; set; }
         Character Character { get; set; }
+        string FontName { get; set; }
         public PressSpaceLabel PressSpaceLabel { get; private set; }
 
-        public CharacterScript(Game game, Character character, string faceImageName, string textFile, string scriptRectangleName) : base(game)
+        public CharacterScript(Game game, Character character, string faceImageName, string textFile, string scriptRectangleName, string fontName, float interval) : base(game)
         {
             Character = character;
             FaceImageName = faceImageName;
             TextFile = textFile;
             ScriptRectangleName = scriptRectangleName;
+            FontName = fontName;
+            Interval = interval;
         }
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace HyperV
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera1;
-            Font = FontManager.Find("Arial");
+            Font = FontManager.Find(FontName);
             ReadScript();
         }
 

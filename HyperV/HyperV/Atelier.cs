@@ -20,7 +20,7 @@ namespace HyperV
     public class Atelier : Microsoft.Xna.Framework.Game
     {
         const float INTERVALLE_CALCUL_FPS = 1f;
-        const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
+        const float FPS_60_INTERVAL = 1f / 60f;
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
 
         Caméra Camera { get; set; }
@@ -66,12 +66,12 @@ namespace HyperV
 
         void LoadSave()
         {
-            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
-            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
-            //reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
             char[] separator = new char[] { ' ' };
             string[] parts = line.Split(separator);
@@ -104,16 +104,20 @@ namespace HyperV
             }
         }
 
+        Boss Boss { get; set; }
+
         void Level2()
         {
             Components.Add(SpaceBackground);
             Components.Add(new Afficheur3D(this));
-            Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, FPS_60_INTERVAL);
             Services.AddService(typeof(Caméra), Camera);
-            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", INTERVALLE_MAJ_STANDARD, "Maze");
+            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", FPS_60_INTERVAL, "Maze");
             Components.Add(Maze);
             Services.AddService(typeof(Maze), Maze);
-            Components.Add(new Boss(this, "Bison", 1, Vector3.Zero, new Vector3(20, 20, 20)));
+            Boss = new Boss(this, "Great Bison", 100, "Bison", "Gauge", "Dock", "Arial", FPS_60_INTERVAL, FPS_60_INTERVAL, 1, Vector3.Zero, new Vector3(20, 20, 20));
+            Components.Add(Boss);
+            Boss.AddLabel();
             Components.Add(Camera);
             Components.Remove(Loading);
             Components.Add(FPSLabel);
@@ -132,14 +136,14 @@ namespace HyperV
             Components.Add(SpaceBackground);
             Components.Add(new Afficheur3D(this));
             Services.AddService(typeof(List<Character>), Characters);
-            Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
+            Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, FPS_60_INTERVAL);
             Services.AddService(typeof(Caméra), Camera);
-            Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
+            Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FPS_60_INTERVAL);
             Characters.Add(Robot);
-            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
+            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", FPS_60_INTERVAL);
             Components.Add(Grass);
             Services.AddService(typeof(Grass), Grass);
-            Walls = new Walls(this, INTERVALLE_MAJ_STANDARD, "Rockwall", "../../../Data.txt");
+            Walls = new Walls(this, FPS_60_INTERVAL, "Rockwall", "../../../Data.txt");
             Components.Add(Walls);
             Services.AddService(typeof(Walls), Walls);
             Components.Add(Camera);
@@ -149,7 +153,7 @@ namespace HyperV
             {
                 for (int j = 0; j < 7; ++j)
                 {
-                    GrassArray[i, j] = new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
+                    GrassArray[i, j] = new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "Ceiling", FPS_60_INTERVAL);
                     Components.Add(GrassArray[i, j]);
                 }
             }
@@ -157,11 +161,11 @@ namespace HyperV
             {
                 for (int j = 0; j < 7; ++j)
                 {
-                    CeilingArray[i, j] = new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
+                    CeilingArray[i, j] = new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", FPS_60_INTERVAL);
                     Components.Add(CeilingArray[i, j]);
                 }
             }
-            Portal = new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", INTERVALLE_MAJ_STANDARD);
+            Portal = new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", FPS_60_INTERVAL);
             Components.Add(Portal);
             Services.AddService(typeof(Portal), Portal);
             Components.Add(Robot);
@@ -174,7 +178,7 @@ namespace HyperV
 
         void Level0()
         {
-            CutscenePlayer = new CutscenePlayer(this, "test1", false);
+            CutscenePlayer = new CutscenePlayer(this, "test1", false, "Arial");
             Components.Add(CutscenePlayer);
         }
 
@@ -187,7 +191,7 @@ namespace HyperV
             ModelManager = new RessourcesManager<Model>(this, "Models");
             Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
             FontManager = new RessourcesManager<SpriteFont>(this, "Fonts");
-            SpaceBackground = new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD);
+            SpaceBackground = new ArrièrePlanSpatial(this, "CielÉtoilé", FPS_60_INTERVAL);
             FPSLabel = new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS);
             Loading = new TexteCentré(this, "Loading . . .", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             InputManager = new InputManager(this);
@@ -201,6 +205,7 @@ namespace HyperV
             Characters = new List<Character>();
             PressSpaceLabel = new PressSpaceLabel(this);
             LoadSave();
+            Level = 2;
             SelectWorld();
 
             //const float ÉCHELLE_OBJET = 0.02f;
@@ -266,7 +271,7 @@ namespace HyperV
         {
             ManageKeyboard();
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (Timer >= INTERVALLE_MAJ_STANDARD)
+            if (Timer >= FPS_60_INTERVAL)
             {
                 switch (Level)
                 {
@@ -347,8 +352,8 @@ namespace HyperV
             if (InputManager.EstEnfoncée(Keys.Escape))
             {
                 TakeAScreenshot();
-                string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
                 ProcessStartInfo p = new ProcessStartInfo();
                 p.FileName = path;
                 p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
@@ -367,8 +372,9 @@ namespace HyperV
             int[] backBuffer = new int[w * h];
             GraphicsDevice.GetBackBufferData(backBuffer);
             Screenshot = new Texture2D(GraphicsDevice, w, h, false, GraphicsDevice.PresentationParameters.BackBufferFormat);
-            Screenshot.SetData(backBuffer); 
-            Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
+            Screenshot.SetData(backBuffer);
+            //Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
+            Stream stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
             Screenshot.SaveAsJpeg(stream, w, h);
             stream.Dispose();
             Screenshot.Dispose();

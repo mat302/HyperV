@@ -36,12 +36,14 @@ namespace HyperV
         string VideoName { get; set; }
         InputManager InputManager { get; set; }
         SkipCutsceneLabel Label { get; set; }
+        string FontName { get; set; }
         public bool CutsceneFinished { get; private set; }
 
-        public CutscenePlayer(Game game, string videoName, bool cutsceneFinished) : base(game)
+        public CutscenePlayer(Game game, string videoName, bool cutsceneFinished, string fontName) : base(game)
         {
             VideoName = videoName;
             CutsceneFinished = cutsceneFinished;
+            FontName = fontName;
         }
 
         public void ResetCutsceneFinished()
@@ -70,7 +72,7 @@ namespace HyperV
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
             VideoManager = Game.Services.GetService(typeof(RessourcesManager<Video>)) as RessourcesManager<Video>;
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            Label = new SkipCutsceneLabel(Game);
+            Label = new SkipCutsceneLabel(Game, FontName);
             Game.Components.Add(Label);
             base.LoadContent();
         }

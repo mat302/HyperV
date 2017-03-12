@@ -37,18 +37,22 @@ namespace HyperV
         float Interval { get; set; }
         float Radius { get; set; }
         CharacterScript CharacterScript { get; set; }
+        string FontName { get; set; }
+        float LabelInterval { get; set; }
 
-        public Character(Game game, string modelName, float startScale, Vector3 startRotation, Vector3 startPosition, string textFile, string faceImageName, string scriptRectangleName) : base(game, modelName, startScale, startRotation, startPosition)
+        public Character(Game game, string modelName, float startScale, Vector3 startRotation, Vector3 startPosition, string textFile, string faceImageName, string scriptRectangleName, string fontName, float labelInterval) : base(game, modelName, startScale, startRotation, startPosition)
         {
             TextFile = textFile;
             FaceImageName = faceImageName;
             ScriptRectangleName = scriptRectangleName;
+            FontName = fontName;
+            LabelInterval = labelInterval;
             Radius = 6;
         }
 
         public void AddLabel()
         {
-            CharacterScript = new CharacterScript(Game, this, FaceImageName, TextFile, ScriptRectangleName);
+            CharacterScript = new CharacterScript(Game, this, FaceImageName, TextFile, ScriptRectangleName, FontName, LabelInterval);
             Game.Components.Add(CharacterScript);
         }
 
@@ -63,16 +67,16 @@ namespace HyperV
             return new Vector3(Position.X, Position.Y, Position.Z);
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
-        {
-            // TODO: Add your update code here
+        ///// <summary>
+        ///// Allows the game component to update itself.
+        ///// </summary>
+        ///// <param name="gameTime">Provides a snapshot of timing values.</param>
+        //public override void Update(GameTime gameTime)
+        //{
+        //    // TODO: Add your update code here
 
-            base.Update(gameTime);
-        }
+        //    base.Update(gameTime);
+        //}
 
         public float? Collision(Ray ray)
         {

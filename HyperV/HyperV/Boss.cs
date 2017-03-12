@@ -1,15 +1,15 @@
 /*
-Character.cs
-------------
+Boss.cs
+-------
 
 By Mathieu Godin
 
 Role : Used to create a non-playable
-       character rendered with a .fbx 
-       3d model that can talk to the
-       player
+       boss rendered with a .fbx 
+       3d model that can have a fight
+       with the player
 
-Created : 2/28/17
+Created : 3/12/17
 */
 using System;
 using System.Collections.Generic;
@@ -33,16 +33,48 @@ namespace HyperV
     {
         float Interval { get; set; }
         float Radius { get; set; }
-        CharacterScript CharacterScript { get; set; }
+        BossLabel BossLabel { get; set; }
+        string GaugeName { get; set; }
+        string DockName { get; set; }
+        string FontName { get; set; }
+        string Name { get; set; }
+        int MaxLife { get; set; }
+        float Timer { get; set; }
+        float LabelInterval { get; set; }
+        InputManager InputManager { get; set; }
 
-        public Boss(Game game, string modelName, float startScale, Vector3 startRotation, Vector3 startPosition) : base(game, modelName, startScale, startRotation, startPosition)
+        public Boss(Game game, string name, int maxLife, string modelName, string gaugeName, string dockName, string fontName, float interval, float labelInterval, float startScale, Vector3 startRotation, Vector3 startPosition) : base(game, modelName, startScale, startRotation, startPosition)
         {
             Radius = 6;
+            DockName = dockName;
+            GaugeName = gaugeName;
+            FontName = fontName;
+            Name = name;
+            Interval = interval;
+            LabelInterval = labelInterval;
+            MaxLife = maxLife;
+        }
+
+        protected override void LoadContent()
+        {
+            InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            base.LoadContent();
         }
 
         public Vector3 GetPosition()
         {
             return new Vector3(Position.X, Position.Y, Position.Z);
+        }
+
+        public void AddLabel()
+        {
+            BossLabel = new BossLabel(Game, this, Name, MaxLife, GaugeName, DockName, FontName, LabelInterval);
+            Game.Components.Add(BossLabel);
+        }
+
+        public void RemoveLabel()
+        {
+            Game.Components.Remove(BossLabel);
         }
 
         /// <summary>
@@ -51,7 +83,15 @@ namespace HyperV
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            
+            Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Timer >= Interval)
+            {
+                if (InputManager.EstNouvelleTouche(Keys.E))
+                {
+                    BossLabel.Attack(1);
+                }
+                Timer = 0;
+            }
             base.Update(gameTime);
         }
 

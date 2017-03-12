@@ -39,10 +39,14 @@ namespace HyperV
         SpriteBatch SpriteBatch { get; set; }
         float Timer { get; set; }
         RessourcesManager<SpriteFont> FontManager { get; set; }
+        string FontName { get; set; }
 
         const float ZOOM_INCREMENT = 0.0001F;
 
-        public SkipCutsceneLabel(Game game) : base(game) { }
+        public SkipCutsceneLabel(Game game, string fontName) : base(game)
+        {
+            FontName = fontName;
+        }
         
         public override void Initialize()
         {
@@ -56,7 +60,7 @@ namespace HyperV
         protected override void LoadContent()
         {
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
-            Font = FontManager.Find("Arial");
+            Font = FontManager.Find(FontName);
             
             Vector2 dimension = Font.MeasureString(Message);
             Origin = new Vector2(dimension.X / 2, dimension.Y / 2);
