@@ -99,7 +99,6 @@
     <Compile Include="Atelier.cs" />
     <Compile Include="SkipCutsceneLabel.cs" />
     <Compile Include="Skybox.cs" />
-    <Compile Include="SphereRamassable.cs" />
     <Compile Include="SphèreRamassable.cs" />
     <Compile Include="Walls.cs" />
   </ItemGroup>

@@ -69,15 +69,15 @@ namespace HyperV
         {
             base.EffectuerMiseÀJour();
 
-            //if (EstRamassée)
-            //{
-            //    Position = CaméraJeu.Position + 4 * Vector3.Normalize(CaméraJoueur.Direction)
-            //                + 2.5f * Vector3.Normalize(CaméraJoueur.Latéral)
-            //                - 1.5f * Vector3.Normalize(Vector3.Cross(CaméraJoueur.Latéral, CaméraJoueur.Direction));
-            //    InitialiserSommets();
+            if (EstRamassée)
+            {
+                Position = CaméraJeu.Position + 4 * Vector3.Normalize(CaméraJoueur.Direction)
+                            + 2.5f * Vector3.Normalize(CaméraJoueur.Latéral)
+                            - 1.5f * Vector3.Normalize(Vector3.Cross(CaméraJoueur.Latéral, CaméraJoueur.Direction));
+                InitialiserSommets();
 
-            //    Game.Window.Title = Position.ToString();
-            //}
+                Game.Window.Title = Position.ToString();
+            }
         }
 
         void AllouerTableaux()
