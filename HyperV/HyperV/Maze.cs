@@ -263,7 +263,7 @@ namespace HyperV
 
         public bool CheckForCollisions(Vector3 position)
         {
-            Game.Window.Title = position.ToString();
+            //Game.Window.Title = position.ToString();
             return Collisions[(int)((position.X + 5) / 10f), (int)((position.Z + 5) / 10f)]; //|| Collisions[(int)((position.X + 3) / 10f), (int)((position.Z + 5) / 10f)] || Collisions[(int)((position.X + 5) / 10f), (int)((position.Z + 3) / 10f)] || Collisions[(int)((position.X + 7) / 10f), (int)((position.Z + 5) / 10f)] || Collisions[(int)((position.X + 5) / 10f), (int)((position.Z + 7) / 10f)] || Collisions[(int)((position.X + 3) / 10f), (int)((position.Z + 3) / 10f)] || Collisions[(int)((position.X + 7) / 10f), (int)((position.Z + 7) / 10f)];
         }
     }

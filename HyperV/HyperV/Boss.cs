@@ -42,10 +42,11 @@ namespace HyperV
         float Timer { get; set; }
         float LabelInterval { get; set; }
         InputManager InputManager { get; set; }
+        Camera2 Camera { get; set; }
 
         public Boss(Game game, string name, int maxLife, string modelName, string gaugeName, string dockName, string fontName, float interval, float labelInterval, float startScale, Vector3 startRotation, Vector3 startPosition) : base(game, modelName, startScale, startRotation, startPosition)
         {
-            Radius = 6;
+            Radius = 80;
             DockName = dockName;
             GaugeName = gaugeName;
             FontName = fontName;
@@ -58,6 +59,7 @@ namespace HyperV
         protected override void LoadContent()
         {
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             base.LoadContent();
         }
 
@@ -91,7 +93,11 @@ namespace HyperV
             //}
             if (InputManager.EstNouvelleTouche(Keys.E))
             {
-                BossLabel.Attack(1);
+                float? collision = Collision(new Ray(Camera.Position, Camera.Direction));
+                if (collision < 20)
+                {
+                    BossLabel.Attack(1);
+                }
             }
             base.Update(gameTime);
         }
