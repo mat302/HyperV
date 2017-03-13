@@ -81,6 +81,8 @@
     <Compile Include="Camera1.cs" />
     <Compile Include="Camera2.cs" />
     <Compile Include="CaméraJoueur.cs" />
+    <Compile Include="Catapulte.cs" />
+    <Compile Include="CatapultLabel.cs" />
     <Compile Include="Ceiling.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="CharacterScript.cs" />

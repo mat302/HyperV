@@ -33,6 +33,7 @@ namespace HyperV
         InputManager GestionInput { get; set; }
         float Height { get; set; }
         List<Character> Characters { get; set; }
+        bool DésactiverDéplacement { get; set; }
 
         public Camera1(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ) : base(jeu)
         {
@@ -44,6 +45,7 @@ namespace HyperV
 
         public override void Initialize()
         {
+            DésactiverDéplacement = false;
             VitesseRotation = VITESSE_INITIALE_ROTATION;
             VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
             TempsÉcouléDepuisMAJ = 0;
@@ -86,15 +88,15 @@ namespace HyperV
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
+                if (!DésactiverDéplacement)
+                {
+                    FonctionsClavier();
+                }
                 FonctionsSouris();
-                FonctionsClavier();
 
                 GérerHauteur();
                 CréerPointDeVue();
-
-
-
-
+                
                 Game.Window.Title = Position.ToString();
                 Position = new Vector3(Position.X, Height, Position.Z);
                 TempsÉcouléDepuisMAJ = 0;
@@ -121,7 +123,10 @@ namespace HyperV
         private void GérerRotationSouris()
         {
             GérerLacetSouris();
-            GérerTangageSouris();
+            if (!DésactiverDéplacement)
+            {
+                GérerTangageSouris();
+            }
         }
 
         private void GérerLacetSouris()
@@ -160,11 +165,11 @@ namespace HyperV
             Latéral = Vector3.Cross(Direction, OrientationVerticale);
             Position += déplacementDirection * Direction;
             Position -= déplacementLatéral * Latéral;
-            if (Walls.CheckForCollisions(Position) || CheckForCharacterCollision())
-            {
-                Position -= déplacementDirection * Direction;
-                Position += déplacementLatéral * Latéral;
-            }
+            //if (Walls.CheckForCollisions(Position) || CheckForCharacterCollision())
+            //{
+            //    Position -= déplacementDirection * Direction;
+            //    Position += déplacementLatéral * Latéral;
+            //}
         }
 
         const float MAX_DISTANCE = 4.5f;
@@ -229,6 +234,11 @@ namespace HyperV
         private int GérerTouche(Keys touche)
         {
             return GestionInput.EstEnfoncée(touche) ? 1 : 0;
+        }
+
+        public void DésactiverCaméra()
+        {
+            DésactiverDéplacement = !DésactiverDéplacement;
         }
     }
 }

@@ -295,6 +295,85 @@
       <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\catapult.FBX">
+      <Name>catapult</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\catapult.fbm\holz-map.uvw.jpg">
+      <Name>holz-map.uvw</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\holz-map_COLOR.jpg">
+      <Name>holz-map_COLOR</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\holz-map_SPEC.jpg">
+      <Name>holz-map_SPEC</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\holz.map-2.jpg">
+      <Name>holz.map-2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\holz_COLOR.jpg">
+      <Name>holz_COLOR</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\holz_SPEC.jpg">
+      <Name>holz_SPEC</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\metal-map.jpg">
+      <Name>metal-map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\metal-map_SPEC.jpg">
+      <Name>metal-map_SPEC</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\rad-map-wood-metal-crazy_COLOR.jpg">
+      <Name>rad-map-wood-metal-crazy_COLOR</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\rad-map-wood-metal-ref-.jpg">
+      <Name>rad-map-wood-metal-ref-</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\rad-map-wood-metal.jpg">
+      <Name>rad-map-wood-metal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\wurfarm-map-bump.jpg">
+      <Name>wurfarm-map-bump</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\wurfarm-map-spec-.jpg">
+      <Name>wurfarm-map-spec-</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\catapult.fbm\wurfarm-map.jpg">
+      <Name>wurfarm-map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

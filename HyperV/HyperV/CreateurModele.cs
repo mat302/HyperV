@@ -17,7 +17,7 @@ namespace HyperV
         Texture2D Texture2D { get; set; }
 
         protected Vector3 Position { get; set; } //la position du modele dans le monde
-        float Rotation { get; set; }
+        protected float Rotation { get; set; }
         Caméra Camera { get; set; }
         float Homothésie { get; set; }
 
