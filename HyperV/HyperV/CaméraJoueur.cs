@@ -128,7 +128,7 @@ namespace HyperV
                 GérerCourse();
                 GérerSaut();
 
-                Game.Window.Title = Position.ToString();
+                Game.Window.Title = GestionGamePad.PositionsGâchettes.X.ToString();
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
@@ -263,7 +263,7 @@ namespace HyperV
         {
             Courrir = (GestionInput.EstEnfoncée(Keys.RightShift) && EstDéplacementEtAutresClavierActivé)||
                       (GestionInput.EstEnfoncée(Keys.LeftShift) && EstDéplacementEtAutresClavierActivé) ||
-                      GestionGamePad.EstEnfoncé(Buttons.LeftStick);
+                      GestionGamePad.PositionsGâchettes.X >= 0;
 
             Sauter = (GestionInput.EstEnfoncée(Keys.R/*Keys.Space*/) && EstDéplacementEtAutresClavierActivé) ||
                      GestionGamePad.EstEnfoncé(Buttons.A);
