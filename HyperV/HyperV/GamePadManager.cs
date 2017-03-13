@@ -29,9 +29,13 @@ namespace HyperV
             NouvelÉtatGamePad = GamePad.GetState(PlayerIndex.One);
         }
 
-        public bool EstGamepadActivé//update capacités?
+        public bool EstGamepadActivé
         {
-            get { return Capacités.IsConnected; }
+            get
+            {
+                Capacités = GamePad.GetCapabilities(PlayerIndex.One);
+                return Capacités.IsConnected;
+            }
         }
 
         public Vector2 PositionsGâchettes

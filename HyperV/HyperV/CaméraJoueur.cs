@@ -35,10 +35,13 @@ namespace HyperV
         InputManager GestionInput { get; set; }
         GamePadManager GestionGamePad { get; set; }
 
-
         bool Sauter { get; set; }
         bool Courrir { get; set; }
         bool Ramasser { get; set; }
+
+        public bool EstCaméraSourisActivée { get; set; }
+        bool EstDéplacementEtAutresClavierActivé { get; set; }
+        bool EstCaméraClavierActivée { get; set; }
 
         Ray Viseur { get; set; }
 
@@ -61,6 +64,10 @@ namespace HyperV
             Courrir = false;
             Sauter = false;
             Ramasser = false;
+
+            EstCaméraSourisActivée = true; 
+
+
             Viseur = new Ray();
 
             NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
@@ -122,7 +129,6 @@ namespace HyperV
                 GérerSaut();
 
                 Game.Window.Title = Position.ToString();
-                //Position = new Vector3(Position.X, Height, Position.Z);
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
@@ -133,15 +139,22 @@ namespace HyperV
         #region
         private void FonctionsSouris()
         {
-            AnciennePositionSouris = NouvellePositionSouris;
-            NouvellePositionSouris = GestionInput.GetPositionSouris();
-            DéplacementSouris = new Vector2(NouvellePositionSouris.X - AnciennePositionSouris.X,
-                                            NouvellePositionSouris.Y - AnciennePositionSouris.Y);
+            if (EstCaméraSourisActivée)
+            {
+                AnciennePositionSouris = NouvellePositionSouris;
+                NouvellePositionSouris = GestionInput.GetPositionSouris();
+                DéplacementSouris = new Vector2(NouvellePositionSouris.X - AnciennePositionSouris.X,
+                                                NouvellePositionSouris.Y - AnciennePositionSouris.Y);
 
-            GérerRotationSouris();
+                GérerRotationSouris();
 
-            NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
-            Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
+                NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
+                Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
+            }
+            else
+            {
+                Game.IsMouseVisible = true;
+            }
         }
 
         private void GérerRotationSouris()
@@ -169,9 +182,15 @@ namespace HyperV
         #region
         private void FonctionsClavier()
         {
-            GérerDéplacement((GérerTouche(Keys.W) - GérerTouche(Keys.S)),
+            if (EstDéplacementEtAutresClavierActivé)
+            {
+                GérerDéplacement((GérerTouche(Keys.W) - GérerTouche(Keys.S)),
                              (GérerTouche(Keys.A) - GérerTouche(Keys.D)));
-            GérerRotationClavier();
+            }
+            if (EstCaméraClavierActivée)
+            {
+                GérerRotationClavier();
+            }
         }
 
         protected virtual void GérerDéplacement(float direction, float latéral)
@@ -242,15 +261,16 @@ namespace HyperV
 
         private void AffecterCommandes()
         {
-            Courrir = GestionInput.EstEnfoncée(Keys.RightShift) ||
-                      GestionInput.EstEnfoncée(Keys.LeftShift) ||
+            Courrir = (GestionInput.EstEnfoncée(Keys.RightShift) && EstDéplacementEtAutresClavierActivé)||
+                      (GestionInput.EstEnfoncée(Keys.LeftShift) && EstDéplacementEtAutresClavierActivé) ||
                       GestionGamePad.EstEnfoncé(Buttons.LeftStick);
 
-            Sauter = GestionInput.EstEnfoncée(Keys.R/*Keys.Space*/) ||
+            Sauter = (GestionInput.EstEnfoncée(Keys.R/*Keys.Space*/) && EstDéplacementEtAutresClavierActivé) ||
                      GestionGamePad.EstEnfoncé(Buttons.A);
 
             Ramasser = GestionInput.EstNouveauClicGauche() ||
                        GestionInput.EstAncienClicGauche() ||
+                       GestionInput.EstEnfoncée(Keys.E) && EstDéplacementEtAutresClavierActivé ||
                        GestionGamePad.EstNouveauBouton(Buttons.RightStick);
         }
 
