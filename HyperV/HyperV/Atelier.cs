@@ -106,6 +106,7 @@ namespace HyperV
         }
 
         Boss Boss { get; set; }
+        Mill Mill { get; set; }
 
         void Level2()
         {
@@ -119,6 +120,9 @@ namespace HyperV
             Boss = new Boss(this, "Great Bison", 100, "Bison", "Gauge", "Dock", "Arial", FPS_60_INTERVAL, FPS_60_INTERVAL, 1, Vector3.Zero, new Vector3(300, 30, 200));
             Components.Add(Boss);
             Services.AddService(typeof(Boss), Boss);
+            Mill = new Mill(this, 1, Vector3.Zero, new Vector3(300, 10, 100), new Vector2(50, 50), new Vector2(5, 5), "Fence", FPS_60_INTERVAL);
+            Components.Add(Mill);
+            Services.AddService(typeof(Mill), Mill);
             Boss.AddLabel();
             Components.Add(Camera);
             Components.Remove(Loading);
