@@ -18,7 +18,7 @@ namespace HyperV
         const float DELTA_ROULIS = MathHelper.Pi / 180; // 1 degré à la fois
         const float RAYON_COLLISION = 1f;
         const int HAUTEUR_PERSONNAGE = 10;
-        const int FACTEUR_COURSE = 4;
+        const int FACTEUR_COURSE_MAXIMAL = 4;
         const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
 
         public Vector3 Direction { get; private set; }//
@@ -263,7 +263,7 @@ namespace HyperV
         {
             Courrir = (GestionInput.EstEnfoncée(Keys.RightShift) && EstDéplacementEtAutresClavierActivé)||
                       (GestionInput.EstEnfoncée(Keys.LeftShift) && EstDéplacementEtAutresClavierActivé) ||
-                      GestionGamePad.PositionsGâchettes.X >= 0;
+                      GestionGamePad.PositionsGâchettes.X > 0;
 
             Sauter = (GestionInput.EstEnfoncée(Keys.R/*Keys.Space*/) && EstDéplacementEtAutresClavierActivé) ||
                      GestionGamePad.EstEnfoncé(Buttons.A);
@@ -366,7 +366,7 @@ namespace HyperV
 
         private void GérerCourse()
         {
-            VitesseTranslation = Courrir ? FACTEUR_COURSE * VITESSE_INITIALE_TRANSLATION : VITESSE_INITIALE_TRANSLATION;
+            VitesseTranslation = Courrir ? (GestionGamePad.PositionsGâchettes.X > 0? GestionGamePad.PositionsGâchettes.X : 1) *FACTEUR_COURSE_MAXIMAL * VITESSE_INITIALE_TRANSLATION : VITESSE_INITIALE_TRANSLATION;
         }
     }
 }
