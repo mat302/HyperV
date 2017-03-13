@@ -67,11 +67,14 @@ namespace HyperV
 
         void LoadSave()
         {
-            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            StreamReader reader = new StreamReader("C:/Users/Raphaël Brûlé/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
+
             //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            reader = new StreamReader("C:/Users/Raphaël Brûlé/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             //reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
             char[] separator = new char[] { ' ' };
@@ -116,7 +119,7 @@ namespace HyperV
             Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", FPS_60_INTERVAL, "Maze");
             Components.Add(Maze);
             Services.AddService(typeof(Maze), Maze);
-            Boss = new Boss(this, "Great Bison", 100, "Bison", "Gauge", "Dock", "Arial", FPS_60_INTERVAL, FPS_60_INTERVAL, 1, Vector3.Zero, new Vector3(20, 20, 20));
+            Boss = new Boss(this, "Great Bison", 100, "Robot", "Gauge", "Dock", "Arial", FPS_60_INTERVAL, FPS_60_INTERVAL, 1, Vector3.Zero, new Vector3(20, 20, 20));
             Components.Add(Boss);
             Boss.AddLabel();
             Components.Add(Camera);
@@ -355,9 +358,10 @@ namespace HyperV
             if (InputManager.EstEnfoncée(Keys.Escape))
             {
                 TakeAScreenshot();
-                string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                ProcessStartInfo p = new ProcessStartInfo();
+                //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                string path = "C:/Users/Raphaël Brûlé/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                   //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                   ProcessStartInfo p = new ProcessStartInfo();
                 p.FileName = path;
                 p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
                 Process.Start(p);
@@ -376,7 +380,8 @@ namespace HyperV
             GraphicsDevice.GetBackBufferData(backBuffer);
             Screenshot = new Texture2D(GraphicsDevice, w, h, false, GraphicsDevice.PresentationParameters.BackBufferFormat);
             Screenshot.SetData(backBuffer);
-            Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
+            //Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
+            Stream stream = File.OpenWrite("C:/Users/Raphaël Brûlé/Source/Repos/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
             //Stream stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
             Screenshot.SaveAsJpeg(stream, w, h);
             stream.Dispose();

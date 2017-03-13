@@ -289,13 +289,6 @@
     <Folder Include="Sounds\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Bison.fbx">
-      <Name>Bison</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\Dock.png">
       <Name>Dock</Name>
       <Importer>TextureImporter</Importer>
