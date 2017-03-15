@@ -61,7 +61,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BasicComponents">
-      <HintPath>..\..\..\..\..\Documents\Programming\C# projects\Design Project SIM\BasicComponents\BasicComponents\bin\x86\Release\BasicComponents.dll</HintPath>
+      <HintPath>..\..\..\BasicComponents\BasicComponents\bin\x86\Release\BasicComponents.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
