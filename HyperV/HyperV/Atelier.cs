@@ -120,7 +120,7 @@ namespace HyperV
             Boss = new Boss(this, "Great Bison", 100, "Bison", "Gauge", "Dock", "Arial", FPS_60_INTERVAL, FPS_60_INTERVAL, 1, Vector3.Zero, new Vector3(300, 30, 200));
             Components.Add(Boss);
             Services.AddService(typeof(Boss), Boss);
-            Mill = new Mill(this, 1, Vector3.Zero, new Vector3(300, 10, 100), new Vector2(50, 50), new Vector2(5, 5), "Fence", FPS_60_INTERVAL);
+            Mill = new Mill(this, 1, Vector3.Zero, new Vector3(300, 10, 100), new Vector2(50, 50), "Fence", FPS_60_INTERVAL);
             Components.Add(Mill);
             Services.AddService(typeof(Mill), Mill);
             Boss.AddLabel();
@@ -144,7 +144,7 @@ namespace HyperV
             Services.AddService(typeof(List<Character>), Characters);
             Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, FPS_60_INTERVAL);
             Services.AddService(typeof(Caméra), Camera);
-            Robot = new Character(this, "gearwheel", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FPS_60_INTERVAL);
+            Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FPS_60_INTERVAL);
             Characters.Add(Robot);
             Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", FPS_60_INTERVAL);
             Components.Add(Grass);
@@ -214,7 +214,7 @@ namespace HyperV
             Characters = new List<Character>();
             PressSpaceLabel = new PressSpaceLabel(this);
             LoadSave();
-            //Level = 2;
+            Level = 2;
             SelectWorld();
 
             //const float ÉCHELLE_OBJET = 0.02f;

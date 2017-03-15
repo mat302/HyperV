@@ -16,22 +16,11 @@ namespace HyperV
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    class Mill : TuileTexturée
+    public class GearWheel : ObjetDeBase
     {
-        GearWheel[] GearWheels { get; set; }
-        float Timer { get; set; }
-        float Interval { get; set; }
-
-        public Mill(Game game, float scale, Vector3 initialRotation, Vector3 initialPosition, Vector2 range, string textureName, float interval) : base(game, scale, initialRotation, initialPosition, range, textureName, interval)
+        public GearWheel(Game game, string modelName, float scale, Vector3 rotation, Vector3 position) : base(game, modelName, scale, rotation, position)
         {
             // TODO: Construct any child components here
-            Interval = interval;
-            Timer = 0;
-            GearWheels = new GearWheel[2];
-            GearWheels[0] = new GearWheel(Game, "GearWheel", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(300, 10, 102));
-            Game.Components.Add(GearWheels[0]);
-            GearWheels[1] = new GearWheel(Game, "GearWheel", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(305, 15, 102));
-            Game.Components.Add(GearWheels[1]);
         }
 
         /// <summary>
@@ -41,7 +30,22 @@ namespace HyperV
         public override void Initialize()
         {
             // TODO: Add your initialization code here
+
             base.Initialize();
+        }
+
+        public void UpdateRotation(float rotation)
+        {
+            Rotation += new Vector3(rotation, 0, 0);
+            UpdateWorld();
+        }
+
+        void UpdateWorld()
+        {
+            Monde = Matrix.Identity;
+            Monde *= Matrix.CreateScale(Échelle);
+            Monde *= Matrix.CreateFromYawPitchRoll(Rotation.Y, Rotation.X, Rotation.Z);
+            Monde *= Matrix.CreateTranslation(Position);
         }
 
         /// <summary>
@@ -51,13 +55,7 @@ namespace HyperV
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (Timer >= Interval)
-            {
-                GearWheels[0].UpdateRotation(0.1f);
-                GearWheels[1].UpdateRotation(-0.1f);
-                Timer = 0;
-            }
+
             base.Update(gameTime);
         }
     }

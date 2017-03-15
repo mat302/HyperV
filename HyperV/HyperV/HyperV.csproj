@@ -88,6 +88,7 @@
     <Compile Include="CutscenePlayer.cs" />
     <Compile Include="GamePadManager.cs" />
     <Compile Include="Gazon.cs" />
+    <Compile Include="GearWheel.cs" />
     <Compile Include="Grass.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Maze.cs" />
