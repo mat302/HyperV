@@ -144,7 +144,7 @@ namespace HyperV
             Services.AddService(typeof(List<Character>), Characters);
             Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, FPS_60_INTERVAL);
             Services.AddService(typeof(Caméra), Camera);
-            Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FPS_60_INTERVAL);
+            Robot = new Character(this, "gearwheel", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FPS_60_INTERVAL);
             Characters.Add(Robot);
             Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", FPS_60_INTERVAL);
             Components.Add(Grass);
