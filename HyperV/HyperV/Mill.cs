@@ -28,9 +28,9 @@ namespace HyperV
             Interval = interval;
             Timer = 0;
             GearWheels = new GearWheel[2];
-            GearWheels[0] = new GearWheel(Game, "GearWheel", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(300, 10, 102));
+            GearWheels[0] = new GearWheel(Game, "gearwheel1", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(300, 10, 102));
             Game.Components.Add(GearWheels[0]);
-            GearWheels[1] = new GearWheel(Game, "GearWheel", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(305, 15, 102));
+            GearWheels[1] = new GearWheel(Game, "gearwheel1", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(305, 15, 102));
             Game.Components.Add(GearWheels[1]);
         }
 

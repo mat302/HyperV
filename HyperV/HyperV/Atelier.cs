@@ -278,7 +278,7 @@ namespace HyperV
 
         protected override void Update(GameTime gameTime)
         {
-            ManageKeyboard();
+            ManageKeyboard(gameTime);
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= FPS_60_INTERVAL)
             {
@@ -291,6 +291,8 @@ namespace HyperV
                         CheckForPortal();
                         break;
                 }
+                (Camera as CaméraJoueur).EstCaméraSourisActivée = IsActive;
+                IsMouseVisible = !IsActive;
                 Timer = 0;
             }
             //Window.Title = CaméraJeu.Position.ToString();
@@ -356,7 +358,7 @@ namespace HyperV
             }
         }
 
-        void ManageKeyboard()
+        void ManageKeyboard(GameTime gameTime)
         {
             if (InputManager.EstEnfoncée(Keys.Escape))
             {
@@ -367,7 +369,8 @@ namespace HyperV
                 p.FileName = path;
                 p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
                 Process.Start(p);
-                Exit();
+                //(Camera as CaméraJoueur).EstCaméraSourisActivée = false;
+                //Exit();
             }
         }
 
@@ -382,10 +385,11 @@ namespace HyperV
             GraphicsDevice.GetBackBufferData(backBuffer);
             Screenshot = new Texture2D(GraphicsDevice, w, h, false, GraphicsDevice.PresentationParameters.BackBufferFormat);
             Screenshot.SetData(backBuffer);
-            Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
-            //Stream stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/screenshot1.png");
-            Screenshot.SaveAsJpeg(stream, w, h);
+            Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot" + SaveNumber + ".png");
+            //Stream stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/screenshot" + SaveNumber + ".png");
+            Screenshot.SaveAsPng(stream, w, h);
             stream.Dispose();
+            stream.Close();
             Screenshot.Dispose();
         }
 
