@@ -127,9 +127,7 @@ namespace HyperV
         {
             string line;
             string[] vectors = new string[2];
-            int startInd;
-            float aXPosition, aYPosition;
-            Vector2 u2;
+            Vector2 u2, vector;
             Vector3 u, v;
             StreamReader reader = new StreamReader(DataFileName);
             char[] separator = new char[1] { ';' };
@@ -143,22 +141,13 @@ namespace HyperV
             {
                 line = reader.ReadLine();
                 vectors = line.Split(separator);
-
-                startInd = vectors[0].IndexOf("X:") + 2;
-                aXPosition = float.Parse(vectors[0].Substring(startInd, vectors[0].IndexOf(" Y") - startInd));
-                startInd = vectors[0].IndexOf("Y:") + 2;
-                aYPosition = float.Parse(vectors[0].Substring(startInd, vectors[0].IndexOf("}") - startInd));
-                FirstVertices.Add(new Vector2(aXPosition, aYPosition));
-
-                startInd = vectors[1].IndexOf("X:") + 2;
-                aXPosition = float.Parse(vectors[1].Substring(startInd, vectors[1].IndexOf(" Y") - startInd));
-                startInd = vectors[1].IndexOf("Y:") + 2;
-                aYPosition = float.Parse(vectors[1].Substring(startInd, vectors[1].IndexOf("}") - startInd));
-                SecondVertices.Add(new Vector2(aXPosition, aYPosition));
+                FirstVertices.Add(Vector2Parse(vectors[0]));
+                vector = Vector2Parse(vectors[1]);
+                SecondVertices.Add(vector);
 
                 Heights.Add(float.Parse(vectors[2]));
 
-                PlanePoints.Add(new Vector3(aXPosition, 0, aYPosition));
+                PlanePoints.Add(new Vector3(vector.X, 0, vector.Y));
                 u2 = SecondVertices.Last() - FirstVertices.Last();
                 u = new Vector3(u2.X, 0, u2.Y);
                 v = new Vector3(0, Heights.Last(), 0);
@@ -168,6 +157,15 @@ namespace HyperV
             reader.Close();
             NumTriangles = FirstVertices.Count * NUM_TRIANGLES_PER_TILE;
             NumVertices = NumTriangles * NUM_VERTICES_PER_TRIANGLE;
+        }
+
+        Vector2 Vector2Parse(string parse)
+        {
+            int startInd = parse.IndexOf("X:") + 2;
+            float aXPosition = float.Parse(parse.Substring(startInd, parse.IndexOf(" Y") - startInd));
+            startInd = parse.IndexOf("Y:") + 2;
+            float aYPosition = float.Parse(parse.Substring(startInd, parse.IndexOf("}") - startInd));
+            return new Vector2(aXPosition, aYPosition);
         }
 
         void InitializeVertices()

@@ -46,8 +46,8 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1000;
 
         }
 
@@ -62,22 +62,31 @@ namespace HyperV
         int SaveNumber { get; set; }
         int Level { get; set; }
         Vector3 Position { get; set; }
+        Vector3 Direction { get; set; }
         Portal Portal { get; set; }
         TexteCentré Loading { get; set; }
+        TimeSpan TimePlayed { get; set; }
 
         void LoadSave()
         {
-            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
-            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
-            //reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
-            char[] separator = new char[] { ' ' };
-            string[] parts = line.Split(separator);
+            string[] parts = line.Split(new char[] { ' ' });
             Level = int.Parse(parts[1]);
             line = reader.ReadLine();
+            parts = line.Split(new string[] { "n: " }, StringSplitOptions.None);
+            Position = Vector3Parse(parts[1]);
+            line = reader.ReadLine();
+            parts = line.Split(new string[] { "n: " }, StringSplitOptions.None);
+            Direction = Vector3Parse(parts[1]);
+            line = reader.ReadLine();
+            parts = line.Split(new string[] { "d: " }, StringSplitOptions.None);
+            TimePlayed = TimeSpan.Parse(parts[1]);
             reader.Close();
             //parts = line.Split(separator);
             //int startInd = parts[1].IndexOf("X:") + 2;
@@ -87,6 +96,17 @@ namespace HyperV
             //startInd = parts[1].IndexOf("Z:") + 2;
             //float aZPosition = float.Parse(parts[1].Substring(startInd, parts[1].IndexOf("}") - startInd));
             //Position = new Vector3(aXPosition, aYPosition, aZPosition);
+        }
+
+        Vector3 Vector3Parse(string parse)
+        {
+            int startInd = parse.IndexOf("X:") + 2;
+            float aXPosition = float.Parse(parse.Substring(startInd, parse.IndexOf(" Y") - startInd));
+            startInd = parse.IndexOf("Y:") + 2;
+            float aYPosition = float.Parse(parse.Substring(startInd, parse.IndexOf(" Z") - startInd));
+            startInd = parse.IndexOf("Z:") + 2;
+            float aZPosition = float.Parse(parse.Substring(startInd, parse.IndexOf("}") - startInd));
+            return new Vector3(aXPosition, aYPosition, aZPosition);
         }
 
         void SelectWorld()
@@ -103,6 +123,26 @@ namespace HyperV
                     Level2();
                     break;
             }
+            Save();
+        }
+
+        void Save()
+        {
+            StreamWriter writer = new StreamWriter("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber + ".txt");
+
+            writer.WriteLine("Level: " + Level.ToString());
+            if (Camera != null)
+            {
+                writer.WriteLine("Position: " + Camera.Position.ToString());
+                writer.WriteLine("Direction: " + (Camera as CaméraJoueur).Direction.ToString());
+            }
+            else
+            {
+                writer.WriteLine("Position: {X:5 Y:5 Z:5}");
+                writer.WriteLine("Direction: {X:5 Y:5 Z:5}");
+            }
+            writer.WriteLine("Time Played: " + TimePlayed.ToString());
+            writer.Close();
         }
 
         Boss Boss { get; set; }
@@ -214,7 +254,7 @@ namespace HyperV
             Characters = new List<Character>();
             PressSpaceLabel = new PressSpaceLabel(this);
             LoadSave();
-            Level = 2;
+            //Level = 2;
             SelectWorld();
 
             //const float ÉCHELLE_OBJET = 0.02f;
@@ -280,6 +320,8 @@ namespace HyperV
         {
             ManageKeyboard(gameTime);
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            TimePlayed = TimePlayed.Add(gameTime.ElapsedGameTime);
+            Window.Title = TimePlayed.ToString();
             if (Timer >= FPS_60_INTERVAL)
             {
                 switch (Level)
@@ -291,7 +333,10 @@ namespace HyperV
                         CheckForPortal();
                         break;
                 }
-                (Camera as CaméraJoueur).EstCaméraSourisActivée = IsActive;
+                if (Camera != null)
+                {
+                    (Camera as CaméraJoueur).EstCaméraSourisActivée = IsActive;
+                }
                 IsMouseVisible = !IsActive;
                 Timer = 0;
             }
@@ -360,15 +405,18 @@ namespace HyperV
 
         void ManageKeyboard(GameTime gameTime)
         {
-            if (InputManager.EstEnfoncée(Keys.Escape))
+            if (InputManager.EstNouvelleTouche(Keys.Escape))
             {
+                Save();
                 TakeAScreenshot();
-                string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+
+                string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
                 ProcessStartInfo p = new ProcessStartInfo();
                 p.FileName = path;
                 p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
                 Process.Start(p);
+
                 //(Camera as CaméraJoueur).EstCaméraSourisActivée = false;
                 //Exit();
             }
@@ -385,8 +433,8 @@ namespace HyperV
             GraphicsDevice.GetBackBufferData(backBuffer);
             Screenshot = new Texture2D(GraphicsDevice, w, h, false, GraphicsDevice.PresentationParameters.BackBufferFormat);
             Screenshot.SetData(backBuffer);
-            Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot" + SaveNumber + ".png");
-            //Stream stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/screenshot" + SaveNumber + ".png");
+            //Stream stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/screenshot" + SaveNumber + ".png");
+            Stream stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/screenshot" + SaveNumber + ".png");
             Screenshot.SaveAsPng(stream, w, h);
             stream.Dispose();
             stream.Close();
