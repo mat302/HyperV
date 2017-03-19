@@ -647,8 +647,8 @@ namespace HyperV
         List<Character> Characters { get; set; }
         Boss Boss { get; set; }
 
-        public Camera2(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ)
-            : base(jeu, positionCaméra, cible, orientation, intervalleMAJ)
+        public Camera2(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance)
+            : base(jeu, positionCaméra, cible, orientation, intervalleMAJ, renderDistance)
         { }
 
         protected override void ChargerContenu()

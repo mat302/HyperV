@@ -670,8 +670,8 @@ namespace HyperV
         Walls Walls { get; set; }
         List<Character> Characters { get; set; }
 
-        public Camera1(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ)
-            : base(jeu, positionCaméra, cible, orientation, intervalleMAJ)
+        public Camera1(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance)
+            : base(jeu, positionCaméra, cible, orientation, intervalleMAJ, renderDistance)
         { }
 
         protected override void ChargerContenu()

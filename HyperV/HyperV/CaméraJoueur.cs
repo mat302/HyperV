@@ -742,12 +742,30 @@ namespace HyperV
 
         float Height { get; set; }
 
-        public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ) : base(jeu)
+        public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance) : base(jeu)
         {
+            DistancePlanÉloigné = renderDistance;
             IntervalleMAJ = intervalleMAJ;
-            CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, DISTANCE_PLAN_ÉLOIGNÉ);
+            CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, /*DISTANCE_PLAN_ÉLOIGNÉ*/DistancePlanÉloigné);
             CréerPointDeVue(positionCaméra, cible, orientation);
             Height = positionCaméra.Y;
+        }
+
+        public float GetRenderDistance()
+        {
+            return DistancePlanÉloigné;
+        }
+
+        public void SetRenderDistance(float renderDistance)
+        {
+            DistancePlanÉloigné = renderDistance;
+            CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, /*DISTANCE_PLAN_ÉLOIGNÉ*/DistancePlanÉloigné);
+            //CréerPointDeVue(Position, Cible, Orientation);
+        }
+
+        public void InitializeDirection(Vector3 direction)
+        {
+            Direction = direction;
         }
 
         public override void Initialize()
