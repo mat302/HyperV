@@ -90,6 +90,7 @@
     <Compile Include="Gazon.cs" />
     <Compile Include="GearWheel.cs" />
     <Compile Include="Grass.cs" />
+    <Compile Include="HeightMap.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="Mill.cs" />

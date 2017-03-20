@@ -24,9 +24,6 @@ using System.IO;
 
 namespace HyperV
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class Maze : PrimitiveDeBase
     {
         const float MAX_COLOR = 255f;
@@ -263,8 +260,17 @@ namespace HyperV
 
         public bool CheckForCollisions(Vector3 position)
         {
-            //Game.Window.Title = position.ToString();
-            return Collisions[(int)((position.X + 5) / 10f), (int)((position.Z + 5) / 10f)]; //|| Collisions[(int)((position.X + 3) / 10f), (int)((position.Z + 5) / 10f)] || Collisions[(int)((position.X + 5) / 10f), (int)((position.Z + 3) / 10f)] || Collisions[(int)((position.X + 7) / 10f), (int)((position.Z + 5) / 10f)] || Collisions[(int)((position.X + 5) / 10f), (int)((position.Z + 7) / 10f)] || Collisions[(int)((position.X + 3) / 10f), (int)((position.Z + 3) / 10f)] || Collisions[(int)((position.X + 7) / 10f), (int)((position.Z + 7) / 10f)];
+            int i = (int)((position.X + 5) / 10f), j = (int)((position.Z + 5) / 10f);
+            bool collision;
+            if (i >= 0 && j >= 0 && i < Collisions.GetLength(0) && j < Collisions.GetLength(1))
+            {
+                collision = Collisions[i, j]; //|| Collisions[(int)((position.X + 3) / 10f), (int)((position.Z + 5) / 10f)] || Collisions[(int)((position.X + 5) / 10f), (int)((position.Z + 3) / 10f)] || Collisions[(int)((position.X + 7) / 10f), (int)((position.Z + 5) / 10f)] || Collisions[(int)((position.X + 5) / 10f), (int)((position.Z + 7) / 10f)] || Collisions[(int)((position.X + 3) / 10f), (int)((position.Z + 3) / 10f)] || Collisions[(int)((position.X + 7) / 10f), (int)((position.Z + 7) / 10f)];
+            }
+            else
+            {
+                collision = false;
+            }
+            return collision;
         }
     }
 }

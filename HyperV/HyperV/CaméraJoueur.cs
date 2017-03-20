@@ -740,7 +740,7 @@ namespace HyperV
 
         Ray Viseur { get; set; }
 
-        float Height { get; set; }
+        protected float Height { get; set; }
 
         public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance) : base(jeu)
         {
@@ -780,7 +780,7 @@ namespace HyperV
             Courrir = false;
             Sauter = false;
             Ramasser = false;
-
+            ContinuerSaut= false;
             EstCaméraSourisActivée = true;
 
 
@@ -851,6 +851,7 @@ namespace HyperV
             base.Update(gameTime);
 
         }
+
 
         //Souris
         #region
@@ -991,9 +992,13 @@ namespace HyperV
                        GestionGamePad.EstNouveauBouton(Buttons.RightStick);
         }
 
-        private void GérerHauteur()
+        protected virtual void GérerHauteur()
         {
             //Position = Gazon.GetPositionAvecHauteur(Position, (int)Hauteur);
+            if (!ContinuerSaut)
+            {
+                Hauteur = Height;
+            }
             Position = new Vector3(Position.X, Hauteur, Position.Z);
         }
 
@@ -1026,6 +1031,7 @@ namespace HyperV
         {
             if (Sauter)
             {
+                InitialiserObjetsComplexesSaut();
                 ContinuerSaut = true;
             }
 
@@ -1044,7 +1050,7 @@ namespace HyperV
 
         bool ContinuerSaut { get; set; }
         float t { get; set; }
-        float Hauteur { get; set; }
+        protected float Hauteur { get; set; }
 
         Vector3 PositionPtsDeControle { get; set; }
         Vector3 PositionPtsDeControlePlusUn { get; set; }
