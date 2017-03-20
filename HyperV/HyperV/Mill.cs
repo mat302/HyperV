@@ -28,9 +28,9 @@ namespace HyperV
             Interval = interval;
             Timer = 0;
             GearWheels = new GearWheel[2];
-            GearWheels[0] = new GearWheel(Game, "gearwheel1", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(300, 10, 102));
+            GearWheels[0] = new GearWheel(Game, "gearwheel5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(299, 9, 102));
             Game.Components.Add(GearWheels[0]);
-            GearWheels[1] = new GearWheel(Game, "gearwheel1", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(305, 15, 102));
+            GearWheels[1] = new GearWheel(Game, "gearwheel2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), new Vector3(305.4f, 15.4f, 102));
             Game.Components.Add(GearWheels[1]);
         }
 
@@ -54,8 +54,8 @@ namespace HyperV
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
-                GearWheels[0].UpdateRotation(0.1f);
-                GearWheels[1].UpdateRotation(-0.1f);
+                GearWheels[0].UpdateRotation(0.005f);
+                GearWheels[1].UpdateRotation(-0.01f);
                 Timer = 0;
             }
             base.Update(gameTime);
