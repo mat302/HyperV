@@ -90,11 +90,7 @@ namespace HyperV
 
                 GérerHauteur();
                 CréerPointDeVue();
-
-
-
-
-                Game.Window.Title = Position.ToString();
+                
                 Position = new Vector3(Position.X, Height, Position.Z);
                 TempsÉcouléDepuisMAJ = 0;
             }

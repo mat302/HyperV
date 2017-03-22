@@ -90,6 +90,7 @@
     <Compile Include="CutscenePlayer.cs" />
     <Compile Include="Gazon.cs" />
     <Compile Include="Grass.cs" />
+    <Compile Include="ICollisionable.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="Portal.cs" />
@@ -109,6 +110,8 @@
     </Content>
     <Content Include="Hub.txt" />
     <Content Include="Libraries\BasicComponents.dll" />
+    <Content Include="Monde3_Modeles.txt" />
+    <Content Include="Monde3_Murs.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HyperVContent\HyperVContent.contentproj">

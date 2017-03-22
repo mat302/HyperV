@@ -1,7 +1,9 @@
 using AtelierXNA;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace HyperV
 {
@@ -18,6 +20,8 @@ namespace HyperV
         const float RAYON_COLLISION = 1f;
         const int HAUTEUR_PERSONNAGE = -6;
 
+        bool EnColision { get; set; }
+        bool placerJoueur { get; set; }
         public Vector3 Direction { get; private set; }
         Vector3 Latéral { get; set; }
         Grass Grass { get; set; }
@@ -26,7 +30,8 @@ namespace HyperV
         float VitesseRotation { get; set; }
         Point AnciennePositionSouris { get; set; }
         Point NouvellePositionSouris { get; set; }
-        Vector2 DéplacementSouris { get; set; }
+        public Vector2 DéplacementSouris { get; set; }
+        Vector3 PositionSauvegardée { get; set; }
 
         float IntervalleMAJ { get; set; }
         float TempsÉcouléDepuisMAJ { get; set; }
@@ -41,10 +46,12 @@ namespace HyperV
             CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, DISTANCE_PLAN_ÉLOIGNÉ);
             CréerPointDeVue(positionCaméra, cible, orientation);
             Height = positionCaméra.Y;
+            Position = positionCaméra;
         }
 
         public override void Initialize()
         {
+            EnColision = false;
             DésactiverDéplacement = false;
             VitesseRotation = VITESSE_INITIALE_ROTATION;
             VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
@@ -84,26 +91,51 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
+            Game.Window.Title = Position.ToString();
             float TempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
-                if (!DésactiverDéplacement)
+                List<CreateurModele> Models = new List<CreateurModele>();
+                foreach (CreateurModele modele in Game.Components.Where(x => x is ICollisionable))
                 {
-                    FonctionsClavier();
+                    Models.Add(modele);
                 }
-                FonctionsSouris();
+                foreach(CreateurModele modele in Models)
+                {
+                    EnColision =  EnColision || modele.EnColision(CreerBoite());
+                }
+                //if (!EnColision)
+                {
+                    if (!DésactiverDéplacement)
+                    {
+                        if (placerJoueur)
+                        {
+                            placerJoueur = false;
+                            Position = new Vector3(-27, 2, -28);
+                        }
+                        FonctionsClavier();
+                    }
+                    if (DésactiverDéplacement)
+                    {
+                        PositionSauvegardée = Position;
+                        Position = new Vector3(-57, 15, -52);
+                        placerJoueur = true;
+                    }
+                    FonctionsSouris();
 
-                GérerHauteur();
-                CréerPointDeVue();
-                
-                Game.Window.Title = Position.ToString();
-                Position = new Vector3(Position.X, Height, Position.Z);
+                    GérerHauteur();
+                    CréerPointDeVue();
+
+                    //Game.Window.Title = Position.ToString();
+                    Position = new Vector3(Position.X, Height, Position.Z);
+                }
+
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
         }
-
+        
         //Souris
         #region
         private void FonctionsSouris()
@@ -153,7 +185,6 @@ namespace HyperV
         private void FonctionsClavier()
         {
             GérerDéplacement();
-            GérerRotationClavier();
         }
 
         private void GérerDéplacement()
@@ -187,43 +218,6 @@ namespace HyperV
             return result;
         }
 
-        private void GérerRotationClavier()
-        {
-            GérerLacetClavier();
-            GérerTangageClavier();
-        }
-
-        private void GérerLacetClavier()
-        {
-            Matrix matriceLacet = Matrix.Identity;
-
-            if (GestionInput.EstEnfoncée(Keys.Left))
-            {
-                matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET * VITESSE_INITIALE_ROTATION);
-            }
-            if (GestionInput.EstEnfoncée(Keys.Right))
-            {
-                matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, -DELTA_LACET * VITESSE_INITIALE_ROTATION);
-            }
-
-            Direction = Vector3.Transform(Direction, matriceLacet);
-        }
-
-        private void GérerTangageClavier()
-        {
-            Matrix matriceTangage = Matrix.Identity;
-
-            if (GestionInput.EstEnfoncée(Keys.Down))
-            {
-                matriceTangage = Matrix.CreateFromAxisAngle(Latéral, -DELTA_TANGAGE * VITESSE_INITIALE_ROTATION);
-            }
-            if (GestionInput.EstEnfoncée(Keys.Up))
-            {
-                matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE * VITESSE_INITIALE_ROTATION);
-            }
-
-            Direction = Vector3.Transform(Direction, matriceTangage);
-        }
         #endregion
 
         private void GérerHauteur()
@@ -239,6 +233,14 @@ namespace HyperV
         public void DésactiverCaméra()
         {
             DésactiverDéplacement = !DésactiverDéplacement;
+        }
+
+        private List<Vector3> CreerBoite()
+        {
+            List<Vector3> Liste = new List<Vector3>();
+            Liste.Add(new Vector3(Position.X, Position.Y +0.01f, Position.Z));
+            Liste.Add(new Vector3(Position.X, Position.Y - 0.01f, Position.Z));
+            return Liste;
         }
     }
 }

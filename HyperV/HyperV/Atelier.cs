@@ -23,6 +23,7 @@ namespace HyperV
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
 
+
         Caméra Camera { get; set; }
         Maze Maze { get; set; }
         InputManager InputManager { get; set; }
@@ -120,8 +121,6 @@ namespace HyperV
             Services.AddService(typeof(List<Character>), Characters);
             Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), Camera);
-            //Components.Add(new Skybox(this, "Texture_Skybox"));
-            Components.Add(new Catapulte(this, "catapult", new Vector3(-40,-19,45), 0.01f, 0));
             Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
             Characters.Add(Robot);
             Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", INTERVALLE_MAJ_STANDARD);
@@ -177,17 +176,21 @@ namespace HyperV
             Components.Add(new Afficheur3D(this));
             Camera = new Camera1(this, new Vector3(-26, 2, -3), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
             Services.AddService(typeof(Caméra), Camera);
-            //Components.Add(new Skybox(this, "Texture_Skybox"));
-            Components.Add(new Catapulte(this, "catapult", new Vector3(-28, -3.8f, -50), 0.03f, 0));
-            Components.Add(new CreateurModele(this, "Models_CastleWall", new Vector3(25, -70, 20), 1, 0));
-            Components.Add(new AmmunitionCatapulte(this, "Models_Ammunition", new Vector3(0, 0, 0), 20, 0));
 
-            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(0, -70, 0), new Vector2(50, 50), "Grass", INTERVALLE_MAJ_STANDARD);
+            Walls = new Walls(this, INTERVALLE_MAJ_STANDARD, "Briques", "../../../Monde3_Murs.txt");
+            Components.Add(Walls);
+                        
+            Components.Add(new Catapulte(this, "catapult", new Vector3(-28, -3.8f, -50), 0.03f, 0));            
+            AjouterModeles("../../../Monde3_Modeles.txt");
+            AjouterArbres();
+            AjouterTours();
+
+            Grass = new Grass(this, 10f, Vector3.Zero, new Vector3(1000, -70, 0), new Vector2(100, 100), "Grass", INTERVALLE_MAJ_STANDARD);
             Components.Add(Grass);
-            Services.AddService(typeof(Grass), Grass);
             Components.Add(Camera);
             Components.Remove(CutscenePlayer.Loading);
             Components.Add(FPSLabel);
+            Components.Add(new Skybox(this, "Texture_Skybox"));
         }
 
         protected override void Initialize()
@@ -286,7 +289,6 @@ namespace HyperV
                 }
                 Timer = 0;
             }
-            //Window.Title = CaméraJeu.Position.ToString();
             base.Update(gameTime);
         }
 
@@ -356,6 +358,39 @@ namespace HyperV
         {
             GraphicsDevice.Clear(Color.Black);
             base.Draw(gameTime);
+        }
+
+        private void AjouterModeles(string chemin)
+        {
+            StreamReader fichier = new StreamReader(chemin);
+            fichier.ReadLine();
+            while (!fichier.EndOfStream)
+            {
+                string ligneLu = fichier.ReadLine();
+                string[] ligneSplit = ligneLu.Split(';'); 
+                Components.Add(new CreateurModele(this, ligneSplit[0], new Vector3(int.Parse(ligneSplit[1]), int.Parse(ligneSplit[2]), int.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5])));
+            }
+        }
+
+        private void AjouterArbres()
+        {
+            Random generateur = new Random();
+            const int NB_ARBRES = 150;
+            for(int i = 0; i < NB_ARBRES; ++i)
+            {
+                Components.Add(new CreateurModele(this, "Models_Tree", new Vector3(generateur.Next(-300,300), -70, generateur.Next(-300,300)), 10, generateur.Next(0,360)));
+            }
+        }
+
+        private void AjouterTours()
+        {
+            Random generateur = new Random();
+            const int NB_Tours = 10;
+            for (int i = 0; i < NB_Tours; ++i)
+            {
+                Components.Add(new CreateurModele(this, "Models_Tower", new Vector3(generateur.Next(50, 300), -70, generateur.Next(-300, 300)), 0.05f, generateur.Next(0, 360)));
+            }
+
         }
     }
 }

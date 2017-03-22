@@ -299,7 +299,7 @@ namespace HyperV
 
 
 
-                Game.Window.Title = Position.ToString();
+                //Game.Window.Title = Position.ToString();
                 Position = new Vector3(Position.X, Height, Position.Z);
                 TempsÉcouléDepuisMAJ = 0;
             }

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AtelierXNA;
-
+using System.Collections.Generic;
 
 namespace HyperV
 {
@@ -51,7 +51,7 @@ namespace HyperV
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
-                    effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(Homothésie) * Matrix.CreateRotationY(Rotation) 
+                    effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateScale(Homothésie) * Matrix.CreateRotationY(Rotation)
                                     * Matrix.CreateTranslation(Position);
                     effect.View = Camera.Vue;
                     effect.Projection = Camera.Projection;
@@ -59,6 +59,26 @@ namespace HyperV
                 mesh.Draw();
             }
             base.Draw(gameTime);
+        }
+
+        public Vector3 GetPosition()
+        {
+            return Position;
+        }
+
+        public bool EnColision(List<Vector3> Boite)
+        {
+            bool enColision = false;
+            for (int meshIndex1 = 0; meshIndex1 < Modele3D.Meshes.Count; meshIndex1++)
+            {
+                BoundingSphere sphere1 = Modele3D.Meshes[meshIndex1].BoundingSphere;
+                BoundingSphere sphere2 = BoundingSphere.CreateFromPoints(Boite);
+                if (sphere1.Intersects(sphere2))
+                {
+                    enColision = true;
+                }
+            }
+            return enColision;
         }
     }
 }

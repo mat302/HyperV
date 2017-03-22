@@ -289,13 +289,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Models_Ammunition.fbx">
-      <Name>Models_Ammunition</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\catapult.FBX">
       <Name>catapult</Name>
       <Importer>FbxImporter</Importer>
@@ -370,6 +363,89 @@
     </Compile>
     <Compile Include="Models\catapult.fbm\wurfarm-map.jpg">
       <Name>wurfarm-map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Models_Tower.fbx">
+      <Name>Models_Tower</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Medieval tower\Medieval tower_Disp.jpg">
+      <Name>Medieval tower_Disp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_Disp_2.jpg">
+      <Name>Medieval tower_Disp_2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_Ao.jpg">
+      <Name>Medieval tower_mid_Ao</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_Col.jpg">
+      <Name>Medieval tower_mid_Col</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_Col_very low.jpg">
+      <Name>Medieval tower_mid_Col_very low</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_me.jpg">
+      <Name>Medieval tower_mid_me</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_Nor.jpg">
+      <Name>Medieval tower_mid_Nor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_Nor_very low.jpg">
+      <Name>Medieval tower_mid_Nor_very low</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_Spec.jpg">
+      <Name>Medieval tower_mid_Spec</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_Spec_3.jpg">
+      <Name>Medieval tower_mid_Spec_3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_mid_Spec_very low.jpg">
+      <Name>Medieval tower_mid_Spec_very low</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Medieval tower\Medieval tower_Vert.jpg">
+      <Name>Medieval tower_Vert</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Models_Ammunition.fbx">
+      <Name>Models_Ammunition</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Rock-Texture-Surface.jpg">
+      <Name>Rock-Texture-Surface</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
