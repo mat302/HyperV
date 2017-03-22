@@ -201,6 +201,7 @@ namespace HyperV
         Boss Boss { get; set; }
         Mill Mill { get; set; }
         HeightMap HeightMap { get; set; }
+        ModeleRamassable TakableModel { get; set; }
 
         void Level2(bool usePosition)
         {
@@ -225,9 +226,12 @@ namespace HyperV
             Services.AddService(typeof(Boss), Boss);
             Mill = new Mill(this, 1, Vector3.Zero, new Vector3(300, 10, 100), new Vector2(50, 50), "Fence", FpsInterval);
             Components.Add(Mill);
+            TakableModel = new ModeleRamassable(this, "gearwheel2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
+            Components.Add(TakableModel);
+            Services.AddService(typeof(ModeleRamassable), TakableModel);
             Services.AddService(typeof(Mill), Mill);
             HeightMap = new HeightMap(this, 1, Vector3.Zero, Vector3.Zero, new Vector3(10000, 100, 10000), "HeightMap", "Ceiling");
-            Components.Add(HeightMap);
+            //Components.Add(HeightMap);
             Services.AddService(typeof(HeightMap), HeightMap);
             Boss.AddLabel();
             Components.Add(Camera);

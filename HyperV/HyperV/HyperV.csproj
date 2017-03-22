@@ -94,6 +94,7 @@
     <Compile Include="Jeu.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="Mill.cs" />
+    <Compile Include="ModeleRamassable.cs" />
     <Compile Include="Portal.cs" />
     <Compile Include="PressSpaceLabel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

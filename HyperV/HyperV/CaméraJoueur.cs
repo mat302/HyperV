@@ -1011,7 +1011,7 @@ namespace HyperV
         {
             Viseur = new Ray(Position, Direction);
 
-            foreach (SphèreRamassable sphereRamassable in Game.Components.Where(composant => composant is SphèreRamassable))
+            foreach (ModeleRamassable sphereRamassable in Game.Components.Where(composant => composant is ModeleRamassable))
             {
                 Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
                            sphereRamassable.EstEnCollision(Viseur) != null &&
