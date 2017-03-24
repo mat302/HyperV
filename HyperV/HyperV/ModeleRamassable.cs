@@ -16,6 +16,8 @@ namespace HyperV
     //DOIT UPDATER TON DLL POUR BON FONCTIONNEMENT
     public class ModeleRamassable : ObjetDeBase
     {
+        public bool Ramasser { get; set; }
+
         public bool EstRamassée { get; set; }
 
         private float Rayon { get; set; }

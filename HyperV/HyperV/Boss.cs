@@ -43,6 +43,7 @@ namespace HyperV
         float LabelInterval { get; set; }
         InputManager InputManager { get; set; }
         Camera2 Camera { get; set; }
+        List<Fireball> Fireballs { get; set; }
 
         public Boss(Game game, string name, int maxLife, string modelName, string gaugeName, string dockName, string fontName, float interval, float labelInterval, float startScale, Vector3 startRotation, Vector3 startPosition) : base(game, modelName, startScale, startRotation, startPosition)
         {
@@ -60,6 +61,9 @@ namespace HyperV
         {
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
+            Fireballs = new List<Fireball>();
+            //Fireballs.Add(new Fireball(Game, 1, Vector3.Zero, Position + new Vector3(0, 10, 0), new Vector2(10, 10), "fireball", Interval));
+            //Game.Components.Add(Fireballs[0]);
             base.LoadContent();
         }
 

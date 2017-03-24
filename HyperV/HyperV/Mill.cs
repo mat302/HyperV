@@ -27,7 +27,7 @@ namespace HyperV
         float Radius { get; set; }
         Camera2 Camera { get; set; }
         PressSpaceLabel PressSpaceLabel { get; set; }
-        ModeleRamassable TakableModel { get; set; }
+        ModeleRamassable[] Takables { get; set; }
         InputManager InputManager { get; set; }
         bool[] Placed { get; set; }
 
@@ -41,6 +41,7 @@ namespace HyperV
             GearWheels = new GearWheel[NUM_GEAR_WHEELS];
             Positions = new Vector3[NUM_GEAR_WHEELS];
             Placed = new bool[NUM_GEAR_WHEELS];
+            Takables = new ModeleRamassable[NUM_GEAR_WHEELS];
             for (int i = 0; i < NUM_GEAR_WHEELS; ++i)
             {
                 Placed[i] = false;
@@ -50,7 +51,13 @@ namespace HyperV
             GearWheels[0] = new GearWheel(Game, "gearwheel5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), Positions[0]);
             Game.Components.Add(GearWheels[0]);
             GearWheels[1] = new GearWheel(Game, "gearwheel2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), Positions[1]);
-            //Game.Components.Add(GearWheels[1]);
+            Game.Components.Add(GearWheels[1]);
+            Takables[0] = new ModeleRamassable(Game, "gearwheel5", 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
+            Game.Components.Add(Takables[0]);
+            Takables[1] = new ModeleRamassable(Game, "gearwheel2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(420, 10, 100));
+            Game.Components.Add(Takables[1]);
+            GearWheels[1].Visible = false;
+            GearWheels[0].Visible = false;
         }
 
         /// <summary>
@@ -59,14 +66,16 @@ namespace HyperV
         /// </summary>
         public override void Initialize()
         {
-            Game.Components.Add(new TuileTexturée(Game, 1, Vector3.Zero, Positions[1], new Vector2(5, 5), "point", 1 / 60f));
+            //Game.Components.Add(new TuileTexturée(Game, 1, Vector3.Zero, new Vector3(Positions[1].X, Positions[1].Y, Positions[1].Z - 5), new Vector2(5, 5), "point", 1 / 60f));
             base.Initialize();
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
-            TakableModel = Game.Services.GetService(typeof(ModeleRamassable)) as ModeleRamassable;
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
             Game.Components.Add(PressSpaceLabel);
             PressSpaceLabel.Visible = false;
         }
+
+        bool Space { get; set; }
+        bool Taken { get; set; }
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -78,38 +87,44 @@ namespace HyperV
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
+                Space = InputManager.EstNouvelleTouche(Keys.Space);
+                Taken = InputManager.EstNouvelleTouche(Keys.E) ? true : Taken;
                 GearWheels[0].UpdateRotation(0.005f);
                 GearWheels[1].UpdateRotation(-0.01f);
-                float? collision = Collision(new Ray(Camera.Position, (Camera as Camera2).Direction), 0);
-                if (collision < 30 && collision != null && TakableModel.EstRamassée)
+                for (int i = 0; i < NUM_GEAR_WHEELS; ++i)
                 {
-                    PressSpaceLabel.Visible = true;
-                    if (InputManager.EstNouvelleTouche(Keys.Space))
+                    float? collision = Collision(new Ray(Camera.Position, (Camera as Camera2).Direction), i);
+                    if (collision < 30 && collision != null && Takables[0].EstRamassée)
                     {
-                        if (!Placed[1])
+                        PressSpaceLabel.Visible = true;
+                        if (Space && Takables[i].EstRamassée)
                         {
-                            Game.Components.Remove(TakableModel);
-                            Game.Components.Add(GearWheels[1]);
-                            Game.Components.Remove(GearWheels[0]);
-                            Game.Components.Add(GearWheels[0]);
-                            GearWheels[1].UpdateRotation(GearWheels[0].GetRotationX() - GearWheels[1].GetRotationX());
-                            Placed[1] = true;
-                        }
-                        else
-                        {
-                            Game.Components.Remove(GearWheels[1]);
-                            Game.Components.Add(TakableModel);
-                            Game.Components.Remove(PressSpaceLabel);
-                            Game.Components.Add(PressSpaceLabel);
-                            TakableModel.EstRamassée = true;
-                            Placed[1] = false;
+                            if (!Placed[i])
+                            {
+                                Takables[i].Visible = false;
+                                Takables[i].Enabled = false;
+                                Taken = false;
+                                GearWheels[i].Visible = true;
+                                Placed[i] = true;
+                                Space = false;
+                            }
+                            else if (!Taken)
+                            {
+                                GearWheels[i].Visible = false;
+                                Takables[i].Visible = true;
+                                Takables[i].Enabled = true;
+                                Taken = true;
+                                Placed[i] = false;
+                                Space = false;
+                            }
                         }
                     }
+                    else
+                    {
+                        PressSpaceLabel.Visible = false;
+                    }
                 }
-                else
-                {
-                    PressSpaceLabel.Visible = false;
-                }
+                
                 Timer = 0;
             }
             base.Update(gameTime);

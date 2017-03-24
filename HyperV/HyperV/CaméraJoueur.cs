@@ -742,6 +742,8 @@ namespace HyperV
 
         protected float Height { get; set; }
 
+        LifeBar[] LifeBars { get; set; }
+
         public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance) : base(jeu)
         {
             DistancePlanÉloigné = renderDistance;
@@ -801,6 +803,8 @@ namespace HyperV
         {
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
+
+            LifeBars = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
         }
 
         protected override void CréerPointDeVue()
@@ -845,11 +849,23 @@ namespace HyperV
                 GérerCourse();
                 GérerSaut();
 
+                ManageLifeBars();
                 //Game.Window.Title = GestionGamePad.PositionsGâchettes.X.ToString();
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
+        }
 
+        void ManageLifeBars()
+        {
+            if (Courrir && !LifeBars[1].Tired)
+            {
+                LifeBars[1].Attack(1);
+            }
+            else
+            {
+                LifeBars[1].Attack(-1);
+            }
         }
 
 
@@ -1013,12 +1029,11 @@ namespace HyperV
 
             foreach (ModeleRamassable sphereRamassable in Game.Components.Where(composant => composant is ModeleRamassable))
             {
-                Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
-                           sphereRamassable.EstEnCollision(Viseur) != null &&
-                           Ramasser;
+                sphereRamassable.Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
+                           sphereRamassable.EstEnCollision(Viseur) != null && Ramasser;
 
                 //Game.Window.Title = sphereRamassable.EstEnCollision(Viseur).ToString();
-                if (Ramasser)
+                if (sphereRamassable.Ramasser)
                 {
                     sphereRamassable.EstRamassée = true;
                 }
@@ -1087,9 +1102,11 @@ namespace HyperV
         }
         #endregion
 
+        const float TIRED_SPEED = 0.1f;
+
         private void GérerCourse()
         {
-            VitesseTranslation = Courrir ? (GestionGamePad.PositionsGâchettes.X > 0 ? GestionGamePad.PositionsGâchettes.X : 1) * FACTEUR_COURSE_MAXIMAL * VITESSE_INITIALE_TRANSLATION : VITESSE_INITIALE_TRANSLATION;
+            VitesseTranslation = LifeBars[1].Tired ? TIRED_SPEED : Courrir ? (GestionGamePad.PositionsGâchettes.X > 0 ? GestionGamePad.PositionsGâchettes.X : 1) * FACTEUR_COURSE_MAXIMAL * VITESSE_INITIALE_TRANSLATION : VITESSE_INITIALE_TRANSLATION;
         }
     }
 }
