@@ -90,13 +90,18 @@ namespace HyperV
                         {
                             Game.Components.Remove(TakableModel);
                             Game.Components.Add(GearWheels[1]);
+                            Game.Components.Remove(GearWheels[0]);
+                            Game.Components.Add(GearWheels[0]);
+                            GearWheels[1].UpdateRotation(GearWheels[0].GetRotationX() - GearWheels[1].GetRotationX());
                             Placed[1] = true;
                         }
                         else
                         {
                             Game.Components.Remove(GearWheels[1]);
-                            TakableModel.EstRamassée = true;
                             Game.Components.Add(TakableModel);
+                            Game.Components.Remove(PressSpaceLabel);
+                            Game.Components.Add(PressSpaceLabel);
+                            TakableModel.EstRamassée = true;
                             Placed[1] = false;
                         }
                     }

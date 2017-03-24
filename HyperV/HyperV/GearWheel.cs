@@ -34,6 +34,11 @@ namespace HyperV
             base.Initialize();
         }
 
+        public float GetRotationX()
+        {
+            return Rotation.X;
+        }
+
         public void UpdateRotation(float rotation)
         {
             Rotation += new Vector3(rotation, 0, 0);
