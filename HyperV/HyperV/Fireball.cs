@@ -32,8 +32,7 @@ namespace HyperV
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
+            //Delta = new Vector2(base.) / Description;
             base.Initialize();
         }
 

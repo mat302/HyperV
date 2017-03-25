@@ -62,8 +62,8 @@ namespace HyperV
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             Fireballs = new List<Fireball>();
-            Fireballs.Add(new Fireball(Game, 1, Vector3.Zero, Position + new Vector3(0, 10, 0), new Vector2(10, 10), "feufollet", Interval));
-            Game.Components.Add(Fireballs[0]);
+            //Fireballs.Add(new Fireball(Game, 1, Vector3.Zero, Position + new Vector3(0, 10, 0), new Vector2(10, 10), "feufollet", Interval));
+            //Game.Components.Add(Fireballs[0]);
             base.LoadContent();
         }
 

@@ -16,9 +16,9 @@ namespace HyperV
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class GearWheel : ObjetDeBase
+    public class Gear : ObjetDeBase
     {
-        public GearWheel(Game game, string modelName, float scale, Vector3 rotation, Vector3 position) : base(game, modelName, scale, rotation, position)
+        public Gear(Game game, string modelName, float scale, Vector3 rotation, Vector3 position) : base(game, modelName, scale, rotation, position)
         {
             // TODO: Construct any child components here
         }

@@ -20,7 +20,8 @@ namespace HyperV
     {
         const int NUM_GEAR_WHEELS = 2;
 
-        GearWheel[] GearWheels { get; set; }
+        Gear[] Gears { get; set; }
+        ObjetDeBase[] Axles { get; set; }
         float Timer { get; set; }
         float Interval { get; set; }
         Vector3[] Positions { get; set; }
@@ -36,28 +37,33 @@ namespace HyperV
             // TODO: Construct any child components here
             Interval = interval;
             Timer = 0;
-            Radius = 15;
+            Radius = 3;
             PressSpaceLabel = new PressSpaceLabel(Game);
-            GearWheels = new GearWheel[NUM_GEAR_WHEELS];
+            Gears = new Gear[NUM_GEAR_WHEELS];
             Positions = new Vector3[NUM_GEAR_WHEELS];
             Placed = new bool[NUM_GEAR_WHEELS];
             Takables = new ModeleRamassable[NUM_GEAR_WHEELS];
+            Axles = new ObjetDeBase[NUM_GEAR_WHEELS];
             for (int i = 0; i < NUM_GEAR_WHEELS; ++i)
             {
                 Placed[i] = false;
             }
-            Positions[0] = new Vector3(299, 9, 102);
-            Positions[1] = new Vector3(305.4f, 15.4f, 102);
-            GearWheels[0] = new GearWheel(Game, "gearwheel5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), Positions[0]);
-            Game.Components.Add(GearWheels[0]);
-            GearWheels[1] = new GearWheel(Game, "gearwheel2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), Positions[1]);
-            Game.Components.Add(GearWheels[1]);
-            Takables[0] = new ModeleRamassable(Game, "gearwheel5", 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
+            Positions[0] = new Vector3(299, 9, 100);
+            Positions[1] = new Vector3(305.4f, 15.4f, 100);
+            Gears[0] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), Positions[0]);
+            Axles[0] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[0]);
+            Game.Components.Add(Gears[0]);
+            Game.Components.Add(Axles[0]);
+            Gears[1] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), Positions[1]);
+            Axles[1] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[1]);
+            Game.Components.Add(Gears[1]);
+            Game.Components.Add(Axles[1]);
+            Takables[0] = new ModeleRamassable(Game, "gear5", 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
             Game.Components.Add(Takables[0]);
-            Takables[1] = new ModeleRamassable(Game, "gearwheel2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(420, 10, 100));
+            Takables[1] = new ModeleRamassable(Game, "gear2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(420, 10, 100));
             Game.Components.Add(Takables[1]);
-            GearWheels[1].Visible = false;
-            GearWheels[0].Visible = false;
+            Gears[1].Visible = false;
+            Gears[0].Visible = false;
         }
 
         /// <summary>
@@ -84,13 +90,13 @@ namespace HyperV
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
+            Space = InputManager.EstNouvelleTouche(Keys.Space) ? true : Space;
+            Taken = InputManager.EstNouvelleTouche(Keys.E) ? true : Taken;
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
-                Space = InputManager.EstNouvelleTouche(Keys.Space);
-                Taken = InputManager.EstNouvelleTouche(Keys.E) ? true : Taken;
-                GearWheels[0].UpdateRotation(0.005f);
-                GearWheels[1].UpdateRotation(-0.01f);
+                Gears[0].UpdateRotation(0.005f);
+                Gears[1].UpdateRotation(-0.01f);
                 for (int i = 0; i < NUM_GEAR_WHEELS; ++i)
                 {
                     float? collision = Collision(new Ray(Camera.Position, (Camera as Camera2).Direction), i);
@@ -104,13 +110,13 @@ namespace HyperV
                                 Takables[i].Visible = false;
                                 Takables[i].Enabled = false;
                                 Taken = false;
-                                GearWheels[i].Visible = true;
+                                Gears[i].Visible = true;
                                 Placed[i] = true;
                                 Space = false;
                             }
                             else if (!Taken)
                             {
-                                GearWheels[i].Visible = false;
+                                Gears[i].Visible = false;
                                 Takables[i].Visible = true;
                                 Takables[i].Enabled = true;
                                 Taken = true;
