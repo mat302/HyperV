@@ -877,8 +877,7 @@ namespace HyperV
             {
                 AnciennePositionSouris = NouvellePositionSouris;
                 NouvellePositionSouris = GestionInput.GetPositionSouris();
-                DéplacementSouris = new Vector2(NouvellePositionSouris.X - AnciennePositionSouris.X,
-                                                NouvellePositionSouris.Y - AnciennePositionSouris.Y);
+                DéplacementSouris = new Vector2(NouvellePositionSouris.X - AnciennePositionSouris.X, NouvellePositionSouris.Y - AnciennePositionSouris.Y);
 
                 GérerRotationSouris();
 

@@ -18,9 +18,12 @@ namespace HyperV
     /// </summary>
     public class Fireball : TuileTexturée
     {
-        public Fireball(Game game, float scale, Vector3 rotation, Vector3 position, Vector2 range, string textureName, float interval) : base(game, scale, rotation, position, range, textureName, interval)
+        Vector2 Description { get; set; }
+        Vector2 Delta { get; set; }
+
+        public Fireball(Game game, float scale, Vector3 rotation, Vector3 position, Vector2 range, string textureName, Vector2 description, float interval) : base(game, scale, rotation, position, range, textureName, interval)
         {
-            // TODO: Construct any child components here
+            Description = description;
         }
 
         /// <summary>
