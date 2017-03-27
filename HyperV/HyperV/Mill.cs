@@ -35,7 +35,7 @@ namespace HyperV
         bool[] AxleTaken { get; set; }
         int[] AxleObjects { get; set; }
 
-        public Mill(Game game, float scale, Vector3 initialRotation, Vector3 initialPosition, Vector2 range, string textureName, float interval) : base(game, scale, initialRotation, initialPosition, range, textureName, interval)
+        public Mill(Game game, float scale, Vector3 initialRotation, Vector3 initialPosition, Vector2 range, string textureName, float interval) : base(game, scale, initialRotation, initialPosition, range, textureName)
         {
             Interval = interval;
             Timer = 0;
@@ -134,7 +134,7 @@ namespace HyperV
                     GameCollision = Collision(new Ray(Camera.Position, (Camera as Camera2).Direction), i);
                     Collided = GameCollision != null;
                     TakenObject = ReturnTakenObject();
-                    Game.Window.Title = TakenObject.ToString();
+                    //Game.Window.Title = TakenObject.ToString();
                     if (/*collision < Radius + 0.5f && */ Collided /*&& Takables[i].EstRamassée*/ /*&& TakenObject != NUM_GEARS && Takables[TakenObject].EstRamassée && (!AxleTaken[i] && !Placed[TakenObject] || AxleTaken[i] && Placed[Taken])*/)
                     {
                         if (!AxleTaken[i] && TakenObject != NUM_GEARS)

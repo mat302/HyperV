@@ -232,6 +232,7 @@ namespace HyperV
             HeightMap = new HeightMap(this, 1, Vector3.Zero, Vector3.Zero, new Vector3(10000, 100, 10000), "HeightMap", "Ceiling");
             //Components.Add(HeightMap);
             Services.AddService(typeof(HeightMap), HeightMap);
+            Boss.AddFireball();
             Boss.AddLabel();
             Components.Add(LifeBars[0]);
             Components.Add(LifeBars[1]);

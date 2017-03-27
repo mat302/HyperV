@@ -55,15 +55,19 @@ namespace HyperV
             Interval = interval;
             LabelInterval = labelInterval;
             MaxLife = maxLife;
+            Fireballs = new List<Fireball>();
+        }
+
+        public void AddFireball()
+        {
+            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -50), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval));
+            Game.Components.Add(Fireballs[0]);
         }
 
         protected override void LoadContent()
         {
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
-            Fireballs = new List<Fireball>();
-            //Fireballs.Add(new Fireball(Game, 1, Vector3.Zero, Position + new Vector3(0, 10, 0), new Vector2(10, 10), "feufollet", Interval));
-            //Game.Components.Add(Fireballs[0]);
             base.LoadContent();
         }
 
