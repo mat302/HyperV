@@ -809,6 +809,13 @@ namespace HyperV
             LifeBars = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
         }
 
+        public bool Dead { get; private set; }
+
+        public void Attack(int val)
+        {
+            LifeBars[0].Attack(val);
+        }
+
         protected override void CréerPointDeVue()
         {
             Vector3.Normalize(Direction);
@@ -864,11 +871,11 @@ namespace HyperV
         {
             if (Courrir && !LifeBars[1].Tired && (GestionInput.EstEnfoncée(Keys.W) || GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.S) || GestionInput.EstEnfoncée(Keys.D)))
             {
-                LifeBars[1].Attack(1);
+                LifeBars[1].Attack();
             }
             else
             {
-                LifeBars[1].Attack(-1);
+                LifeBars[1].AttackNegative();
             }
         }
 

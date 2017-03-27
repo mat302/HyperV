@@ -33,6 +33,7 @@ namespace HyperV
     {
         float Interval { get; set; }
         float Radius { get; set; }
+        public bool Dead { get; set; }
         BossLabel BossLabel { get; set; }
         string GaugeName { get; set; }
         string DockName { get; set; }
@@ -60,8 +61,22 @@ namespace HyperV
 
         public void AddFireball()
         {
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -50), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval));
-            Game.Components.Add(Fireballs[0]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 0));
+            //Game.Components.Add(Fireballs[0]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 1));
+            //Game.Components.Add(Fireballs[1]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 2));
+            //Game.Components.Add(Fireballs[2]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 3));
+            //Game.Components.Add(Fireballs[3]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 4));
+            //Game.Components.Add(Fireballs[4]);
+        }
+
+        public void RemoveFireball()
+        {
+            Game.Components.Remove(Fireballs[0]);
+            Game.Components.Remove(Fireballs[1]);
         }
 
         protected override void LoadContent()

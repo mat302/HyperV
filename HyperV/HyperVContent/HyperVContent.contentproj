@@ -191,7 +191,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Sounds\" />
+    <Compile Include="Sounds\explosion.wav">
+      <Name>explosion</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\Dock.png">

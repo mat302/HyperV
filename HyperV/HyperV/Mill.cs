@@ -87,6 +87,18 @@ namespace HyperV
             Gears[1, 1].Visible = false;
         }
 
+        public void RemoveComponents()
+        {
+            Game.Components.Remove(Gears[0, 0]);
+            Game.Components.Remove(Gears[0, 1]);
+            Game.Components.Remove(Axles[0]);
+            Game.Components.Remove(Gears[1, 0]);
+            Game.Components.Remove(Gears[1, 1]);
+            Game.Components.Remove(Axles[1]);
+            Game.Components.Remove(Takables[0]);
+            Game.Components.Remove(Takables[1]);
+        }
+
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
@@ -103,6 +115,11 @@ namespace HyperV
         {
             Game.Components.Add(PressSpaceLabel);
             PressSpaceLabel.Visible = false;
+        }
+
+        public void RemoveLabel()
+        {
+            Game.Components.Remove(PressSpaceLabel);
         }
 
         bool Space { get; set; }

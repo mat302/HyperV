@@ -62,7 +62,7 @@
   <ItemGroup>
     <Reference Include="BasicComponents, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\BasicComponents\BasicComponents\bin\x86\Release\BasicComponents.dll</HintPath>
+      <HintPath>..\..\..\..\..\Documents\Programming\C# projects\Design Project SIM\BasicComponents\BasicComponents\bin\x86\Release\BasicComponents.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -108,6 +108,7 @@
     <Compile Include="SphereRamassable.cs" />
     <Compile Include="SphèreRamassable.cs" />
     <Compile Include="Walls.cs" />
+    <Compile Include="Water.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data.txt" />

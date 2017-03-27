@@ -55,6 +55,7 @@ namespace HyperV
             Life = MaxLife;
             Position = position;
             Tired = false;
+            Dead = false;
         }
 
         /// <summary>
@@ -93,10 +94,48 @@ namespace HyperV
         }
 
         public bool Tired { get; private set; }
+        public bool Dead { get; private set; }
 
         public void Attack(int attackPts)
         {
             int newLife = Life - attackPts;
+            if (newLife <= 0)
+            {
+                Life = 0;
+                Dead = true;
+            }
+            else if (newLife > MaxLife)
+            {
+                Life = MaxLife;
+            }
+            else
+            {
+                Life = newLife;
+            }
+        }
+
+        public void Attack()
+        {
+            int newLife = Life - 1;
+            if (newLife >= 0 && newLife <= MaxLife)
+            {
+                Life = newLife;
+                if (Life == 0)
+                {
+                    Gauge = TextureManager.Find(SecondaryGaugeName);
+                    Tired = true;
+                }
+                else if (Life == MaxLife)
+                {
+                    Gauge = TextureManager.Find(GaugeName);
+                    Tired = false;
+                }
+            }
+        }
+
+        public void AttackNegative()
+        {
+            int newLife = Life + 1;
             if (newLife >= 0 && newLife <= MaxLife)
             {
                 Life = newLife;

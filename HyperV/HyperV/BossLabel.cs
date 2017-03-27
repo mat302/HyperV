@@ -116,7 +116,20 @@ namespace HyperV
 
         public void Attack(int attackPts)
         {
-            Life -= attackPts;
+            int newLife = Life - attackPts;
+            if (newLife <= 0)
+            {
+                Life = 0;
+                Boss.Dead = true;
+            }
+            else if (newLife > MaxLife)
+            {
+                Life = MaxLife;
+            }
+            else
+            {
+                Life = newLife;
+            }
         }
 
         public override void Draw(GameTime gameTime)
