@@ -16,9 +16,17 @@ namespace HyperV
     //DOIT UPDATER TON DLL POUR BON FONCTIONNEMENT
     public class ModeleRamassable : ObjetDeBase
     {
+        public static bool Taken { get; set; }
+
+        static ModeleRamassable()
+        {
+            Taken = false;
+        }
+
         public bool Ramasser { get; set; }
 
         public bool EstRamassée { get; set; }
+        public bool Placed { get; set; }
 
         private float Rayon { get; set; }
 
@@ -47,7 +55,8 @@ namespace HyperV
         {
             base.Initialize();
             EstRamassée = false;
-            Rayon = 10;
+            Placed = false;
+            Rayon = 4;
             //MondeInitial = base.GetMonde();
         }
 
@@ -65,8 +74,7 @@ namespace HyperV
                             + 2.5f * Vector3.Normalize(CaméraJoueur.Latéral)
                             - 1.5f * Vector3.Normalize(Vector3.Cross(CaméraJoueur.Latéral, CaméraJoueur.Direction));
                 CalculerMonde();
-
-                Game.Window.Title = Position.ToString();
+                //Game.Window.Title = Position.ToString();
             }
             base.Update(gameTime);
         }

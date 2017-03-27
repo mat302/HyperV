@@ -743,6 +743,7 @@ namespace HyperV
         protected float Height { get; set; }
 
         LifeBar[] LifeBars { get; set; }
+        Vector2 Origin { get; set; }
 
         public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance) : base(jeu)
         {
@@ -751,6 +752,7 @@ namespace HyperV
             CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, /*DISTANCE_PLAN_ÉLOIGNÉ*/DistancePlanÉloigné);
             CréerPointDeVue(positionCaméra, cible, orientation);
             Height = positionCaméra.Y;
+            Origin = new Vector2(Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height) / 2;
         }
 
         public float GetRenderDistance()
@@ -812,6 +814,7 @@ namespace HyperV
             Vector3.Normalize(Direction);
             Vector3.Normalize(OrientationVerticale);
             Vector3.Normalize(Latéral);
+            //Position -= new Vector3(Origin.X, 0, Origin.Y);
 
             Vue = Matrix.CreateLookAt(Position, Position + Direction, OrientationVerticale);
         }
@@ -831,7 +834,8 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
-
+            AffecterCommandes();
+            GérerRamassage();
             float TempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
@@ -843,9 +847,9 @@ namespace HyperV
                 GérerHauteur();
                 CréerPointDeVue();
 
-                AffecterCommandes();
+                //AffecterCommandes();
 
-                GérerRamassage();
+                //GérerRamassage();
                 GérerCourse();
                 GérerSaut();
 
@@ -1003,7 +1007,7 @@ namespace HyperV
 
             Ramasser = GestionInput.EstNouveauClicGauche() ||
                        GestionInput.EstAncienClicGauche() ||
-                       GestionInput.EstEnfoncée(Keys.E) && EstDéplacementEtAutresClavierActivé ||
+                       GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtAutresClavierActivé ||
                        GestionGamePad.EstNouveauBouton(Buttons.RightStick);
         }
 
@@ -1032,12 +1036,37 @@ namespace HyperV
                            sphereRamassable.EstEnCollision(Viseur) != null && Ramasser;
 
                 //Game.Window.Title = sphereRamassable.EstEnCollision(Viseur).ToString();
-                if (sphereRamassable.Ramasser)
+                if (sphereRamassable.Ramasser && !sphereRamassable.Placed)
                 {
-                    sphereRamassable.EstRamassée = true;
+                    if (!ModeleRamassable.Taken)
+                    {
+                        sphereRamassable.EstRamassée = true;
+                        ModeleRamassable.Taken = true;
+                        break;
+                    }
+                    else if (sphereRamassable.EstRamassée)
+                    {
+                        sphereRamassable.EstRamassée = false;
+                        ModeleRamassable.Taken = false;
+                        break;
+                    }
                 }
             }
         }
+
+        //private bool Taken()
+        //{
+        //    bool result = false;
+        //    foreach (ModeleRamassable sphereRamassable in Game.Components.Where(composant => composant is ModeleRamassable))
+        //    {
+        //        if (sphereRamassable.EstRamassée && !sphereRamassable.Placed)
+        //        {
+        //            result = true;
+        //            break;
+        //        }
+        //    }
+        //    return result;
+        //}
 
         //Saut
         #region

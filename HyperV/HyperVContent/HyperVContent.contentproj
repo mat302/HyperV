@@ -37,60 +37,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Models_CastleWall.fbx">
-      <Name>Models_CastleWall</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Models_Tree.fbx">
-      <Name>Models_Tree</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\ship.fbx">
-      <Name>ship</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Cube.fbx">
-      <Name>Cube</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Effects\Skybox.fx">
       <Name>Skybox</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Tree.fbm\bark_0021.jpg">
-      <Name>bark_0021</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Models\Tree.fbm\DB2X2_L01.png">
-      <Name>DB2X2_L01</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Models\Tree.fbm\DB2X2_L01_Nor.png">
-      <Name>DB2X2_L01_Nor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Models\Tree.fbm\DB2X2_L01_Spec.png">
-      <Name>DB2X2_L01_Spec</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -157,20 +107,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Cube.fbx">
-      <Name>Cube</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Models_CastleWall.fbx">
-      <Name>Models_CastleWall</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Effects\Skybox.fx">
       <Name>Skybox</Name>
       <Importer>EffectImporter</Importer>
@@ -196,13 +132,6 @@
       <Name>test1</Name>
       <Importer>WmvImporter</Importer>
       <Processor>VideoProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Robot.FBX">
-      <Name>Robot</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -263,13 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sounds\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Bison.fbx">
-      <Name>Bison</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Textures\Dock.png">
@@ -343,6 +265,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Textures\crosshair.png">
+      <Name>crosshair</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\axle.fbx">
+      <Name>axle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Bison.fbx">
+      <Name>Bison</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Cube.fbx">
+      <Name>Cube</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
     <Compile Include="Models\gear.fbx">
       <Name>gear</Name>
       <Importer>FbxImporter</Importer>
@@ -358,13 +302,67 @@
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\axle.fbx">
-      <Name>axle</Name>
+    <Compile Include="Models\Models_CastleWall.fbx">
+      <Name>Models_CastleWall</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
+    <Compile Include="Models\Models_Tree.fbx">
+      <Name>Models_Tree</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Robot.FBX">
+      <Name>Robot</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\ship_tex.tga">
+      <Name>ship_tex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Ceiling.jpg">
+      <Name>Ceiling</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Garden.jpg">
+      <Name>Garden</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Rockwall.jpg">
+      <Name>Rockwall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Tree.fbm\bark_0021.jpg">
+      <Name>bark_0021</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Tree.fbm\DB2X2_L01.png">
+      <Name>DB2X2_L01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Tree.fbm\DB2X2_L01_Nor.png">
+      <Name>DB2X2_L01_Nor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Tree.fbm\DB2X2_L01_Spec.png">
+      <Name>DB2X2_L01_Spec</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Models\gear2.fbx">
       <Name>gear2</Name>
       <Importer>FbxImporter</Importer>
@@ -374,13 +372,6 @@
       <Name>gear5</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\crosshair.png">
-      <Name>crosshair</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
