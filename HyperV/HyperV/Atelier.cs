@@ -227,16 +227,17 @@ namespace HyperV
             Services.AddService(typeof(Boss), Boss);
             Mill = new Mill(this, 1, Vector3.Zero, new Vector3(300, 10, 100), new Vector2(50, 50), "Fence", FpsInterval);
             Components.Add(Mill);
+            Mill.AddLabel();
             Services.AddService(typeof(Mill), Mill);
             HeightMap = new HeightMap(this, 1, Vector3.Zero, Vector3.Zero, new Vector3(10000, 100, 10000), "HeightMap", "Ceiling");
             //Components.Add(HeightMap);
             Services.AddService(typeof(HeightMap), HeightMap);
             Boss.AddLabel();
-            Components.Add(Camera);
-            Components.Remove(Loading);
             Components.Add(LifeBars[0]);
             Components.Add(LifeBars[1]);
             Services.AddService(typeof(LifeBar[]), LifeBars);
+            Components.Add(Camera);
+            Components.Remove(Loading);
             Components.Add(Crosshair);
             Components.Add(FPSLabel);
             base.Initialize();
@@ -273,7 +274,7 @@ namespace HyperV
             Walls = new Walls(this, FpsInterval, "Rockwall", "../../../Data.txt");
             Components.Add(Walls);
             Services.AddService(typeof(Walls), Walls);
-            Components.Add(Camera);
+            //Components.Add(Camera);
             GrassArray = new Grass[11, 7];
             CeilingArray = new Ceiling[11, 7];
             for (int i = 0; i < 11; ++i)
@@ -299,7 +300,12 @@ namespace HyperV
             Robot.AddLabel();
             Components.Add(PressSpaceLabel);
             PressSpaceLabel.Visible = false;
+            Components.Add(LifeBars[0]);
+            Components.Add(LifeBars[1]);
+            Services.AddService(typeof(LifeBar[]), LifeBars);
+            Components.Add(Camera);
             Components.Remove(Loading);
+            Components.Add(Crosshair);
             Components.Add(FPSLabel);
         }
 
@@ -487,6 +493,10 @@ namespace HyperV
                     Components.Remove(Robot);
                     Components.Remove(SpaceBackground);
                     Components.Remove(PressSpaceLabel);
+                    Components.Remove(LifeBars[0]);
+                    Components.Remove(LifeBars[1]);
+                    Services.RemoveService(typeof(LifeBar[]));
+                    Components.Remove(Crosshair);
                     Components.Remove(FPSLabel);
                     SelectWorld(false);
                 }

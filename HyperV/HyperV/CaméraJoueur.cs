@@ -834,7 +834,7 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
-            AffecterCommandes();
+            AffectCommandsForGrab();
             GérerRamassage();
             float TempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
@@ -847,7 +847,7 @@ namespace HyperV
                 GérerHauteur();
                 CréerPointDeVue();
 
-                //AffecterCommandes();
+                AffecterCommandes(); // Grab moved to AffectCommandsForGrab()
 
                 //GérerRamassage();
                 GérerCourse();
@@ -862,7 +862,7 @@ namespace HyperV
 
         void ManageLifeBars()
         {
-            if (Courrir && !LifeBars[1].Tired)
+            if (Courrir && !LifeBars[1].Tired && (GestionInput.EstEnfoncée(Keys.W) || GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.S) || GestionInput.EstEnfoncée(Keys.D)))
             {
                 LifeBars[1].Attack(1);
             }
@@ -1005,6 +1005,14 @@ namespace HyperV
             Sauter = (GestionInput.EstEnfoncée(Keys.R/*Keys.Space*/) && EstDéplacementEtAutresClavierActivé) ||
                      GestionGamePad.EstEnfoncé(Buttons.A);
 
+            //Ramasser = GestionInput.EstNouveauClicGauche() ||
+            //           GestionInput.EstAncienClicGauche() ||
+            //           GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtAutresClavierActivé ||
+            //           GestionGamePad.EstNouveauBouton(Buttons.RightStick);
+        }
+
+        private void AffectCommandsForGrab()
+        {
             Ramasser = GestionInput.EstNouveauClicGauche() ||
                        GestionInput.EstAncienClicGauche() ||
                        GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtAutresClavierActivé ||

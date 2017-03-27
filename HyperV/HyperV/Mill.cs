@@ -37,7 +37,6 @@ namespace HyperV
 
         public Mill(Game game, float scale, Vector3 initialRotation, Vector3 initialPosition, Vector2 range, string textureName, float interval) : base(game, scale, initialRotation, initialPosition, range, textureName, interval)
         {
-            // TODO: Construct any child components here
             Interval = interval;
             Timer = 0;
             Radius = 1;
@@ -98,6 +97,10 @@ namespace HyperV
             base.Initialize();
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
+        }
+
+        public void AddLabel()
+        {
             Game.Components.Add(PressSpaceLabel);
             PressSpaceLabel.Visible = false;
         }
@@ -107,6 +110,7 @@ namespace HyperV
         bool Collided { get; set; }
         int TakenObject { get; set; }
         bool Taken { get; set; }
+        bool First;
 
         /// <summary>
         /// Allows the game component to update itself.
