@@ -74,7 +74,7 @@ namespace HyperV
                     Position = PositionInitiale;
                     Shifting = 4 * Vector3.Normalize(Camera.Position - Position);
                 }
-                Game.Window.Title = Position.ToString();
+                //Game.Window.Title = Position.ToString();
                 UpdateTexture();
                 InitialiserSommets();
                 r = (float)Math.Sqrt(Camera.Direction.X * Camera.Direction.X + Camera.Direction.Y * Camera.Direction.Y + Camera.Direction.Z * Camera.Direction.Z);
