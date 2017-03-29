@@ -11,14 +11,19 @@ namespace HyperV
         RessourcesManager<Texture2D> TextureManager { get; set; }
 
         string NomModele3D { get; set; }
-        Model Modele3D { get; set; } //le modele 3d quon veut placer
+        protected Model Modele3D { get; set; } //le modele 3d quon veut placer
 
         string NomTexture2D { get; set; } //la texture qui va avec le modele
         Texture2D Texture2D { get; set; }
+        public bool EstTour = false;
 
-        Vector3 Position { get; set; } //la position du modele dans le monde
-        float Rotation { get; set; }
-        CaméraJoueur Camera { get; set; }
+        protected Vector3 Position { get; set; } //la position du modele dans le monde
+        public Vector3 GetPosition()
+        {
+            return Position;
+        }
+        protected float Rotation { get; set; }
+        Caméra Camera { get; set; }
         float Homothésie { get; set; }
 
         public CreateurModele(Game game) : base(game) { }
@@ -34,7 +39,7 @@ namespace HyperV
 
         protected override void LoadContent()
         {
-            Camera = Game.Services.GetService(typeof(CaméraJoueur)) as CaméraJoueur;
+            Camera = Game.Services.GetService(typeof(Caméra)) as Caméra;
             ModelManager = Game.Services.GetService(typeof(RessourcesManager<Model>)) as RessourcesManager<Model>;
             TextureManager = Game.Services.GetService(typeof(RessourcesManager<Texture2D>)) as RessourcesManager<Texture2D>;
 

@@ -74,7 +74,6 @@ namespace HyperV
         int Level { get; set; }
         Vector3 Position { get; set; }
         Vector3 Direction { get; set; }
-        Portal Portal { get; set; }
         TexteCentré Loading { get; set; }
         TexteCentré GameOver { get; set; }
         TexteCentré Success { get; set; }
@@ -88,8 +87,8 @@ namespace HyperV
 
         void LoadSettings()
         {
-            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
-            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
+            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
+            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
             string line = reader.ReadLine();
             string[] parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
             MediaPlayer.Volume = int.Parse(parts[1]) / 100.0f;
@@ -125,12 +124,12 @@ namespace HyperV
 
         void LoadSave()
         {
-            StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
-            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
-            //reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
             string[] parts = line.Split(new char[] { ' ' });
             Level = int.Parse(parts[1]);
@@ -178,20 +177,94 @@ namespace HyperV
                 case 2:
                     Level2(usePosition);
                     break;
+                case 3:
+                    Level3(usePosition);
+                    break;
             }
             Save();
         }
 
+        void Level3(bool usePosition)
+        {
+            Components.Add(new Afficheur3D(this));
+            if (usePosition)
+            {
+                //Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+                //(Camera as Camera2).InitializeDirection(Direction);
+            }
+            else
+            {
+                Camera = new Camera3(this, new Vector3(-26, 2, -3), new Vector3(20, 0, 0), Vector3.Up, FpsInterval);
+            }
+            Services.AddService(typeof(Caméra), Camera);
+            Walls = new Walls(this, FpsInterval, "Briques", "../../../Monde3_Murs.txt");
+            Components.Add(Walls);
+
+            Components.Add(new Catapulte(this, "catapult", new Vector3(-28, -3.8f, -50), 0.03f, 0));
+            AjouterModeles("../../../Monde3_Modeles.txt");
+            AjouterArbres();
+            AjouterTours();
+
+            Grass = new Grass(this, 10f, Vector3.Zero, new Vector3(1000, -70, 0), new Vector2(100, 100), "Grass", FpsInterval);
+            Components.Add(Grass);
+            Components.Add(Camera);
+            Components.Remove(Loading);
+            Components.Add(FPSLabel);
+            //Components.Add(new Skybox(this, "Texture_Skybox"));
+        }
+
+        private void AjouterModeles(string chemin)
+        {
+            StreamReader fichier = new StreamReader(chemin);
+            fichier.ReadLine();
+            while (!fichier.EndOfStream)
+            {
+                string ligneLu = fichier.ReadLine();
+                string[] ligneSplit = ligneLu.Split(';');
+                CreateurModele x = new CreateurModele(this, ligneSplit[0], new Vector3(int.Parse(ligneSplit[1]), int.Parse(ligneSplit[2]), int.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5]));
+                Components.Add(new Afficheur3D(this));
+                Components.Add(x);
+            }
+        }
+
+        private void AjouterArbres()
+        {
+            Random generateur = new Random();
+            const int NB_ARBRES = 150;
+            for (int i = 0; i < NB_ARBRES; ++i)
+            {
+                Components.Add(new Afficheur3D(this));
+                Components.Add(new CreateurModele(this, "Models_Tree", new Vector3(generateur.Next(-300, 300), -70, generateur.Next(-300, 300)), 10, generateur.Next(0, 360)));
+            }
+        }
+
+        private void AjouterTours()
+        {
+            Random generateur = new Random();
+            const int NB_Tours = 10;
+            for (int i = 0; i < NB_Tours; ++i)
+            {
+                Components.Add(new Afficheur3D(this));
+                CreateurModele x = new CreateurModele(this, "Models_Tower", new Vector3(generateur.Next(50, 300), -70, generateur.Next(-300, 300)), 0.05f, generateur.Next(0, 360));
+                Components.Add(x);
+                x.EstTour = true;
+            }
+
+        }
+
         void Save()
         {
-            StreamWriter writer = new StreamWriter("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
-            //StreamWriter writer = new StreamWriter("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
+            //StreamWriter writer = new StreamWriter("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
+            StreamWriter writer = new StreamWriter("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
 
             writer.WriteLine("Level: " + Level.ToString());
             if (Camera != null)
             {
                 writer.WriteLine("Position: " + Camera.Position.ToString());
-                writer.WriteLine("Direction: " + (Camera as CaméraJoueur).Direction.ToString());
+                if (Level != 3)
+                {
+                    writer.WriteLine("Direction: " + (Camera as CaméraJoueur).Direction.ToString());
+                }
             }
             else
             {
@@ -241,6 +314,7 @@ namespace HyperV
             Services.AddService(typeof(HeightMap), HeightMap);
             Water = new Water(this, 1f, Vector3.Zero, new Vector3(10000, 300, 200), new Vector2(10000, 10000), FpsInterval);
             Components.Add(Water);
+            Services.AddService(typeof(Water), Water);
             Boss.AddFireball();
             Boss.AddLabel();
             Components.Add(LifeBars[0]);
@@ -257,6 +331,7 @@ namespace HyperV
         Ceiling[,] CeilingArray { get; set; }
         ArrièrePlanSpatial SpaceBackground { get; set; }
         AfficheurFPS FPSLabel { get; set; }
+        Portal[] Portals { get; set; }
 
         void Level1(bool usePosition)
         {
@@ -303,9 +378,12 @@ namespace HyperV
                     Components.Add(CeilingArray[i, j]);
                 }
             }
-            Portal = new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", FpsInterval);
-            Components.Add(Portal);
-            Services.AddService(typeof(Portal), Portal);
+            Portals = new Portal[2];
+            Portals[0] = new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", FpsInterval);
+            Components.Add(Portals[0]);
+            Portals[1] = new Portal(this, 1f, new Vector3(0, MathHelper.ToRadians(-90), 0), new Vector3(-225, -10, -25), new Vector2(30, 20), "BleuBlancRouge", FpsInterval);
+            Components.Add(Portals[1]);
+            Services.AddService(typeof(Portal[]), Portals);
             Components.Add(Robot);
             Robot.AddLabel();
             Components.Add(PressSpaceLabel);
@@ -358,12 +436,12 @@ namespace HyperV
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];
             LifeBars[0] = new LifeBar(this, 300, "Gauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 70), FpsInterval);
-            LifeBars[1] = new LifeBar(this, 300, "StaminaGauge", "TiredGauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 130), FpsInterval);
+            LifeBars[1] = new LifeBar(this, 300, "StaminaGauge", "TiredGauge", "WaterGauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 130), FpsInterval);
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             
             LoadSave();
             LoadSettings();
-            //Level = 2;
+            Level = 0;
             SelectWorld(true);
 
             //const float ÉCHELLE_OBJET = 0.02f;
@@ -439,7 +517,8 @@ namespace HyperV
                         CheckForCutscene();
                         break;
                     case 1:
-                        CheckForPortal();
+                        CheckForPortal0();
+                        CheckForPortal1();
                         //CheckForGameOver1();
                         break;
                     case 2:
@@ -481,8 +560,9 @@ namespace HyperV
                         Components.Remove(CeilingArray[i, j]);
                     }
                 }
-                Components.Remove(Portal);
-                Services.RemoveService(typeof(Portal));
+                Components.Remove(Portals[0]);
+                Components.Remove(Portals[1]);
+                Services.RemoveService(typeof(Portal[]));
                 Characters.Remove(Robot);
                 Services.RemoveService(typeof(List<Character>));
                 Components.Remove(Robot);
@@ -571,14 +651,17 @@ namespace HyperV
             base.OnDeactivated(sender, args);
             if (Camera != null)
             {
-                (Camera as CaméraJoueur).EstCaméraSourisActivée = false;
+                if (Level != 3)
+                {
+                    (Camera as CaméraJoueur).EstCaméraSourisActivée = false;
+                }
             }
             IsMouseVisible = true;
         }
 
-        void CheckForPortal()
+        void CheckForPortal0()
         {
-            float? collision = Portal.Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
+            float? collision = Portals[0].Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
             if (collision < 30 && collision != null)
             {
                 PressSpaceLabel.Visible = true;
@@ -608,7 +691,62 @@ namespace HyperV
                             Components.Remove(CeilingArray[i, j]);
                         }
                     }
-                    Components.Remove(Portal);
+                    Components.Remove(Portals[0]);
+                    Components.Remove(Portals[1]);
+                    Services.RemoveService(typeof(Portal));
+                    Characters.Remove(Robot);
+                    Services.RemoveService(typeof(List<Character>));
+                    Components.Remove(Robot);
+                    Components.Remove(SpaceBackground);
+                    Components.Remove(PressSpaceLabel);
+                    Components.Remove(LifeBars[0]);
+                    Components.Remove(LifeBars[1]);
+                    Services.RemoveService(typeof(LifeBar[]));
+                    Components.Remove(Crosshair);
+                    Components.Remove(FPSLabel);
+                    SelectWorld(false);
+                }
+            }
+            else
+            {
+                PressSpaceLabel.Visible = false;
+            }
+        }
+
+        void CheckForPortal1()
+        {
+            float? collision = Portals[1].Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
+            if (collision < 30 && collision != null)
+            {
+                PressSpaceLabel.Visible = true;
+                if (InputManager.EstEnfoncée(Keys.Space))
+                {
+                    Components.Add(Loading);
+                    Level = 3;
+                    MediaPlayer.Stop();
+                    Robot.RemoveLabel();
+                    Components.Remove(Camera);
+                    Services.RemoveService(typeof(Caméra));
+                    Components.Remove(Grass);
+                    Services.RemoveService(typeof(Grass));
+                    Components.Remove(Walls);
+                    Services.RemoveService(typeof(Walls));
+                    for (int i = 0; i < 11; ++i)
+                    {
+                        for (int j = 0; j < 7; ++j)
+                        {
+                            Components.Remove(GrassArray[i, j]);
+                        }
+                    }
+                    for (int i = 0; i < 11; ++i)
+                    {
+                        for (int j = 0; j < 7; ++j)
+                        {
+                            Components.Remove(CeilingArray[i, j]);
+                        }
+                    }
+                    Components.Remove(Portals[0]);
+                    Components.Remove(Portals[1]);
                     Services.RemoveService(typeof(Portal));
                     Characters.Remove(Robot);
                     Services.RemoveService(typeof(List<Character>));
@@ -650,8 +788,8 @@ namespace HyperV
             {
                 Save();
                 TakeAScreenshot();
-                string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+                string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
                 ProcessStartInfo p = new ProcessStartInfo();
                 p.FileName = path;
                 p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
@@ -678,8 +816,8 @@ namespace HyperV
             {
                 try
                 {
-                    stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
-                    //stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
+                    //stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
+                    stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
                 }
                 catch (IOException e)
                 {

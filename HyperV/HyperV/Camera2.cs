@@ -647,6 +647,7 @@ namespace HyperV
         List<Character> Characters { get; set; }
         Boss Boss { get; set; }
         HeightMap HeightMap { get; set; }
+        Water Water { get; set; }
 
         public Camera2(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance)
             : base(jeu, positionCaméra, cible, orientation, intervalleMAJ, renderDistance)
@@ -659,6 +660,7 @@ namespace HyperV
             Characters = Game.Services.GetService(typeof(List<Character>)) as List<Character>;
             Boss = Game.Services.GetService(typeof(Boss)) as Boss;
             HeightMap = Game.Services.GetService(typeof(HeightMap)) as HeightMap;
+            Water = Game.Services.GetService(typeof(Water)) as Water;
         }
 
         protected override void GérerHauteur()
@@ -676,6 +678,14 @@ namespace HyperV
             {
                 Position -= direction * VitesseTranslation * Direction;
                 Position += latéral * VitesseTranslation * Latéral;
+            }
+            if (!LifeBars[1].Water && Position.Y < Water.Position.Y)
+            {
+                LifeBars[1].TurnWaterOn();
+            }
+            else if (LifeBars[1].Water && Position.Y >= Water.Position.Y)
+            {
+                LifeBars[1].TurnWaterOff();
             }
         }
 

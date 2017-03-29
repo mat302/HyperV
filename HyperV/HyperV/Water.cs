@@ -28,7 +28,7 @@ namespace HyperV
     /// </summary>
     public class Water : PrimitiveDeBase
     {
-        Vector3 Position { get; set; }
+        public Vector3 Position { get; private set; }
         float IntervalleMAJ { get; set; }
         protected InputManager GestionInput { get; private set; }
         float Temps…coulÈDepuisMAJ { get; set; }
@@ -45,6 +45,7 @@ namespace HyperV
 
         //Vector2[,] PtsTexture { get; set; }
         Afficheur3D Display3D { get; set; }
+        Color Color { get; set; }
 
         public Vector3 GetPositionAvecHauteur(Vector3 position, int hauteur)
         {
@@ -74,6 +75,7 @@ namespace HyperV
             IntervalleMAJ = intervalleMAJ;
             Delta = new Vector2(Ètendue.X, Ètendue.Y);
             Origine = new Vector3(-Delta.X / 2, 0, -Delta.Y / 2); //pour centrer la primitive au point (0,0,0)
+            Color = new Color(20, 50, 250, 50);
         }
 
         public override void Initialize()
@@ -133,8 +135,8 @@ namespace HyperV
             {
                 for (int i = 0; i < 2; ++i)
                 {
-                    Sommets[++NoSommet] = new VertexPositionColor(PtsSommets[i, j], Color.Blue);
-                    Sommets[++NoSommet] = new VertexPositionColor(PtsSommets[i, j + 1], Color.Blue);
+                    Sommets[++NoSommet] = new VertexPositionColor(PtsSommets[i, j], Color);
+                    Sommets[++NoSommet] = new VertexPositionColor(PtsSommets[i, j + 1], Color);
                     //Sommets[++NoSommet] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[i, j]);
                     //Sommets[++NoSommet] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
                 }

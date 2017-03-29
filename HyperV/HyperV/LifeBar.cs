@@ -26,12 +26,14 @@ namespace HyperV
         Texture2D Gauge { get; set; }
         string GaugeName { get; set; }
         string SecondaryGaugeName { get; set; }
+        string ThirdGaugeName { get; set; }
         string DockName { get; set; }
         float Timer { get; set; }
         float Interval { get; set; }
         Rectangle GaugeRectangle { get; set; }
         Rectangle DockRectangle { get; set; }
         Vector2 Position { get; set; }
+        CaméraJoueur Camera { get; set; }
 
         public LifeBar(Game game, int maxLife, string gaugeName, string dockName, Vector2 position, float interval) : base(game)
         {
@@ -39,10 +41,10 @@ namespace HyperV
             DockName = dockName;
             GaugeName = gaugeName;
             SecondaryGaugeName = gaugeName;
+            ThirdGaugeName = gaugeName;
             Interval = interval;
             Life = MaxLife;
             Position = position;
-            Tired = false;
         }
 
         public LifeBar(Game game, int maxLife, string gaugeName, string secondaryGaugeName, string dockName, Vector2 position, float interval) : base(game)
@@ -51,11 +53,22 @@ namespace HyperV
             DockName = dockName;
             GaugeName = gaugeName;
             SecondaryGaugeName = secondaryGaugeName;
+            ThirdGaugeName = gaugeName;
             Interval = interval;
             Life = MaxLife;
             Position = position;
-            Tired = false;
-            Dead = false;
+        }
+
+        public LifeBar(Game game, int maxLife, string gaugeName, string secondaryGaugeName, string thirdGaugeName, string dockName, Vector2 position, float interval) : base(game)
+        {
+            MaxLife = maxLife;
+            DockName = dockName;
+            GaugeName = gaugeName;
+            SecondaryGaugeName = secondaryGaugeName;
+            ThirdGaugeName = thirdGaugeName;
+            Interval = interval;
+            Life = MaxLife;
+            Position = position;
         }
 
         /// <summary>
@@ -66,6 +79,10 @@ namespace HyperV
         {
             GaugeRectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)((float)Life / MaxLife * 300), 50);
             DockRectangle = new Rectangle((int)Position.X, (int)Position.Y, 300, 50);
+            Tired = false;
+            Dead = false;
+            Water = false;
+            Drowned = false;
             base.Initialize();
         }
 
@@ -74,6 +91,7 @@ namespace HyperV
             base.LoadContent();
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
             TextureManager = Game.Services.GetService(typeof(RessourcesManager<Texture2D>)) as RessourcesManager<Texture2D>;
+            Camera = Game.Services.GetService(typeof(Caméra)) as CaméraJoueur;
             Dock = TextureManager.Find(DockName);
             Gauge = TextureManager.Find(GaugeName);
         }
@@ -87,10 +105,39 @@ namespace HyperV
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
+                if (Water)
+                {
+                    int newLife = Life - 1;
+                    if (newLife >= 0 && newLife <= MaxLife)
+                    {
+                        Life = newLife;
+                        if (Life == 0)
+                        {
+                            Drowned = true;
+                        }
+                    }
+                }
                 GaugeRectangle = new Rectangle(GaugeRectangle.X, GaugeRectangle.Y, (int)((float)Life / MaxLife * 300), GaugeRectangle.Height);
                 Timer = 0;
             }
             base.Update(gameTime);
+        }
+
+        public bool Water { get; private set; }
+        bool Drowned { get; set; }
+
+        public void TurnWaterOn()
+        {
+            Water = true;
+            Gauge = TextureManager.Find(ThirdGaugeName);
+            Life = MaxLife;
+        }
+
+        public void TurnWaterOff()
+        {
+            Water = false;
+            ////Gauge = TextureManager.Find(GaugeName);
+            Life = MaxLife;
         }
 
         public bool Tired { get; private set; }
