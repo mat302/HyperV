@@ -75,8 +75,8 @@ namespace HyperV
 
         public void RemoveFireball()
         {
-            Game.Components.Remove(Fireballs[0]);
-            Game.Components.Remove(Fireballs[1]);
+            //Game.Components.Remove(Fireballs[0]);
+            //Game.Components.Remove(Fireballs[1]);
         }
 
         protected override void LoadContent()

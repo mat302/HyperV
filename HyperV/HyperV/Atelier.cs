@@ -56,10 +56,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1000;
         }
 
         Gazon Gazon { get; set; }
@@ -441,7 +441,7 @@ namespace HyperV
             
             LoadSave();
             LoadSettings();
-            Level = 0;
+            Level = 2;
             SelectWorld(true);
 
             //const float ÉCHELLE_OBJET = 0.02f;
@@ -518,7 +518,7 @@ namespace HyperV
                         break;
                     case 1:
                         CheckForPortal0();
-                        CheckForPortal1();
+                        //CheckForPortal1();
                         //CheckForGameOver1();
                         break;
                     case 2:

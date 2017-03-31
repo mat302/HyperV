@@ -124,11 +124,12 @@ namespace HyperV
         }
 
         public bool Water { get; private set; }
-        bool Drowned { get; set; }
+        public bool Drowned { get; private set; }
 
         public void TurnWaterOn()
         {
             Water = true;
+            Tired = false;
             Gauge = TextureManager.Find(ThirdGaugeName);
             Life = MaxLife;
         }
@@ -136,7 +137,8 @@ namespace HyperV
         public void TurnWaterOff()
         {
             Water = false;
-            ////Gauge = TextureManager.Find(GaugeName);
+            Drowned = false;
+            Gauge = TextureManager.Find(GaugeName);
             Life = MaxLife;
         }
 
@@ -159,6 +161,11 @@ namespace HyperV
             {
                 Life = newLife;
             }
+        }
+
+        public void Restore()
+        {
+            Life = MaxLife;
         }
 
         public void Attack()

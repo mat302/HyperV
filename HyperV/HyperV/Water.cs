@@ -46,6 +46,7 @@ namespace HyperV
         //Vector2[,] PtsTexture { get; set; }
         Afficheur3D Display3D { get; set; }
         Color Color { get; set; }
+        public float AdjustedHeight { get; private set; }
 
         public Vector3 GetPositionAvecHauteur(Vector3 position, int hauteur)
         {
@@ -86,6 +87,7 @@ namespace HyperV
             CréerTableauSommets();
             Position = PositionInitiale;
             Display3D = Game.Services.GetService(typeof(Afficheur3D)) as Afficheur3D;
+            AdjustedHeight = Position.Y + 7;
             base.Initialize();
         }
 

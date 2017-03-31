@@ -707,7 +707,7 @@ namespace HyperV
         const float ACCÉLÉRATION = 0.001f;
         const float VITESSE_INITIALE_ROTATION = 5f;
         const float VITESSE_INITIALE_ROTATION_SOURIS = 0.1f;
-        const float VITESSE_INITIALE_TRANSLATION = 0.5f;
+        protected const float VITESSE_INITIALE_TRANSLATION = 0.5f;
         const float DELTA_LACET = MathHelper.Pi / 180; // 1 degré à la fois
         const float DELTA_TANGAGE = MathHelper.Pi / 180; // 1 degré à la fois
         const float DELTA_ROULIS = MathHelper.Pi / 180; // 1 degré à la fois
@@ -730,7 +730,7 @@ namespace HyperV
         InputManager GestionInput { get; set; }
         GamePadManager GestionGamePad { get; set; }
 
-        bool Sauter { get; set; }
+        protected bool Sauter { get; private set; }
         bool Courrir { get; set; }
         bool Ramasser { get; set; }
 
@@ -1088,7 +1088,7 @@ namespace HyperV
 
         //Saut
         #region
-        private void GérerSaut()
+        protected virtual void GérerSaut()
         {
             if (Sauter)
             {
