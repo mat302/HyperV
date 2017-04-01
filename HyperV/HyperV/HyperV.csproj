@@ -90,6 +90,7 @@
     <Compile Include="CharacterScript.cs" />
     <Compile Include="CreateurModele.cs" />
     <Compile Include="CutscenePlayer.cs" />
+    <Compile Include="Ennemy.cs" />
     <Compile Include="Fireball.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="GamePadManager.cs" />

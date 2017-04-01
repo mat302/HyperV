@@ -282,6 +282,7 @@ namespace HyperV
         Afficheur3D Display3D { get; set; }
         Water Water { get; set; }
         Food Food { get; set; }
+        Ennemy Ennemy { get; set; }
 
         void Level2(bool usePosition)
         {
@@ -313,6 +314,8 @@ namespace HyperV
             Food = new Food(this, "Pringles", 1, Vector3.Zero, new Vector3(290, 5, 110), 10, FpsInterval);
             Components.Add(Food);
             Food.AddLabel();
+            Ennemy = new Ennemy(this, "Robot", 0.05f, Vector3.Zero, new Vector3(250, 0, 110), 10, FpsInterval);
+            Components.Add(Ennemy);
             //HeightMap = new HeightMap(this, 1, Vector3.Zero, Vector3.Zero, new Vector3(10000, 1000, 10000), "HeightMap", "Ceiling");
             //Components.Add(HeightMap);
             //Services.AddService(typeof(HeightMap), HeightMap);
