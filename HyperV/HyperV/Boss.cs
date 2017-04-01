@@ -45,6 +45,7 @@ namespace HyperV
         InputManager InputManager { get; set; }
         Camera2 Camera { get; set; }
         List<Fireball> Fireballs { get; set; }
+        Vector3 FireBallPosition { get; set; }
 
         public Boss(Game game, string name, int maxLife, string modelName, string gaugeName, string dockName, string fontName, float interval, float labelInterval, float startScale, Vector3 startRotation, Vector3 startPosition) : base(game, modelName, startScale, startRotation, startPosition)
         {
@@ -57,26 +58,38 @@ namespace HyperV
             LabelInterval = labelInterval;
             MaxLife = maxLife;
             Fireballs = new List<Fireball>();
+            Input = false;
+            FireBallPosition = new Vector3(Position.X, Position.Y - 3, Position.Z);
         }
 
         public void AddFireball()
         {
-            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 0));
-            //Game.Components.Add(Fireballs[0]);
-            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 1));
-            //Game.Components.Add(Fireballs[1]);
-            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 2));
-            //Game.Components.Add(Fireballs[2]);
-            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 3));
-            //Game.Components.Add(Fireballs[3]);
-            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), Position + new Vector3(0, -10, -60), new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 4));
-            //Game.Components.Add(Fireballs[4]);
+            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 0));
+            Game.Components.Add(Fireballs[0]);
+            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 1));
+            Game.Components.Add(Fireballs[1]);
+            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 2));
+            Game.Components.Add(Fireballs[2]);
+            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 3));
+            Game.Components.Add(Fireballs[3]);
+            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 4));
+            Game.Components.Add(Fireballs[4]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 5));
+            //Game.Components.Add(Fireballs[5]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 6));
+            //Game.Components.Add(Fireballs[6]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 7));
+            //Game.Components.Add(Fireballs[7]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 8));
+            //Game.Components.Add(Fireballs[8]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 9));
+            //Game.Components.Add(Fireballs[9]);
         }
 
         public void RemoveFireball()
         {
-            //Game.Components.Remove(Fireballs[0]);
-            //Game.Components.Remove(Fireballs[1]);
+            Game.Components.Remove(Fireballs[0]);
+            Game.Components.Remove(Fireballs[1]);
         }
 
         protected override void LoadContent()
@@ -102,27 +115,48 @@ namespace HyperV
             Game.Components.Remove(BossLabel);
         }
 
-        /// <summary>
+        bool Input { get; set; }
+        Vector3 Direction { get; set; }
+        float Result { get; set; }
+
+        /// <summary> 
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            //Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //if (Timer >= Interval)
-            //{
-
-            //    Timer = 0;
-            //}
-            if (InputManager.EstNouvelleTouche(Keys.E))
+            Input = InputManager.EstNouvelleTouche(Keys.E) ? true : Input;
+            Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Timer >= Interval)
             {
-                float? collision = Collision(new Ray(Camera.Position, Camera.Direction));
-                if (collision < 20)
+                Direction = Camera.Position - Position;
+                Game.Window.Title = Direction.ToString();
+                Result = Direction.Z / Direction.X;
+                Rotation = new Vector3(0, -(float)Math.Atan(Result) + MathHelper.ToRadians(90) + (Direction.X >= 0 ? MathHelper.ToRadians(180) : 0), 0);
+                UpdateWorld();
+                //foreach (Fireball f in Fireballs)
+                //{
+                //    f.InitialPosition = CreateInitialPosition();
+                //}
+                if (Input)
                 {
-                    BossLabel.Attack(1);
+                    Input = false;
+                    float? collision = Collision(new Ray(Camera.Position, Camera.Direction));
+                    if (collision < 20)
+                    {
+                        BossLabel.Attack(1);
+                    }
                 }
+                Timer = 0;
             }
-            base.Update(gameTime);
+        }
+
+        void UpdateWorld()
+        {
+            Monde = Matrix.Identity;
+            Monde *= Matrix.CreateScale(Échelle);
+            Monde *= Matrix.CreateFromYawPitchRoll(Rotation.Y, Rotation.X, Rotation.Z);
+            Monde *= Matrix.CreateTranslation(Position);
         }
 
         public float? Collision(Ray ray)

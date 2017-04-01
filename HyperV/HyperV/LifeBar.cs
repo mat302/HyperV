@@ -153,10 +153,6 @@ namespace HyperV
                 Life = 0;
                 Dead = true;
             }
-            else if (newLife > MaxLife)
-            {
-                Life = MaxLife;
-            }
             else
             {
                 Life = newLife;
@@ -203,6 +199,19 @@ namespace HyperV
                     Gauge = TextureManager.Find(GaugeName);
                     Tired = false;
                 }
+            }
+        }
+
+        public void Heal(int attackPts)
+        {
+            int newLife = Life + attackPts;
+            if (newLife > MaxLife)
+            {
+                Life = MaxLife;
+            }
+            else
+            {
+                Life = newLife;
             }
         }
 

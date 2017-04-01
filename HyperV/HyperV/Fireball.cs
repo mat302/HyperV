@@ -31,12 +31,14 @@ namespace HyperV
         RessourcesManager<SoundEffect> SoundManager { get; set; }
         Afficheur3D Display3D { get; set; }
         float WaitTime { get; set; }
+        public Vector3 InitialPosition { get; set; }
 
         public Fireball(Game game, float scale, Vector3 rotation, Vector3 position, Vector2 range, string textureName, Vector2 description, float interval, float waitTime) : base(game, scale, rotation, position, range, textureName)
         {
             Interval = interval;
             Description = description;
             WaitTime = -waitTime;
+            InitialPosition = position;
         }
 
         public override void Initialize()
@@ -71,7 +73,7 @@ namespace HyperV
                 if (ResetTimer > 5)
                 {
                     ResetTimer = 0;
-                    Position = PositionInitiale;
+                    Position = InitialPosition;
                     Shifting = 4 * Vector3.Normalize(Camera.Position - Position);
                 }
                 //Game.Window.Title = Position.ToString();
@@ -86,7 +88,7 @@ namespace HyperV
                 {
                     SoundEffect.Play();
                     //Visible = false;
-                    Position = PositionInitiale;
+                    Position = InitialPosition;
                     Camera.Attack(20);
                 }
                 Timer = 0;

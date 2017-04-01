@@ -91,6 +91,7 @@
     <Compile Include="CreateurModele.cs" />
     <Compile Include="CutscenePlayer.cs" />
     <Compile Include="Fireball.cs" />
+    <Compile Include="Food.cs" />
     <Compile Include="GamePadManager.cs" />
     <Compile Include="Gazon.cs" />
     <Compile Include="Gear.cs" />

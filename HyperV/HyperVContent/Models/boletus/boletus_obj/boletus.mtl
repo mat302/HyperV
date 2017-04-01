@@ -1,0 +1,22 @@
+# 
+# Wavefront material file
+# Converted by the DEEP Exploration  Deep Exploration 6.3 x64 6.3.3.8069
+# Right Hemisphere, LTD
+# http://www.righthemisphere.com/
+# 
+
+newmtl Material__2
+Ka 0.584314 0.584314 0.584314
+Kd 1 1 1
+Ks 0.898039 0.898039 0.898039
+illum 2
+Ns 4
+map_Kd GRIB.jpg
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
