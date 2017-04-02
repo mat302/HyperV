@@ -88,7 +88,8 @@ namespace HyperV
         void LoadSettings()
         {
             //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
-            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
+            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
+            StreamReader reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/Settings.txt");
             string line = reader.ReadLine();
             string[] parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
             MediaPlayer.Volume = int.Parse(parts[1]) / 100.0f;
@@ -125,11 +126,13 @@ namespace HyperV
         void LoadSave()
         {
             //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
-            StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
+            StreamReader reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
             //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
-            reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            //reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+            reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
             string[] parts = line.Split(new char[] { ' ' });
             Level = int.Parse(parts[1]);
@@ -255,7 +258,8 @@ namespace HyperV
         void Save()
         {
             //StreamWriter writer = new StreamWriter("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
-            StreamWriter writer = new StreamWriter("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
+            //StreamWriter writer = new StreamWriter("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
+            StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
 
             writer.WriteLine("Level: " + Level.ToString());
             if (Camera != null)
@@ -294,6 +298,7 @@ namespace HyperV
             {
                 Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
                 (Camera as Camera2).InitializeDirection(Direction);
+                Services.AddService(typeof(LifeBar[]), LifeBars);
             }
             else
             {
@@ -326,7 +331,7 @@ namespace HyperV
             Boss.AddLabel();
             Components.Add(LifeBars[0]);
             Components.Add(LifeBars[1]);
-            Services.AddService(typeof(LifeBar[]), LifeBars);
+            //Services.AddService(typeof(LifeBar[]), LifeBars);
             Components.Add(Camera);
             Components.Remove(Loading);
             Components.Add(Crosshair);
@@ -412,6 +417,7 @@ namespace HyperV
 
         protected override void Initialize()
         {
+            Sleep = false;
             FirstGameOver = true;
             FpsInterval = 1f / 60f;
             SongManager = new RessourcesManager<Song>(this, "Songs");
@@ -448,7 +454,7 @@ namespace HyperV
             
             LoadSave();
             LoadSettings();
-            Level = 2;
+            //Level = 2;
             SelectWorld(true);
 
             //const float ÉCHELLE_OBJET = 0.02f;
@@ -512,30 +518,33 @@ namespace HyperV
 
         protected override void Update(GameTime gameTime)
         {
-            ManageKeyboard(gameTime);
-            Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            TimePlayed = TimePlayed.Add(gameTime.ElapsedGameTime);
-            //Window.Title = Input.ToString();
-            if (Timer >= FpsInterval)
+            if (!Sleep)
             {
-                switch (Level)
+                ManageKeyboard(gameTime);
+                Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                TimePlayed = TimePlayed.Add(gameTime.ElapsedGameTime);
+                //Window.Title = Input.ToString();
+                if (Timer >= FpsInterval)
                 {
-                    case 0:
-                        CheckForCutscene();
-                        break;
-                    case 1:
-                        CheckForPortal0();
-                        //CheckForPortal1();
-                        //CheckForGameOver1();
-                        break;
-                    case 2:
-                        CheckForGameOver2();
-                        break;
+                    switch (Level)
+                    {
+                        case 0:
+                            CheckForCutscene();
+                            break;
+                        case 1:
+                            CheckForPortal0();
+                            //CheckForPortal1();
+                            //CheckForGameOver1();
+                            break;
+                        case 2:
+                            CheckForGameOver2();
+                            break;
+                    }
+                    Timer = 0;
                 }
-                Timer = 0;
+                //Window.Title = CaméraJeu.Position.ToString();
+                base.Update(gameTime);
             }
-            //Window.Title = CaméraJeu.Position.ToString();
-            base.Update(gameTime);
         }
 
         void CheckForGameOver1()
@@ -613,6 +622,7 @@ namespace HyperV
                 Components.Remove(Camera);
                 Components.Remove(Crosshair);
                 Components.Remove(FPSLabel);
+                LaunchPause();
             }
             else if (Boss.Dead && FirstGameOver)
             {
@@ -644,6 +654,7 @@ namespace HyperV
 
         protected override void OnActivated(object sender, EventArgs args)
         {
+            Sleep = false;
             base.OnActivated(sender, args);
             if (Camera != null)
             {
@@ -655,6 +666,7 @@ namespace HyperV
 
         protected override void OnDeactivated(object sender, EventArgs args)
         {
+            Sleep = true;
             base.OnDeactivated(sender, args);
             if (Camera != null)
             {
@@ -708,7 +720,7 @@ namespace HyperV
                     Components.Remove(PressSpaceLabel);
                     Components.Remove(LifeBars[0]);
                     Components.Remove(LifeBars[1]);
-                    Services.RemoveService(typeof(LifeBar[]));
+                    //Services.RemoveService(typeof(LifeBar[]));
                     Components.Remove(Crosshair);
                     Components.Remove(FPSLabel);
                     SelectWorld(false);
@@ -789,22 +801,33 @@ namespace HyperV
             Components.Add(Loading);
         }
 
+        bool Sleep { get; set; }
+
         void ManageKeyboard(GameTime gameTime)
         {
             if (InputManager.EstNouvelleTouche(Keys.Escape))
             {
-                Save();
-                TakeAScreenshot();
-                //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-                ProcessStartInfo p = new ProcessStartInfo();
-                p.FileName = path;
-                p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
-                Process.Start(p);
-
-                //(Camera as CaméraJoueur).EstCaméraSourisActivée = false;
-                //Exit();
+                LaunchPause();
             }
+        }
+
+        void LaunchPause()
+        {
+            Sleep = true;
+            Save();
+            TakeAScreenshot();
+            //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+            //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
+            string path = Path.Combine(Environment.CurrentDirectory, @"..\..\..\WPFINTERFACE\Launching Interface\bin\Debug\Launching Interface.exe");
+            ProcessStartInfo p = new ProcessStartInfo();
+            p.FileName = path;
+            p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
+            Process.Start(p);
+            //Process.Start(@"WPFINTERFACE\Launching Interface\bin\Debug\Launching Interface.exe");
+            //Process.Start(Path.Combine(Environment.CurrentDirectory, @"WPFINTERFACE\Launching Interface\bin\Debug\Launching Interface.exe"));
+
+            //(Camera as CaméraJoueur).EstCaméraSourisActivée = false;
+            //Exit();
         }
 
         Texture2D Screenshot { get; set; }
@@ -824,7 +847,8 @@ namespace HyperV
                 try
                 {
                     //stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
-                    stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
+                    //stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
+                    stream = File.OpenWrite("../../../WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
                 }
                 catch (IOException e)
                 {

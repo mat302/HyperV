@@ -1,0 +1,63 @@
+﻿<Page x:Class="Launching_Interface.NewGamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Launching_Interface"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      
+      Title="NewGamePage">
+
+    <Grid>
+        <Image Source="Pictures/chateau.png" Stretch="Fill" Margin="0" />
+        <Grid Name="Display" HorizontalAlignment="Stretch" Width="auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="80*" />
+            </Grid.RowDefinitions>
+
+            <Grid Name="Columns" Grid.Row="0" HorizontalAlignment="Stretch" Width="auto">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                </Grid.ColumnDefinitions>
+                <Viewbox Stretch="Fill" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
+                    <TextBox Name="tbtitre" Text="  Load Game   " BorderThickness="0" IsHitTestVisible="False" Margin="-40,13,42,5" MinHeight="15" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" HorizontalAlignment="Stretch" Width="auto" Height="17" Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch"/>
+                </Viewbox>
+                <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Button Name="allo" Content="                     " FontWeight="DemiBold" Margin="13,10,85,34" ClickMode="Press" Background="Transparent" Click="BackButton_Click" BorderThickness="1" Foreground="White" BorderBrush="White"  />
+                </Viewbox>
+                <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBox Name="BackButton" Text="       Back        " BorderThickness="0" IsHitTestVisible="False" Margin="28,17,113,52"  Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" Height="16" MinHeight="16"/>
+                </Viewbox>
+            </Grid>
+            <Grid Name="Columnss" Grid.Row="1" HorizontalAlignment="Stretch" Width="auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="Save0Button"  Height="auto" Width="auto" Grid.Column="0" Margin="90,50,25,70" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="Save0Button_Click" BorderBrush="White" BorderThickness="6" Background="AntiqueWhite"  >
+                    <Grid  Name="Load0" Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                       
+                    </Grid>
+                </Button>
+                <Button Name="Save1Button"  Height="auto" Width="auto" Grid.Column="1" Margin="50,50,50,70" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="Save1Button_Click" BorderBrush="White" BorderThickness="6" Background="AntiqueWhite">
+                    <Grid  Name="Load1" Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        
+                    </Grid>
+                </Button>
+
+                <Button Name="Save2Button"  Height="auto" Width="auto" Grid.Column="2" Background="AntiqueWhite" Margin="25,50,90,70" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="Save2Button_Click" BorderBrush="White" BorderThickness="6">
+                    <Grid  Name="Load2" Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                    </Grid>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

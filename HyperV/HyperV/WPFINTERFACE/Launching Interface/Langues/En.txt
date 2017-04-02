@@ -1,0 +1,45 @@
+   Back
+   New Game   
+Save A
+Time Played A - 10:10
+Completed Levels - 0/3
+Save B
+Time Played B - 10:10
+Completed Levels - 0/3
+Save C
+Time Played C - 10:10
+Completed Levels - 0/3
+Settings
+Game Music
+Sound Effects
+French
+English
+Spanish
+Japnese
+Render Distance
+Frame Rate
+Fullscreen
+Input
+Controller
+Keyboard
+Credits
+Computer Science
+Lionel-Groulx College
+2017
+Highscores
+On
+Off
+Language
+   Load Game   
+  Reset
+Exit Game
+Pause
+Menu
+Save
+Run
+Jump
+Move Character
+View direction
+Pick-up
+L
+R
