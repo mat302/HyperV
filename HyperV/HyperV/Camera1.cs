@@ -684,26 +684,26 @@ namespace HyperV
 
         protected override void GérerDéplacement(float direction, float latéral)
         {
-            base.GérerDéplacement(direction, latéral);
+         base.GérerDéplacement(direction, latéral);
 
-            if (Walls.CheckForCollisions(Position) || CheckForCharacterCollision())
-            {
-                Position -= direction * VitesseTranslation * Direction;
-                Position += latéral * VitesseTranslation * Latéral;
-            }
-        }
+         if (Walls.CheckForCollisions(Position) || CheckForCharacterCollision())
+         {
+            Position -= direction * VitesseTranslation * Direction;
+            Position += latéral * VitesseTranslation * Latéral;
+         }
+      }
 
         bool CheckForCharacterCollision()
         {
-            bool result = false;
-            int i;
+         bool result = false;
+         int i;
 
-            for (i = 0; i < Characters.Count && !result; ++i)
-            {
-                result = Vector3.Distance(Characters[i].GetPosition(), Position) < MAX_DISTANCE;
-            }
+         for (i = 0; i < Characters.Count && !result; ++i)
+         {
+            result = Vector3.Distance(Characters[i].GetPosition(), Position) < MAX_DISTANCE;
+         }
 
-            return result;
+         return false;
         }
     }
 }
