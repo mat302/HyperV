@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmmunitionCatapulte.cs" />
+    <Compile Include="Arc.cs" />
     <Compile Include="Boss.cs" />
     <Compile Include="BossLabel.cs" />
     <Compile Include="Camera1.cs" />
@@ -90,8 +91,10 @@
     <Compile Include="CharacterScript.cs" />
     <Compile Include="CreateurModele.cs" />
     <Compile Include="CutscenePlayer.cs" />
-    <Compile Include="Ennemy.cs" />
+    <Compile Include="Enemy.cs" />
+    <Compile Include="Epee.cs" />
     <Compile Include="Fireball.cs" />
+    <Compile Include="Fleche.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="GamePadManager.cs" />
     <Compile Include="Gazon.cs" />

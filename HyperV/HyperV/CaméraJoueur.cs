@@ -1070,6 +1070,31 @@ namespace HyperV
                     }
                 }
             }
+
+            //NEW
+            foreach (Arc sphereRamassable in Game.Components.Where(composant => composant is Arc))
+            {
+                sphereRamassable.Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
+                           sphereRamassable.EstEnCollision(Viseur) != null && Ramasser;
+
+                //Game.Window.Title = sphereRamassable.EstEnCollision(Viseur).ToString();
+                if (sphereRamassable.Ramasser && !sphereRamassable.Placed)
+                {
+                    if (/*!ModeleRamassable.Taken*/true)
+                    {
+                        sphereRamassable.EstRamassée = true;
+                        ModeleRamassable.Taken = true;
+                        break;
+                    }
+                    else if (sphereRamassable.EstRamassée)
+                    {
+                        sphereRamassable.EstRamassée = false;
+                        ModeleRamassable.Taken = false;
+                        break;
+                    }
+                }
+            }
+            //NEW
         }
 
         //private bool Taken()

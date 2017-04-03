@@ -64,16 +64,20 @@ namespace HyperV
 
         public void AddFireball()
         {
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 0));
-            Game.Components.Add(Fireballs[0]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 1));
-            Game.Components.Add(Fireballs[1]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 2));
-            Game.Components.Add(Fireballs[2]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 3));
-            Game.Components.Add(Fireballs[3]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 4));
-            Game.Components.Add(Fireballs[4]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 0));
+            //Game.Components.Add(Fireballs[0]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 1));
+            //Game.Components.Add(Fireballs[1]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 2));
+            //Game.Components.Add(Fireballs[2]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 3));
+            //Game.Components.Add(Fireballs[3]);
+            //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 4));
+            //Game.Components.Add(Fireballs[4]);
+
+
+
+
             //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 5));
             //Game.Components.Add(Fireballs[5]);
             //Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 6));
@@ -126,6 +130,7 @@ namespace HyperV
         public override void Update(GameTime gameTime)
         {
             Input = InputManager.EstNouvelleTouche(Keys.E) ? true : Input;
+
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
@@ -148,6 +153,25 @@ namespace HyperV
                     }
                 }
                 Timer = 0;
+            }
+        }
+
+        public void CheckForAttack(int attack)
+        {
+            float? collision = Collision(new Ray(Camera.Position, Camera.Direction));
+            if (collision < 20)
+            {
+                BossLabel.Attack(attack);
+            }
+        }
+
+        public void CheckForArrowAttack(Vector3 position, Vector3 direction, int attack, Fleche arrow)
+        {
+            float? collision = Collision(new Ray(position, direction));
+            if (collision < 20)
+            {
+                BossLabel.Attack(attack);
+                Game.Components.Remove(arrow);
             }
         }
 

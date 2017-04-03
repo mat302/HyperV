@@ -1,4 +1,4 @@
 Level: 2
-Position: {X:768.213 Y:4 Z:724.1441}
-Direction: {X:0.754634 Y:-0.5361688 Z:0.3782202}
-Time Played: 00:02:38.7082642
+Position: {X:0 Y:4 Z:60}
+Direction: {X:20 Y:-4 Z:-60}
+Time Played: 00:00:11.0089012
