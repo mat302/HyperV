@@ -64,6 +64,7 @@ namespace HyperV
 
         Gazon Gazon { get; set; }
         Grass Grass { get; set; }
+        Ceiling Ceiling { get; set; }
 
         RessourcesManager<Video> VideoManager { get; set; }
         CutscenePlayer CutscenePlayer { get; set; }
@@ -145,6 +146,13 @@ namespace HyperV
             line = reader.ReadLine();
             parts = line.Split(new string[] { "d: " }, StringSplitOptions.None);
             TimePlayed = TimeSpan.Parse(parts[1]);
+            line = reader.ReadLine();
+            parts = line.Split(new string[] { "e: " }, StringSplitOptions.None);
+            LifeBars[0] = new LifeBar(this, int.Parse(parts[1]), "Gauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 70), FpsInterval);
+            line = reader.ReadLine();
+            parts = line.Split(new string[] { "k: " }, StringSplitOptions.None);
+            LifeBars[0].Attack(int.Parse(parts[1]));
+            LifeBars[1] = new LifeBar(this, 300, "StaminaGauge", "TiredGauge", "WaterGauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 130), FpsInterval);
             reader.Close();
             //parts = line.Split(separator);
             //int startInd = parts[1].IndexOf("X:") + 2;
@@ -154,6 +162,15 @@ namespace HyperV
             //startInd = parts[1].IndexOf("Z:") + 2;
             //float aZPosition = float.Parse(parts[1].Substring(startInd, parts[1].IndexOf("}") - startInd));
             //Position = new Vector3(aXPosition, aYPosition, aZPosition);
+        }
+
+        Vector2 Vector2Parse(string parse)
+        {
+            int startInd = parse.IndexOf("X:") + 2;
+            float aXPosition = float.Parse(parse.Substring(startInd, parse.IndexOf(" Y") - startInd));
+            startInd = parse.IndexOf("Y:") + 2;
+            float aYPosition = float.Parse(parse.Substring(startInd, parse.IndexOf("}") - startInd));
+            return new Vector2(aXPosition, aYPosition);
         }
 
         Vector3 Vector3Parse(string parse)
@@ -169,22 +186,313 @@ namespace HyperV
 
         void SelectWorld(bool usePosition)
         {
-            switch (Level)
-            {
-                case 0:
-                    Level0();
-                    break;
-                case 1:
-                    Level1(usePosition);
-                    break;
-                case 2:
-                    Level2(usePosition);
-                    break;
-                case 3:
-                    Level3(usePosition);
-                    break;
-            }
+            //switch (Level)
+            //{
+            //    case 0:
+            //        Level0();
+            //        break;
+            //    case 1:
+            //        Level1(usePosition);
+            //        break;
+            //    case 2:
+            //        Level2(usePosition);
+            //        break;
+            //    case 3:
+            //        Level3(usePosition);
+            //        break;
+            //}
+            SelectLevel(usePosition, Level);
             Save();
+        }
+
+        void SelectLevel(bool usePosition, int level)
+        {
+            StreamReader reader = new StreamReader("../../../Levels/level" + level.ToString() + ".txt");
+            string line;
+            string[] parts;
+            bool boss = false;
+            if (level == 1)
+            {
+                Portals = new List<Portal>();
+            }
+            while (!reader.EndOfStream)
+            {
+                line = reader.ReadLine();
+                parts = line.Split(new char[] { ';' });
+                switch (parts[0])
+                {
+                    case "SpaceBackground":
+                        Components.Add(SpaceBackground);
+                        break;
+                    case "Display3D":
+                        Display3D = new Afficheur3D(this);
+                        Components.Add(Display3D);
+                        if (level == 1)
+                        {
+                            Services.AddService(typeof(Afficheur3D), Display3D);
+                        }
+                        break;
+                    case "Camera":
+                        if (usePosition)
+                        {
+                            if (level == 1)
+                            {
+                                Services.AddService(typeof(List<Character>), Characters);
+                                Camera = new Camera1(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+                                (Camera as Camera1).InitializeDirection(Direction);
+                            }
+                            else
+                            {
+                                Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+                                (Camera as Camera2).InitializeDirection(Direction);
+                            }
+                            Services.AddService(typeof(LifeBar[]), LifeBars);
+                        }
+                        else
+                        {
+                            if (level == 1)
+                            {
+                                Services.AddService(typeof(List<Character>), Characters);
+                                Camera = new Camera1(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval, RenderDistance);
+                            }
+                            else
+                            {
+                                Camera = new Camera2(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval, RenderDistance);
+                            }
+                        }
+                        //(Camera as Camera2).SetRenderDistance(RenderDistance);
+                        Services.AddService(typeof(Caméra), Camera);
+                        break;
+                    case "Maze":
+                        Maze = new Maze(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], FpsInterval, parts[6]);
+                        Components.Add(Maze);
+                        Services.AddService(typeof(Maze), Maze);
+                        break;
+                    case "Boss":
+                        boss = true;
+                        Boss = new Boss(this, parts[1], int.Parse(parts[2]), parts[3], parts[4], parts[5], parts[6], FpsInterval, FpsInterval, float.Parse(parts[7]), Vector3Parse(parts[8]), Vector3Parse(parts[9]));
+                        Components.Add(Boss);
+                        Services.AddService(typeof(Boss), Boss);
+                        break;
+                    case "Mill":
+                        Mill = new Mill(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval);
+                        Components.Add(Mill);
+                        Mill.AddLabel();
+                        Services.AddService(typeof(Mill), Mill);
+                        break;
+                    case "Food":
+                        Food = new Food(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]), FpsInterval);
+                        Components.Add(Food);
+                        Food.AddLabel();
+                        break;
+                    case "Enemy":
+                        Ennemy = new Enemy(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]), int.Parse(parts[6]), float.Parse(parts[7]), FpsInterval);
+                        Components.Add(Ennemy);
+                        Services.AddService(typeof(Enemy), Ennemy);
+                        break;
+                    case "Arc":
+                        Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
+                        break;
+                    case "Character":
+                        Robot = new Character(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6], parts[7], parts[8], FpsInterval);
+                        Characters.Add(Robot);
+                        break;
+                    case "Grass":
+                        Grass = new Grass(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], Vector2Parse(parts[6]), FpsInterval);
+                        Components.Add(Grass);
+                        Services.AddService(typeof(Grass), Grass);
+                        break;
+                    case "Ceiling":
+                        Ceiling = new Ceiling(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], Vector2Parse(parts[6]), FpsInterval);
+                        Components.Add(Ceiling);
+                        Services.AddService(typeof(Ceiling), Ceiling);
+                        break;
+                    case "Walls":
+                        Walls = new Walls(this, FpsInterval, parts[1], parts[2]);
+                        Components.Add(Walls);
+                        Services.AddService(typeof(Walls), Walls);
+                        break;
+                    case "Portal":
+                        //Portals.Add(new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", FpsInterval));
+                        Portal p = new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval);
+                        Portals.Add(p);
+                        Components.Add(p);
+                        break;
+                    case "CutscenePlayer":
+                        CutscenePlayer = new CutscenePlayer(this, parts[1], bool.Parse(parts[2]), parts[3]);
+                        Components.Add(CutscenePlayer);
+                        break;
+                }
+            }
+            if (Level != 0)
+            {
+                if (level == 1)
+                {
+                    Services.AddService(typeof(List<Portal>), Portals);
+                    Components.Add(Robot);
+                    Robot.AddLabel();
+                    //Components.Add(new Epee(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
+                    //Components.Add(new Arc(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
+                    Components.Add(PressSpaceLabel);
+                    PressSpaceLabel.Visible = false;
+                }
+                if (boss)
+                {
+                    Boss.AddFireball();
+                    Boss.AddLabel();
+                }
+                Components.Add(LifeBars[0]);
+                Components.Add(LifeBars[1]);
+                if (level == 1)
+                {
+                    Services.AddService(typeof(LifeBar[]), LifeBars);
+                }
+                Components.Add(Camera);
+                Components.Remove(Loading);
+                Components.Add(Crosshair);
+                Components.Add(FPSLabel);
+                //base.Initialize();
+            }
+        }
+
+        Grass[,] GrassArray { get; set; }
+        Ceiling[,] CeilingArray { get; set; }
+        ArrièrePlanSpatial SpaceBackground { get; set; }
+        AfficheurFPS FPSLabel { get; set; }
+        List<Portal> Portals { get; set; }
+
+        void Level1(bool usePosition)
+        {
+            //Song = SongManager.Find("castle");
+            //MediaPlayer.Play(Song);
+            Components.Add(SpaceBackground);
+            Components.Add(new Afficheur3D(this));
+            Services.AddService(typeof(List<Character>), Characters);
+            if (usePosition)
+            {
+                Camera = new Camera1(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+                (Camera as Camera1).InitializeDirection(Direction);
+            }
+            else
+            {
+                Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+            }
+            //(Camera as Camera1).SetRenderDistance(RenderDistance);
+            Services.AddService(typeof(Caméra), Camera);
+            Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FpsInterval);
+            Characters.Add(Robot);
+            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(-310, -20, 0), new Vector2(40, 40), "Ceiling", new Vector2(5, 3), FpsInterval);
+            Components.Add(Grass);
+            Services.AddService(typeof(Grass), Grass);
+            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(-310, 0, 0), new Vector2(40, 40), "Ceiling", new Vector2(5, 3), FpsInterval);
+            Components.Add(Ceiling);
+            Services.AddService(typeof(Ceiling), Ceiling);
+            Walls = new Walls(this, FpsInterval, "Rockwall", "../../../Data.txt");
+            Components.Add(Walls);
+            Services.AddService(typeof(Walls), Walls);
+            //Components.Add(Camera);
+
+            //GrassArray = new Grass[11, 7];
+            //CeilingArray = new Ceiling[11, 7];
+            //for (int i = 0; i < 11; ++i)
+            //{
+            //    for (int j = 0; j < 7; ++j)
+            //    {
+            //        GrassArray[i, j] = new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "Ceiling", FpsInterval);
+            //        Components.Add(GrassArray[i, j]);
+            //    }
+            //}
+            //for (int i = 0; i < 11; ++i)
+            //{
+            //    for (int j = 0; j < 7; ++j)
+            //    {
+            //        CeilingArray[i, j] = new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", FpsInterval);
+            //        Components.Add(CeilingArray[i, j]);
+            //    }
+            //}
+
+            Portals = new List<Portal>();
+            Portals.Add(new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", FpsInterval));
+            Components.Add(Portals.Last());
+            Portals.Add(new Portal(this, 1f, new Vector3(0, MathHelper.ToRadians(-90), 0), new Vector3(-225, -10, -25), new Vector2(30, 20), "BleuBlancRouge", FpsInterval));
+            Components.Add(Portals.Last());
+            Services.AddService(typeof(List<Portal>), Portals);
+            Components.Add(Robot);
+            Robot.AddLabel();
+            //Components.Add(new Epee(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
+            //Components.Add(new Arc(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
+            Components.Add(PressSpaceLabel);
+            PressSpaceLabel.Visible = false;
+            Components.Add(LifeBars[0]);
+            Components.Add(LifeBars[1]);
+            Services.AddService(typeof(LifeBar[]), LifeBars);
+            Components.Add(Camera);
+            Components.Remove(Loading);
+            Components.Add(Crosshair);
+            Components.Add(FPSLabel);
+        }
+
+        Boss Boss { get; set; }
+        Mill Mill { get; set; }
+        HeightMap HeightMap { get; set; }
+        LifeBar[] LifeBars { get; set; }
+        Afficheur3D Display3D { get; set; }
+        Water Water { get; set; }
+        Food Food { get; set; }
+        Enemy Ennemy { get; set; }
+
+        void Level2(bool usePosition)
+        {
+            Components.Add(SpaceBackground);
+            Display3D = new Afficheur3D(this);
+            Components.Add(Display3D);
+            Services.AddService(typeof(Afficheur3D), Display3D);
+            if (usePosition)
+            {
+                Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+                (Camera as Camera2).InitializeDirection(Direction);
+                Services.AddService(typeof(LifeBar[]), LifeBars);
+            }
+            else
+            {
+                Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+            }
+            //(Camera as Camera2).SetRenderDistance(RenderDistance);
+            Services.AddService(typeof(Caméra), Camera);
+            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", FpsInterval, "Maze1");
+            Components.Add(Maze);
+            Services.AddService(typeof(Maze), Maze);
+            Boss = new Boss(this, "Great Bison", 100, "Bison", "Gauge", "Dock", "Arial", FpsInterval, FpsInterval, 1, Vector3.Zero, new Vector3(300, 30, 200));
+            Components.Add(Boss);
+            Services.AddService(typeof(Boss), Boss);
+            Mill = new Mill(this, 1, Vector3.Zero, new Vector3(300, 10, 100), new Vector2(50, 50), "Fence", FpsInterval);
+            Components.Add(Mill);
+            Mill.AddLabel();
+            Services.AddService(typeof(Mill), Mill);
+            Food = new Food(this, "Pringles", 1, Vector3.Zero, new Vector3(290, 5, 110), 10, FpsInterval);
+            Components.Add(Food);
+            Food.AddLabel();
+            Ennemy = new Enemy(this, "Robot", 0.05f, Vector3.Zero, new Vector3(250, 0, 110), 10, 10, 1f, FpsInterval);
+            Components.Add(Ennemy);
+            Services.AddService(typeof(Enemy), Ennemy);
+            //Components.Add(new Epee(this, "Robot", 0.02f, Vector3.Zero, new Vector3(20, 0, 0)));
+            Components.Add(new Arc(this, "Robot", 0.02f, Vector3.Zero, new Vector3(20, 0, 0)));
+            //HeightMap = new HeightMap(this, 1, Vector3.Zero, Vector3.Zero, new Vector3(10000, 1000, 10000), "HeightMap", "Ceiling");
+            //Components.Add(HeightMap);
+            //Services.AddService(typeof(HeightMap), HeightMap);
+            //Water = new Water(this, 1f, Vector3.Zero, new Vector3(10000, 300, 200), new Vector2(10000, 10000), FpsInterval);
+            //Components.Add(Water);
+            //Services.AddService(typeof(Water), Water);
+            Boss.AddFireball();
+            Boss.AddLabel();
+            Components.Add(LifeBars[0]);
+            Components.Add(LifeBars[1]);
+            //Services.AddService(typeof(LifeBar[]), LifeBars);
+            Components.Add(Camera);
+            Components.Remove(Loading);
+            Components.Add(Crosshair);
+            Components.Add(FPSLabel);
+            //base.Initialize();
         }
 
         void Level3(bool usePosition)
@@ -208,7 +516,7 @@ namespace HyperV
             AjouterArbres();
             AjouterTours();
 
-            Grass = new Grass(this, 10f, Vector3.Zero, new Vector3(1000, -70, 0), new Vector2(100, 100), "Grass", FpsInterval);
+            Grass = new Grass(this, 10f, Vector3.Zero, new Vector3(1000, -70, 0), new Vector2(100, 100), "Grass", new Vector2(1, 1), FpsInterval);
             Components.Add(Grass);
             Components.Add(Camera);
             Components.Remove(Loading);
@@ -276,142 +584,9 @@ namespace HyperV
                 writer.WriteLine("Direction: {X:5 Y:5 Z:5}");
             }
             writer.WriteLine("Time Played: " + TimePlayed.ToString());
+            writer.WriteLine("Max Life: " + LifeBars[0].MaxLife.ToString());
+            writer.WriteLine("Attack: " + (LifeBars[0].MaxLife - LifeBars[0].Life).ToString());
             writer.Close();
-        }
-
-        Boss Boss { get; set; }
-        Mill Mill { get; set; }
-        HeightMap HeightMap { get; set; }
-        LifeBar[] LifeBars { get; set; }
-        Afficheur3D Display3D { get; set; }
-        Water Water { get; set; }
-        Food Food { get; set; }
-        Enemy Ennemy { get; set; }
-
-        void Level2(bool usePosition)
-        {
-            Components.Add(SpaceBackground);
-            Display3D = new Afficheur3D(this);
-            Components.Add(Display3D);
-            Services.AddService(typeof(Afficheur3D), Display3D);
-            if (usePosition)
-            {
-                Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                (Camera as Camera2).InitializeDirection(Direction);
-                Services.AddService(typeof(LifeBar[]), LifeBars);
-            }
-            else
-            {
-                Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-            }
-            //(Camera as Camera2).SetRenderDistance(RenderDistance);
-            Services.AddService(typeof(Caméra), Camera);
-            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", FpsInterval, "Maze1");
-            Components.Add(Maze);
-            Services.AddService(typeof(Maze), Maze);
-            Boss = new Boss(this, "Great Bison", 100, "Bison", "Gauge", "Dock", "Arial", FpsInterval, FpsInterval, 1, Vector3.Zero, new Vector3(300, 30, 200));
-            Components.Add(Boss);
-            Services.AddService(typeof(Boss), Boss);
-            Mill = new Mill(this, 1, Vector3.Zero, new Vector3(300, 10, 100), new Vector2(50, 50), "Fence", FpsInterval);
-            Components.Add(Mill);
-            Mill.AddLabel();
-            Services.AddService(typeof(Mill), Mill);
-            Food = new Food(this, "Pringles", 1, Vector3.Zero, new Vector3(290, 5, 110), 10, FpsInterval);
-            Components.Add(Food);
-            Food.AddLabel();
-            Ennemy = new Enemy(this, "Robot", 0.05f, Vector3.Zero, new Vector3(250, 0, 110), 10, 10, 1f, FpsInterval);
-            Components.Add(Ennemy);
-            Services.AddService(typeof(Enemy), Ennemy);
-            //Components.Add(new Epee(this, "Robot", 0.02f, Vector3.Zero, new Vector3(20, 0, 0)));
-            Components.Add(new Arc(this, "Robot", 0.02f, Vector3.Zero, new Vector3(20, 0, 0)));
-            //HeightMap = new HeightMap(this, 1, Vector3.Zero, Vector3.Zero, new Vector3(10000, 1000, 10000), "HeightMap", "Ceiling");
-            //Components.Add(HeightMap);
-            //Services.AddService(typeof(HeightMap), HeightMap);
-            //Water = new Water(this, 1f, Vector3.Zero, new Vector3(10000, 300, 200), new Vector2(10000, 10000), FpsInterval);
-            //Components.Add(Water);
-            //Services.AddService(typeof(Water), Water);
-            Boss.AddFireball();
-            Boss.AddLabel();
-            Components.Add(LifeBars[0]);
-            Components.Add(LifeBars[1]);
-            //Services.AddService(typeof(LifeBar[]), LifeBars);
-            Components.Add(Camera);
-            Components.Remove(Loading);
-            Components.Add(Crosshair);
-            Components.Add(FPSLabel);
-            base.Initialize();
-        }
-
-        Grass[,] GrassArray { get; set; }
-        Ceiling[,] CeilingArray { get; set; }
-        ArrièrePlanSpatial SpaceBackground { get; set; }
-        AfficheurFPS FPSLabel { get; set; }
-        Portal[] Portals { get; set; }
-
-        void Level1(bool usePosition)
-        {
-            //Song = SongManager.Find("castle");
-            //MediaPlayer.Play(Song);
-            Components.Add(SpaceBackground);
-            Components.Add(new Afficheur3D(this));
-            Services.AddService(typeof(List<Character>), Characters);
-            if (usePosition)
-            {
-                Camera = new Camera1(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                (Camera as Camera1).InitializeDirection(Direction);
-            }
-            else
-            {
-                Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-            }
-            //(Camera as Camera1).SetRenderDistance(RenderDistance);
-            Services.AddService(typeof(Caméra), Camera);
-            Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FpsInterval);
-            Characters.Add(Robot);
-            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", FpsInterval);
-            Components.Add(Grass);
-            Services.AddService(typeof(Grass), Grass);
-            Walls = new Walls(this, FpsInterval, "Rockwall", "../../../Data.txt");
-            Components.Add(Walls);
-            Services.AddService(typeof(Walls), Walls);
-            //Components.Add(Camera);
-            GrassArray = new Grass[11, 7];
-            CeilingArray = new Ceiling[11, 7];
-            for (int i = 0; i < 11; ++i)
-            {
-                for (int j = 0; j < 7; ++j)
-                {
-                    GrassArray[i, j] = new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "Ceiling", FpsInterval);
-                    Components.Add(GrassArray[i, j]);
-                }
-            }
-            for (int i = 0; i < 11; ++i)
-            {
-                for (int j = 0; j < 7; ++j)
-                {
-                    CeilingArray[i, j] = new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", FpsInterval);
-                    Components.Add(CeilingArray[i, j]);
-                }
-            }
-            Portals = new Portal[2];
-            Portals[0] = new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", FpsInterval);
-            Components.Add(Portals[0]);
-            Portals[1] = new Portal(this, 1f, new Vector3(0, MathHelper.ToRadians(-90), 0), new Vector3(-225, -10, -25), new Vector2(30, 20), "BleuBlancRouge", FpsInterval);
-            Components.Add(Portals[1]);
-            Services.AddService(typeof(Portal[]), Portals);
-            Components.Add(Robot);
-            Robot.AddLabel();
-            //Components.Add(new Epee(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
-            //Components.Add(new Arc(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
-            Components.Add(PressSpaceLabel);
-            PressSpaceLabel.Visible = false;
-            Components.Add(LifeBars[0]);
-            Components.Add(LifeBars[1]);
-            Services.AddService(typeof(LifeBar[]), LifeBars);
-            Components.Add(Camera);
-            Components.Remove(Loading);
-            Components.Add(Crosshair);
-            Components.Add(FPSLabel);
         }
 
         void Level0()
@@ -453,13 +628,11 @@ namespace HyperV
             Characters = new List<Character>();
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];
-            LifeBars[0] = new LifeBar(this, 300, "Gauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 70), FpsInterval);
-            LifeBars[1] = new LifeBar(this, 300, "StaminaGauge", "TiredGauge", "WaterGauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 130), FpsInterval);
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             
             LoadSave();
             LoadSettings();
-            //Level = 2;
+            Level = 0;
             SelectWorld(true);
 
             //const float ÉCHELLE_OBJET = 0.02f;
@@ -583,7 +756,7 @@ namespace HyperV
                 }
                 Components.Remove(Portals[0]);
                 Components.Remove(Portals[1]);
-                Services.RemoveService(typeof(Portal[]));
+                Services.RemoveService(typeof(List<Portal>));
                 Characters.Remove(Robot);
                 Services.RemoveService(typeof(List<Character>));
                 Components.Remove(Robot);
@@ -701,20 +874,22 @@ namespace HyperV
                     Services.RemoveService(typeof(Grass));
                     Components.Remove(Walls);
                     Services.RemoveService(typeof(Walls));
-                    for (int i = 0; i < 11; ++i)
-                    {
-                        for (int j = 0; j < 7; ++j)
-                        {
-                            Components.Remove(GrassArray[i, j]);
-                        }
-                    }
-                    for (int i = 0; i < 11; ++i)
-                    {
-                        for (int j = 0; j < 7; ++j)
-                        {
-                            Components.Remove(CeilingArray[i, j]);
-                        }
-                    }
+                    Components.Remove(Grass);
+                    Components.Remove(Ceiling);
+                    //for (int i = 0; i < 11; ++i)
+                    //{
+                    //    for (int j = 0; j < 7; ++j)
+                    //    {
+                    //        Components.Remove(GrassArray[i, j]);
+                    //    }
+                    //}
+                    //for (int i = 0; i < 11; ++i)
+                    //{
+                    //    for (int j = 0; j < 7; ++j)
+                    //    {
+                    //        Components.Remove(CeilingArray[i, j]);
+                    //    }
+                    //}
                     Components.Remove(Portals[0]);
                     Components.Remove(Portals[1]);
                     Services.RemoveService(typeof(Portal));

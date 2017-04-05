@@ -142,13 +142,13 @@ namespace HyperV
                                 Vector3 rotationInitiale, Vector3 positionInitiale)
             : base(jeu, nomModèle, échelleInitiale, rotationInitiale, positionInitiale)
         {
-
+            EstRamassée = false;
         }
 
         public override void Initialize()
         {
             base.Initialize();
-            EstRamassée = false;
+            //EstRamassée = false;
             Rayon = 10;
             //Placed = false;
         }

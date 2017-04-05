@@ -1,4 +1,6 @@
 Level: 2
-Position: {X:382.7305 Y:4 Z:462.3727}
-Direction: {X:0.9714577 Y:-0.09261571 Z:-0.2183857}
-Time Played: 00:03:08.3334163
+Position: {X:346.8237 Y:4 Z:455.8251}
+Direction: {X:-0.2431758 Y:-0.2549756 Z:-0.9358702}
+Time Played: 00:03:37.4198138
+Max Life: 300
+Attack: 162

@@ -28,34 +28,38 @@ namespace HyperV
     /// </summary>
     public class Grass : PrimitiveDeBase
     {
+        const int NUM_TRIANGLES_PER_TILE = 2, NUM_VERTICES_PER_TRIANGLE = 3;
+
         Vector3 Position { get; set; }
         float IntervalleMAJ { get; set; }
         protected InputManager GestionInput { get; private set; }
         float TempsÉcouléDepuisMAJ { get; set; }
 
         const int NB_TRIANGLES = 2;
-        protected Vector3[,] PtsSommets { get; private set; }
-        Vector3 Origine { get; set; }
+        protected Vector3[,] VerticesPositions { get; private set; }
+        Vector3 Origin { get; set; }
         Vector2 Delta { get; set; }
-        protected BasicEffect EffetDeBase { get; private set; }
+        protected BasicEffect BasicEffect { get; private set; }
 
         //VertexPositionColor[] Sommets { get; set; }
-        RessourcesManager<Texture2D> GestionnaireDeTextures;
-        Texture2D TextureTuile;
-        VertexPositionTexture[] Sommets { get; set; }
+        RessourcesManager<Texture2D> TextureManager;
+        Texture2D TileTexture;
+        VertexPositionTexture[] Vertices { get; set; }
         BlendState GestionAlpha { get; set; }
 
-        Vector2[,] PtsTexture { get; set; }
+        Vector2[,] TileTexturePositions { get; set; }
         string NomTextureTuile { get; set; }
 
+        int NumRows { get; set; }
+        int NumColumns { get; set; }
 
         public Vector3 GetPositionAvecHauteur(Vector3 position, int hauteur)
         {
             Vector3 positionAvecHauteur;
-            if(EstEntre(position.Z, PtsSommets[0,0].Z, PtsSommets[PtsSommets.GetLength(0)-1, PtsSommets.GetLength(1)-1].Z) &&
-                EstEntre(position.X, PtsSommets[0, 0].X, PtsSommets[PtsSommets.GetLength(0) - 1, PtsSommets.GetLength(1) - 1].X))
+            if(EstEntre(position.Z, VerticesPositions[0,0].Z, VerticesPositions[VerticesPositions.GetLength(0)-1, VerticesPositions.GetLength(1)-1].Z) &&
+                EstEntre(position.X, VerticesPositions[0, 0].X, VerticesPositions[VerticesPositions.GetLength(0) - 1, VerticesPositions.GetLength(1) - 1].X))
             {
-                positionAvecHauteur = new Vector3(position.X, PtsSommets[0, 0].Y + hauteur, position.Z);
+                positionAvecHauteur = new Vector3(position.X, VerticesPositions[0, 0].Y + hauteur, position.Z);
             }
             else
             {
@@ -69,110 +73,132 @@ namespace HyperV
             return (valeur >= borneA && valeur <= borneB || valeur <= borneA && valeur >= borneB);
         }
 
-        public Grass(Game jeu, float homothétieInitiale, Vector3 rotationInitiale,
-                     Vector3 positionInitiale, Vector2 étendue, string nomTextureTuile,
-                     float intervalleMAJ) 
-            : base(jeu, homothétieInitiale, rotationInitiale, positionInitiale)
+        public Grass(Game jeu, float homothétieInitiale, Vector3 rotationInitiale, Vector3 positionInitiale, Vector2 étendue, string nomTextureTuile, Vector2 numbers, float intervalleMAJ) : base(jeu, homothétieInitiale, rotationInitiale, positionInitiale)
         {
             NomTextureTuile = nomTextureTuile;
             IntervalleMAJ = intervalleMAJ;
             Delta = new Vector2(étendue.X, étendue.Y);
-            Origine = new Vector3(-Delta.X / 2, 0, -Delta.Y / 2); //pour centrer la primitive au point (0,0,0)
+            //Origine = new Vector3(-Delta.X / 2, 0, -Delta.Y / 2); //pour centrer la primitive au point (0,0,0)
+            NumRows = (int)numbers.X;
+            NumColumns = (int)numbers.Y;
         }
 
         public override void Initialize()
         {
-            NbSommets = NB_TRIANGLES + 2;
-            PtsSommets = new Vector3[2, 2];
-            CréerTableauPoints();
-            CréerTableauSommets();
+            NbTriangles = NumRows * NumColumns * NUM_TRIANGLES_PER_TILE;
+            NbSommets = NbTriangles * NUM_VERTICES_PER_TRIANGLE;
+            Origin = new Vector3(0, 0, 0);
+            VerticesPositions = new Vector3[NumRows * 2, NumColumns * 2];
+            CreateVerticesPositions();
+            TileTexturePositions = new Vector2[2, 2];
+            Vertices = new VertexPositionTexture[NbSommets];
+            CreateTexturePositions();
             Position = PositionInitiale;
             base.Initialize();
         }
 
-        private void CréerTableauPoints()
+        private void CreateVerticesPositions()
         {
-            PtsSommets[0, 0] = new Vector3(Origine.X, Origine.Y, Origine.Z);
-            PtsSommets[1, 0] = new Vector3(Origine.X - Delta.X, Origine.Y, Origine.Z);
-            PtsSommets[0, 1] = new Vector3(Origine.X, Origine.Y, Origine.Z + Delta.Y);
-            PtsSommets[1, 1] = new Vector3(Origine.X - Delta.X, Origine.Y, Origine.Z + Delta.Y);
+            for (int i = 0; i < VerticesPositions.GetLength(0); i += 2)
+            {
+                for (int j = 0; j < VerticesPositions.GetLength(1); j += 2)
+                {
+                    VerticesPositions[i, j] = Origin + new Vector3(Delta.X * i - Delta.X, Origin.Y, Delta.Y * j - Delta.Y);
+                    VerticesPositions[i + 1, j] = Origin + new Vector3(Delta.X * i + Delta.X, Origin.Y, Delta.Y * j - Delta.Y);
+                    VerticesPositions[i, j + 1] = Origin + new Vector3(Delta.X * i - Delta.X, Origin.Y, Delta.Y * j + Delta.Y);
+                    VerticesPositions[i + 1, j + 1] = Origin + new Vector3(Delta.X * i + Delta.X, Origin.Y, Delta.Y * j + Delta.Y);
+                }
+            }
+            //VerticesPositions[0, 0] = new Vector3(Origin.X, Origin.Y, Origin.Z);
+            //VerticesPositions[1, 0] = new Vector3(Origin.X - Delta.X, Origin.Y, Origin.Z);
+            //VerticesPositions[0, 1] = new Vector3(Origin.X, Origin.Y, Origin.Z + Delta.Y);
+            //VerticesPositions[1, 1] = new Vector3(Origin.X - Delta.X, Origin.Y, Origin.Z + Delta.Y);
         }
 
-        protected void CréerTableauSommets()
+        private void CreateTexturePositions()
         {
-            PtsTexture = new Vector2[2, 2];
-            Sommets = new VertexPositionTexture[NbSommets];
-            CréerTableauPointsTexture();
-        }
-
-        private void CréerTableauPointsTexture()
-        {
-            PtsTexture[0, 0] = new Vector2(0, 1);
-            PtsTexture[1, 0] = new Vector2(1, 1);
-            PtsTexture[0, 1] = new Vector2(0, 0);
-            PtsTexture[1, 1] = new Vector2(1, 0);
+            TileTexturePositions[0, 0] = new Vector2(0, 1);
+            TileTexturePositions[1, 0] = new Vector2(1, 1);
+            TileTexturePositions[0, 1] = new Vector2(0, 0);
+            TileTexturePositions[1, 1] = new Vector2(1, 0);
         }
 
         protected override void LoadContent()
         {
-            GestionnaireDeTextures = Game.Services.GetService(typeof(RessourcesManager<Texture2D>)) as RessourcesManager<Texture2D>;
-            TextureTuile = GestionnaireDeTextures.Find(NomTextureTuile);
-            EffetDeBase = new BasicEffect(GraphicsDevice);
-            InitialiserParamètresEffetDeBase();
+            TextureManager = Game.Services.GetService(typeof(RessourcesManager<Texture2D>)) as RessourcesManager<Texture2D>;
+            TileTexture = TextureManager.Find(NomTextureTuile);
+            BasicEffect = new BasicEffect(GraphicsDevice);
+            InitializeBasicEffectParameters();
             base.LoadContent();
         }
 
-        protected void InitialiserParamètresEffetDeBase()
+        protected void InitializeBasicEffectParameters()
         {
             //EffetDeBase.VertexColorEnabled = true;
-            EffetDeBase.TextureEnabled = true;
-            EffetDeBase.Texture = TextureTuile;
+            BasicEffect.TextureEnabled = true;
+            BasicEffect.Texture = TileTexture;
             GestionAlpha = BlendState.AlphaBlend; // Attention à ceci...
         }
 
         protected override void InitialiserSommets() // Est appelée par base.Initialize()
         {
-            int NoSommet = -1;
-            for (int j = 0; j < 1; ++j)
+            int cpt = -1, maxJ = VerticesPositions.GetLength(1), maxI = VerticesPositions.GetLength(0);
+            for (int j = 0; j < NumColumns * 2 ; j += 2)
             {
-                for (int i = 0; i < 2; ++i)
+                for (int i = 0; i < NumRows * 2 ; i += 2)
                 {
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i, j], TileTexturePositions[0, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j], TileTexturePositions[0, 1]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i, j + 1 == maxJ ? j : j + 1], TileTexturePositions[1, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j], TileTexturePositions[0, 1]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 1 == maxJ ? j : j + 1], TileTexturePositions[1, 1]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i, j + 1 == maxJ ? j : j + 1], TileTexturePositions[1, 0]);
                     //Sommets[++NoSommet] = new VertexPositionColor(PtsSommets[i, j], Color.LawnGreen);
                     //Sommets[++NoSommet] = new VertexPositionColor(PtsSommets[i, j + 1], Color.LawnGreen);
-                    Sommets[++NoSommet] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[i, j]);
-                    Sommets[++NoSommet] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
+                    //Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i, j], TileTexturePositions[i, j]);
+                    //Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i, j + 1], TileTexturePositions[i, j + 1]);
                 }
             }
+            Game.Window.Title = cpt.ToString();
         }
 
         public override void Draw(GameTime gameTime)
         {
-            BlendState oldBlendState = GraphicsDevice.BlendState; // ... et à cela!
-            GraphicsDevice.BlendState = GestionAlpha;
-            EffetDeBase.World = GetMonde();
-            EffetDeBase.View = CaméraJeu.Vue;
-            EffetDeBase.Projection = CaméraJeu.Projection;
-            foreach (EffectPass passeEffet in EffetDeBase.CurrentTechnique.Passes)
+            //BlendState oldBlendState = GraphicsDevice.BlendState; // ... et à cela!
+            //GraphicsDevice.BlendState = GestionAlpha;
+            //BasicEffect.World = GetMonde();
+            //BasicEffect.View = CaméraJeu.Vue;
+            //BasicEffect.Projection = CaméraJeu.Projection;
+            //foreach (EffectPass passeEffet in BasicEffect.CurrentTechnique.Passes)
+            //{
+            //    passeEffet.Apply();
+            //    DessinerTriangleStrip();
+            //}
+            //GraphicsDevice.BlendState = oldBlendState;
+            BasicEffect.World = GetMonde();
+            BasicEffect.View = CaméraJeu.Vue;
+            BasicEffect.Projection = CaméraJeu.Projection;
+            foreach (EffectPass passeEffet in BasicEffect.CurrentTechnique.Passes)
             {
                 passeEffet.Apply();
-                DessinerTriangleStrip();
+                GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, Vertices, 0, NbTriangles);
             }
-            GraphicsDevice.BlendState = oldBlendState;
+            //GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, Vertices, 0, NbTriangles);
         }
 
-        protected void DessinerTriangleStrip()
-        {
-            //GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, Sommets, 0, NB_TRIANGLES);
-            GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleStrip, Sommets, 0, NB_TRIANGLES);
-        }
+        //protected void DessinerTriangleStrip()
+        //{
+        //    //GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, Sommets, 0, NB_TRIANGLES);
+        //    GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, Vertices, 0, NB_TRIANGLES);
+        //}
 
         public Vector3 GetPositionWithHeight(Vector3 position, int hauteur)
         {
             Vector3 positionAvecHauteur;
-            if (EstEntre(position.Z, PtsSommets[0, 0].Z, PtsSommets[PtsSommets.GetLength(0) - 1, PtsSommets.GetLength(1) - 1].Z) &&
-                EstEntre(position.X, PtsSommets[0, 0].X, PtsSommets[PtsSommets.GetLength(0) - 1, PtsSommets.GetLength(1) - 1].X))
+            if (EstEntre(position.Z, VerticesPositions[0, 0].Z, VerticesPositions[VerticesPositions.GetLength(0) - 1, VerticesPositions.GetLength(1) - 1].Z) &&
+                EstEntre(position.X, VerticesPositions[0, 0].X, VerticesPositions[VerticesPositions.GetLength(0) - 1, VerticesPositions.GetLength(1) - 1].X))
             {
-                positionAvecHauteur = new Vector3(position.X, PtsSommets[0, 0].Y + hauteur, position.Z);
+                positionAvecHauteur = new Vector3(position.X, VerticesPositions[0, 0].Y + hauteur, position.Z);
             }
             else
             {

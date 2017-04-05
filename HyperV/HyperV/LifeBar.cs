@@ -18,8 +18,8 @@ namespace HyperV
     /// </summary>
     public class LifeBar : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        int MaxLife { get; set; }
-        int Life { get; set; }
+        public int MaxLife { get; private set; }
+        public int Life { get; private set; }
         SpriteBatch SpriteBatch { get; set; }
         RessourcesManager<Texture2D> TextureManager { get; set; }
         Texture2D Dock { get; set; }
