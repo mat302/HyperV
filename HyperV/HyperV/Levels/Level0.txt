@@ -1,3 +1,1 @@
-InputManager
-GamePadManager
 CutscenePlayer;test1;false;Arial

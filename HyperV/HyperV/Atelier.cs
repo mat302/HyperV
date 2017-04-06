@@ -192,6 +192,8 @@ namespace HyperV
             {
                 Portals = new List<Portal>();
             }
+            Components.Add(InputManager);
+            Components.Add(GamePadManager);
             while (!reader.EndOfStream)
             {
                 line = reader.ReadLine();
@@ -218,6 +220,12 @@ namespace HyperV
                                 Camera = new Camera1(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
                                 (Camera as Camera1).InitializeDirection(Direction);
                             }
+                            else if (level == 3)
+                            {
+                                // Doesn't work
+                                //Camera = new Camera3(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+                                //(Camera as Camera3).InitializeDirection(Direction);
+                            }
                             else
                             {
                                 Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
@@ -231,6 +239,10 @@ namespace HyperV
                             {
                                 Services.AddService(typeof(List<Character>), Characters);
                                 Camera = new Camera1(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval, RenderDistance);
+                            }
+                            else if (level == 3)
+                            {
+                                Camera = new Camera3(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval/*, RenderDistance*/);
                             }
                             else
                             {
@@ -298,11 +310,17 @@ namespace HyperV
                         CutscenePlayer = new CutscenePlayer(this, parts[1], bool.Parse(parts[2]), parts[3]);
                         Components.Add(CutscenePlayer);
                         break;
-                    case "InputManager":
-                        Components.Add(InputManager);
+                    case "Catapulte":
+                        Components.Add(new Catapulte(this, parts[1], Vector3Parse(parts[2]), float.Parse(parts[3]), float.Parse(parts[4])));
                         break;
-                    case "GamePadManager":
-                        Components.Add(GamePadManager);
+                    case "AjouterModeles":
+                        AjouterModeles(parts[1]);
+                        break;
+                    case "AjouterArbres":
+                        AjouterArbres();
+                        break;
+                    case "AjouterTours":
+                        AjouterTours();
                         break;
                 }
             }
@@ -497,7 +515,7 @@ namespace HyperV
                             break;
                         case 1:
                             CheckForPortal0();
-                            //CheckForPortal1();
+                            CheckForPortal1();
                             //CheckForGameOver1();
                             break;
                         case 2:
@@ -744,16 +762,11 @@ namespace HyperV
             Sleep = true;
             Save();
             TakeAScreenshot();
-            //string path = "F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
-            //string path = "C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/bin/Debug/Launching Interface.exe";
             string path = Path.Combine(Environment.CurrentDirectory, @"..\..\..\WPFINTERFACE\Launching Interface\bin\Debug\Launching Interface.exe");
             ProcessStartInfo p = new ProcessStartInfo();
             p.FileName = path;
             p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
             Process.Start(p);
-            //Process.Start(@"WPFINTERFACE\Launching Interface\bin\Debug\Launching Interface.exe");
-            //Process.Start(Path.Combine(Environment.CurrentDirectory, @"WPFINTERFACE\Launching Interface\bin\Debug\Launching Interface.exe"));
-
             //(Camera as CaméraJoueur).EstCaméraSourisActivée = false;
             //Exit();
         }
@@ -774,8 +787,6 @@ namespace HyperV
             {
                 try
                 {
-                    //stream = File.OpenWrite("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
-                    //stream = File.OpenWrite("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
                     stream = File.OpenWrite("../../../WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
                 }
                 catch (IOException e)
