@@ -1,6 +1,6 @@
 Level: 2
 Position: {X:0 Y:4 Z:60}
 Direction: {X:20 Y:-4 Z:-60}
-Time Played: 00:00:57.4560406
+Time Played: 00:03:21.2893441
 Max Life: 300
-Attack: 50
+Attack: 0

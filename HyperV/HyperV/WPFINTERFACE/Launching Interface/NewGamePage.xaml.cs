@@ -195,7 +195,7 @@ namespace Launching_Interface
             string path = System.IO.Path.Combine(Environment.CurrentDirectory, @"../../../../bin/x86/Debug/HyperV.exe");
             ProcessStartInfo p = new ProcessStartInfo();
             p.FileName = path;
-            p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
+            p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);//69
             Process.Start(p);
             Application.Current.Shutdown();
             //Application.Current.MainWindow.Visibility = Visibility.Collapsed;

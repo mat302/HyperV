@@ -56,10 +56,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
         }
 
         Gazon Gazon { get; set; }
@@ -126,13 +126,9 @@ namespace HyperV
 
         void LoadSave()
         {
-            //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save.txt");
-            //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save.txt");
             StreamReader reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            //reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
-            //reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
             string line = reader.ReadLine();
             string[] parts = line.Split(new char[] { ' ' });
@@ -154,14 +150,6 @@ namespace HyperV
             LifeBars[0].Attack(int.Parse(parts[1]));
             LifeBars[1] = new LifeBar(this, 300, "StaminaGauge", "TiredGauge", "WaterGauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 130), FpsInterval);
             reader.Close();
-            //parts = line.Split(separator);
-            //int startInd = parts[1].IndexOf("X:") + 2;
-            //float aXPosition = float.Parse(parts[1].Substring(startInd, parts[1].IndexOf(" Y") - startInd));
-            //startInd = parts[1].IndexOf("Y:") + 2;
-            //float aYPosition = float.Parse(parts[1].Substring(startInd, parts[1].IndexOf(" Z") - startInd));
-            //startInd = parts[1].IndexOf("Z:") + 2;
-            //float aZPosition = float.Parse(parts[1].Substring(startInd, parts[1].IndexOf("}") - startInd));
-            //Position = new Vector3(aXPosition, aYPosition, aZPosition);
         }
 
         Vector2 Vector2Parse(string parse)
@@ -186,27 +174,16 @@ namespace HyperV
 
         void SelectWorld(bool usePosition)
         {
-            //switch (Level)
-            //{
-            //    case 0:
-            //        Level0();
-            //        break;
-            //    case 1:
-            //        Level1(usePosition);
-            //        break;
-            //    case 2:
-            //        Level2(usePosition);
-            //        break;
-            //    case 3:
-            //        Level3(usePosition);
-            //        break;
-            //}
             SelectLevel(usePosition, Level);
             Save();
         }
 
         void SelectLevel(bool usePosition, int level)
         {
+            MediaPlayer.Stop();
+            Components.Clear();
+            //Song = SongManager.Find("castle");
+            //MediaPlayer.Play(Song);
             StreamReader reader = new StreamReader("../../../Levels/level" + level.ToString() + ".txt");
             string line;
             string[] parts;
@@ -261,6 +238,7 @@ namespace HyperV
                             }
                         }
                         //(Camera as Camera2).SetRenderDistance(RenderDistance);
+                        Services.RemoveService(typeof(Caméra));
                         Services.AddService(typeof(Caméra), Camera);
                         break;
                     case "Maze":
@@ -313,14 +291,18 @@ namespace HyperV
                         Services.AddService(typeof(Walls), Walls);
                         break;
                     case "Portal":
-                        //Portals.Add(new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", FpsInterval));
-                        Portal p = new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval);
-                        Portals.Add(p);
-                        Components.Add(p);
+                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
+                        Components.Add(Portals.Last());
                         break;
                     case "CutscenePlayer":
                         CutscenePlayer = new CutscenePlayer(this, parts[1], bool.Parse(parts[2]), parts[3]);
                         Components.Add(CutscenePlayer);
+                        break;
+                    case "InputManager":
+                        Components.Add(InputManager);
+                        break;
+                    case "GamePadManager":
+                        Components.Add(GamePadManager);
                         break;
                 }
             }
@@ -331,8 +313,6 @@ namespace HyperV
                     Services.AddService(typeof(List<Portal>), Portals);
                     Components.Add(Robot);
                     Robot.AddLabel();
-                    //Components.Add(new Epee(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
-                    //Components.Add(new Arc(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
                     Components.Add(PressSpaceLabel);
                     PressSpaceLabel.Visible = false;
                 }
@@ -351,7 +331,6 @@ namespace HyperV
                 Components.Remove(Loading);
                 Components.Add(Crosshair);
                 Components.Add(FPSLabel);
-                //base.Initialize();
             }
         }
 
@@ -360,78 +339,6 @@ namespace HyperV
         ArrièrePlanSpatial SpaceBackground { get; set; }
         AfficheurFPS FPSLabel { get; set; }
         List<Portal> Portals { get; set; }
-
-        void Level1(bool usePosition)
-        {
-            //Song = SongManager.Find("castle");
-            //MediaPlayer.Play(Song);
-            Components.Add(SpaceBackground);
-            Components.Add(new Afficheur3D(this));
-            Services.AddService(typeof(List<Character>), Characters);
-            if (usePosition)
-            {
-                Camera = new Camera1(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                (Camera as Camera1).InitializeDirection(Direction);
-            }
-            else
-            {
-                Camera = new Camera1(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-            }
-            //(Camera as Camera1).SetRenderDistance(RenderDistance);
-            Services.AddService(typeof(Caméra), Camera);
-            Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FpsInterval);
-            Characters.Add(Robot);
-            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(-310, -20, 0), new Vector2(40, 40), "Ceiling", new Vector2(5, 3), FpsInterval);
-            Components.Add(Grass);
-            Services.AddService(typeof(Grass), Grass);
-            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(-310, 0, 0), new Vector2(40, 40), "Ceiling", new Vector2(5, 3), FpsInterval);
-            Components.Add(Ceiling);
-            Services.AddService(typeof(Ceiling), Ceiling);
-            Walls = new Walls(this, FpsInterval, "Rockwall", "../../../Data.txt");
-            Components.Add(Walls);
-            Services.AddService(typeof(Walls), Walls);
-            //Components.Add(Camera);
-
-            //GrassArray = new Grass[11, 7];
-            //CeilingArray = new Ceiling[11, 7];
-            //for (int i = 0; i < 11; ++i)
-            //{
-            //    for (int j = 0; j < 7; ++j)
-            //    {
-            //        GrassArray[i, j] = new Grass(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, -20, -30 + j * 40), new Vector2(40, 40), "Ceiling", FpsInterval);
-            //        Components.Add(GrassArray[i, j]);
-            //    }
-            //}
-            //for (int i = 0; i < 11; ++i)
-            //{
-            //    for (int j = 0; j < 7; ++j)
-            //    {
-            //        CeilingArray[i, j] = new Ceiling(this, 1f, Vector3.Zero, new Vector3(100 - i * 40, 0, -30 + j * 40), new Vector2(40, 40), "Ceiling", FpsInterval);
-            //        Components.Add(CeilingArray[i, j]);
-            //    }
-            //}
-
-            Portals = new List<Portal>();
-            Portals.Add(new Portal(this, 1f, Vector3.Zero, new Vector3(-345, -10, 170), new Vector2(30, 20), "Garden", FpsInterval));
-            Components.Add(Portals.Last());
-            Portals.Add(new Portal(this, 1f, new Vector3(0, MathHelper.ToRadians(-90), 0), new Vector3(-225, -10, -25), new Vector2(30, 20), "BleuBlancRouge", FpsInterval));
-            Components.Add(Portals.Last());
-            Services.AddService(typeof(List<Portal>), Portals);
-            Components.Add(Robot);
-            Robot.AddLabel();
-            //Components.Add(new Epee(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
-            //Components.Add(new Arc(this, "Robot", 0.02f, Vector3.Zero, new Vector3(-40, -20, 70)));
-            Components.Add(PressSpaceLabel);
-            PressSpaceLabel.Visible = false;
-            Components.Add(LifeBars[0]);
-            Components.Add(LifeBars[1]);
-            Services.AddService(typeof(LifeBar[]), LifeBars);
-            Components.Add(Camera);
-            Components.Remove(Loading);
-            Components.Add(Crosshair);
-            Components.Add(FPSLabel);
-        }
-
         Boss Boss { get; set; }
         Mill Mill { get; set; }
         HeightMap HeightMap { get; set; }
@@ -440,60 +347,6 @@ namespace HyperV
         Water Water { get; set; }
         Food Food { get; set; }
         Enemy Ennemy { get; set; }
-
-        void Level2(bool usePosition)
-        {
-            Components.Add(SpaceBackground);
-            Display3D = new Afficheur3D(this);
-            Components.Add(Display3D);
-            Services.AddService(typeof(Afficheur3D), Display3D);
-            if (usePosition)
-            {
-                Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                (Camera as Camera2).InitializeDirection(Direction);
-                Services.AddService(typeof(LifeBar[]), LifeBars);
-            }
-            else
-            {
-                Camera = new Camera2(this, new Vector3(0, 4, 60), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-            }
-            //(Camera as Camera2).SetRenderDistance(RenderDistance);
-            Services.AddService(typeof(Caméra), Camera);
-            Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", FpsInterval, "Maze1");
-            Components.Add(Maze);
-            Services.AddService(typeof(Maze), Maze);
-            Boss = new Boss(this, "Great Bison", 100, "Bison", "Gauge", "Dock", "Arial", FpsInterval, FpsInterval, 1, Vector3.Zero, new Vector3(300, 30, 200));
-            Components.Add(Boss);
-            Services.AddService(typeof(Boss), Boss);
-            Mill = new Mill(this, 1, Vector3.Zero, new Vector3(300, 10, 100), new Vector2(50, 50), "Fence", FpsInterval);
-            Components.Add(Mill);
-            Mill.AddLabel();
-            Services.AddService(typeof(Mill), Mill);
-            Food = new Food(this, "Pringles", 1, Vector3.Zero, new Vector3(290, 5, 110), 10, FpsInterval);
-            Components.Add(Food);
-            Food.AddLabel();
-            Ennemy = new Enemy(this, "Robot", 0.05f, Vector3.Zero, new Vector3(250, 0, 110), 10, 10, 1f, FpsInterval);
-            Components.Add(Ennemy);
-            Services.AddService(typeof(Enemy), Ennemy);
-            //Components.Add(new Epee(this, "Robot", 0.02f, Vector3.Zero, new Vector3(20, 0, 0)));
-            Components.Add(new Arc(this, "Robot", 0.02f, Vector3.Zero, new Vector3(20, 0, 0)));
-            //HeightMap = new HeightMap(this, 1, Vector3.Zero, Vector3.Zero, new Vector3(10000, 1000, 10000), "HeightMap", "Ceiling");
-            //Components.Add(HeightMap);
-            //Services.AddService(typeof(HeightMap), HeightMap);
-            //Water = new Water(this, 1f, Vector3.Zero, new Vector3(10000, 300, 200), new Vector2(10000, 10000), FpsInterval);
-            //Components.Add(Water);
-            //Services.AddService(typeof(Water), Water);
-            Boss.AddFireball();
-            Boss.AddLabel();
-            Components.Add(LifeBars[0]);
-            Components.Add(LifeBars[1]);
-            //Services.AddService(typeof(LifeBar[]), LifeBars);
-            Components.Add(Camera);
-            Components.Remove(Loading);
-            Components.Add(Crosshair);
-            Components.Add(FPSLabel);
-            //base.Initialize();
-        }
 
         void Level3(bool usePosition)
         {
@@ -565,8 +418,6 @@ namespace HyperV
 
         void Save()
         {
-            //StreamWriter writer = new StreamWriter("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
-            //StreamWriter writer = new StreamWriter("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
             StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
 
             writer.WriteLine("Level: " + Level.ToString());
@@ -589,12 +440,6 @@ namespace HyperV
             writer.Close();
         }
 
-        void Level0()
-        {
-            CutscenePlayer = new CutscenePlayer(this, "test1", false, "Arial");
-            Components.Add(CutscenePlayer);
-        }
-
         protected override void Initialize()
         {
             Sleep = false;
@@ -613,11 +458,9 @@ namespace HyperV
             GameOver = new TexteCentré(this, "Game Over", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             Success = new TexteCentré(this, "Success!", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             InputManager = new InputManager(this);
-            Components.Add(InputManager);
             Services.AddService(typeof(RessourcesManager<SpriteFont>), FontManager);
             Services.AddService(typeof(InputManager), InputManager);
             GamePadManager = new GamePadManager(this);
-            Components.Add(GamePadManager);
             Services.AddService(typeof(GamePadManager), GamePadManager);
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService(typeof(SpriteBatch), SpriteBatch);
@@ -629,66 +472,10 @@ namespace HyperV
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
-            
             LoadSave();
             LoadSettings();
             Level = 0;
             SelectWorld(true);
-
-            //const float ÉCHELLE_OBJET = 0.02f;
-            //Vector3 positionObjet = new Vector3(-50, -20, 60);
-            //Vector3 rotationObjet = new Vector3(0, MathHelper.PiOver2, 0);
-            ////CaméraJeu = new CaméraFixe(this, Vector3.Zero, positionObjet, Vector3.Up);
-            ////CaméraJeu = new CaméraSubjective(this, new Vector3(0, 0, 0), positionObjet, Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            //Components.Add(new ArrièrePlanSpatial(this, "CielÉtoilé", INTERVALLE_MAJ_STANDARD));
-            ////Components.Add(new ObjetDeBase(this, "Robot", ÉCHELLE_OBJET, rotationObjet, positionObjet));
-            
-            //Robot = new Character(this, "Robot", ÉCHELLE_OBJET, rotationObjet, positionObjet, "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle");
-            //Components.Add(Robot);
-            //Characters.Add(Robot);
-            //Services.AddService(typeof(List<Character>), Characters);
-            ////Components.Add(new PlanTexturé(this, 1f, Vector3.Zero, new Vector3(4, 4, -5), new Vector2(20, 20), new Vector2(40, 40), "Grass", INTERVALLE_MAJ_STANDARD));
-            
-            //Grass grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD);
-            //Components.Add(grass);
-            //for (int i = 0; i < 15; ++i)
-            //{
-            //    for (int j = 0; j < 15; ++j)
-            //    {
-            //        Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, -20, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
-            //    }
-            //}
-            //for (int i = 0; i < 15; ++i)
-            //{
-            //    for (int j = 0; j < 15; ++j)
-            //    {
-            //        Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(60 - i * 20, 0, 10 + j * 20), new Vector2(20, 20), "Grass", INTERVALLE_MAJ_STANDARD));
-            //    }
-            //}
-            //Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
-            //Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
-            //Maze = new Maze(this, 1f, Vector3.Zero, new Vector3(0, 0, 0), new Vector3(256, 5, 256), "GrassFence", INTERVALLE_MAJ_STANDARD, "Maze");
-            //Walls = new Walls(this, INTERVALLE_MAJ_STANDARD, "Rockwall", "../../../Data.txt");
-            //Components.Add(Walls);
-            //Services.AddService(typeof(Walls), Walls);
-            ////Components.Add(Maze);
-            ////Services.AddService(typeof(Maze), Maze);
-            //Services.AddService(typeof(Grass), grass);
-            //Camera = new CaméraJoueur(this, new Vector3(0, -16, 60), new Vector3(20, 0, 0), Vector3.Up, INTERVALLE_MAJ_STANDARD);
-            //Services.AddService(typeof(Caméra), Camera);
-            //Components.Add(Camera);
-            //Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
-            //////Components.Add(new Skybox(this, "Texture_Skybox"));
-
-            //Components.Add(new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS));
-            //Services.AddService(typeof(RessourcesManager<SpriteFont>), GestionnaireDeFonts);
-            //Services.AddService(typeof(InputManager), GestionInput);
-            //GestionSprites = new SpriteBatch(GraphicsDevice);
-            //Services.AddService(typeof(SpriteBatch), GestionSprites);
-            //VideoManager = new RessourcesManager<Video>(this, "Videos");
-            //Services.AddService(typeof(RessourcesManager<Video>), VideoManager);
-            //CutscenePlayer = new CutscenePlayer(this, "test1");
-            ////Components.Add(CutscenePlayer);
             base.Initialize();
         }
 
@@ -701,7 +488,6 @@ namespace HyperV
                 ManageKeyboard(gameTime);
                 Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 TimePlayed = TimePlayed.Add(gameTime.ElapsedGameTime);
-                //Window.Title = Input.ToString();
                 if (Timer >= FpsInterval)
                 {
                     switch (Level)
@@ -720,7 +506,6 @@ namespace HyperV
                     }
                     Timer = 0;
                 }
-                //Window.Title = CaméraJeu.Position.ToString();
                 base.Update(gameTime);
             }
         }
@@ -866,43 +651,6 @@ namespace HyperV
                 {
                     Components.Add(Loading);
                     ++Level;
-                    MediaPlayer.Stop();
-                    Robot.RemoveLabel();
-                    Components.Remove(Camera);
-                    Services.RemoveService(typeof(Caméra));
-                    Components.Remove(Grass);
-                    Services.RemoveService(typeof(Grass));
-                    Components.Remove(Walls);
-                    Services.RemoveService(typeof(Walls));
-                    Components.Remove(Grass);
-                    Components.Remove(Ceiling);
-                    //for (int i = 0; i < 11; ++i)
-                    //{
-                    //    for (int j = 0; j < 7; ++j)
-                    //    {
-                    //        Components.Remove(GrassArray[i, j]);
-                    //    }
-                    //}
-                    //for (int i = 0; i < 11; ++i)
-                    //{
-                    //    for (int j = 0; j < 7; ++j)
-                    //    {
-                    //        Components.Remove(CeilingArray[i, j]);
-                    //    }
-                    //}
-                    Components.Remove(Portals[0]);
-                    Components.Remove(Portals[1]);
-                    Services.RemoveService(typeof(Portal));
-                    Characters.Remove(Robot);
-                    Services.RemoveService(typeof(List<Character>));
-                    Components.Remove(Robot);
-                    Components.Remove(SpaceBackground);
-                    Components.Remove(PressSpaceLabel);
-                    Components.Remove(LifeBars[0]);
-                    Components.Remove(LifeBars[1]);
-                    //Services.RemoveService(typeof(LifeBar[]));
-                    Components.Remove(Crosshair);
-                    Components.Remove(FPSLabel);
                     SelectWorld(false);
                 }
             }
