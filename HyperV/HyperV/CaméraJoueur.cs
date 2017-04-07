@@ -818,7 +818,7 @@ namespace HyperV
 
         protected override void CréerPointDeVue()
         {
-            Vector3.Normalize(Direction);
+            Direction = Vector3.Normalize(Direction); // NEW FROM 4/7/2017 2:30 AM was only Vector3.Normalize(Direction); before ******************************************************************************************************************************************************************
             Vector3.Normalize(OrientationVerticale);
             Vector3.Normalize(Latéral);
             //Position -= new Vector3(Origin.X, 0, Origin.Y);

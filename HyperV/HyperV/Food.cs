@@ -85,6 +85,7 @@ namespace HyperV
                 {
                     PressSpaceLabel.Visible = false;
                 }
+                Input = false;
                 Timer = 0;
             }
         }

@@ -208,6 +208,7 @@ namespace HyperV
                         Components.Add(Display3D);
                         if (level == 1)
                         {
+                            Services.RemoveService(typeof(Afficheur3D));
                             Services.AddService(typeof(Afficheur3D), Display3D);
                         }
                         break;
@@ -231,6 +232,7 @@ namespace HyperV
                                 Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
                                 (Camera as Camera2).InitializeDirection(Direction);
                             }
+                            Services.RemoveService(typeof(LifeBar[]));
                             Services.AddService(typeof(LifeBar[]), LifeBars);
                         }
                         else
@@ -256,18 +258,21 @@ namespace HyperV
                     case "Maze":
                         Maze = new Maze(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], FpsInterval, parts[6]);
                         Components.Add(Maze);
+                        Services.RemoveService(typeof(Maze));
                         Services.AddService(typeof(Maze), Maze);
                         break;
                     case "Boss":
                         boss = true;
                         Boss = new Boss(this, parts[1], int.Parse(parts[2]), parts[3], parts[4], parts[5], parts[6], FpsInterval, FpsInterval, float.Parse(parts[7]), Vector3Parse(parts[8]), Vector3Parse(parts[9]));
                         Components.Add(Boss);
+                        Services.RemoveService(typeof(Boss));
                         Services.AddService(typeof(Boss), Boss);
                         break;
                     case "Mill":
                         Mill = new Mill(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval);
                         Components.Add(Mill);
                         Mill.AddLabel();
+                        Services.RemoveService(typeof(Mill));
                         Services.AddService(typeof(Mill), Mill);
                         break;
                     case "Food":
@@ -278,6 +283,7 @@ namespace HyperV
                     case "Enemy":
                         Ennemy = new Enemy(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]), int.Parse(parts[6]), float.Parse(parts[7]), FpsInterval);
                         Components.Add(Ennemy);
+                        Services.RemoveService(typeof(Enemy));
                         Services.AddService(typeof(Enemy), Ennemy);
                         break;
                     case "Arc":
@@ -290,20 +296,23 @@ namespace HyperV
                     case "Grass":
                         Grass = new Grass(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], Vector2Parse(parts[6]), FpsInterval);
                         Components.Add(Grass);
+                        Services.RemoveService(typeof(Grass));
                         Services.AddService(typeof(Grass), Grass);
                         break;
                     case "Ceiling":
                         Ceiling = new Ceiling(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], Vector2Parse(parts[6]), FpsInterval);
                         Components.Add(Ceiling);
+                        Services.RemoveService(typeof(Ceiling));
                         Services.AddService(typeof(Ceiling), Ceiling);
                         break;
                     case "Walls":
                         Walls = new Walls(this, FpsInterval, parts[1], parts[2]);
                         Components.Add(Walls);
+                        Services.RemoveService(typeof(Walls));
                         Services.AddService(typeof(Walls), Walls);
                         break;
                     case "Portal":
-                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
+                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], int.Parse(parts[6]), FpsInterval));
                         Components.Add(Portals.Last());
                         break;
                     case "CutscenePlayer":
@@ -365,35 +374,6 @@ namespace HyperV
         Water Water { get; set; }
         Food Food { get; set; }
         Enemy Ennemy { get; set; }
-
-        void Level3(bool usePosition)
-        {
-            Components.Add(new Afficheur3D(this));
-            if (usePosition)
-            {
-                //Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                //(Camera as Camera2).InitializeDirection(Direction);
-            }
-            else
-            {
-                Camera = new Camera3(this, new Vector3(-26, 2, -3), new Vector3(20, 0, 0), Vector3.Up, FpsInterval);
-            }
-            Services.AddService(typeof(Caméra), Camera);
-            Walls = new Walls(this, FpsInterval, "Briques", "../../../Monde3_Murs.txt");
-            Components.Add(Walls);
-
-            Components.Add(new Catapulte(this, "catapult", new Vector3(-28, -3.8f, -50), 0.03f, 0));
-            AjouterModeles("../../../Monde3_Modeles.txt");
-            AjouterArbres();
-            AjouterTours();
-
-            Grass = new Grass(this, 10f, Vector3.Zero, new Vector3(1000, -70, 0), new Vector2(100, 100), "Grass", new Vector2(1, 1), FpsInterval);
-            Components.Add(Grass);
-            Components.Add(Camera);
-            Components.Remove(Loading);
-            Components.Add(FPSLabel);
-            //Components.Add(new Skybox(this, "Texture_Skybox"));
-        }
 
         private void AjouterModeles(string chemin)
         {
@@ -514,12 +494,10 @@ namespace HyperV
                             CheckForCutscene();
                             break;
                         case 1:
-                            CheckForPortal0();
-                            CheckForPortal1();
-                            //CheckForGameOver1();
+                            CheckForPortal();
                             break;
                         case 2:
-                            CheckForGameOver2();
+                            CheckForGameOver();
                             break;
                     }
                     Timer = 0;
@@ -528,108 +506,22 @@ namespace HyperV
             }
         }
 
-        void CheckForGameOver1()
-        {
-            if (LifeBars[0].Dead)
-            {
-                //Components.Add(Loading);
-                Components.Add(GameOver);
-                //++Level;
-                MediaPlayer.Stop();
-                Robot.RemoveLabel();
-                Components.Remove(Camera);
-                Services.RemoveService(typeof(Caméra));
-                Components.Remove(Grass);
-                Services.RemoveService(typeof(Grass));
-                Components.Remove(Walls);
-                Services.RemoveService(typeof(Walls));
-                for (int i = 0; i < 11; ++i)
-                {
-                    for (int j = 0; j < 7; ++j)
-                    {
-                        Components.Remove(GrassArray[i, j]);
-                    }
-                }
-                for (int i = 0; i < 11; ++i)
-                {
-                    for (int j = 0; j < 7; ++j)
-                    {
-                        Components.Remove(CeilingArray[i, j]);
-                    }
-                }
-                Components.Remove(Portals[0]);
-                Components.Remove(Portals[1]);
-                Services.RemoveService(typeof(List<Portal>));
-                Characters.Remove(Robot);
-                Services.RemoveService(typeof(List<Character>));
-                Components.Remove(Robot);
-                Components.Remove(SpaceBackground);
-                Components.Remove(PressSpaceLabel);
-                Components.Remove(LifeBars[0]);
-                Components.Remove(LifeBars[1]);
-                Services.RemoveService(typeof(LifeBar[]));
-                Components.Remove(Crosshair);
-                Components.Remove(FPSLabel);
-                //SelectWorld(false);
-            }
-        }
-
         bool FirstGameOver { get; set; }
 
-        void CheckForGameOver2()
+        void CheckForGameOver()
         {
             if (LifeBars[0].Dead && FirstGameOver)
             {
                 FirstGameOver = false;
+                Components.Clear();
                 Components.Add(GameOver);
-                Components.Remove(SpaceBackground);
-                Components.Remove(Display3D);
-                Services.RemoveService(typeof(Afficheur3D));
-                Services.RemoveService(typeof(Caméra));
-                Components.Remove(Maze);
-                Services.RemoveService(typeof(Maze));
-                Boss.RemoveFireball();
-                Boss.RemoveLabel();
-                Components.Remove(Boss);
-                Services.RemoveService(typeof(Boss));
-                Mill.RemoveLabel();
-                Mill.RemoveComponents();
-                Components.Remove(Mill);
-                Services.RemoveService(typeof(Mill));
-                Services.RemoveService(typeof(HeightMap));
-                Components.Remove(LifeBars[0]);
-                Components.Remove(LifeBars[1]);
-                Services.RemoveService(typeof(LifeBar[]));
-                Components.Remove(Camera);
-                Components.Remove(Crosshair);
-                Components.Remove(FPSLabel);
                 LaunchPause();
             }
             else if (Boss.Dead && FirstGameOver)
             {
                 FirstGameOver = false;
+                Components.Clear();
                 Components.Add(Success);
-                Components.Remove(SpaceBackground);
-                Components.Remove(Display3D);
-                Services.RemoveService(typeof(Afficheur3D));
-                Services.RemoveService(typeof(Caméra));
-                Components.Remove(Maze);
-                Services.RemoveService(typeof(Maze));
-                Boss.RemoveFireball();
-                Boss.RemoveLabel();
-                Components.Remove(Boss);
-                Services.RemoveService(typeof(Boss));
-                Mill.RemoveLabel();
-                Mill.RemoveComponents();
-                Components.Remove(Mill);
-                Services.RemoveService(typeof(Mill));
-                Services.RemoveService(typeof(HeightMap));
-                Components.Remove(LifeBars[0]);
-                Components.Remove(LifeBars[1]);
-                Services.RemoveService(typeof(LifeBar[]));
-                Components.Remove(Camera);
-                Components.Remove(Crosshair);
-                Components.Remove(FPSLabel);
             }
         }
 
@@ -659,76 +551,26 @@ namespace HyperV
             IsMouseVisible = true;
         }
 
-        void CheckForPortal0()
+        void CheckForPortal()
         {
-            float? collision = Portals[0].Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
-            if (collision < 30 && collision != null)
+            foreach (Portal p in Portals)
             {
-                PressSpaceLabel.Visible = true;
-                if (InputManager.EstEnfoncée(Keys.Space))
+                float? collision = p.Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
+                if (collision < 30 && collision != null)
                 {
-                    Components.Add(Loading);
-                    ++Level;
-                    SelectWorld(false);
+                    PressSpaceLabel.Visible = true;
+                    if (InputManager.EstEnfoncée(Keys.Space))
+                    {
+                        Components.Add(Loading);
+                        Level = p.Level;
+                        SelectWorld(false);
+                    }
+                    break;
                 }
-            }
-            else
-            {
-                PressSpaceLabel.Visible = false;
-            }
-        }
-
-        void CheckForPortal1()
-        {
-            float? collision = Portals[1].Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
-            if (collision < 30 && collision != null)
-            {
-                PressSpaceLabel.Visible = true;
-                if (InputManager.EstEnfoncée(Keys.Space))
+                else
                 {
-                    Components.Add(Loading);
-                    Level = 3;
-                    MediaPlayer.Stop();
-                    Robot.RemoveLabel();
-                    Components.Remove(Camera);
-                    Services.RemoveService(typeof(Caméra));
-                    Components.Remove(Grass);
-                    Services.RemoveService(typeof(Grass));
-                    Components.Remove(Walls);
-                    Services.RemoveService(typeof(Walls));
-                    for (int i = 0; i < 11; ++i)
-                    {
-                        for (int j = 0; j < 7; ++j)
-                        {
-                            Components.Remove(GrassArray[i, j]);
-                        }
-                    }
-                    for (int i = 0; i < 11; ++i)
-                    {
-                        for (int j = 0; j < 7; ++j)
-                        {
-                            Components.Remove(CeilingArray[i, j]);
-                        }
-                    }
-                    Components.Remove(Portals[0]);
-                    Components.Remove(Portals[1]);
-                    Services.RemoveService(typeof(Portal));
-                    Characters.Remove(Robot);
-                    Services.RemoveService(typeof(List<Character>));
-                    Components.Remove(Robot);
-                    Components.Remove(SpaceBackground);
-                    Components.Remove(PressSpaceLabel);
-                    Components.Remove(LifeBars[0]);
-                    Components.Remove(LifeBars[1]);
-                    Services.RemoveService(typeof(LifeBar[]));
-                    Components.Remove(Crosshair);
-                    Components.Remove(FPSLabel);
-                    SelectWorld(false);
+                    PressSpaceLabel.Visible = false;
                 }
-            }
-            else
-            {
-                PressSpaceLabel.Visible = false;
             }
         }
 
