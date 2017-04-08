@@ -135,7 +135,6 @@ namespace HyperV
             if (Timer >= Interval)
             {
                 Direction = Camera.Position - Position;
-                Game.Window.Title = Direction.ToString();
                 Result = Direction.Z / Direction.X;
                 Rotation = new Vector3(0, -(float)Math.Atan(Result) + MathHelper.ToRadians(90) + (Direction.X >= 0 ? MathHelper.ToRadians(180) : 0), 0);
                 UpdateWorld();

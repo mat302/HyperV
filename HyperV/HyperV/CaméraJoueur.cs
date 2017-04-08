@@ -861,7 +861,6 @@ namespace HyperV
                 GérerSaut();
 
                 ManageLifeBars();
-                //Game.Window.Title = GestionGamePad.PositionsGâchettes.X.ToString();
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
@@ -1053,7 +1052,6 @@ namespace HyperV
                 sphereRamassable.Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
                            sphereRamassable.EstEnCollision(Viseur) != null && Ramasser;
 
-                //Game.Window.Title = sphereRamassable.EstEnCollision(Viseur).ToString();
                 if (sphereRamassable.Ramasser && !sphereRamassable.Placed)
                 {
                     if (!ModeleRamassable.Taken)
@@ -1076,8 +1074,7 @@ namespace HyperV
             {
                 sphereRamassable.Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
                            sphereRamassable.EstEnCollision(Viseur) != null && Ramasser;
-
-                //Game.Window.Title = sphereRamassable.EstEnCollision(Viseur).ToString();
+                
                 if (sphereRamassable.Ramasser && !sphereRamassable.Placed)
                 {
                     if (/*!ModeleRamassable.Taken*/true)

@@ -142,7 +142,6 @@ namespace HyperV
                     //PtsTexture[NB_SOMMETS_PAR_TUILE * i + j] = new Vector2(0.5f, 0.9f);
                 }
             }
-            Game.Window.Title = PtsTexture[11].ToString();
         }
 
         protected override void LoadContent()
@@ -242,7 +241,6 @@ namespace HyperV
 
         public float GetHeight(Vector3 position)
         {
-            //Game.Window.Title = position.ToString();
             int i = (int)(position.X / Delta.X), j = (int)(position.Z / Delta.Y);
             Vector3 n;
             float height;

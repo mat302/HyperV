@@ -1,7 +1,7 @@
 Music: 50
 Sound: 50
 Language: 1
-Render Distance: 5000
+Render Distance: 500
 Frame Rate: 60
 Fullscreen: 1
 Input: 1

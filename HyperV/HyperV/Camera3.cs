@@ -91,7 +91,6 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
-            Game.Window.Title = Position.ToString();
             float TempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
