@@ -56,10 +56,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1000;
         }
 
         Gazon Gazon { get; set; }
@@ -200,6 +200,8 @@ namespace HyperV
                 parts = line.Split(new char[] { ';' });
                 switch (parts[0])
                 {
+                    case "#":
+                        break;
                     case "SpaceBackground":
                         Components.Add(SpaceBackground);
                         break;
@@ -269,7 +271,7 @@ namespace HyperV
                         Services.AddService(typeof(Boss), Boss);
                         break;
                     case "Mill":
-                        Mill = new Mill(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval);
+                        Mill = new Mill(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), parts[4], Vector2Parse(parts[5]), FpsInterval, parts[6]);
                         Components.Add(Mill);
                         Mill.AddLabel();
                         Services.RemoveService(typeof(Mill));
@@ -472,7 +474,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 0;
+            Level = 2;
             SelectWorld(true);
             base.Initialize();
         }

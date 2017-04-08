@@ -66,7 +66,6 @@ namespace HyperV
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
-                //Game.Window.Title = Position.ToString();
                 r = (float)Math.Sqrt(Camera.Direction.X * Camera.Direction.X + Camera.Direction.Y * Camera.Direction.Y + Camera.Direction.Z * Camera.Direction.Z);
                 theta = -(float)Math.Acos(Camera.Direction.Z / r);
                 Rotation = new Vector3(0, theta, 0) + Adjustment;

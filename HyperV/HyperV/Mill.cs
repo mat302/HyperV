@@ -18,8 +18,7 @@ namespace HyperV
     /// </summary>
     class Mill : TuileTexturée
     {
-        const int NUM_GEARS = 2;
-
+        int NumGears { get; set; }
         Gear[,] Gears { get; set; }
         ObjetDeBase[] Axles { get; set; }
         float Timer { get; set; }
@@ -34,57 +33,107 @@ namespace HyperV
         bool[] Placed { get; set; }
         bool[] AxleTaken { get; set; }
         int[] AxleObjects { get; set; }
+        string MillImageName { get; set; }
+        RessourcesManager<Texture2D> TextureManager { get; set; }
+        Texture2D MillImage { get; set; }
+        int NumTexels { get; set; }
+        Color[] TextureData { get; set; }
+        List<Vector3> GearInfo { get; set; }
 
-        public Mill(Game game, float scale, Vector3 initialRotation, Vector3 initialPosition, Vector2 range, string textureName, float interval) : base(game, scale, initialRotation, initialPosition, range, textureName)
+        public Mill(Game game, float scale, Vector3 initialRotation, Vector3 initialPosition, string textureName, Vector2 range, float interval, string millImageName) : base(game, scale, initialRotation, initialPosition, range, textureName)
         {
+            MillImageName = millImageName;
             Interval = interval;
             Timer = 0;
             Radius = 1;
+            TextureManager = Game.Services.GetService(typeof(RessourcesManager<Texture2D>)) as RessourcesManager<Texture2D>;
             PressSpaceLabel = new PressSpaceLabel(Game);
-            Gears = new Gear[NUM_GEARS, NUM_GEARS];
-            Positions = new Vector3[NUM_GEARS];
-            Placed = new bool[NUM_GEARS];
-            Takables = new ModeleRamassable[NUM_GEARS];
-            Axles = new ObjetDeBase[NUM_GEARS];
-            AxleTaken = new bool[NUM_GEARS];
-            AxleObjects = new int[NUM_GEARS];
-            GearPositions = new Vector3[NUM_GEARS];
-            for (int i = 0; i < NUM_GEARS; ++i)
+            InitializeMillData();
+            for (int i = 0; i < NumGears; ++i)
+            {
+                Positions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X / 50, PositionInitiale.Y + GearInfo[i].Y, PositionInitiale.Z);
+                GearPositions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X / 50, PositionInitiale.Y + GearInfo[i].Y, PositionInitiale.Z + 1);
+                for (int j = 0; j < NumGears; ++j)
+                {
+                    Gears[i, j] = new Gear(Game, "gear" + GearInfo[i].Z.ToString(), 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[j]);
+                    Game.Components.Add(Gears[i, j]);
+                    Gears[i, j].Visible = false;
+                }
+                Axles[i] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[i]);
+                Game.Components.Add(Axles[i]);
+                Takables[i] = new ModeleRamassable(Game, "gear" + GearInfo[i].Z.ToString(), 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(350 + GearInfo[i].X / 10, 10, 100 + GearInfo[i].Y / 10));
+                Game.Components.Add(Takables[i]);
+            }
+            //Positions[0] = new Vector3(299, 9, 100);
+            //GearPositions[0] = new Vector3(299, 9, 101);
+            //Positions[1] = new Vector3(305.4f, 15.4f, 100);
+            //GearPositions[1] = new Vector3(305.4f, 15.4f, 101);
+            //Gears[0, 0] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
+            //Gears[0, 1] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
+            //Axles[0] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[0]);
+            //Game.Components.Add(Gears[0, 0]);
+            //Game.Components.Add(Gears[0, 1]);
+            //Game.Components.Add(Axles[0]);
+            //Gears[1, 0] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
+            //Gears[1, 1] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
+            //Axles[1] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[1]);
+            //Game.Components.Add(Gears[1, 0]);
+            //Game.Components.Add(Gears[1, 1]);
+            //Game.Components.Add(Axles[1]);
+            //Takables[0] = new ModeleRamassable(Game, "gear5", 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
+            //Game.Components.Add(Takables[0]);
+            //Takables[1] = new ModeleRamassable(Game, "gear2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(420, 10, 100));
+            //Game.Components.Add(Takables[1]);
+            //Gears[0, 0].Visible = false;
+            //Gears[0, 1].Visible = false;
+            //Gears[1, 0].Visible = false;
+            //Gears[1, 1].Visible = false;
+        }
+
+        void InitializeMillData()
+        {
+            MillImage = TextureManager.Find(MillImageName);
+            NumTexels = MillImage.Width * MillImage.Height;
+            TextureData = new Color[NumTexels];
+            MillImage.GetData<Color>(TextureData);
+            NumGears = 0;
+            GearInfo = new List<Vector3>();
+            for (int i = 0; i < NumTexels; ++i)
+            {
+                if (TextureData[i].R != 0 || TextureData[i].G != 0 || TextureData[i].B != 0)
+                {
+                    if (TextureData[i].R == 237 && TextureData[i].G == 28 && TextureData[i].B == 36)
+                    {
+                        ++NumGears;
+                        GearInfo.Add(new Vector3(i + i / MillImage.Height, i / MillImage.Height, 2));
+                    }
+                    else if (TextureData[i].R == 34 && TextureData[i].G == 177 && TextureData[i].B == 76)
+                    {
+                        ++NumGears;
+                        GearInfo.Add(new Vector3(i + i / MillImage.Height, i / MillImage.Height, 5));
+                    }
+                }
+            }
+            Gears = new Gear[NumGears, NumGears];
+            Positions = new Vector3[NumGears];
+            Placed = new bool[NumGears];
+            Takables = new ModeleRamassable[NumGears];
+            Axles = new ObjetDeBase[NumGears];
+            AxleTaken = new bool[NumGears];
+            AxleObjects = new int[NumGears];
+            GearPositions = new Vector3[NumGears];
+            for (int i = 0; i < NumGears; ++i)
             {
                 AxleTaken[i] = false;
             }
-            for (int i = 0; i < NUM_GEARS; ++i)
+            for (int i = 0; i < NumGears; ++i)
             {
                 Placed[i] = false;
             }
-            for (int i = 0; i < NUM_GEARS; ++i)
+            for (int i = 0; i < NumGears; ++i)
             {
-                AxleObjects[i] = NUM_GEARS;
+                AxleObjects[i] = NumGears;
             }
-            Positions[0] = new Vector3(299, 9, 100);
-            GearPositions[0] = new Vector3(299, 9, 101);
-            Positions[1] = new Vector3(305.4f, 15.4f, 100);
-            GearPositions[1] = new Vector3(305.4f, 15.4f, 101);
-            Gears[0, 0] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
-            Gears[0, 1] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
-            Axles[0] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[0]);
-            Game.Components.Add(Gears[0, 0]);
-            Game.Components.Add(Gears[0, 1]);
-            Game.Components.Add(Axles[0]);
-            Gears[1, 0] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
-            Gears[1, 1] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
-            Axles[1] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[1]);
-            Game.Components.Add(Gears[1, 0]);
-            Game.Components.Add(Gears[1, 1]);
-            Game.Components.Add(Axles[1]);
-            Takables[0] = new ModeleRamassable(Game, "gear5", 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
-            Game.Components.Add(Takables[0]);
-            Takables[1] = new ModeleRamassable(Game, "gear2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(420, 10, 100));
-            Game.Components.Add(Takables[1]);
-            Gears[0, 0].Visible = false;
-            Gears[0, 1].Visible = false;
-            Gears[1, 0].Visible = false;
-            Gears[1, 1].Visible = false;
         }
 
         public void RemoveComponents()
@@ -141,20 +190,34 @@ namespace HyperV
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
-                Gears[0, 0].UpdateRotation(0.005f);
-                Gears[0, 1].UpdateRotation(0.005f);
-                Gears[1, 0].UpdateRotation(-0.01f);
-                Gears[1, 1].UpdateRotation(-0.01f);
+                Game.Window.Title = Camera.Position.ToString();
+                for (int i = 0; i < NumGears; ++i)
+                {
+                    for (int j = 0; j < NumGears; ++j)
+                    {
+                        if (GearInfo[i].Z == 5)
+                        {
+                            Gears[i, j].UpdateRotation(0.005f);
+                        }
+                        else if (GearInfo[i].Z == 2)
+                        {
+                            Gears[i, j].UpdateRotation(-0.01f);
+                        }
+                    }
+                }
+                //Gears[0, 0].UpdateRotation(0.005f);
+                //Gears[0, 1].UpdateRotation(0.005f);
+                //Gears[1, 0].UpdateRotation(-0.01f);
+                //Gears[1, 1].UpdateRotation(-0.01f);
                 Collided = false;
-                for (int i = 0; i < NUM_GEARS && !Collided; ++i)
+                for (int i = 0; i < NumGears && !Collided; ++i)
                 {
                     GameCollision = Collision(new Ray(Camera.Position, (Camera as Camera2).Direction), i);
                     Collided = GameCollision != null;
                     TakenObject = ReturnTakenObject();
-                    //Game.Window.Title = TakenObject.ToString();
-                    if (/*collision < Radius + 0.5f && */ Collided /*&& Takables[i].EstRamassée*/ /*&& TakenObject != NUM_GEARS && Takables[TakenObject].EstRamassée && (!AxleTaken[i] && !Placed[TakenObject] || AxleTaken[i] && Placed[Taken])*/)
+                    if (/*collision < Radius + 0.5f && */ Collided /*&& Takables[i].EstRamassée*/ /*&& TakenObject != NumGears && Takables[TakenObject].EstRamassée && (!AxleTaken[i] && !Placed[TakenObject] || AxleTaken[i] && Placed[Taken])*/)
                     {
-                        if (!AxleTaken[i] && TakenObject != NUM_GEARS)
+                        if (!AxleTaken[i] && TakenObject != NumGears)
                         {
                             PressSpaceLabel.Visible = true;
                             if (Space)
@@ -170,7 +233,7 @@ namespace HyperV
                                 Takables[TakenObject].Placed = true;
                             }
                         }
-                        else if (AxleTaken[i] && TakenObject == NUM_GEARS)
+                        else if (AxleTaken[i] && TakenObject == NumGears)
                         {
                             PressSpaceLabel.Visible = true;
                             if (Space)
@@ -183,7 +246,7 @@ namespace HyperV
                                 Space = false;
                                 Takables[AxleObjects[i]].Placed = false;
                                 ModeleRamassable.Taken = true;
-                                AxleObjects[i] = NUM_GEARS;
+                                AxleObjects[i] = NumGears;
                             }
                         }
                         else
@@ -224,7 +287,7 @@ namespace HyperV
         int ReturnTakenObject()
         {
             int i;
-            for (i = 0; i < NUM_GEARS && (!Takables[i].EstRamassée || Placed[i]); ++i) { }
+            for (i = 0; i < NumGears && (!Takables[i].EstRamassée || Placed[i]); ++i) { }
             return i;
         }
 

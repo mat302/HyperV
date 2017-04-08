@@ -159,7 +159,6 @@ namespace HyperV
                     //Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i, j + 1], TileTexturePositions[i, j + 1]);
                 }
             }
-            Game.Window.Title = cpt.ToString();
         }
 
         public override void Draw(GameTime gameTime)
