@@ -50,44 +50,47 @@ namespace HyperV
             InitializeMillData();
             for (int i = 0; i < NumGears; ++i)
             {
-                Positions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X / 50, PositionInitiale.Y + GearInfo[i].Y, PositionInitiale.Z);
-                GearPositions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X / 50, PositionInitiale.Y + GearInfo[i].Y, PositionInitiale.Z + 1);
+                Positions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X - range.X / 2, PositionInitiale.Y - GearInfo[i].Y + range.Y / 2, PositionInitiale.Z);
+                GearPositions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X - range.X / 2, PositionInitiale.Y - GearInfo[i].Y + range.Y / 2, PositionInitiale.Z + 1);
+                Axles[i] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[i]);
+                Game.Components.Add(Axles[i]);
+                Takables[i] = new ModeleRamassable(Game, "gear" + GearInfo[i].Z.ToString(), 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(350 + GearInfo[i].X / 10, 10, 100 + GearInfo[i].Y / 10));
+                Game.Components.Add(Takables[i]);
+            }
+            for (int i = 0; i < NumGears; ++i)
+            {
                 for (int j = 0; j < NumGears; ++j)
                 {
                     Gears[i, j] = new Gear(Game, "gear" + GearInfo[i].Z.ToString(), 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[j]);
                     Game.Components.Add(Gears[i, j]);
                     Gears[i, j].Visible = false;
                 }
-                Axles[i] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[i]);
-                Game.Components.Add(Axles[i]);
-                Takables[i] = new ModeleRamassable(Game, "gear" + GearInfo[i].Z.ToString(), 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(350 + GearInfo[i].X / 10, 10, 100 + GearInfo[i].Y / 10));
-                Game.Components.Add(Takables[i]);
             }
-            //Positions[0] = new Vector3(299, 9, 100);
-            //GearPositions[0] = new Vector3(299, 9, 101);
-            //Positions[1] = new Vector3(305.4f, 15.4f, 100);
-            //GearPositions[1] = new Vector3(305.4f, 15.4f, 101);
-            //Gears[0, 0] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
-            //Gears[0, 1] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
-            //Axles[0] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[0]);
-            //Game.Components.Add(Gears[0, 0]);
-            //Game.Components.Add(Gears[0, 1]);
-            //Game.Components.Add(Axles[0]);
-            //Gears[1, 0] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
-            //Gears[1, 1] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
-            //Axles[1] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[1]);
-            //Game.Components.Add(Gears[1, 0]);
-            //Game.Components.Add(Gears[1, 1]);
-            //Game.Components.Add(Axles[1]);
-            //Takables[0] = new ModeleRamassable(Game, "gear5", 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
-            //Game.Components.Add(Takables[0]);
-            //Takables[1] = new ModeleRamassable(Game, "gear2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(420, 10, 100));
-            //Game.Components.Add(Takables[1]);
-            //Gears[0, 0].Visible = false;
-            //Gears[0, 1].Visible = false;
-            //Gears[1, 0].Visible = false;
-            //Gears[1, 1].Visible = false;
-        }
+                //Positions[0] = new Vector3(299, 9, 100);
+                //GearPositions[0] = new Vector3(299, 9, 101);
+                //Positions[1] = new Vector3(305.4f, 15.4f, 100);
+                //GearPositions[1] = new Vector3(305.4f, 15.4f, 101);
+                //Gears[0, 0] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
+                //Gears[0, 1] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
+                //Axles[0] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[0]);
+                //Game.Components.Add(Gears[0, 0]);
+                //Game.Components.Add(Gears[0, 1]);
+                //Game.Components.Add(Axles[0]);
+                //Gears[1, 0] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
+                //Gears[1, 1] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
+                //Axles[1] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[1]);
+                //Game.Components.Add(Gears[1, 0]);
+                //Game.Components.Add(Gears[1, 1]);
+                //Game.Components.Add(Axles[1]);
+                //Takables[0] = new ModeleRamassable(Game, "gear5", 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
+                //Game.Components.Add(Takables[0]);
+                //Takables[1] = new ModeleRamassable(Game, "gear2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(420, 10, 100));
+                //Game.Components.Add(Takables[1]);
+                //Gears[0, 0].Visible = false;
+                //Gears[0, 1].Visible = false;
+                //Gears[1, 0].Visible = false;
+                //Gears[1, 1].Visible = false;
+            }
 
         void InitializeMillData()
         {
@@ -104,12 +107,12 @@ namespace HyperV
                     if (TextureData[i].R == 237 && TextureData[i].G == 28 && TextureData[i].B == 36)
                     {
                         ++NumGears;
-                        GearInfo.Add(new Vector3(i + i / MillImage.Height, i / MillImage.Height, 2));
+                        GearInfo.Add(new Vector3(i - i / MillImage.Height * MillImage.Height, i / MillImage.Height, 2));
                     }
                     else if (TextureData[i].R == 34 && TextureData[i].G == 177 && TextureData[i].B == 76)
                     {
                         ++NumGears;
-                        GearInfo.Add(new Vector3(i + i / MillImage.Height, i / MillImage.Height, 5));
+                        GearInfo.Add(new Vector3(i - i / MillImage.Height * MillImage.Height, i / MillImage.Height, 5));
                     }
                 }
             }

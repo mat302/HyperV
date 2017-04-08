@@ -56,10 +56,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
         }
 
         Gazon Gazon { get; set; }
@@ -647,7 +647,7 @@ namespace HyperV
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.Orange);
             base.Draw(gameTime);
         }
     }
