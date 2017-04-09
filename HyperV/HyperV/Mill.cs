@@ -66,31 +66,7 @@ namespace HyperV
                     Gears[i, j].Visible = false;
                 }
             }
-                //Positions[0] = new Vector3(299, 9, 100);
-                //GearPositions[0] = new Vector3(299, 9, 101);
-                //Positions[1] = new Vector3(305.4f, 15.4f, 100);
-                //GearPositions[1] = new Vector3(305.4f, 15.4f, 101);
-                //Gears[0, 0] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
-                //Gears[0, 1] = new Gear(Game, "gear5", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
-                //Axles[0] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[0]);
-                //Game.Components.Add(Gears[0, 0]);
-                //Game.Components.Add(Gears[0, 1]);
-                //Game.Components.Add(Axles[0]);
-                //Gears[1, 0] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[0]);
-                //Gears[1, 1] = new Gear(Game, "gear2", 0.025f, new Vector3(0, MathHelper.ToRadians(90), 0), GearPositions[1]);
-                //Axles[1] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[1]);
-                //Game.Components.Add(Gears[1, 0]);
-                //Game.Components.Add(Gears[1, 1]);
-                //Game.Components.Add(Axles[1]);
-                //Takables[0] = new ModeleRamassable(Game, "gear5", 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(370, 10, 100));
-                //Game.Components.Add(Takables[0]);
-                //Takables[1] = new ModeleRamassable(Game, "gear2", 0.025f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(420, 10, 100));
-                //Game.Components.Add(Takables[1]);
-                //Gears[0, 0].Visible = false;
-                //Gears[0, 1].Visible = false;
-                //Gears[1, 0].Visible = false;
-                //Gears[1, 1].Visible = false;
-            }
+        }
 
         void InitializeMillData()
         {
