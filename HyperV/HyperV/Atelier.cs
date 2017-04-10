@@ -474,7 +474,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 2;
+            Level = 0;
             SelectWorld(true);
             base.Initialize();
         }
