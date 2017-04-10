@@ -65,10 +65,10 @@ namespace HyperV
       Gazon Gazon { get; set; }
       Grass Grass { get; set; }
 
-      BalleRebondissante Balle { get; set; }
 
       Random GénérateurAléatoire { get; set; }
 
+      LifeBar[] LifeBars { get; set; }
       RessourcesManager<Video> VideoManager { get; set; }
       CutscenePlayer CutscenePlayer { get; set; }
       Walls Murs { get; set; }
@@ -342,7 +342,10 @@ namespace HyperV
          Services.AddService(typeof(Random), new Random());
 
          GénérateurAléatoire = new Random();
+         LifeBars = new LifeBar[2];
 
+         LifeBars[0] = new LifeBar(this, 300, "Gauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 70), FpsInterval);
+         LifeBars[1] = new LifeBar(this, 300, "StaminaGauge", "TiredGauge", "WaterGauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 130), FpsInterval);
 
          LoadSave();
          LoadSettings();
@@ -372,8 +375,10 @@ namespace HyperV
                   break;
             }
             Timer = 0;
+            
          }
-         Window.Title = Camera.Position.ToString();
+
+         
          base.Update(gameTime);
       }
 
@@ -522,33 +527,42 @@ namespace HyperV
       // LevelPrison
       #region
 
+      BalleRebondissante Balle { get; set; }
+      Epee Épée { get; set; }
+      
+
+
       void LevelPrison(bool usePosition)
       {
-         int largeurTuilePlancher = 7;
-         int nbreBalles = 1;
+         const int LARGEUR_TUILE = 20,
+                   NBRE_BALLES_DÉSIRÉS = 20;
+         const float ÉCHELLE_ÉPÉE = 0.009f;
+         const string NOM_MODÈLE_ÉPÉE = "robot";
 
          usePosition = false;
-         Components.Add(SpaceBackground);
-         Components.Add(new Afficheur3D(this));
+
          Services.AddService(typeof(List<Character>), Characters);
+
 
          CréationCaméra(usePosition);
          CréationMurs("imagePrisonMur", "DataPrison.txt");
-         CréerPlancherEtPlafond(largeurTuilePlancher);
+         CréerPlancherEtPlafond(LARGEUR_TUILE);
 
-         for (int i = 0; i < nbreBalles; i++)
+         for (int i = 0; i < NBRE_BALLES_DÉSIRÉS; i++)
          {
-            Balle = new BalleRebondissante(this, 1f, Vector3.Zero, CalculerPositionInitiale(), 5f, new Vector2(200), "Balle_Bois",FpsInterval);
+            Balle = new BalleRebondissante(this, 1f, Vector3.Zero, CalculerPositionInitiale(), 5f, new Vector2(50), "Balle_Bois",FpsInterval);
             Components.Add(Balle);
          }
-
-
+         CréerÉpée(NOM_MODÈLE_ÉPÉE, ÉCHELLE_ÉPÉE);
+         Components.Add(LifeBars[0]);
+         Components.Add(LifeBars[1]);
+         Services.AddService(typeof(LifeBar[]), LifeBars);
       }
       Vector3 CalculerPositionInitiale()
       {
          float x = GénérateurAléatoire.Next(-190, 70);
          float z = GénérateurAléatoire.Next(-40, 220);
-         float y = GénérateurAléatoire.Next(-30, -10);
+         float y = GénérateurAléatoire.Next(-35, -15);
          return new Vector3(x, y, z);
       }
 
@@ -580,8 +594,9 @@ namespace HyperV
          {
             Camera = new Camera1(this, new Vector3(76, -20, -45), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
          }
+         
          Services.AddService(typeof(Caméra), Camera);
-
+         
          Components.Add(Camera);
       }
 
@@ -590,6 +605,15 @@ namespace HyperV
          Murs = new Walls(this, FpsInterval, nomTexture, "../../../" + nomFichierTexte);
          Components.Add(Murs);
          Services.AddService(typeof(Walls), Murs);
+      }
+
+      void CréerÉpée(string nomModèle,float échelle)
+      {
+         Épée = new Epee(this, nomModèle, échelle, Vector3.Zero, Camera.Position);
+         Épée.EstRamassée = true;
+
+         Components.Add(Épée);
+         Services.AddService(typeof(Epee), Épée);
       }
 
       #endregion
