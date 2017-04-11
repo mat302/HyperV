@@ -242,15 +242,15 @@ namespace HyperV
                             if (level == 1)
                             {
                                 Services.AddService(typeof(List<Character>), Characters);
-                                Camera = new Camera1(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval, RenderDistance);
+                                Camera = new Camera1(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval, RenderDistance);
                             }
                             else if (level == 3)
                             {
-                                Camera = new Camera3(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval/*, RenderDistance*/);
+                                Camera = new Camera3(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval/*, RenderDistance*/);
                             }
                             else
                             {
-                                Camera = new Camera2(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval, RenderDistance);
+                                Camera = new Camera2(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval, RenderDistance);
                             }
                         }
                         //(Camera as Camera2).SetRenderDistance(RenderDistance);
@@ -332,6 +332,12 @@ namespace HyperV
                         break;
                     case "AjouterTours":
                         AjouterTours();
+                        break;
+                    case "HeightMap":
+                        HeightMap = new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6]);
+                        Components.Add(HeightMap);
+                        Services.RemoveService(typeof(HeightMap));
+                        Services.AddService(typeof(HeightMap), HeightMap);
                         break;
                 }
             }
@@ -474,7 +480,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 0;
+            Level = 5;
             SelectWorld(true);
             base.Initialize();
         }

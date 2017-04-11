@@ -258,8 +258,9 @@ namespace HyperV
             return (valeur >= borneA && valeur <= borneB || valeur <= borneA && valeur >= borneB);
         }
 
-        public bool CheckForCollisions(Vector3 position)
+        public bool CheckForCollisions(Vector3 positionReceived)
         {
+            Vector3 position = positionReceived - PositionInitiale;
             int i = (int)((position.X + 5) / 10f), j = (int)((position.Z + 5) / 10f);
             bool collision;
             if (i >= 0 && j >= 0 && i < Collisions.GetLength(0) && j < Collisions.GetLength(1))

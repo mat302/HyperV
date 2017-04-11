@@ -125,6 +125,11 @@
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
     <Content Include="Hub.txt" />
+    <Content Include="Levels\Level0.txt" />
+    <Content Include="Levels\Level1.txt" />
+    <Content Include="Levels\Level2.txt" />
+    <Content Include="Levels\Level3.txt" />
+    <Content Include="Levels\Level5.txt" />
     <Content Include="Libraries\BasicComponents.dll" />
     <Content Include="Monde3_Modeles.txt" />
     <Content Include="Monde3_Murs.txt" />
@@ -154,7 +159,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CharacterScripts\" />
-    <Folder Include="Levels\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
