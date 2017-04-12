@@ -643,12 +643,13 @@ namespace HyperV
         //Added from first Camera1
         //float Height { get; set; }
 
-        Maze Maze { get; set; }
+        List<Maze> Maze { get; set; }
         List<Character> Characters { get; set; }
         Boss Boss { get; set; }
         HeightMap HeightMap { get; set; }
         Water Water { get; set; }
         Grass Grass { get; set; }
+        Walls Walls { get; set; }
 
         public Camera2(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance)
             : base(jeu, positionCaméra, cible, orientation, intervalleMAJ, renderDistance)
@@ -657,13 +658,14 @@ namespace HyperV
         protected override void ChargerContenu()
         {
             base.ChargerContenu();
-            Maze = Game.Services.GetService(typeof(Maze)) as Maze;
+            Maze = Game.Services.GetService(typeof(List<Maze>)) as List<Maze>;
             Characters = Game.Services.GetService(typeof(List<Character>)) as List<Character>;
             Boss = Game.Services.GetService(typeof(Boss)) as Boss;
             HeightMap = Game.Services.GetService(typeof(HeightMap)) as HeightMap;
             Grass = Game.Services.GetService(typeof(Grass)) as Grass;
             GérerHauteur();
             Water = Game.Services.GetService(typeof(Water)) as Water;
+            Walls = Game.Services.GetService(typeof(Walls)) as Walls;
         }
 
         //NO WATER
@@ -691,7 +693,7 @@ namespace HyperV
         {
             base.GérerDéplacement(direction, latéral);
 
-            if (Maze != null ? Maze.CheckForCollisions(Position) : false /*|| CheckForBossCollision()*/)
+            if ((Maze[0] != null ? CheckForMazeCollision() : false) || (Walls != null ? Walls.CheckForCollisions(Position) : false)/*|| CheckForBossCollision()*/)
             {
                 Position -= direction * VitesseTranslation * Direction;
                 Position += latéral * VitesseTranslation * Latéral;
@@ -749,6 +751,19 @@ namespace HyperV
         //        base.GérerSaut();
         //    }
         //}
+
+        bool CheckForMazeCollision()
+        {
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Maze.Count && !result; ++i)
+            {
+                result = Maze[i].CheckForCollisions(Position);
+            }
+
+            return result;
+        }
 
         const float MAX_DISTANCE = 4.5f, MAX_DISTANCE_BOSS = 80f;
 

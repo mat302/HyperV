@@ -34,7 +34,7 @@ namespace HyperV
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
 
         Caméra Camera { get; set; }
-        Maze Maze { get; set; }
+        List<Maze> Maze { get; set; }
         InputManager InputManager { get; set; }
         GamePadManager GamePadManager { get; set; }
 
@@ -258,10 +258,10 @@ namespace HyperV
                         Services.AddService(typeof(Caméra), Camera);
                         break;
                     case "Maze":
-                        Maze = new Maze(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], FpsInterval, parts[6]);
-                        Components.Add(Maze);
-                        Services.RemoveService(typeof(Maze));
-                        Services.AddService(typeof(Maze), Maze);
+                        Maze.Add(new Maze(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], FpsInterval, parts[6]));
+                        Components.Add(Maze.Last());
+                        Services.RemoveService(typeof(List<Maze>));
+                        Services.AddService(typeof(List<Maze>), Maze);
                         break;
                     case "Boss":
                         boss = true;
@@ -308,7 +308,7 @@ namespace HyperV
                         Services.AddService(typeof(Ceiling), Ceiling);
                         break;
                     case "Walls":
-                        Walls = new Walls(this, FpsInterval, parts[1], parts[2]);
+                        Walls = new Walls(this, FpsInterval, parts[1], parts[2], float.Parse(parts[3]));
                         Components.Add(Walls);
                         Services.RemoveService(typeof(Walls));
                         Services.AddService(typeof(Walls), Walls);
@@ -475,6 +475,7 @@ namespace HyperV
             SoundManager = new RessourcesManager<SoundEffect>(this, "Sounds");
             Services.AddService(typeof(RessourcesManager<SoundEffect>), SoundManager);
             Characters = new List<Character>();
+            Maze = new List<Maze>();
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));

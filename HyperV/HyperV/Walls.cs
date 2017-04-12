@@ -53,12 +53,14 @@ namespace HyperV
         Matrix World { get; set; }
         Caméra Camera { get; set; }
         List<float> Heights { get; set; }
+        float YPosition { get; set; }
 
-        public Walls(Game game, float interval, string tileTextureName, string dataFileName) : base(game)
+        public Walls(Game game, float interval, string tileTextureName, string dataFileName, float yPosition) : base(game)
         {
             Interval = interval;
             TileTextureName = tileTextureName;
             DataFileName = dataFileName;
+            YPosition = yPosition;
         }
 
         /// <summary>
@@ -104,12 +106,12 @@ namespace HyperV
             for (int i = 0; i < NumVertices; i += 6)
             {
                 vertexIndex = i / 6;
-                VerticesPositions[i] = new Vector3(FirstVertices[vertexIndex].X, 0, FirstVertices[vertexIndex].Y);
-                VerticesPositions[i + 1] = new Vector3(SecondVertices[vertexIndex].X, -Heights[vertexIndex], SecondVertices[vertexIndex].Y);
-                VerticesPositions[i + 2] = new Vector3(FirstVertices[vertexIndex].X, -Heights[vertexIndex], FirstVertices[vertexIndex].Y);
-                VerticesPositions[i + 3] = new Vector3(FirstVertices[vertexIndex].X, 0, FirstVertices[vertexIndex].Y);
-                VerticesPositions[i + 4] = new Vector3(SecondVertices[vertexIndex].X, 0, SecondVertices[vertexIndex].Y);
-                VerticesPositions[i + 5] = new Vector3(SecondVertices[vertexIndex].X, -Heights[vertexIndex], SecondVertices[vertexIndex].Y);
+                VerticesPositions[i + 1] = new Vector3(FirstVertices[vertexIndex].X, YPosition, FirstVertices[vertexIndex].Y);
+                VerticesPositions[i] = new Vector3(SecondVertices[vertexIndex].X, Heights[vertexIndex], SecondVertices[vertexIndex].Y);
+                VerticesPositions[i + 2] = new Vector3(FirstVertices[vertexIndex].X, Heights[vertexIndex], FirstVertices[vertexIndex].Y);
+                VerticesPositions[i + 5] = new Vector3(FirstVertices[vertexIndex].X, YPosition, FirstVertices[vertexIndex].Y);
+                VerticesPositions[i + 4] = new Vector3(SecondVertices[vertexIndex].X, YPosition, SecondVertices[vertexIndex].Y);
+                VerticesPositions[i + 3] = new Vector3(SecondVertices[vertexIndex].X, Heights[vertexIndex], SecondVertices[vertexIndex].Y);
             }
         }
 
@@ -147,7 +149,7 @@ namespace HyperV
 
                 Heights.Add(float.Parse(vectors[2]));
 
-                PlanePoints.Add(new Vector3(vector.X, 0, vector.Y));
+                PlanePoints.Add(new Vector3(vector.X, YPosition, vector.Y));
                 u2 = SecondVertices.Last() - FirstVertices.Last();
                 u = new Vector3(u2.X, 0, u2.Y);
                 v = new Vector3(0, Heights.Last(), 0);
@@ -174,7 +176,7 @@ namespace HyperV
             for (int i = 0; i < NumVertices; ++i)
             {
                 v = i % 6;
-                Vertices[i] = new VertexPositionTexture(VerticesPositions[i], v == 0 ? TexturePositions[0, 0] : v == 1 ? TexturePositions[1, 1] : v == 2 ? TexturePositions[0, 1] : v == 3 ? TexturePositions[0, 0] : v == 4 ? TexturePositions[1, 0] : TexturePositions[1, 1]);
+                Vertices[i] = new VertexPositionTexture(VerticesPositions[i], v == 0 ? TexturePositions[1, 0] : v == 1 ? TexturePositions[0, 1] : v == 2 ? TexturePositions[0, 0] : v == 3 ? TexturePositions[1, 0] : v == 4 ? TexturePositions[1, 1] : TexturePositions[0, 1]);
             }
         }
 
@@ -197,8 +199,9 @@ namespace HyperV
 
         const int MAX_DISTANCE = 1;
 
-        public bool CheckForCollisions(Vector3 Position)
+        public bool CheckForCollisions(Vector3 PositionObtained)
         {
+            Vector3 Position = new Vector3(PositionObtained.X, PositionObtained.Y - YPosition, PositionObtained.Z);
             Vector3 AP;
             bool result = false;
             int i;
