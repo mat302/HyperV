@@ -646,7 +646,7 @@ namespace HyperV
         List<Maze> Maze { get; set; }
         List<Character> Characters { get; set; }
         Boss Boss { get; set; }
-        HeightMap HeightMap { get; set; }
+        List<HeightMap> HeightMap { get; set; }
         Water Water { get; set; }
         Grass Grass { get; set; }
         Walls Walls { get; set; }
@@ -661,7 +661,7 @@ namespace HyperV
             Maze = Game.Services.GetService(typeof(List<Maze>)) as List<Maze>;
             Characters = Game.Services.GetService(typeof(List<Character>)) as List<Character>;
             Boss = Game.Services.GetService(typeof(Boss)) as Boss;
-            HeightMap = Game.Services.GetService(typeof(HeightMap)) as HeightMap;
+            HeightMap = Game.Services.GetService(typeof(List<HeightMap>)) as List<HeightMap>;
             Grass = Game.Services.GetService(typeof(Grass)) as Grass;
             GérerHauteur();
             Water = Game.Services.GetService(typeof(Water)) as Water;
@@ -682,9 +682,14 @@ namespace HyperV
 
         protected override void GérerHauteur()
         {
-            if (HeightMap != null)
+            if (HeightMap[0] != null)
             {
-                Height = HeightMap.GetHeight(Position);
+                float height = 5;
+                for(int i = 0; i < HeightMap.Count && height == 5; ++i)
+                {
+                    height = HeightMap[i].GetHeight(Position);
+                }
+                Height = height;
             }
             base.GérerHauteur();
         }

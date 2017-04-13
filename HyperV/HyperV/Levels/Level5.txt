@@ -6,3 +6,5 @@ Maze;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:150};{X:256 Y:5 Z:256};GrassFence;Maze5
 HeightMap;1;{X:0 Y:0 Z:0};{X:-255 Y:0 Z:295};{X:400 Y:100 Z:400};Map5;Grass
 Walls;Fence;../../../Walls5.txt;0
 Maze;1;{X:0 Y:0 Z:0};{X:-300 Y:0 Z:0};{X:256 Y:5 Z:256};GrassFence;Maze5a
+HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:0};{X:400 Y:100 Z:400};Map5b;Grass
+HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:400};{X:400 Y:100 Z:400};Map5c;Grass

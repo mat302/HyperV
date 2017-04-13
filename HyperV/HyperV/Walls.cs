@@ -143,18 +143,21 @@ namespace HyperV
             {
                 line = reader.ReadLine();
                 vectors = line.Split(separator);
-                FirstVertices.Add(Vector2Parse(vectors[0]));
-                vector = Vector2Parse(vectors[1]);
-                SecondVertices.Add(vector);
+                if (vectors[0] != "#")
+                {
+                    FirstVertices.Add(Vector2Parse(vectors[0]));
+                    vector = Vector2Parse(vectors[1]);
+                    SecondVertices.Add(vector);
 
-                Heights.Add(float.Parse(vectors[2]));
+                    Heights.Add(float.Parse(vectors[2]));
 
-                PlanePoints.Add(new Vector3(vector.X, YPosition, vector.Y));
-                u2 = SecondVertices.Last() - FirstVertices.Last();
-                u = new Vector3(u2.X, 0, u2.Y);
-                v = new Vector3(0, Heights.Last(), 0);
-                PlaneEquations.Add(Vector3.Cross(u, v));
-                Magnitudes.Add(PlaneEquations.Last().Length());
+                    PlanePoints.Add(new Vector3(vector.X, YPosition, vector.Y));
+                    u2 = SecondVertices.Last() - FirstVertices.Last();
+                    u = new Vector3(u2.X, 0, u2.Y);
+                    v = new Vector3(0, Heights.Last(), 0);
+                    PlaneEquations.Add(Vector3.Cross(u, v));
+                    Magnitudes.Add(PlaneEquations.Last().Length());
+                }
             }
             reader.Close();
             NumTriangles = FirstVertices.Count * NUM_TRIANGLES_PER_TILE;

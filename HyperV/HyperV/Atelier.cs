@@ -334,10 +334,10 @@ namespace HyperV
                         AjouterTours();
                         break;
                     case "HeightMap":
-                        HeightMap = new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6]);
-                        Components.Add(HeightMap);
-                        Services.RemoveService(typeof(HeightMap));
-                        Services.AddService(typeof(HeightMap), HeightMap);
+                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6]));
+                        Components.Add(HeightMap.Last());
+                        Services.RemoveService(typeof(List<HeightMap>));
+                        Services.AddService(typeof(List<HeightMap>), HeightMap);
                         break;
                 }
             }
@@ -376,7 +376,7 @@ namespace HyperV
         List<Portal> Portals { get; set; }
         Boss Boss { get; set; }
         Mill Mill { get; set; }
-        HeightMap HeightMap { get; set; }
+        List<HeightMap> HeightMap { get; set; }
         LifeBar[] LifeBars { get; set; }
         Afficheur3D Display3D { get; set; }
         Water Water { get; set; }
@@ -476,6 +476,7 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<SoundEffect>), SoundManager);
             Characters = new List<Character>();
             Maze = new List<Maze>();
+            HeightMap = new List<HeightMap>();
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
