@@ -31,7 +31,7 @@ namespace HyperV
         const int SOMMET_SUPPLÉMENTAIRE_POUR_LIGNE = 1;
         const int COMPENSATION_NULLE = 0;
         const int DIVISEUR_DEMI_GRANDEUR = 2;
-        const int NB_PTS_TEXTURE_POSSIBLE = 20;
+        const int NB_PTS_TEXTURE_POSSIBLE = 4;
         const int NB_SOMMETS_PAR_TUILE = 4;
         const int ORDONNÉE_NULLE = 0;
         const int POSITION_TEXEL_DE_MOINS_PAR_RAPPORT_À_DIMENSION = 1;
@@ -56,7 +56,7 @@ namespace HyperV
         Color[] DataTexture { get; set; }
         int LargeurTuile { get; set; }
         Vector3[,] PtsSommets { get; set; }
-        Vector2[] PtsTexture { get; set; }
+        Vector2[,] PtsTexture { get; set; }
         VertexPositionTexture[] Sommets { get; set; }
         Vector2 Delta { get; set; }
         int NbTexels { get; set; }
@@ -118,7 +118,7 @@ namespace HyperV
             // à compléter
             Sommets = new VertexPositionTexture[NbSommets];
             //PtsTexture = new Vector2[CarteTerrain.Width, CarteTerrain.Height];
-            PtsTexture = new Vector2[NB_PTS_TEXTURE_POSSIBLE];
+            PtsTexture = new Vector2[2, 2];
             //PtsSommets = new Vector3[CarteTerrain.Width, CarteTerrain.Height];
             //Delta = new Vector2(Étendue.X / NbRangées, Étendue.Z / NbColonnes);
             AffecterPointsTexture();
@@ -134,14 +134,18 @@ namespace HyperV
             //        PtsTexture[i, j] = new Vector2(0, PtsSommets[i, j].Y / Étendue.Y);
             //    }
             //}
-            for (int i = 0; i < 5; ++i)
-            {
-                for (int j = 0; j < 4; ++j)
-                {
-                    PtsTexture[NB_SOMMETS_PAR_TUILE * i + j] = new Vector2(j % NB_TRIANGLES_PAR_TUILE, (i + (j > VALEUR_J_MAX_HAUT_DE_TUILE ? VALEUR_BAS_DE_TUILE : VALEUR_HAUT_DE_TUILE) * (1 - 1 / (float)TextureTerrain.Height)) / NbNiveauTexture);
-                    //PtsTexture[NB_SOMMETS_PAR_TUILE * i + j] = new Vector2(0.5f, 0.9f);
-                }
-            }
+            //for (int i = 0; i < 1; ++i)
+            //{
+            //    for (int j = 0; j < 1; ++j)
+            //    {
+            //        PtsTexture[NB_SOMMETS_PAR_TUILE * i + j] = new Vector2(j % NB_TRIANGLES_PAR_TUILE, (i + (j > VALEUR_J_MAX_HAUT_DE_TUILE ? VALEUR_BAS_DE_TUILE : VALEUR_HAUT_DE_TUILE) * (1 - 1 / (float)TextureTerrain.Height)) / NbNiveauTexture);
+            //        //PtsTexture[NB_SOMMETS_PAR_TUILE * i + j] = new Vector2(0.5f, 0.9f);
+            //    }
+            //}
+            PtsTexture[0, 0] = new Vector2(0, 1);
+            PtsTexture[1, 0] = new Vector2(1, 1);
+            PtsTexture[0, 1] = new Vector2(0, 0);
+            PtsTexture[1, 1] = new Vector2(1, 0);
         }
 
         protected override void LoadContent()
@@ -215,12 +219,12 @@ namespace HyperV
             //{
             //    Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[k + noCase * ]);
             //} 
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[noCase]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[noCase + 1]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[noCase + 2]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[noCase + 1]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j + 1], PtsTexture[noCase + 3]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[noCase + 2]);
+            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[0, 0]);
+            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[0, 1]);
+            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[1, 0]);
+            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[0, 1]);
+            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j + 1], PtsTexture[1, 1]);
+            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[1, 0]);
         }
 
         //
