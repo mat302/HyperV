@@ -68,7 +68,7 @@ namespace HyperV
 
         RessourcesManager<Video> VideoManager { get; set; }
         CutscenePlayer CutscenePlayer { get; set; }
-        Walls Walls { get; set; }
+        List<Walls> Walls { get; set; }
         Character Robot { get; set; }
         List<Character> Characters { get; set; }
         int SaveNumber { get; set; }
@@ -85,6 +85,7 @@ namespace HyperV
         Input Input { get; set; }
         Sprite Crosshair { get; set; }
         RessourcesManager<SoundEffect> SoundManager { get; set; }
+        List<House> Houses { get; set; }
 
         void LoadSettings()
         {
@@ -188,10 +189,6 @@ namespace HyperV
             string line;
             string[] parts;
             bool boss = false;
-            if (level == 1)
-            {
-                Portals = new List<Portal>();
-            }
             Components.Add(InputManager);
             Components.Add(GamePadManager);
             while (!reader.EndOfStream)
@@ -208,22 +205,13 @@ namespace HyperV
                     case "Display3D":
                         Display3D = new Afficheur3D(this);
                         Components.Add(Display3D);
-                        if (level == 1)
-                        {
-                            Services.RemoveService(typeof(Afficheur3D));
-                            Services.AddService(typeof(Afficheur3D), Display3D);
-                        }
+                        Services.RemoveService(typeof(Afficheur3D));
+                        Services.AddService(typeof(Afficheur3D), Display3D);
                         break;
                     case "Camera":
                         if (usePosition)
                         {
-                            if (level == 1)
-                            {
-                                Services.AddService(typeof(List<Character>), Characters);
-                                Camera = new Camera1(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                                (Camera as Camera1).InitializeDirection(Direction);
-                            }
-                            else if (level == 3)
+                            if (level == 3)
                             {
                                 // Doesn't work
                                 //Camera = new Camera3(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
@@ -234,17 +222,10 @@ namespace HyperV
                                 Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
                                 (Camera as Camera2).InitializeDirection(Direction);
                             }
-                            Services.RemoveService(typeof(LifeBar[]));
-                            Services.AddService(typeof(LifeBar[]), LifeBars);
                         }
                         else
                         {
-                            if (level == 1)
-                            {
-                                Services.AddService(typeof(List<Character>), Characters);
-                                Camera = new Camera1(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval, RenderDistance);
-                            }
-                            else if (level == 3)
+                            if (level == 3)
                             {
                                 Camera = new Camera3(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval/*, RenderDistance*/);
                             }
@@ -292,8 +273,10 @@ namespace HyperV
                         Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
                         break;
                     case "Character":
-                        Robot = new Character(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6], parts[7], parts[8], FpsInterval);
-                        Characters.Add(Robot);
+                        Characters.Add(new Character(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6], parts[7], parts[8], FpsInterval));
+                        Components.Add(Characters.Last());
+                        Services.RemoveService(typeof(List<Character>));
+                        Services.AddService(typeof(List<Character>), Characters);
                         break;
                     case "Grass":
                         Grass = new Grass(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], Vector2Parse(parts[6]), FpsInterval);
@@ -308,10 +291,10 @@ namespace HyperV
                         Services.AddService(typeof(Ceiling), Ceiling);
                         break;
                     case "Walls":
-                        Walls = new Walls(this, FpsInterval, parts[1], parts[2], float.Parse(parts[3]));
-                        Components.Add(Walls);
-                        Services.RemoveService(typeof(Walls));
-                        Services.AddService(typeof(Walls), Walls);
+                        Walls.Add(new Walls(this, FpsInterval, parts[1], parts[2], float.Parse(parts[3])));
+                        Components.Add(Walls.Last());
+                        Services.RemoveService(typeof(List<Walls>));
+                        Services.AddService(typeof(List<Walls>), Walls);
                         break;
                     case "Portal":
                         Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], int.Parse(parts[6]), FpsInterval));
@@ -339,18 +322,19 @@ namespace HyperV
                         Services.RemoveService(typeof(List<HeightMap>));
                         Services.AddService(typeof(List<HeightMap>), HeightMap);
                         break;
+                    case "House":
+                        Houses.Add(new House(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
+                        Components.Add(Houses.Last());
+                        Services.RemoveService(typeof(List<House>));
+                        Services.AddService(typeof(List<House>), Houses);
+                        break;
                 }
             }
             if (Level != 0)
             {
-                if (level == 1)
-                {
-                    Services.AddService(typeof(List<Portal>), Portals);
-                    Components.Add(Robot);
-                    Robot.AddLabel();
-                    Components.Add(PressSpaceLabel);
-                    PressSpaceLabel.Visible = false;
-                }
+                AddCharacterLabels();
+                Components.Add(PressSpaceLabel);
+                PressSpaceLabel.Visible = false;
                 if (boss)
                 {
                     Boss.AddFireball();
@@ -358,14 +342,19 @@ namespace HyperV
                 }
                 Components.Add(LifeBars[0]);
                 Components.Add(LifeBars[1]);
-                if (level == 1)
-                {
-                    Services.AddService(typeof(LifeBar[]), LifeBars);
-                }
+                Services.AddService(typeof(LifeBar[]), LifeBars);
                 Components.Add(Camera);
                 Components.Remove(Loading);
                 Components.Add(Crosshair);
                 Components.Add(FPSLabel);
+            }
+        }
+
+        void AddCharacterLabels()
+        {
+            foreach(Character e in Characters)
+            {
+                e.AddLabel();
             }
         }
 
@@ -475,8 +464,17 @@ namespace HyperV
             SoundManager = new RessourcesManager<SoundEffect>(this, "Sounds");
             Services.AddService(typeof(RessourcesManager<SoundEffect>), SoundManager);
             Characters = new List<Character>();
+            Services.AddService(typeof(List<Character>), Characters);
             Maze = new List<Maze>();
+            Services.AddService(typeof(List<Maze>), Maze);
+            Houses = new List<House>();
+            Services.AddService(typeof(List<House>), Houses);
             HeightMap = new List<HeightMap>();
+            Services.AddService(typeof(List<HeightMap>), HeightMap);
+            Portals = new List<Portal>();
+            Services.AddService(typeof(List<Portal>), Portals);
+            Walls = new List<Walls>();
+            Services.AddService(typeof(List<Walls>), Walls);
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
@@ -566,7 +564,7 @@ namespace HyperV
         {
             foreach (Portal p in Portals)
             {
-                float? collision = p.Collision(new Ray(Camera.Position, (Camera as Camera1).Direction));
+                float? collision = p.Collision(new Ray(Camera.Position, (Camera as Camera2).Direction));
                 if (collision < 30 && collision != null)
                 {
                     PressSpaceLabel.Visible = true;

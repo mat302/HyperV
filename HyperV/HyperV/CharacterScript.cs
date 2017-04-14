@@ -41,7 +41,7 @@ namespace HyperV
         Rectangle ScriptRectanglePosition { get; set; }
         string ScriptRectangleName { get; set; }
         Vector2 TextPosition { get; set; }
-        Camera1 Camera { get; set; }
+        Camera2 Camera { get; set; }
         Character Character { get; set; }
         string FontName { get; set; }
         public PressSpaceLabel PressSpaceLabel { get; private set; }
@@ -81,7 +81,7 @@ namespace HyperV
             ScriptRectangle = TextureManager.Find(ScriptRectangleName);
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
-            Camera = Game.Services.GetService(typeof(Caméra)) as Camera1;
+            Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             Font = FontManager.Find(FontName);
             ReadScript();
         }

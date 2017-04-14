@@ -649,7 +649,9 @@ namespace HyperV
         List<HeightMap> HeightMap { get; set; }
         Water Water { get; set; }
         Grass Grass { get; set; }
-        Walls Walls { get; set; }
+        List<Walls> Walls { get; set; }
+        List<Portal> Portals { get; set; }
+        List<House> Houses { get; set; }
 
         public Camera2(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance)
             : base(jeu, positionCaméra, cible, orientation, intervalleMAJ, renderDistance)
@@ -665,7 +667,9 @@ namespace HyperV
             Grass = Game.Services.GetService(typeof(Grass)) as Grass;
             GérerHauteur();
             Water = Game.Services.GetService(typeof(Water)) as Water;
-            Walls = Game.Services.GetService(typeof(Walls)) as Walls;
+            Walls = Game.Services.GetService(typeof(List<Walls>)) as List<Walls>;
+            Houses = Game.Services.GetService(typeof(List<House>)) as List<House>;
+            Portals = Game.Services.GetService(typeof(List<Portal>)) as List<Portal>;
         }
 
         //NO WATER
@@ -682,7 +686,7 @@ namespace HyperV
 
         protected override void GérerHauteur()
         {
-            if (HeightMap[0] != null)
+            if (HeightMap.Count > 0)
             {
                 float height = 5;
                 for(int i = 0; i < HeightMap.Count && height == 5; ++i)
@@ -698,7 +702,7 @@ namespace HyperV
         {
             base.GérerDéplacement(direction, latéral);
 
-            if ((Maze[0] != null ? CheckForMazeCollision() : false) || (Walls != null ? Walls.CheckForCollisions(Position) : false)/*|| CheckForBossCollision()*/)
+            if ((Maze.Count > 0 ? CheckForMazeCollision() : false) || (Walls.Count > 0 ? CheckForWallsCollision() : false) || (Characters.Count > 0 ? CheckForCharacterCollision() : false) || (Portals.Count > 0 ? CheckForPortalCollision() : false) || (Boss != null ? CheckForBossCollision() : false) || (Houses.Count > 0 ? CheckForHouseCollision() : false))
             {
                 Position -= direction * VitesseTranslation * Direction;
                 Position += latéral * VitesseTranslation * Latéral;
@@ -757,6 +761,19 @@ namespace HyperV
         //    }
         //}
 
+        bool CheckForWallsCollision()
+        {
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Walls.Count && !result; ++i)
+            {
+                result = Walls[i].CheckForCollisions(Position);
+            }
+
+            return result;
+        }
+
         bool CheckForMazeCollision()
         {
             bool result = false;
@@ -775,6 +792,46 @@ namespace HyperV
         bool CheckForBossCollision()
         {
             return Vector3.Distance(Boss.GetPosition(), Position) < MAX_DISTANCE_BOSS;
+        }
+
+        bool CheckForPortalCollision()
+        {
+            Game.Window.Title = Position.ToString();
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Portals.Count && !result; ++i)
+            {
+                result = Portals[i].CheckForCollisions(Position);
+            }
+
+            return result;
+        }
+
+        bool CheckForCharacterCollision()
+        {
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Characters.Count && !result; ++i)
+            {
+                result = Vector3.Distance(Characters[i].GetPosition(), Position) < MAX_DISTANCE;
+            }
+
+            return result;
+        }
+
+        bool CheckForHouseCollision()
+        {
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Houses.Count && !result; ++i)
+            {
+                result = Vector3.Distance(Houses[i].GetPosition(), Position) < MAX_DISTANCE;
+            }
+
+            return result;
         }
     }
 }

@@ -101,6 +101,7 @@
     <Compile Include="Gear.cs" />
     <Compile Include="Grass.cs" />
     <Compile Include="HeightMap.cs" />
+    <Compile Include="House.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="LifeBar.cs" />
     <Compile Include="Maze.cs" />
