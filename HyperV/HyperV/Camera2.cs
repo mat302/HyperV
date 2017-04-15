@@ -824,11 +824,12 @@ namespace HyperV
         bool CheckForHouseCollision()
         {
             bool result = false;
+            float? d;
             int i;
 
             for (i = 0; i < Houses.Count && !result; ++i)
             {
-                result = Vector3.Distance(Houses[i].GetPosition(), Position) < MAX_DISTANCE;
+                result = Houses[i].Collision(new BoundingSphere(Position, 7));
             }
 
             return result;
