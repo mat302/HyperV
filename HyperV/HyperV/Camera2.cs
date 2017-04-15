@@ -787,7 +787,7 @@ namespace HyperV
             return result;
         }
 
-        const float MAX_DISTANCE = 4.5f, MAX_DISTANCE_BOSS = 80f;
+        const float MAX_DISTANCE = 5.5f, MAX_DISTANCE_BOSS = 80f;
 
         bool CheckForBossCollision()
         {

@@ -120,6 +120,8 @@
     <Compile Include="Water.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CharacterScripts\c51.txt" />
+    <Content Include="CharacterScripts\Robot.txt" />
     <Content Include="Data.txt" />
     <Content Include="Walls5.txt" />
     <Content Include="Game.ico" />
@@ -159,9 +161,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CharacterScripts\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

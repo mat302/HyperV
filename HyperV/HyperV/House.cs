@@ -22,14 +22,16 @@ namespace HyperV
         string FaceImageName { get; set; }
         string ScriptRectangleName { get; set; }
         float Interval { get; set; }
-        Vector3 Radius { get; set; }
+        Vector3 Min { get; set; }
+        Vector3 Max { get; set; }
         CharacterScript CharacterScript { get; set; }
         string FontName { get; set; }
         float LabelInterval { get; set; }
 
-        public House(Game game, string modelName, float startScale, Vector3 startRotation, Vector3 startPosition, Vector3 diff) : base(game, modelName, startScale, startRotation, startPosition)
+        public House(Game game, string modelName, float startScale, Vector3 startRotation, Vector3 startPosition, Vector3 min, Vector3 max) : base(game, modelName, startScale, startRotation, startPosition)
         {
-            Radius = startPosition + diff;
+            Min = min;
+            Max = max;
         }
 
         public Vector3 GetPosition()
@@ -42,6 +44,6 @@ namespace HyperV
             return BoundingBox.Intersects(sphere);
         }
 
-        public BoundingBox BoundingBox { get { return new BoundingBox(Position, Radius); } }
+        public BoundingBox BoundingBox { get { return new BoundingBox(Min, Max); } }
     }
 }

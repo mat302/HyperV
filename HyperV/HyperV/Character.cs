@@ -47,7 +47,7 @@ namespace HyperV
             ScriptRectangleName = scriptRectangleName;
             FontName = fontName;
             LabelInterval = labelInterval;
-            Radius = 6;
+            Radius = 9;
         }
 
         public void AddLabel()
