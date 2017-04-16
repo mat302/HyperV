@@ -43,12 +43,12 @@
                 </Grid.ColumnDefinitions>
                 <Button Name="Save0Button"  Height="auto" Width="auto" Grid.Column="0" Margin="90,50,25,70" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="Save0Button_Click" BorderBrush="White" BorderThickness="6" Background="AntiqueWhite"  >
                     <Grid  Name="Load0" Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
-                       
+
                     </Grid>
                 </Button>
                 <Button Name="Save1Button"  Height="auto" Width="auto" Grid.Column="1" Margin="50,50,50,70" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Click="Save1Button_Click" BorderBrush="White" BorderThickness="6" Background="AntiqueWhite">
                     <Grid  Name="Load1" Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        
+
                     </Grid>
                 </Button>
 

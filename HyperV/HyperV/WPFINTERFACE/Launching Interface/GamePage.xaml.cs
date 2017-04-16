@@ -22,7 +22,7 @@ namespace Launching_Interface
     {
         public GamePage()
         {
-            InitializeComponent();
+            InitializeComponent(); // rien
         }
     }
 }

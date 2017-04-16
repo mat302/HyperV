@@ -29,6 +29,7 @@ namespace HyperV
         float Speed { get; set; }
         int Life { get; set; }
         bool Dead { get; set; }
+        List<HeightMap> HeightMap { get; set; }
 
         public Enemy(Game game, string name, float scale, Vector3 rotation, Vector3 position, int strength, int maxLife, float speed, float interval) : base(game, name, scale, rotation, position)
         {
@@ -50,6 +51,7 @@ namespace HyperV
             Life = MaxLife;
             Dead = false;
             Camera = Game.Services.GetService(typeof(Caméra)) as CaméraJoueur;
+            HeightMap = Game.Services.GetService(typeof(List<HeightMap>)) as List<HeightMap>;
             Adjustment = new Vector3(0, MathHelper.ToDegrees(180), 0);
             Shifting = Vector3.Normalize(Camera.Position - Position);
         }
@@ -70,7 +72,23 @@ namespace HyperV
                 theta = -(float)Math.Acos(Camera.Direction.Z / r);
                 Rotation = new Vector3(0, theta, 0) + Adjustment;
                 Shifting = Vector3.Normalize(Camera.Position - Position);
-                Position += Shifting * Speed;
+                if (Vector3.Distance(Camera.Position, Position) < 200)
+                {
+                    Position += Shifting * Speed;
+                    if ((Maze.Count > 0 ? CheckForMazeCollision() : false) || (Walls.Count > 0 ? CheckForWallsCollision() : false) || (Characters.Count > 0 ? CheckForCharacterCollision() : false) || (Portals.Count > 0 ? CheckForPortalCollision() : false) || (Boss != null ? CheckForBossCollision() : false) || (Houses.Count > 0 ? CheckForHouseCollision() : false))
+                    {
+                        Position -= Shifting * Speed;
+                    }
+                }
+                if (HeightMap.Count > 0)
+                {
+                    float height = 5;
+                    for (int i = 0; i < HeightMap.Count && height == 5; ++i)
+                    {
+                        height = HeightMap[i].GetHeight(Position) - 5;
+                    }
+                    Height = height;
+                }
                 Position = new Vector3(Position.X, Height, Position.Z);
                 CalculerMatriceMonde();
                 if (CheckForCollision(MAX_DISTANCE_ENEMY))

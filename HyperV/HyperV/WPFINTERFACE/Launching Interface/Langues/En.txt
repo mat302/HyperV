@@ -31,7 +31,7 @@ On
 Off
 Language
    Load Game   
-  Reset
+Reset
 Exit Game
 Pause
 Menu

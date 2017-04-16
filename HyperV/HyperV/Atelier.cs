@@ -272,6 +272,9 @@ namespace HyperV
                     case "Arc":
                         Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
                         break;
+                    case "Epee":
+                        Components.Add(new Epee(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
+                        break;
                     case "Character":
                         Characters.Add(new Character(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6], parts[7], parts[8], FpsInterval));
                         Components.Add(Characters.Last());
@@ -341,6 +344,7 @@ namespace HyperV
                 }
                 Components.Add(LifeBars[0]);
                 Components.Add(LifeBars[1]);
+                Services.RemoveService(typeof(LifeBar[]));
                 Services.AddService(typeof(LifeBar[]), LifeBars);
                 AddCharacterLabels();
                 Components.Add(Camera);

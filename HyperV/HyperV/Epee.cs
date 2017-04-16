@@ -79,11 +79,16 @@ namespace HyperV
                         DiffAngleX = 0;
                         DiffAngleY = 0;
                         t = 0;
-                        Boss.CheckForAttack(10);
-                        Enemy.CheckForAttack(10);
+                        if (Boss != null)
+                        {
+                            Boss.CheckForAttack(10);
+                        }
+                        if (Enemy != null)
+                        {
+                            Enemy.CheckForAttack(10);
+                        }
                     }
                 }
-
                 angleX += DiffAngleX;
                 angleY += DiffAngleY;
                 ++t;
