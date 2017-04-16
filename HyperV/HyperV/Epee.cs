@@ -40,7 +40,7 @@ namespace HyperV
         }
 
         Boss Boss { get; set; }
-        Enemy Enemy { get; set; }
+        List<Enemy> Enemy { get; set; }
 
         protected override void LoadContent()
         {
@@ -48,7 +48,7 @@ namespace HyperV
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
             Boss = Game.Services.GetService(typeof(Boss)) as Boss;
-            Enemy = Game.Services.GetService(typeof(Enemy)) as Enemy;
+            Enemy = Game.Services.GetService(typeof(List<Enemy>)) as List<Enemy>;
         }
 
 
@@ -83,9 +83,12 @@ namespace HyperV
                         {
                             Boss.CheckForAttack(10);
                         }
-                        if (Enemy != null)
+                        if (Enemy.Count > 0)
                         {
-                            Enemy.CheckForAttack(10);
+                            foreach (Enemy e in Enemy)
+                            {
+                                e.CheckForAttack(10);
+                            }
                         }
                     }
                 }

@@ -29,7 +29,13 @@ namespace HyperV
         float Speed { get; set; }
         int Life { get; set; }
         bool Dead { get; set; }
+        List<Character> Characters { get; set; }
+        Boss Boss { get; set; }
         List<HeightMap> HeightMap { get; set; }
+        List<Walls> Walls { get; set; }
+        List<Portal> Portals { get; set; }
+        List<House> Houses { get; set; }
+        List<Maze> Maze { get; set; }
 
         public Enemy(Game game, string name, float scale, Vector3 rotation, Vector3 position, int strength, int maxLife, float speed, float interval) : base(game, name, scale, rotation, position)
         {
@@ -51,7 +57,13 @@ namespace HyperV
             Life = MaxLife;
             Dead = false;
             Camera = Game.Services.GetService(typeof(Caméra)) as CaméraJoueur;
+            Characters = Game.Services.GetService(typeof(List<Character>)) as List<Character>;
+            Boss = Game.Services.GetService(typeof(Boss)) as Boss;
             HeightMap = Game.Services.GetService(typeof(List<HeightMap>)) as List<HeightMap>;
+            Walls = Game.Services.GetService(typeof(List<Walls>)) as List<Walls>;
+            Houses = Game.Services.GetService(typeof(List<House>)) as List<House>;
+            Portals = Game.Services.GetService(typeof(List<Portal>)) as List<Portal>;
+            Maze = Game.Services.GetService(typeof(List<Maze>)) as List<Maze>;
             Adjustment = new Vector3(0, MathHelper.ToDegrees(180), 0);
             Shifting = Vector3.Normalize(Camera.Position - Position);
         }
@@ -155,6 +167,80 @@ namespace HyperV
             {
                 Life = newLife;
             }
+        }
+
+        bool CheckForWallsCollision()
+        {
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Walls.Count && !result; ++i)
+            {
+                result = Walls[i].CheckForCollisions(Position);
+            }
+
+            return result;
+        }
+
+        bool CheckForMazeCollision()
+        {
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Maze.Count && !result; ++i)
+            {
+                result = Maze[i].CheckForCollisions(Position);
+            }
+
+            return result;
+        }
+
+        const float MAX_DISTANCE = 5.5f, MAX_DISTANCE_BOSS = 80f;
+
+        bool CheckForBossCollision()
+        {
+            return Vector3.Distance(Boss.GetPosition(), Position) < MAX_DISTANCE_BOSS;
+        }
+
+        bool CheckForPortalCollision()
+        {
+            Game.Window.Title = Position.ToString();
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Portals.Count && !result; ++i)
+            {
+                result = Portals[i].CheckForCollisions(Position);
+            }
+
+            return result;
+        }
+
+        bool CheckForCharacterCollision()
+        {
+            bool result = false;
+            int i;
+
+            for (i = 0; i < Characters.Count && !result; ++i)
+            {
+                result = Vector3.Distance(Characters[i].GetPosition(), Position) < MAX_DISTANCE;
+            }
+
+            return result;
+        }
+
+        bool CheckForHouseCollision()
+        {
+            bool result = false;
+            float? d;
+            int i;
+
+            for (i = 0; i < Houses.Count && !result; ++i)
+            {
+                result = Houses[i].Collision(new BoundingSphere(Position, 7));
+            }
+
+            return result;
         }
     }
 }

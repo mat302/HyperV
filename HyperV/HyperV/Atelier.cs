@@ -264,10 +264,10 @@ namespace HyperV
                         Food.AddLabel();
                         break;
                     case "Enemy":
-                        Ennemy = new Enemy(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]), int.Parse(parts[6]), float.Parse(parts[7]), FpsInterval);
-                        Components.Add(Ennemy);
-                        Services.RemoveService(typeof(Enemy));
-                        Services.AddService(typeof(Enemy), Ennemy);
+                        Enemy.Add(new Enemy(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]), int.Parse(parts[6]), float.Parse(parts[7]), FpsInterval));
+                        Components.Add(Enemy.Last());
+                        Services.RemoveService(typeof(List<Enemy>));
+                        Services.AddService(typeof(List<Enemy>), Enemy);
                         break;
                     case "Arc":
                         Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
@@ -374,7 +374,7 @@ namespace HyperV
         Afficheur3D Display3D { get; set; }
         Water Water { get; set; }
         Food Food { get; set; }
-        Enemy Ennemy { get; set; }
+        List<Enemy> Enemy { get; set; }
 
         private void AjouterModeles(string chemin)
         {
@@ -469,6 +469,8 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<SoundEffect>), SoundManager);
             Characters = new List<Character>();
             Services.AddService(typeof(List<Character>), Characters);
+            Enemy = new List<Enemy>();
+            Services.AddService(typeof(List<Enemy>), Enemy);
             Maze = new List<Maze>();
             Services.AddService(typeof(List<Maze>), Maze);
             Houses = new List<House>();
