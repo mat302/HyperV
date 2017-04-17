@@ -214,6 +214,8 @@ namespace Launching_Interface
             //writer.WriteLine("World: Lobby");
             //writer.WriteLine("Percentage: 0%");
             writer.WriteLine("Time Played: " + (new TimeSpan(0, 0, 0)).ToString());
+            writer.WriteLine("Max Life: 300");
+            writer.WriteLine("Attack: 0");
             writer.Close();
             File.Copy("../../Saves/startscreenshot.png", "../../Saves/screenshot" + saveNumber + ".png", true);
         }

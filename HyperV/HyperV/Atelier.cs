@@ -150,6 +150,11 @@ namespace HyperV
             parts = line.Split(new string[] { "k: " }, StringSplitOptions.None);
             LifeBars[0].Attack(int.Parse(parts[1]));
             LifeBars[1] = new LifeBar(this, 300, "StaminaGauge", "TiredGauge", "WaterGauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 130), FpsInterval);
+            Complete = new List<bool>();
+            while (!reader.EndOfStream)
+            {
+                Complete.Add(bool.Parse(reader.ReadLine()));
+            }
             reader.Close();
         }
 
@@ -300,7 +305,7 @@ namespace HyperV
                         Services.AddService(typeof(List<Walls>), Walls);
                         break;
                     case "Portal":
-                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], int.Parse(parts[6]), FpsInterval));
+                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), !Complete[Portals.Count - 1] ? parts[5] : "Complete", int.Parse(parts[6]), FpsInterval));
                         Components.Add(Portals.Last());
                         break;
                     case "CutscenePlayer":
@@ -415,6 +420,9 @@ namespace HyperV
 
         }
 
+        const int NUM_LEVELS = 10;
+        List<bool> Complete { get; set; }
+
         void Save()
         {
             StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
@@ -436,7 +444,25 @@ namespace HyperV
             writer.WriteLine("Time Played: " + TimePlayed.ToString());
             writer.WriteLine("Max Life: " + LifeBars[0].MaxLife.ToString());
             writer.WriteLine("Attack: " + (LifeBars[0].MaxLife - LifeBars[0].Life).ToString());
+            for (int i = 0; i < Complete.Count; ++i)
+            {
+                writer.WriteLine(Complete[i].ToString());
+            }
             writer.Close();
+        }
+
+        int CountComplete()
+        {
+            int numComplete = 0;
+
+            foreach(bool e in Complete)
+            {
+                if (e)
+                {
+                    ++numComplete;
+                }
+            }
+            return numComplete;
         }
 
         protected override void Initialize()

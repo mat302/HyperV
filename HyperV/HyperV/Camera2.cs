@@ -702,7 +702,7 @@ namespace HyperV
         {
             base.GérerDéplacement(direction, latéral);
 
-            if ((Maze.Count > 0 ? CheckForMazeCollision() : false) || (Walls.Count > 0 ? CheckForWallsCollision() : false) || (Characters.Count > 0 ? CheckForCharacterCollision() : false) || (Portals.Count > 0 ? CheckForPortalCollision() : false) || (Boss != null ? CheckForBossCollision() : false) || (Houses.Count > 0 ? CheckForHouseCollision() : false))
+            if ((Maze.Count > 0 ? CheckForMazeCollision() : false) || (Walls.Count > 0 ? CheckForWallsCollision() : false) || (Characters.Count > 0 ? CheckForCharacterCollision() : false) || (Portals.Count > 0 ? CheckForPortalCollision() : false) /*|| (Boss != null ? CheckForBossCollision() : false)*/ || (Houses.Count > 0 ? CheckForHouseCollision() : false))
             {
                 Position -= direction * VitesseTranslation * Direction;
                 Position += latéral * VitesseTranslation * Latéral;
