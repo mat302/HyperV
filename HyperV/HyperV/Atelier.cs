@@ -14,6 +14,8 @@ using Microsoft.Xna.Framework.Media;
 using System.IO;
 using System.Diagnostics;
 using AtelierXNA;
+using System.Threading;
+using System.Globalization;
 
 namespace HyperV
 {
@@ -467,6 +469,8 @@ namespace HyperV
 
         protected override void Initialize()
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
+
             Sleep = false;
             FirstGameOver = true;
             FpsInterval = 1f / 60f;
