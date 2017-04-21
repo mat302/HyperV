@@ -4,3 +4,4 @@ Direction: {X:5 Y:5 Z:5}
 Time Played: 00:00:00
 Max Life: 300
 Attack: 0
+false;true;false;false;false

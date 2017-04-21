@@ -117,6 +117,7 @@
     <Compile Include="Skybox.cs" />
     <Compile Include="SphereRamassable.cs" />
     <Compile Include="SphèreRamassable.cs" />
+    <Compile Include="UnlockableWall.cs" />
     <Compile Include="Walls.cs" />
     <Compile Include="Water.cs" />
   </ItemGroup>
