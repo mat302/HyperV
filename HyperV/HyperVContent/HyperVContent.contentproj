@@ -702,13 +702,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Complete.jpg">
-      <Name>Complete</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\sword.fbx">
       <Name>sword</Name>
       <Importer>FbxImporter</Importer>
@@ -723,6 +716,18 @@
     </Compile>
     <Compile Include="Textures\imagePrisonMur.png">
       <Name>imagePrisonMur</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\1stone.png">
+      <Name>1stone</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Complete.png">
+      <Name>Complete</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

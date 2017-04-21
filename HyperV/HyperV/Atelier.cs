@@ -88,6 +88,7 @@ namespace HyperV
         Sprite Crosshair { get; set; }
         RessourcesManager<SoundEffect> SoundManager { get; set; }
         List<House> Houses { get; set; }
+        List<UnlockableWall> Unlockables { get; set; }
 
         void LoadSettings()
         {
@@ -341,6 +342,16 @@ namespace HyperV
                         Services.RemoveService(typeof(List<House>));
                         Services.AddService(typeof(List<House>), Houses);
                         break;
+                    case "UnlockableWall":
+                        int a = int.Parse(parts[6]);
+                        if (CountComplete() < a)
+                        {
+                            Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
+                            Components.Add(Unlockables.Last());
+                            Services.RemoveService(typeof(List<UnlockableWall>));
+                            Services.AddService(typeof(List<UnlockableWall>), Unlockables);
+                        }
+                        break;
                 }
             }
             if (Level != 0)
@@ -515,6 +526,8 @@ namespace HyperV
             Portals = new List<Portal>();
             Services.AddService(typeof(List<Portal>), Portals);
             Walls = new List<Walls>();
+            Unlockables = new List<UnlockableWall>();
+            Services.AddService(typeof(List<UnlockableWall>), Unlockables);
             Services.AddService(typeof(List<Walls>), Walls);
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];

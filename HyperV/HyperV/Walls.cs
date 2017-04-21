@@ -59,7 +59,7 @@ namespace HyperV
         {
             Interval = interval;
             TileTextureName = tileTextureName;
-            DataFileName = dataFileName;
+            DataFileName = "../../../Walls/" + dataFileName;
             YPosition = yPosition;
         }
 
@@ -107,11 +107,11 @@ namespace HyperV
             {
                 vertexIndex = i / 6;
                 VerticesPositions[i + 1] = new Vector3(FirstVertices[vertexIndex].X, YPosition, FirstVertices[vertexIndex].Y);
-                VerticesPositions[i] = new Vector3(SecondVertices[vertexIndex].X, Heights[vertexIndex], SecondVertices[vertexIndex].Y);
-                VerticesPositions[i + 2] = new Vector3(FirstVertices[vertexIndex].X, Heights[vertexIndex], FirstVertices[vertexIndex].Y);
+                VerticesPositions[i] = new Vector3(SecondVertices[vertexIndex].X, YPosition + Heights[vertexIndex], SecondVertices[vertexIndex].Y);
+                VerticesPositions[i + 2] = new Vector3(FirstVertices[vertexIndex].X, YPosition + Heights[vertexIndex], FirstVertices[vertexIndex].Y);
                 VerticesPositions[i + 5] = new Vector3(FirstVertices[vertexIndex].X, YPosition, FirstVertices[vertexIndex].Y);
                 VerticesPositions[i + 4] = new Vector3(SecondVertices[vertexIndex].X, YPosition, SecondVertices[vertexIndex].Y);
-                VerticesPositions[i + 3] = new Vector3(SecondVertices[vertexIndex].X, Heights[vertexIndex], SecondVertices[vertexIndex].Y);
+                VerticesPositions[i + 3] = new Vector3(SecondVertices[vertexIndex].X, YPosition + Heights[vertexIndex], SecondVertices[vertexIndex].Y);
             }
         }
 

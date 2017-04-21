@@ -127,9 +127,8 @@
     <Content Include="CharacterScripts\c52.txt" />
     <Content Include="CharacterScripts\c54.txt" />
     <Content Include="CharacterScripts\Robot.txt" />
-    <Content Include="Data.txt" />
     <Content Include="DataPrison.txt" />
-    <Content Include="Walls5.txt" />
+    <Content Include="Walls\Walls5.txt" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -143,6 +142,7 @@
     <Content Include="Libraries\BasicComponents.dll" />
     <Content Include="Monde3_Modeles.txt" />
     <Content Include="Monde3_Murs.txt" />
+    <Content Include="Walls\Walls1.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
