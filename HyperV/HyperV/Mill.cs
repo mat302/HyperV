@@ -168,7 +168,6 @@ namespace HyperV
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {
-                Game.Window.Title = Camera.Position.ToString();
                 for (int i = 0; i < NumGears; ++i)
                 {
                     for (int j = 0; j < NumGears; ++j)

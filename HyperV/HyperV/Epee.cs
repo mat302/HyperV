@@ -16,7 +16,7 @@ namespace HyperV
     public class Epee : ModeleRamassable
     {
         bool CoupDEpee { get; set; }
-        bool ContinuerCoupDEpee { get; set; }
+        public bool ContinuerCoupDEpee { get; private set; }
         float t { get; set; }
         InputManager GestionInput { get; set; }
         GamePadManager GestionGamePad { get; set; }

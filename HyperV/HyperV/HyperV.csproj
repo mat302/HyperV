@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="AmmunitionCatapulte.cs" />
     <Compile Include="Arc.cs" />
+    <Compile Include="BalleRebondissante.cs" />
     <Compile Include="Boss.cs" />
     <Compile Include="BossLabel.cs" />
     <Compile Include="Camera1.cs" />
@@ -126,6 +127,7 @@
     <Content Include="CharacterScripts\c54.txt" />
     <Content Include="CharacterScripts\Robot.txt" />
     <Content Include="Data.txt" />
+    <Content Include="DataPrison.txt" />
     <Content Include="Walls5.txt" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png">
@@ -140,12 +142,6 @@
     <Content Include="Libraries\BasicComponents.dll" />
     <Content Include="Monde3_Modeles.txt" />
     <Content Include="Monde3_Murs.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HyperVContent\HyperVContent.contentproj">
-      <Name>HyperVContent</Name>
-      <XnaReferenceType>Content</XnaReferenceType>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -164,7 +160,13 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\HyperVContent\HyperVContent.contentproj">
+      <Project>{E0A8DDF7-7B5B-474C-9440-73AD83B816E5}</Project>
+      <Name>HyperVContent</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

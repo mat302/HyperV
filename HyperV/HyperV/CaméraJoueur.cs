@@ -730,13 +730,13 @@ namespace HyperV
 
         protected bool Sauter { get; private set; }
         bool Courrir { get; set; }
-        bool Ramasser { get; set; }
+        public bool Ramasser { get; set; }
 
         public bool EstCaméraSourisActivée { get; set; }
         bool EstDéplacementEtAutresClavierActivé { get; set; }
         bool EstCaméraClavierActivée { get; set; }
 
-        Ray Viseur { get; set; }
+        public Ray Viseur { get; private set; }
 
         protected float Height { get; set; }
 

@@ -204,7 +204,6 @@ namespace HyperV
 
         bool CheckForPortalCollision()
         {
-            Game.Window.Title = Position.ToString();
             bool result = false;
             int i;
 
