@@ -4,3 +4,4 @@ Direction: {X:0.9714577 Y:-0.09261571 Z:-0.2183857}
 Time Played: 00:03:08.3334163
 MaxLife: 300
 Attack: 0
+false;true;false;false;false

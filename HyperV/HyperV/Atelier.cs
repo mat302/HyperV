@@ -58,10 +58,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
         }
 
         Gazon Gazon { get; set; }
@@ -88,6 +88,7 @@ namespace HyperV
         Sprite Crosshair { get; set; }
         RessourcesManager<SoundEffect> SoundManager { get; set; }
         List<House> Houses { get; set; }
+        List<UnlockableWall> Unlockables { get; set; }
 
         void LoadSettings()
         {
@@ -153,9 +154,11 @@ namespace HyperV
             LifeBars[0].Attack(int.Parse(parts[1]));
             LifeBars[1] = new LifeBar(this, 300, "StaminaGauge", "TiredGauge", "WaterGauge", "Dock", new Vector2(30, Window.ClientBounds.Height - 130), FpsInterval);
             Complete = new List<bool>();
-            while (!reader.EndOfStream)
+            line = reader.ReadLine();
+            parts = line.Split(new char[] { ';' });
+            for (int i = 0; i < parts.Length; ++i)
             {
-                Complete.Add(bool.Parse(reader.ReadLine()));
+                Complete.Add(bool.Parse(parts[i]));
             }
             reader.Close();
         }
@@ -182,8 +185,8 @@ namespace HyperV
 
         void SelectWorld(bool usePosition)
         {
-            //SelectLevel(usePosition, Level);
-            LevelPrison(usePosition);
+            SelectLevel(usePosition, Level);
+            //LevelPrison(usePosition);
             Save();
         }
 
@@ -308,7 +311,7 @@ namespace HyperV
                         Services.AddService(typeof(List<Walls>), Walls);
                         break;
                     case "Portal":
-                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), !Complete[Portals.Count - 1] ? parts[5] : "Complete", int.Parse(parts[6]), FpsInterval));
+                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), !Complete[Portals.Count] ? parts[5] : "Complete", int.Parse(parts[6]), FpsInterval));
                         Components.Add(Portals.Last());
                         break;
                     case "CutscenePlayer":
@@ -338,6 +341,16 @@ namespace HyperV
                         Components.Add(Houses.Last());
                         Services.RemoveService(typeof(List<House>));
                         Services.AddService(typeof(List<House>), Houses);
+                        break;
+                    case "UnlockableWall":
+                        int a = int.Parse(parts[6]);
+                        if (CountComplete() < a)
+                        {
+                            Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
+                            Components.Add(Unlockables.Last());
+                            Services.RemoveService(typeof(List<UnlockableWall>));
+                            Services.AddService(typeof(List<UnlockableWall>), Unlockables);
+                        }
                         break;
                 }
             }
@@ -447,9 +460,10 @@ namespace HyperV
             writer.WriteLine("Time Played: " + TimePlayed.ToString());
             writer.WriteLine("Max Life: " + LifeBars[0].MaxLife.ToString());
             writer.WriteLine("Attack: " + (LifeBars[0].MaxLife - LifeBars[0].Life).ToString());
+            writer.WriteLine();
             for (int i = 0; i < Complete.Count; ++i)
             {
-                writer.WriteLine(Complete[i].ToString());
+                writer.Write(Complete[i].ToString() + ";");
             }
             writer.Close();
         }
@@ -512,13 +526,15 @@ namespace HyperV
             Portals = new List<Portal>();
             Services.AddService(typeof(List<Portal>), Portals);
             Walls = new List<Walls>();
+            Unlockables = new List<UnlockableWall>();
+            Services.AddService(typeof(List<UnlockableWall>), Unlockables);
             Services.AddService(typeof(List<Walls>), Walls);
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 5;
+            Level = 0;
             SelectWorld(true);
             base.Initialize();
         }
@@ -534,7 +550,7 @@ namespace HyperV
                 TimePlayed = TimePlayed.Add(gameTime.ElapsedGameTime);
                 if (Timer >= FpsInterval)
                 {
-                    Window.Title = Camera.Position.ToString();
+                    //Window.Title = Camera.Position.ToString();
                     switch (Level)
                     {
                         case 0:

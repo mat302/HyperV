@@ -864,7 +864,7 @@ namespace HyperV
             base.Update(gameTime);
         }
 
-        void ManageLifeBars()
+        protected virtual void ManageLifeBars()
         {
             if (!LifeBars[1].Water)
             {
