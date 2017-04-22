@@ -165,7 +165,7 @@ namespace HyperV
             int startInd = parse.IndexOf("X:") + 2;
             float aXPosition = float.Parse(parse.Substring(startInd, parse.IndexOf(" Y") - startInd));
             startInd = parse.IndexOf("Y:") + 2;
-            float aYPosition = float.Parse(parse.Substring(startInd, parse.IndexOf("}") - startInd));
+            float aYPosition = float.Parse(parse.Substring(startInd, parse.IndexOf("}") - startInd));//nothing for push
             return new Vector2(aXPosition, aYPosition);
         }
 
