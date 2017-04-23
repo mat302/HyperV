@@ -1,6 +1,6 @@
 SpaceBackground
 Display3D
-Camera;{X:0 Y:-16 Z:60};{X:20 Y:0 Z:0};{X:0 Y:1 Z:0}
+Camera;{X:0 Y:-16 Z:60};{X:20 Y:0 Z:0};{X:-1 Y:0 Z:0}
 Character;Robot;0.02;{X:0 Y:1.570796 Z:0};{X:-50 Y:-20 Z:60};../../../CharacterScripts/Robot.txt;FaceImages/Robot;ScriptRectangle;Arial
 Grass;1;{X:0 Y:0 Z:0};{X:-310 Y:-20 Z:-400};{X:40 Y:40};Ceiling;{X:7 Y:9}
 Ceiling;1;{X:0 Y:0 Z:0};{X:-310 Y:0 Z:-400};{X:40 Y:40};Ceiling;{X:7 Y:9}
@@ -9,10 +9,11 @@ Portal;1;{X:0 Y:0 Z:0};{X:-345 Y:-10 Z:170};{X:30 Y:20};Garden;2
 UnlockableWall;1;{X:0 Y:-1.570796 Z:0};{X:-240 Y:-10 Z:-25};{X:30 Y:20};1stone;1
 UnlockableWall;1;{X:0 Y:3.141593 Z:0};{X:45 Y:-10 Z:150};{X:30 Y:20};2stones;2
 UnlockableWall;1;{X:0 Y:-1.570796 Z:0};{X:-270 Y:-10 Z:-225};{X:30 Y:20};3stones;3
-Portal;1;{X:0 Y:0 Z:0};{X:-325 Y:-10 Z:-110};{X:30 Y:20};Flood;3
-Portal;1;{X:0 Y:3.141593 Z:0};{X:-155 Y:-10 Z:-170};{X:30 Y:20};Mill;4
+Portal;1;{X:0 Y:0 Z:0};{X:-325 Y:-10 Z:-110};{X:30 Y:20};Mill;3
+Portal;1;{X:0 Y:3.141593 Z:0};{X:-155 Y:-10 Z:-170};{X:30 Y:20};Flood;4
 Portal;1;{X:0 Y:3.141593 Z:0};{X:135 Y:-10 Z:150};{X:30 Y:20};Dungeon;5
 Portal;1;{X:0 Y:-1.570796 Z:0};{X:-210 Y:-10 Z:-375};{X:30 Y:20};BleuBlancRouge;6
 Portal;1;{X:0 Y:-1.570796 Z:0};{X:-90 Y:-10 Z:-435};{X:30 Y:20};BleuBlancRouge;7
 Portal;1;{X:0 Y:3.141593 Z:0};{X:45 Y:-10 Z:-360};{X:30 Y:20};BleuBlancRouge;8
 UnlockableWall;1;{X:0 Y:1.570796 Z:0};{X:30 Y:-10 Z:-205};{X:30 Y:20};5stones;5
+Portal;1;{X:0 Y:1.570796 Z:0};{X:30 Y:-10 Z:-75};{X:30 Y:20};BleuBlancRouge;9

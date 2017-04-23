@@ -185,8 +185,9 @@ namespace HyperV
 
         void SelectWorld(bool usePosition)
         {
-            SelectLevel(usePosition, Level);
+            //SelectLevel(usePosition, Level);
             //LevelPrison(usePosition);
+            RythmLevel();
             Save();
         }
 
@@ -196,7 +197,7 @@ namespace HyperV
             Components.Clear();
             //Song = SongManager.Find("castle");
             //MediaPlayer.Play(Song);
-            StreamReader reader = new StreamReader("../../../Levels/level" + level.ToString() + ".txt");
+            StreamReader reader = new StreamReader("../../../Levels/Level" + level.ToString() + ".txt");
             string line;
             string[] parts;
             bool boss = false;
@@ -222,7 +223,7 @@ namespace HyperV
                     case "Camera":
                         if (usePosition)
                         {
-                            if (level == 3)
+                            if (level == 12)
                             {
                                 // Doesn't work
                                 //Camera = new Camera3(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
@@ -236,13 +237,14 @@ namespace HyperV
                         }
                         else
                         {
-                            if (level == 3)
+                            if (level == 12)
                             {
                                 Camera = new Camera3(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval/*, RenderDistance*/);
                             }
                             else
                             {
-                                Camera = new Camera2(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval, RenderDistance);
+                                Camera = new Camera2(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval, RenderDistance);
+                                (Camera as Camera2).InitializeDirection(Vector3Parse(parts[3]));
                             }
                         }
                         //(Camera as Camera2).SetRenderDistance(RenderDistance);
@@ -447,7 +449,7 @@ namespace HyperV
             if (Camera != null)
             {
                 writer.WriteLine("Position: " + Camera.Position.ToString());
-                if (Level != 3)
+                if (Level != 12)
                 {
                     writer.WriteLine("Direction: " + (Camera as CaméraJoueur).Direction.ToString());
                 }
@@ -513,30 +515,43 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<Video>), VideoManager);
             SoundManager = new RessourcesManager<SoundEffect>(this, "Sounds");
             Services.AddService(typeof(RessourcesManager<SoundEffect>), SoundManager);
-            Characters = new List<Character>();
-            Services.AddService(typeof(List<Character>), Characters);
-            Enemy = new List<Enemy>();
-            Services.AddService(typeof(List<Enemy>), Enemy);
-            Maze = new List<Maze>();
-            Services.AddService(typeof(List<Maze>), Maze);
-            Houses = new List<House>();
-            Services.AddService(typeof(List<House>), Houses);
-            HeightMap = new List<HeightMap>();
-            Services.AddService(typeof(List<HeightMap>), HeightMap);
-            Portals = new List<Portal>();
-            Services.AddService(typeof(List<Portal>), Portals);
-            Walls = new List<Walls>();
-            Unlockables = new List<UnlockableWall>();
-            Services.AddService(typeof(List<UnlockableWall>), Unlockables);
-            Services.AddService(typeof(List<Walls>), Walls);
+            ResetLists();
             PressSpaceLabel = new PressSpaceLabel(this);
             LifeBars = new LifeBar[2];
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 0;
+            Level = 3;
             SelectWorld(true);
             base.Initialize();
+        }
+
+        void ResetLists()
+        {
+            Characters = new List<Character>();
+            Enemy = new List<Enemy>();
+            Maze = new List<Maze>();
+            Houses = new List<House>();
+            HeightMap = new List<HeightMap>();
+            Portals = new List<Portal>();
+            Walls = new List<Walls>();
+            Unlockables = new List<UnlockableWall>();
+            Services.RemoveService(typeof(List<Character>));
+            Services.AddService(typeof(List<Character>), Characters);
+            Services.RemoveService(typeof(List<Enemy>));
+            Services.AddService(typeof(List<Enemy>), Enemy);
+            Services.RemoveService(typeof(List<Maze>));
+            Services.AddService(typeof(List<Maze>), Maze);
+            Services.RemoveService(typeof(List<House>));
+            Services.AddService(typeof(List<House>), Houses);
+            Services.RemoveService(typeof(List<HeightMap>));
+            Services.AddService(typeof(List<HeightMap>), HeightMap);
+            Services.RemoveService(typeof(List<Portal>));
+            Services.AddService(typeof(List<Portal>), Portals);
+            Services.RemoveService(typeof(List<UnlockableWall>));
+            Services.AddService(typeof(List<UnlockableWall>), Unlockables);
+            Services.RemoveService(typeof(List<Walls>));
+            Services.AddService(typeof(List<Walls>), Walls);
         }
 
         float Timer { get; set; }
@@ -580,7 +595,7 @@ namespace HyperV
                 Components.Add(GameOver);
                 LaunchPause();
             }
-            else if (Boss.Dead && FirstGameOver)
+            else if (Boss != null && Boss.Dead && FirstGameOver)
             {
                 FirstGameOver = false;
                 Components.Clear();
@@ -606,7 +621,7 @@ namespace HyperV
             base.OnDeactivated(sender, args);
             if (Camera != null)
             {
-                if (Level != 3)
+                if (Level != 12)
                 {
                     (Camera as CaméraJoueur).EstCaméraSourisActivée = false;
                 }
@@ -626,6 +641,7 @@ namespace HyperV
                     {
                         Components.Add(Loading);
                         Level = p.Level;
+                        ResetLists();
                         SelectWorld(false);
                     }
                     break;
@@ -642,6 +658,7 @@ namespace HyperV
             if (CutscenePlayer.CutsceneFinished)
             {
                 ++Level;
+                ResetLists();
                 SelectWorld(false);
                 CutscenePlayer.ResetCutsceneFinished();
             }
@@ -712,9 +729,45 @@ namespace HyperV
             base.Draw(gameTime);
         }
 
+        Walls Wall { get; set; }
 
+        void RythmLevel()
+        {
+            Components.Add(InputManager);
+            Components.Add(SpaceBackground);
+            Components.Add(new Afficheur3D(this));
+            //Services.AddService(typeof(List<Character>), Characters);
+            Camera = new Camera1(this, new Vector3(-45, -56, -30), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+            Services.AddService(typeof(Caméra), Camera);
+            //Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FPS_60_INTERVAL);
+            //Characters.Add(Robot);
+            //Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", FPS_60_INTERVAL);
+            //Components.Add(Grass);
+            //Services.AddService(typeof(Grass), Grass);
+            Wall = new Walls(this, FpsInterval, "Rockwall", "Data2.txt", -60);
+            Components.Add(Wall);
+            Services.AddService(typeof(Walls), Wall);
+            Components.Add(Camera);
+            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(-50, -60, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
+            Components.Add(Grass);
+            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(-50, 0, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
+            Components.Add(Ceiling);
+            //Components.Remove(CutscenePlayer.Loading);
 
+            Components.Add(new Afficheur3D(this));
+            Epee RobotRamassable2 = new Epee(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-30, -60, 60));
+            Components.Add(RobotRamassable2);
 
+            NiveauRythmé circuit = new NiveauRythmé(this, "../../../Data3.txt", "Fence", FpsInterval);
+            Components.Add(circuit);
+            Services.AddService(typeof(NiveauRythmé), circuit);
+
+            Components.Add(LifeBars[0]);
+            Components.Add(LifeBars[1]);
+            Services.RemoveService(typeof(LifeBar[]));
+            Services.AddService(typeof(LifeBar[]), LifeBars);
+            Components.Add(FPSLabel);
+        }
 
         // LevelPrison
         #region

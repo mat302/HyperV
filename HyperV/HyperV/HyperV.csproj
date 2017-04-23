@@ -60,8 +60,7 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BasicComponents, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="BasicComponents">
       <HintPath>..\..\..\BasicComponents\BasicComponents\bin\x86\Release\BasicComponents.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
@@ -92,6 +91,7 @@
     <Compile Include="CharacterScript.cs" />
     <Compile Include="CreateurModele.cs" />
     <Compile Include="CutscenePlayer.cs" />
+    <Compile Include="CylindreTexturé.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Epee.cs" />
     <Compile Include="Fireball.cs" />
@@ -108,6 +108,7 @@
     <Compile Include="Maze.cs" />
     <Compile Include="Mill.cs" />
     <Compile Include="ModeleRamassable.cs" />
+    <Compile Include="NiveauRythmé.cs" />
     <Compile Include="Portal.cs" />
     <Compile Include="PressSpaceLabel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Skybox.cs" />
     <Compile Include="SphereRamassable.cs" />
     <Compile Include="SphèreRamassable.cs" />
+    <Compile Include="SphèreRythmée.cs" />
     <Compile Include="UnlockableWall.cs" />
     <Compile Include="Walls.cs" />
     <Compile Include="Water.cs" />
@@ -127,7 +129,11 @@
     <Content Include="CharacterScripts\c52.txt" />
     <Content Include="CharacterScripts\c54.txt" />
     <Content Include="CharacterScripts\Robot.txt" />
+    <Content Include="Walls\Data2.txt" />
+    <Content Include="Data3.txt" />
     <Content Include="DataPrison.txt" />
+    <Content Include="Levels\Level3.txt" />
+    <Content Include="Walls\Walls3.txt" />
     <Content Include="Walls\Walls5.txt" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png">
@@ -136,9 +142,9 @@
     <Content Include="Hub.txt" />
     <Content Include="Levels\Level0.txt" />
     <Content Include="Levels\Level1.txt" />
+    <Content Include="Levels\LevelA.txt" />
+    <Content Include="Levels\Level12.txt" />
     <Content Include="Levels\Level2.txt" />
-    <Content Include="Levels\Level3.txt" />
-    <Content Include="Levels\Level5.txt" />
     <Content Include="Libraries\BasicComponents.dll" />
     <Content Include="Monde3_Modeles.txt" />
     <Content Include="Monde3_Murs.txt" />
