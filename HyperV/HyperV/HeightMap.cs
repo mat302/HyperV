@@ -1,21 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 
 
 namespace HyperV
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
     public class HeightMap : PrimitiveDeBase
     {
         const int NB_TRIANGLES_PAR_TUILE = 2;
@@ -104,8 +93,8 @@ namespace HyperV
             Heights = new float[CarteTerrain.Width, CarteTerrain.Height];
             Origine = new Vector3(/*-Étendue.X / DIVISEUR_DEMI_GRANDEUR, 0, -Étendue.Z / DIVISEUR_DEMI_GRANDEUR*/0, 0, 0); //pour centrer la primitive au point (0,0,0)##########################Moins à Z ajouté
 
-            AllouerTableaux(); // ################## INVERSÉ
-            AffecterTableauPtsSommets(); // ############### INVERSÉ
+            AllouerTableaux();
+            AffecterTableauPtsSommets(); 
             AffecterTableauPtsTexture();
             CréerTextureCombinée();
             InitialiserSommets();
@@ -117,11 +106,7 @@ namespace HyperV
         {
             Sommets = new VertexPositionTexture[NbSommets];
             PtsTexture = new Vector2[CarteTerrain.Width, CarteTerrain.Height];
-            //PtsTexture = new Vector2[2, 2];
             PtsSommets = new Vector3[CarteTerrain.Width, CarteTerrain.Height];
-            //PtsSommets = new Vector3[CarteTerrain.Width, CarteTerrain.Height];
-            //Delta = new Vector2(Étendue.X / NbRangées, Étendue.Z / NbColonnes);
-
         }
 
         void AffecterTableauPtsTexture()
@@ -148,10 +133,6 @@ namespace HyperV
             EffetDeBase.Texture = TextureCombinée;
         }
 
-        //
-        // Création du tableau des points de sommets (on crée les points)
-        // Ce processus implique la transformation des points 2D de la texture en coordonnées 3D du terrain
-        //
         private void AffecterTableauPtsSommets()
         {
             Delta = new Vector2(Étendue.X / NbRangées, Étendue.Z / NbColonnes);
@@ -170,61 +151,21 @@ namespace HyperV
         //
         protected override void InitialiserSommets()
         {
-            // à compléter
             int cpt = -1;
             for (int j = 0; j < NbRangées; ++j)
             {
                 for (int i = 0; i < NbColonnes; ++i)
                 {
-                    //int val1 = (int)(PtsSommets[i, j].Y + PtsSommets[i + 1, j].Y + PtsSommets[i, j + 1].Y) / 3;
-                    //int woho = (int)(val1 / MAX_COULEUR);
-
-                    //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[i, j]);
-                    //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[i + 1, j]);
-                    //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
-
-                    ////AssociéTruc(ref Sommets[cpt - 2], ref Sommets[cpt - 1], ref Sommets[cpt]);
-
-                    //int val2 = (int)(((PtsSommets[i + 1, j].Y + PtsSommets[i + 1, j + 1].Y + PtsSommets[i, j + 1].Y) / 3 - Origine.Y) / Delta.Y);
-                    //woho = (int)(val2 / MAX_COULEUR);
-
-                    //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[i + 1, j]);
-                    //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j + 1], PtsTexture[i + 1, j + 1]);
-                    //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
-                    AffecterTuile(ref cpt, i, j);
+                    Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[i, j]);
+                    Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[i + 1, j]);
+                    Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
+                    Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[i + 1, j]);
+                    Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j + 1], PtsTexture[i + 1, j + 1]);
+                    Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
                 }
             }
         }
 
-        void AffecterTuile(ref int cpt, int i, int j)
-        {
-            int noCase = (int)((PtsSommets[i, j].Y + PtsSommets[i + 1, j].Y + PtsSommets[i, j + 1].Y + PtsSommets[i + 1, j + 1].Y) / 4.0f / Étendue.Y * 19) / 4 * 4;
-
-            //for (int k = 0; k < 4; ++k)
-            //{
-            //    Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[k + noCase * ]);
-            //} 
-
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[i, j]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[i + 1, j]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[i + 1, j]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j + 1], PtsTexture[i + 1, j + 1]);
-            Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
-
-            //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[i+1, j+1]);
-            //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[i, j+1]);
-            //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i+1, j]);
-            //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j], PtsTexture[i, j+1]);
-            //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i + 1, j + 1], PtsTexture[i, j]);
-            //Sommets[++cpt] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i+1, j]);
-
-
-        }
-
-        //
-        // Deviner ce que fait cette méthode...
-        //
         public override void Draw(GameTime gameTime)
         {
             // à compléter
