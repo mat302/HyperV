@@ -333,7 +333,7 @@ namespace HyperV
                         AjouterTours();
                         break;
                     case "HeightMap":
-                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], new string[] { "Sable", "Herbe" }));
+                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], new string[] { "Herbe", "Sable" }));
                         Components.Add(HeightMap.Last());
                         Services.RemoveService(typeof(List<HeightMap>));
                         Services.AddService(typeof(List<HeightMap>), HeightMap);
