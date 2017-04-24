@@ -36,7 +36,6 @@ namespace HyperV
 
         public Vector3? PositionCubeRouge { get; set; }
 
-
         public NiveauRythmé(Game jeu, string nomFichierLecture, string nomTexture, float intervalleMAJ)
             : base(jeu)
         {
@@ -155,7 +154,6 @@ namespace HyperV
         void EffectuerMAJ()
         {
             i++;
-
 
             foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
             {

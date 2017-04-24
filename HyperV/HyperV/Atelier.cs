@@ -182,9 +182,9 @@ namespace HyperV
 
         void SelectWorld(bool usePosition)
         {
-            SelectLevel(usePosition, Level);
+            //SelectLevel(usePosition, Level);
             //LevelPrison(usePosition);
-            //RythmLevel();
+            RythmLevel();
             Save();
         }
 
@@ -562,7 +562,7 @@ namespace HyperV
                 TimePlayed = TimePlayed.Add(gameTime.ElapsedGameTime);
                 if (Timer >= FpsInterval)
                 {
-                    //Window.Title = Camera.Position.ToString();
+                    Window.Title = Camera.Position.ToString();
                     switch (Level)
                     {
                         case 0:
@@ -742,10 +742,10 @@ namespace HyperV
             Components.Add(Wall);
             Services.AddService(typeof(Walls), Wall);
 
-            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(-50, -60, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
+            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(60, -60, -50), new Vector2(10, 10), "Ceiling", new Vector2(1, 1), FpsInterval);
             Components.Add(Grass);
 
-            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(-50, 0, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
+            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(60, 0, -50), new Vector2(130, 40), "Ceiling", new Vector2(1, 1), FpsInterval);
             Components.Add(Ceiling);
             
             NiveauRythmé circuit = new NiveauRythmé(this, "../../../Data3.txt", "Fence", FpsInterval);

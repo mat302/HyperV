@@ -77,7 +77,7 @@ namespace HyperV
         {
             NomTextureTuile = nomTextureTuile;
             IntervalleMAJ = intervalleMAJ;
-            Delta = new Vector2(étendue.X, étendue.Y);
+            Delta = new Vector2(étendue.X, étendue.Y)/2;
             //Origine = new Vector3(-Delta.X / 2, 0, -Delta.Y / 2); //pour centrer la primitive au point (0,0,0)
             NumRows = (int)numbers.X;
             NumColumns = (int)numbers.Y;
