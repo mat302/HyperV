@@ -58,10 +58,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            PériphériqueGraphique.PreferredBackBufferWidth = 900;
         }
 
         Gazon Gazon { get; set; }
@@ -736,37 +736,32 @@ namespace HyperV
             Components.Add(InputManager);
             Components.Add(SpaceBackground);
             Components.Add(new Afficheur3D(this));
-            //Services.AddService(typeof(List<Character>), Characters);
+
             Camera = new Camera1(this, new Vector3(-45, -56, -30), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+            Components.Add(Camera);
             Services.AddService(typeof(Caméra), Camera);
-            //Robot = new Character(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-50, -20, 60), "../../../CharacterScripts/Robot.txt", "FaceImages/Robot", "ScriptRectangle", "Arial", FPS_60_INTERVAL);
-            //Characters.Add(Robot);
-            //Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(20, -20, 50), new Vector2(40, 40), "Ceiling", FPS_60_INTERVAL);
-            //Components.Add(Grass);
-            //Services.AddService(typeof(Grass), Grass);
+
             Wall = new Walls(this, FpsInterval, "Rockwall", "Data2.txt", -60);
             Components.Add(Wall);
             Services.AddService(typeof(Walls), Wall);
-            Components.Add(Camera);
+
             Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(-50, -60, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
             Components.Add(Grass);
+
             Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(-50, 0, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
             Components.Add(Ceiling);
-            //Components.Remove(CutscenePlayer.Loading);
-
-            Components.Add(new Afficheur3D(this));
-            Epee RobotRamassable2 = new Epee(this, "Robot", 0.02f, new Vector3(0, MathHelper.PiOver2, 0), new Vector3(-30, -60, 60));
-            Components.Add(RobotRamassable2);
-
+            
             NiveauRythmé circuit = new NiveauRythmé(this, "../../../Data3.txt", "Fence", FpsInterval);
             Components.Add(circuit);
             Services.AddService(typeof(NiveauRythmé), circuit);
 
+            //Components.Add(new Afficheur3D(this));
             Components.Add(LifeBars[0]);
             Components.Add(LifeBars[1]);
             Services.RemoveService(typeof(LifeBar[]));
             Services.AddService(typeof(LifeBar[]), LifeBars);
             Components.Add(FPSLabel);
+            Components.Add(new Afficheur3D(this));
         }
 
         // LevelPrison
