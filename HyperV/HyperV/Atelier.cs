@@ -1,13 +1,8 @@
-// By Mathieu Godin
-// Created on January 2017
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -29,46 +24,44 @@ namespace HyperV
 
     public class Atelier : Microsoft.Xna.Framework.Game
     {
+        const int NUM_LEVELS = 10;
         const float INTERVALLE_CALCUL_FPS = 1f;
+
+        #region variables
         float FpsInterval { get; set; }
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
-
+        Grass[,] GrassArray { get; set; }
+        Ceiling[,] CeilingArray { get; set; }
+        ArrièrePlanSpatial SpaceBackground { get; set; }
+        AfficheurFPS FPSLabel { get; set; }
+        List<Portal> Portals { get; set; }
+        Boss Boss { get; set; }
+        Mill Mill { get; set; }
+        List<HeightMap> HeightMap { get; set; }
+        LifeBar[] LifeBars { get; set; }
+        Afficheur3D Display3D { get; set; }
+        Water Water { get; set; }
+        Food Food { get; set; }
+        List<Enemy> Enemy { get; set; }
         Caméra Camera { get; set; }
         List<Maze> Maze { get; set; }
         InputManager InputManager { get; set; }
-        GamePadManager GamePadManager { get; set; }
-
-        //GraphicsDeviceManager PériphériqueGraphique { get; set; }
+        GamePadManager GamePadManager { get; set; }        
         SpriteBatch SpriteBatch { get; set; }
-
+        List<bool> Complete { get; set; }
         RessourcesManager<SpriteFont> FontManager { get; set; }
         RessourcesManager<Texture2D> TextureManager { get; set; }
         RessourcesManager<Model> ModelManager { get; set; }
         RessourcesManager<Song> SongManager { get; set; } 
         Song Song { get; set; }
         PressSpaceLabel PressSpaceLabel { get; set; }
-        //Caméra CaméraJeu { get; set; }
-
-        public Atelier()
-        {
-            PériphériqueGraphique = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
-            IsFixedTimeStep = false;
-            IsMouseVisible = false;
-            PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
-        }
-
         Gazon Gazon { get; set; }
         Grass Grass { get; set; }
         Ceiling Ceiling { get; set; }
-
         RessourcesManager<Video> VideoManager { get; set; }
         CutscenePlayer CutscenePlayer { get; set; }
         List<Walls> Walls { get; set; }
+        List<Rune> ListeRunes { get; set; }
         Character Robot { get; set; }
         List<Character> Characters { get; set; }
         int SaveNumber { get; set; }
@@ -86,7 +79,24 @@ namespace HyperV
         Sprite Crosshair { get; set; }
         RessourcesManager<SoundEffect> SoundManager { get; set; }
         List<House> Houses { get; set; }
+        float Timer { get; set; }
+        bool FirstGameOver { get; set; }
+        bool Sleep { get; set; }
+        #endregion
 
+        public Atelier()
+        {
+            PériphériqueGraphique = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+            PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = false;
+            IsMouseVisible = false;
+            PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+        }
+                
         void LoadSettings()
         {
             //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
@@ -188,8 +198,6 @@ namespace HyperV
         {
             MediaPlayer.Stop();
             Components.Clear();
-            //Song = SongManager.Find("castle");
-            //MediaPlayer.Play(Song);
             StreamReader reader = new StreamReader("../../../Levels/level" + level.ToString() + ".txt");
             string line;
             string[] parts;
@@ -216,32 +224,19 @@ namespace HyperV
                     case "Camera":
                         if (usePosition)
                         {
-                            if (level == 3)
-                            {
-                                // Doesn't work
-                                //Camera = new Camera3(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                                //(Camera as Camera3).InitializeDirection(Direction);
-                            }
-                            else
-                            {
-                                Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                                (Camera as Camera2).InitializeDirection(Direction);
-                            }
+                            Camera = new CaméraAvecColissions(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+                            (Camera as CaméraAvecColissions).InitializeDirection(Direction);                            
                         }
                         else
                         {
-                            if (level == 3)
-                            {
-                                Camera = new Camera3(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval/*, RenderDistance*/);
-                            }
-                            else
-                            {
-                                Camera = new Camera2(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval, RenderDistance);
-                            }
+                            Camera = new CaméraAvecColissions(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval, RenderDistance);                           
                         }
                         //(Camera as Camera2).SetRenderDistance(RenderDistance);
                         Services.RemoveService(typeof(Caméra));
                         Services.AddService(typeof(Caméra), Camera);
+                        break;
+                    case "Runes":
+                        AjouterRunes();
                         break;
                     case "Maze":
                         Maze.Add(new Maze(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], FpsInterval, parts[6]));
@@ -305,7 +300,7 @@ namespace HyperV
                         Services.AddService(typeof(List<Walls>), Walls);
                         break;
                     case "Portal":
-                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), !Complete[Portals.Count - 1] ? parts[5] : "Complete", int.Parse(parts[6]), FpsInterval));
+                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5].ToString(), int.Parse(parts[6]), FpsInterval));
                         Components.Add(Portals.Last());
                         break;
                     case "CutscenePlayer":
@@ -336,6 +331,16 @@ namespace HyperV
                         Services.RemoveService(typeof(List<House>));
                         Services.AddService(typeof(List<House>), Houses);
                         break;
+                    case "Livres":
+                        AjouterLivres();
+                        break;
+                    case "Boutons":
+                        AjouterBoutons();
+                        break;
+                    case "Skybox":
+                        Components.Add(new Afficheur3D(this));
+                        Components.Add(new Skybox(this, parts[1]));
+                        break;
                 }
             }
             if (Level != 0)
@@ -347,13 +352,14 @@ namespace HyperV
                     Boss.AddFireball();
                     Boss.AddLabel();
                 }
+
                 Components.Add(LifeBars[0]);
                 Components.Add(LifeBars[1]);
                 Services.RemoveService(typeof(LifeBar[]));
                 Services.AddService(typeof(LifeBar[]), LifeBars);
                 AddCharacterLabels();
-                Components.Add(Camera);
                 Components.Remove(Loading);
+                Components.Add(Camera);
                 Components.Add(Crosshair);
                 Components.Add(FPSLabel);
             }
@@ -367,20 +373,6 @@ namespace HyperV
             }
         }
 
-        Grass[,] GrassArray { get; set; }
-        Ceiling[,] CeilingArray { get; set; }
-        ArrièrePlanSpatial SpaceBackground { get; set; }
-        AfficheurFPS FPSLabel { get; set; }
-        List<Portal> Portals { get; set; }
-        Boss Boss { get; set; }
-        Mill Mill { get; set; }
-        List<HeightMap> HeightMap { get; set; }
-        LifeBar[] LifeBars { get; set; }
-        Afficheur3D Display3D { get; set; }
-        Water Water { get; set; }
-        Food Food { get; set; }
-        List<Enemy> Enemy { get; set; }
-
         private void AjouterModeles(string chemin)
         {
             StreamReader fichier = new StreamReader(chemin);
@@ -389,7 +381,7 @@ namespace HyperV
             {
                 string ligneLu = fichier.ReadLine();
                 string[] ligneSplit = ligneLu.Split(';');
-                CreateurModele x = new CreateurModele(this, ligneSplit[0], new Vector3(int.Parse(ligneSplit[1]), int.Parse(ligneSplit[2]), int.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5]));
+                CreateurModele x = new CreateurModele(this, ligneSplit[0], new Vector3(int.Parse(ligneSplit[1]), int.Parse(ligneSplit[2]), int.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5]), ligneSplit[6]);
                 Components.Add(new Afficheur3D(this));
                 Components.Add(x);
             }
@@ -398,31 +390,96 @@ namespace HyperV
         private void AjouterArbres()
         {
             Random generateur = new Random();
-            const int NB_ARBRES = 150;
+            const int NB_ARBRES = 500;
             for (int i = 0; i < NB_ARBRES; ++i)
             {
                 Components.Add(new Afficheur3D(this));
-                Components.Add(new CreateurModele(this, "Models_Tree", new Vector3(generateur.Next(-300, 300), -70, generateur.Next(-300, 300)), 10, generateur.Next(0, 360)));
+                Components.Add(new CreateurModele(this, "Models_Tree", new Vector3(generateur.Next(-500, 500), -70, generateur.Next(-500, 500)), 10, generateur.Next(0, 360)));
             }
         }
 
         private void AjouterTours()
         {
             Random generateur = new Random();
-            const int NB_Tours = 10;
+            const int NB_Tours = 5;
             for (int i = 0; i < NB_Tours; ++i)
             {
                 Components.Add(new Afficheur3D(this));
-                CreateurModele x = new CreateurModele(this, "Models_Tower", new Vector3(generateur.Next(50, 300), -70, generateur.Next(-300, 300)), 0.05f, generateur.Next(0, 360));
+                CreateurModele x = new CreateurModele(this, "Models_Tower", new Vector3(generateur.Next(50, 300), -70, generateur.Next(-100, 100)), 0.05f, generateur.Next(0, 360));
                 Components.Add(x);
                 x.EstTour = true;
             }
 
         }
 
-        const int NUM_LEVELS = 10;
-        List<bool> Complete { get; set; }
+        private void AjouterRunes()
+        {
+            StreamReader fichier = new StreamReader("../../../Monde1_Runes.txt");
+            fichier.ReadLine();
+            while (!fichier.EndOfStream)
+            {
+                string ligneLu = fichier.ReadLine();
+                string[] ligneSplit = ligneLu.Split(';');
+                Rune x = new Rune(this, 1f, new Vector3(-(MathHelper.ToRadians(90)),0,0), new Vector3(float.Parse(ligneSplit[0]), -19.8f, float.Parse(ligneSplit[1])), new Vector2(3, 3), Vector2.One,ligneSplit[2], FpsInterval);
+                ListeRunes.Add(x);
+                Components.Add(x);
+            }
+        }
 
+        private void AjouterLivres()
+        {
+            StreamReader fichier = new StreamReader("../../../Monde1_Modeles.txt");
+            fichier.ReadLine();
+            while (!fichier.EndOfStream)
+            {
+                string ligneLu = fichier.ReadLine();
+                string[] ligneSplit = ligneLu.Split(';');
+                Livre x = new Livre(this, ligneSplit[0], new Vector3(int.Parse(ligneSplit[1]), int.Parse(ligneSplit[2]), int.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5]), "Briques", "ImageLivre" + (ligneSplit[6]));
+                Components.Add(new Afficheur3D(this));
+                Components.Add(x);
+            }
+        }
+
+        private void AjouterBoutons()
+        {
+            Random générateur = new Random();
+            int[] ordre = new int[4];
+            for (int i = 0; i < ordre.Length; ++i)
+            {
+                ordre[i] = générateur.Next(0, 4);
+            }
+            PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt");
+            Components.Add(PuzzleBouton);
+        }
+
+        void ResetLists()
+        {
+            Characters = new List<Character>();
+            Enemy = new List<Enemy>();
+            Maze = new List<Maze>();
+            Houses = new List<House>();
+            HeightMap = new List<HeightMap>();
+            Portals = new List<Portal>();
+            Walls = new List<Walls>();
+            //Unlockables = new List<UnlockableWall>();
+            Services.RemoveService(typeof(List<Character>));
+            Services.AddService(typeof(List<Character>), Characters);
+            Services.RemoveService(typeof(List<Enemy>));
+            Services.AddService(typeof(List<Enemy>), Enemy);
+            Services.RemoveService(typeof(List<Maze>));
+            Services.AddService(typeof(List<Maze>), Maze);
+            Services.RemoveService(typeof(List<House>));
+            Services.AddService(typeof(List<House>), Houses);
+            Services.RemoveService(typeof(List<HeightMap>));
+            Services.AddService(typeof(List<HeightMap>), HeightMap);
+            Services.RemoveService(typeof(List<Portal>));
+            Services.AddService(typeof(List<Portal>), Portals);
+            //Services.RemoveService(typeof(List<UnlockableWall>));
+            //Services.AddService(typeof(List<UnlockableWall>), Unlockables);
+            Services.RemoveService(typeof(List<Walls>));
+            Services.AddService(typeof(List<Walls>), Walls);
+        }
+        
         void Save()
         {
             StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/pendingsave.txt");
@@ -474,6 +531,8 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<Song>), SongManager);
             TextureManager = new RessourcesManager<Texture2D>(this, "Textures");
             Services.AddService(typeof(RessourcesManager<Texture2D>), TextureManager);
+            Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
+            Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
             ModelManager = new RessourcesManager<Model>(this, "Models");
             Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
             FontManager = new RessourcesManager<SpriteFont>(this, "Fonts");
@@ -508,17 +567,16 @@ namespace HyperV
             Walls = new List<Walls>();
             Services.AddService(typeof(List<Walls>), Walls);
             PressSpaceLabel = new PressSpaceLabel(this);
+            ListeRunes = new List<Rune>();
             LifeBars = new LifeBar[2];
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 5;
+            Level = 0;
             SelectWorld(true);
             base.Initialize();
         }
-
-        float Timer { get; set; }
-
+        
         protected override void Update(GameTime gameTime)
         {
             if (!Sleep)
@@ -546,9 +604,7 @@ namespace HyperV
                 base.Update(gameTime);
             }
         }
-
-        bool FirstGameOver { get; set; }
-
+        
         void CheckForGameOver()
         {
             if (LifeBars[0].Dead && FirstGameOver)
@@ -596,7 +652,7 @@ namespace HyperV
         {
             foreach (Portal p in Portals)
             {
-                float? collision = p.Collision(new Ray(Camera.Position, (Camera as Camera2).Direction));
+                float? collision = p.Collision(new Ray(Camera.Position, (Camera as CaméraAvecColissions).Direction));
                 if (collision < 30 && collision != null)
                 {
                     PressSpaceLabel.Visible = true;
@@ -604,6 +660,7 @@ namespace HyperV
                     {
                         Components.Add(Loading);
                         Level = p.Level;
+                        ResetLists();
                         SelectWorld(false);
                     }
                     break;
@@ -629,9 +686,7 @@ namespace HyperV
         {
             Components.Add(Loading);
         }
-
-        bool Sleep { get; set; }
-
+        
         void ManageKeyboard(GameTime gameTime)
         {
             if (InputManager.EstNouvelleTouche(Keys.Escape))

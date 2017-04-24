@@ -47,7 +47,7 @@ namespace HyperV
         Rectangle GaugeRectangle { get; set; }
         Rectangle DockRectangle { get; set; }
         Vector2 StringPosition { get; set; }
-        Camera2 Camera { get; set; }
+        CaméraAvecColissions Camera { get; set; }
 
         public BossLabel(Game game, Boss boss, string name, int maxLife, string gaugeName, string dockName, string fontName, float interval) : base(game)
         {
@@ -81,7 +81,7 @@ namespace HyperV
             Dock = TextureManager.Find(DockName);
             Gauge = TextureManager.Find(GaugeName);
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
-            Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
+            Camera = Game.Services.GetService(typeof(Caméra)) as CaméraAvecColissions;
             Font = FontManager.Find(FontName);
         }
 

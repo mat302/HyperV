@@ -1,4 +1,6 @@
+using AtelierXNA;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,10 @@ namespace HyperV
                 
         Vector3 Déplacement { get; set; }
         Vector2 Vitesse { get; set; }
+        SoundEffect TourDétruite { get; set; }
+        RessourcesManager<SoundEffect> SoundManager { get; set; }
+
+
 
         public AmmunitionCatapulte(Game game, string modele3D, Vector3 position, float homothésie, float rotation)
             : base(game, modele3D, position, homothésie, rotation)
@@ -36,6 +42,7 @@ namespace HyperV
             PositionInitiale = Position;
             EstTiré = true;
             EstAmmunition = false;
+            TourDétruite = SoundManager.Find("TourDétruite");
         }
 
         public override void Update(GameTime gameTime)
@@ -61,6 +68,12 @@ namespace HyperV
             {
                 GérerColision();
             }
+        }
+
+        protected override void LoadContent()
+        {
+            SoundManager = Game.Services.GetService(typeof(RessourcesManager<SoundEffect>)) as RessourcesManager<SoundEffect>;
+            base.LoadContent();
         }
 
         public void TirerProjectile(float angle, Vector3 vitesse, int ModificateurVitesse)
@@ -100,14 +113,15 @@ namespace HyperV
             {
                 if (modele.EstTour)
                 {
-                    if(Position.X < modele.GetPosition().X + 3 && Position.X > modele.GetPosition().X - 3) //test X
+                    if(Position.X < modele.GetPosition().X + 8 && Position.X > modele.GetPosition().X - 8) //test X
                     {
-                        if(Position.Z < modele.GetPosition().Z + 3 && Position.Z > modele.GetPosition().Z - 3) //test z
+                        if(Position.Z < modele.GetPosition().Z + 8 && Position.Z > modele.GetPosition().Z - 8) //test z
                         {
-                            if (Position.Y < modele.GetPosition().Y + 130 && Position.Y > modele.GetPosition().Y) //test y
+                            if (Position.Y < modele.GetPosition().Y + 120 && Position.Y > modele.GetPosition().Y) //test y
                             {
                                 modeleDetruire.Add(modele);
                                 aDetruire = true;
+                                TourDétruite.Play();
                             }
                         }
                     }

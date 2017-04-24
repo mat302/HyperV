@@ -14,7 +14,7 @@ namespace HyperV
         readonly string NomTexture;
 
         readonly Vector3 Origine;
-        Camera1 CaméraJoueur { get; set; }
+        CaméraAvecColissions CaméraJoueur { get; set; }
 
         //Initialement gérées par des fonctions appellées par base.Initialize()
         Vector3[,] PtsSommets { get; set; }
@@ -62,7 +62,7 @@ namespace HyperV
             AllouerTableaux();
             base.Initialize();
             InitialiserParamètresEffetDeBase();
-            CaméraJoueur = CaméraJeu as Camera1;
+            CaméraJoueur = CaméraJeu as CaméraAvecColissions;
         }
 
         protected override void EffectuerMiseÀJour()

@@ -25,7 +25,7 @@ namespace HyperV
         Vector3[] Positions { get; set; }
         Vector3[] GearPositions { get; set; }
         float Radius { get; set; }
-        Camera2 Camera { get; set; }
+        CaméraAvecColissions Camera { get; set; }
         PressSpaceLabel PressSpaceLabel { get; set; }
         ModeleRamassable[] Takables { get; set; }
         InputManager InputManager { get; set; }
@@ -134,7 +134,7 @@ namespace HyperV
         {
             //Game.Components.Add(new TuileTexturée(Game, 1, Vector3.Zero, new Vector3(Positions[1].X, Positions[1].Y, Positions[1].Z - 5), new Vector2(5, 5), "point", 1 / 60f));
             base.Initialize();
-            Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
+            Camera = Game.Services.GetService(typeof(Caméra)) as CaméraAvecColissions;
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
         }
 
@@ -190,7 +190,7 @@ namespace HyperV
                 Collided = false;
                 for (int i = 0; i < NumGears && !Collided; ++i)
                 {
-                    GameCollision = Collision(new Ray(Camera.Position, (Camera as Camera2).Direction), i);
+                    GameCollision = Collision(new Ray(Camera.Position, (Camera as CaméraAvecColissions).Direction), i);
                     Collided = GameCollision != null;
                     TakenObject = ReturnTakenObject();
                     if (/*collision < Radius + 0.5f && */ Collided /*&& Takables[i].EstRamassée*/ /*&& TakenObject != NumGears && Takables[TakenObject].EstRamassée && (!AxleTaken[i] && !Placed[TakenObject] || AxleTaken[i] && Placed[Taken])*/)

@@ -43,7 +43,7 @@ namespace HyperV
         float Timer { get; set; }
         float LabelInterval { get; set; }
         InputManager InputManager { get; set; }
-        Camera2 Camera { get; set; }
+        CaméraAvecColissions Camera { get; set; }
         List<Fireball> Fireballs { get; set; }
         Vector3 FireBallPosition { get; set; }
 
@@ -99,7 +99,7 @@ namespace HyperV
         protected override void LoadContent()
         {
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
+            Camera = Game.Services.GetService(typeof(Caméra)) as CaméraAvecColissions;
             base.LoadContent();
         }
 

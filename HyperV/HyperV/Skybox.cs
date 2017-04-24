@@ -71,11 +71,11 @@ namespace HyperV
 {
     public class Skybox : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        const float GROSSEUR = 5f;
+        const float GROSSEUR = 50f;
 
         public Model SkyBox;
         string SkyboxTexture { get; set; }
-        CaméraJoueur Camera { get; set; }
+        CaméraAvecColissions Camera { get; set; }
 
         RessourcesManager<Model> ModelManager { get; set; }
         RessourcesManager<TextureCube> TextureManager { get; set; }
@@ -95,7 +95,7 @@ namespace HyperV
             ModelManager = Game.Services.GetService(typeof(RessourcesManager<Model>)) as RessourcesManager<Model>;
             TextureManager = Game.Services.GetService(typeof(RessourcesManager<TextureCube>)) as RessourcesManager<TextureCube>;
             EffectManager = Game.Services.GetService(typeof(RessourcesManager<Effect>)) as RessourcesManager<Effect>;
-            Camera = Game.Services.GetService(typeof(CaméraJoueur)) as CaméraJoueur;
+            Camera = Game.Services.GetService(typeof(Caméra)) as CaméraAvecColissions;
             Graphics = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
 
             SkyBox = ModelManager.Find("Cube");
@@ -110,7 +110,7 @@ namespace HyperV
                 foreach (ModelMeshPart part in mesh.MeshParts)
                 {
                     part.Effect = SkyBoxEffect;
-                    part.Effect.Parameters["World"].SetValue(Matrix.CreateScale(GROSSEUR) * Matrix.CreateTranslation(Camera.Position));
+                    part.Effect.Parameters["World"].SetValue(Matrix.CreateScale(GROSSEUR) * Matrix.CreateTranslation(0,0,0));
                     part.Effect.Parameters["View"].SetValue(Camera.Vue);
                     part.Effect.Parameters["Projection"].SetValue(Camera.Projection);
                     part.Effect.Parameters["SkyBoxTexture"].SetValue(SkyBoxTexture);
