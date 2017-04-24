@@ -1,7 +1,7 @@
-Level: 2
-Position: {X:101.4116 Y:5 Z:419.3901}
-Direction: {X:-0.08723794 Y:-0.2167469 Z:0.9723222}
-Time Played: 00:00:43.0523161
+Level: 3
+Position: {X:5 Y:5 Z:5}
+Direction: {X:5 Y:5 Z:5}
+Time Played: 00:00:00
 Max Life: 300
 Attack: 0
 
