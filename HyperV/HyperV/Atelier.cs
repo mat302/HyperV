@@ -185,9 +185,9 @@ namespace HyperV
 
         void SelectWorld(bool usePosition)
         {
-            //SelectLevel(usePosition, Level);
+            SelectLevel(usePosition, Level);
             //LevelPrison(usePosition);
-            RythmLevel();
+            //RythmLevel();
             Save();
         }
 
@@ -333,7 +333,7 @@ namespace HyperV
                         AjouterTours();
                         break;
                     case "HeightMap":
-                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6]));
+                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], new string[] { "Sable", "Herbe" }));
                         Components.Add(HeightMap.Last());
                         Services.RemoveService(typeof(List<HeightMap>));
                         Services.AddService(typeof(List<HeightMap>), HeightMap);
@@ -521,7 +521,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 3;
+            Level = 2;
             SelectWorld(true);
             base.Initialize();
         }
