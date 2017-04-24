@@ -77,6 +77,7 @@ namespace HyperV
         /// </summary>
         public override void Initialize()
         {
+            this.DrawOrder = 1000;
             GaugeRectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)((float)Life / MaxLife * 300), 50);
             DockRectangle = new Rectangle((int)Position.X, (int)Position.Y, 300, 50);
             Tired = false;

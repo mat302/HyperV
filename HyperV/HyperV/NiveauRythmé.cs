@@ -43,6 +43,11 @@ namespace HyperV
             NomFichierLecture = nomFichierLecture;
             NomTexture = nomTexture;
             IntervalleMAJ = intervalleMAJ;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
 
             BoutonUn = false;
             BoutonDeux = false;
@@ -58,13 +63,6 @@ namespace HyperV
 
             TestInitialisation();
             ChargerContenu();
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            
         }
 
         void InitialiserPositions()
@@ -186,7 +184,7 @@ namespace HyperV
             if (i > 120)
             {
                 int choixPente = GénérateurAléatoire.Next(0, 3) * 2;
-
+                //Game.Components.Add(new Afficheur3D(Game));
                 Game.Components.Add(new SphèreRythmée(Game, 1, Vector3.Zero,
                                     Positions[choixPente], 1, new Vector2(20, 20),
                                     "BleuBlancRouge", IntervalleMAJ, Positions[choixPente + 1]));
