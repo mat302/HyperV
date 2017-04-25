@@ -58,10 +58,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
         }
 
         Gazon Gazon { get; set; }
@@ -333,7 +333,7 @@ namespace HyperV
                         AjouterTours();
                         break;
                     case "HeightMap":
-                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6]));
+                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], new string[] { parts[6], parts[7] }));
                         Components.Add(HeightMap.Last());
                         Services.RemoveService(typeof(List<HeightMap>));
                         Services.AddService(typeof(List<HeightMap>), HeightMap);

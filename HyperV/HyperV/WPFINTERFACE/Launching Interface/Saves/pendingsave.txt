@@ -1,7 +1,7 @@
 Level: 4
-Position: {X:10 Y:5 Z:15}
+Position: {X:10 Y:5.588235 Z:15}
 Direction: {X:-0.5 Y:0 Z:-0.5}
-Time Played: 00:00:50.2363942
+Time Played: 00:00:18.3873307
 Max Life: 300
 Attack: 0
 
