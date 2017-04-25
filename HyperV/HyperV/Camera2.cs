@@ -647,7 +647,7 @@ namespace HyperV
         List<Character> Characters { get; set; }
         Boss Boss { get; set; }
         List<HeightMap> HeightMap { get; set; }
-        Water Water { get; set; }
+        List<Water> Water { get; set; }
         Grass Grass { get; set; }
         List<Walls> Walls { get; set; }
         List<Portal> Portals { get; set; }
@@ -669,7 +669,7 @@ namespace HyperV
             HeightMap = Game.Services.GetService(typeof(List<HeightMap>)) as List<HeightMap>;
             Grass = Game.Services.GetService(typeof(Grass)) as Grass;
             GérerHauteur();
-            Water = Game.Services.GetService(typeof(Water)) as Water;
+            Water = Game.Services.GetService(typeof(List<Water>)) as List<Water>;
             Walls = Game.Services.GetService(typeof(List<Walls>)) as List<Walls>;
             Houses = Game.Services.GetService(typeof(List<House>)) as List<House>;
             Portals = Game.Services.GetService(typeof(List<Portal>)) as List<Portal>;
@@ -677,33 +677,45 @@ namespace HyperV
         }
 
         //NO WATER
-        //protected override void GérerHauteur()
-        //{
-        //    //Hauteur = HeightMap.GetHeight(Position);
-        //    //NO WATER
-        //    //    if (!LifeBars[1].Water)
-        //    //    {
-        //    //        Height = HeightMap.GetHeight(Position); //HERE
-        //    //        base.GérerHauteur();
-        //    //    }
-        //}
-
         protected override void GérerHauteur()
         {
+            //Hauteur = HeightMap.GetHeight(Position);
+            //NO WATER
             if (!SubjectiveCamera)
             {
-                if (HeightMap.Count > 0)
+                if (!LifeBars[1].Water)
                 {
-                    float height = 5;
-                    for (int i = 0; i < HeightMap.Count && height == 5; ++i)
+                
+                    if (HeightMap.Count > 0)
                     {
-                        height = HeightMap[i].GetHeight(Position);
+                        float height = 5;
+                        for (int i = 0; i < HeightMap.Count && height == 5; ++i)
+                        {
+                            height = HeightMap[i].GetHeight(Position);
+                        }
+                        Height = height;
                     }
-                    Height = height;
                 }
                 base.GérerHauteur();
             }
         }
+
+        //protected override void GérerHauteur()
+        //{
+        //    if (!SubjectiveCamera)
+        //    {
+        //        if (HeightMap.Count > 0)
+        //        {
+        //            float height = 5;
+        //            for (int i = 0; i < HeightMap.Count && height == 5; ++i)
+        //            {
+        //                height = HeightMap[i].GetHeight(Position);
+        //            }
+        //            Height = height;
+        //        }
+        //        base.GérerHauteur();
+        //    }
+        //}
 
         protected override void ManageLifeBars()
         {
@@ -726,58 +738,72 @@ namespace HyperV
                 }
             }
             // NO WATER
-            //if (LifeBars[1].Water)
-            //{
-            //    Position -= direction * VitesseTranslation * Direction;
-            //    Position += latéral * VitesseTranslation * Latéral;
-            //    Position += direction * VITESSE_INITIALE_TRANSLATION * Direction;
-            //    Position -= latéral * VITESSE_INITIALE_TRANSLATION * Latéral;
-            //}
-            //if (!LifeBars[1].Water && Position.Y <= Water.AdjustedHeight)
-            //{
-            //    LifeBars[1].TurnWaterOn();
-            //}
-            //else if (LifeBars[1].Water && Position.Y > Water.AdjustedHeight)
-            //{
-            //    LifeBars[1].TurnWaterOff();
-            //}
-            //if (LifeBars[1].Drowned)
-            //{
-            //    LifeBars[0].Attack(1);
-            //}
+            if (LifeBars[1].Water)
+            {
+                Position -= direction * VitesseTranslation * Direction;
+                Position += latéral * VitesseTranslation * Latéral;
+                Position += direction * VITESSE_INITIALE_TRANSLATION * Direction;
+                Position -= latéral * VITESSE_INITIALE_TRANSLATION * Latéral;
+            }
+            for (int i = 0; i < Water.Count /*&& height == 5*/; ++i)
+            {
+                if (!LifeBars[1].Water && Position.Y <= Water[i].AdjustedHeight)
+                {
+                    LifeBars[1].TurnWaterOn();
+                    break;
+                }
+                else if (LifeBars[1].Water && Position.Y > Water[i].AdjustedHeight)
+                {
+                    LifeBars[1].TurnWaterOff();
+                    break;
+                }
+            }
+            if (LifeBars[1].Drowned)
+            {
+                LifeBars[0].Attack(1);
+            }
         }
         //NO WATER
-        //protected override void GérerSaut()
-        //{
-        //    if (LifeBars[1].Water)
-        //    {
-        //        if (Sauter)
-        //        {
-        //            Height += 0.4f;
-        //            if (Height > Water.AdjustedHeight)
-        //            {
-        //                Height = Water.AdjustedHeight;
-        //                LifeBars[1].Restore();
-        //            }
-        //            Position = new Vector3(Position.X, Height/*HAUTEUR_PERSONNAGE*/, Position.Z);
-        //            //++Hauteur;
-        //        }
-        //        else
-        //        {
-        //            Height -= 0.4f;
-        //            if (Height < HeightMap.GetHeight(Position))
-        //            {
-        //                Height = HeightMap.GetHeight(Position);
-        //            }
-        //            Position = new Vector3(Position.X, Height/*HAUTEUR_PERSONNAGE*/, Position.Z);
-        //            //--Hauteur;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        base.GérerSaut();
-        //    }
-        //}
+        protected override void GérerSaut()
+        {
+            if (LifeBars[1].Water)
+            {
+                if (Sauter)
+                {
+                    Height += 0.4f;
+                    for (int i = 0; i < Water.Count /*&& height == 5*/; ++i)
+                    {
+                        if (Height > Water[i].AdjustedHeight)
+                        {
+                            Height = Water[i].AdjustedHeight;
+                            LifeBars[1].Restore();
+                            break;
+                        }
+                    }
+                    Position = new Vector3(Position.X, Height/*HAUTEUR_PERSONNAGE*/, Position.Z);
+                    //++Hauteur;
+                }
+                else
+                {
+                    Height -= 0.4f;
+                    for (int i = 0; i < HeightMap.Count /*&& height == 5*/; ++i)
+                    {
+                        if (Height < HeightMap[i].GetHeight(Position))
+                        {
+                            Height = HeightMap[i].GetHeight(Position);
+                            break;
+                        }
+                    }
+                    
+                    Position = new Vector3(Position.X, Height/*HAUTEUR_PERSONNAGE*/, Position.Z);
+                    //--Hauteur;
+                }
+            }
+            else
+            {
+                base.GérerSaut();
+            }
+        }
 
         bool CheckForWallsCollision()
         {
