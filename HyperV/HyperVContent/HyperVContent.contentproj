@@ -838,8 +838,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Sable.bmp">
-      <Name>Sable</Name>
+    <Compile Include="Textures\Transparent.png">
+      <Name>Transparent</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -847,6 +847,11 @@
   <ItemGroup>
     <Compile Include="Textures\Herbe.bmp">
       <Name>Herbe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\Sable.bmp">
+      <Name>Sable</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

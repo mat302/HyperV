@@ -1,3 +1,6 @@
+// By Mathieu Godin
+// Created on January 2017
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,10 +58,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            PériphériqueGraphique.PreferredBackBufferWidth = 900;
+            PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
         }
 
         Gazon Gazon { get; set; }
@@ -182,9 +185,9 @@ namespace HyperV
 
         void SelectWorld(bool usePosition)
         {
-            //SelectLevel(usePosition, Level);
+            SelectLevel(usePosition, Level);
             //LevelPrison(usePosition);
-            RythmLevel();
+            //RythmLevel();
             Save();
         }
 
@@ -310,7 +313,7 @@ namespace HyperV
                         Services.AddService(typeof(List<Walls>), Walls);
                         break;
                     case "Portal":
-                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), !Complete[Portals.Count] ? parts[5] : "Complete", int.Parse(parts[6]), FpsInterval));
+                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), level == 1 && Complete[Portals.Count + 2] ? "Complete" : parts[5], int.Parse(parts[6]), FpsInterval));
                         Components.Add(Portals.Last());
                         break;
                     case "CutscenePlayer":
@@ -330,7 +333,7 @@ namespace HyperV
                         AjouterTours();
                         break;
                     case "HeightMap":
-                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], new string[] { "Herbe", "Sable" }));
+                        HeightMap.Add(new HeightMap(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], new string[] { parts[6], parts[7] }));
                         Components.Add(HeightMap.Last());
                         Services.RemoveService(typeof(List<HeightMap>));
                         Services.AddService(typeof(List<HeightMap>), HeightMap);
@@ -342,7 +345,7 @@ namespace HyperV
                         Services.AddService(typeof(List<House>), Houses);
                         break;
                     case "UnlockableWall":
-                        int a = int.Parse(parts[6]);
+                        int a = int.Parse(parts[6]) + 1;
                         if (CountComplete() < a)
                         {
                             Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
@@ -350,6 +353,12 @@ namespace HyperV
                             Services.RemoveService(typeof(List<UnlockableWall>));
                             Services.AddService(typeof(List<UnlockableWall>), Unlockables);
                         }
+                        break;
+                    case "Water":
+                        Water.Add(new Water(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), FpsInterval));
+                        Components.Add(Water.Last());
+                        Services.RemoveService(typeof(List<Water>));
+                        Services.AddService(typeof(List<Water>), Water);
                         break;
                 }
             }
@@ -392,7 +401,7 @@ namespace HyperV
         List<HeightMap> HeightMap { get; set; }
         LifeBar[] LifeBars { get; set; }
         Afficheur3D Display3D { get; set; }
-        Water Water { get; set; }
+        List<Water> Water { get; set; }
         Food Food { get; set; }
         List<Enemy> Enemy { get; set; }
 
@@ -518,7 +527,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 2;
+            Level = 1;
             SelectWorld(true);
             base.Initialize();
         }
@@ -533,6 +542,7 @@ namespace HyperV
             Portals = new List<Portal>();
             Walls = new List<Walls>();
             Unlockables = new List<UnlockableWall>();
+            Water = new List<Water>();
             Services.RemoveService(typeof(List<Character>));
             Services.AddService(typeof(List<Character>), Characters);
             Services.RemoveService(typeof(List<Enemy>));
@@ -547,6 +557,8 @@ namespace HyperV
             Services.AddService(typeof(List<Portal>), Portals);
             Services.RemoveService(typeof(List<UnlockableWall>));
             Services.AddService(typeof(List<UnlockableWall>), Unlockables);
+            Services.RemoveService(typeof(List<Water>));
+            Services.AddService(typeof(List<Water>), Water);
             Services.RemoveService(typeof(List<Walls>));
             Services.AddService(typeof(List<Walls>), Walls);
         }
@@ -557,24 +569,26 @@ namespace HyperV
         {
             if (!Sleep)
             {
+                if (Camera != null)
+                {
+                    Window.Title = Camera.Position.ToString();
+                }
                 ManageKeyboard(gameTime);
                 Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 TimePlayed = TimePlayed.Add(gameTime.ElapsedGameTime);
                 if (Timer >= FpsInterval)
                 {
-                    Window.Title = Camera.Position.ToString();
+                    //Window.Title = Camera.Position.ToString();
                     switch (Level)
                     {
                         case 0:
                             CheckForCutscene();
                             break;
-                        case 1:
-                            CheckForPortal();
-                            break;
                         case 2:
                             CheckForGameOver();
                             break;
                     }
+                    CheckForPortal();
                     Timer = 0;
                 }
                 base.Update(gameTime);
@@ -636,6 +650,8 @@ namespace HyperV
                     PressSpaceLabel.Visible = true;
                     if (InputManager.EstEnfoncée(Keys.Space))
                     {
+                        Complete[Level] = true;
+                        Save();
                         Components.Add(Loading);
                         Level = p.Level;
                         ResetLists();
@@ -742,10 +758,10 @@ namespace HyperV
             Components.Add(Wall);
             Services.AddService(typeof(Walls), Wall);
 
-            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(60, -60, -50), new Vector2(10, 10), "Ceiling", new Vector2(1, 1), FpsInterval);
+            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(-50, -60, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
             Components.Add(Grass);
 
-            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(60, 0, -50), new Vector2(130, 40), "Ceiling", new Vector2(1, 1), FpsInterval);
+            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(-50, 0, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
             Components.Add(Ceiling);
             
             NiveauRythmé circuit = new NiveauRythmé(this, "../../../Data3.txt", "Fence", FpsInterval);

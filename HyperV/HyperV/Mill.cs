@@ -42,6 +42,7 @@ namespace HyperV
         public Mill(Game game, float scale, Vector3 initialRotation, Vector3 initialPosition, string textureName, Vector2 range, float interval, string millImageName) : base(game, scale, initialRotation, initialPosition, range, textureName)
         {
             MillImageName = millImageName;
+            Vector3 gearOffset = new Vector3(5, 5, -5);
             Interval = interval;
             Timer = 0;
             Radius = 1;
@@ -50,11 +51,11 @@ namespace HyperV
             InitializeMillData();
             for (int i = 0; i < NumGears; ++i)
             {
-                Positions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X - range.X / 2, PositionInitiale.Y - GearInfo[i].Y + range.Y / 2, PositionInitiale.Z);
-                GearPositions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X - range.X / 2, PositionInitiale.Y - GearInfo[i].Y + range.Y / 2, PositionInitiale.Z + 1);
+                Positions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X - range.X / 2, PositionInitiale.Y - GearInfo[i].Y + range.Y / 2, RotationInitiale.Y == 3.141593f ? PositionInitiale.Z - 1 : PositionInitiale.Z);
+                GearPositions[i] = new Vector3(PositionInitiale.X + GearInfo[i].X - range.X / 2, PositionInitiale.Y - GearInfo[i].Y + range.Y / 2, RotationInitiale.Y == 3.141593f ? PositionInitiale.Z - 0.5f : PositionInitiale.Z + 1);
                 Axles[i] = new ObjetDeBase(Game, "axle", 0.01f, new Vector3(MathHelper.ToRadians(90), 0, 0), Positions[i]);
                 Game.Components.Add(Axles[i]);
-                Takables[i] = new ModeleRamassable(Game, "gear" + GearInfo[i].Z.ToString(), 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), new Vector3(350 + GearInfo[i].X / 10, 10, 100 + GearInfo[i].Y / 10));
+                Takables[i] = new ModeleRamassable(Game, "gear" + GearInfo[i].Z.ToString(), 0.01f, new Vector3(0, 0, MathHelper.ToRadians(90)), PositionInitiale + gearOffset);
                 Game.Components.Add(Takables[i]);
             }
             for (int i = 0; i < NumGears; ++i)
