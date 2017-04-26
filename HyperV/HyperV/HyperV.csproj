@@ -105,6 +105,7 @@
     <Compile Include="House.cs" />
     <Compile Include="Jeu.cs" />
     <Compile Include="LifeBar.cs" />
+    <Compile Include="Livre.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="Mill.cs" />
     <Compile Include="ModeleRamassable.cs" />
@@ -114,6 +115,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Atelier.cs" />
+    <Compile Include="PuzzleBouton.cs" />
+    <Compile Include="Rune.cs" />
     <Compile Include="SkipCutsceneLabel.cs" />
     <Compile Include="Skybox.cs" />
     <Compile Include="SphereRamassable.cs" />
@@ -130,9 +133,13 @@
     <Content Include="CharacterScripts\c54.txt" />
     <Content Include="CharacterScripts\Robot.txt" />
     <Content Include="Levels\Level4.txt" />
+    <Content Include="Levels\Level6.txt" />
+    <Content Include="Monde1_Modeles.txt" />
+    <Content Include="Monde1_Runes.txt" />
+    <Content Include="PositionBoutons.txt" />
     <Content Include="Walls\Data2.txt" />
     <Content Include="Data3.txt" />
-    <Content Include="DataPrison.txt" />
+    <Content Include="Walls\DataPrison.txt" />
     <Content Include="Levels\Level3.txt" />
     <Content Include="Walls\Walls3.txt" />
     <Content Include="Walls\Walls5.txt" />
