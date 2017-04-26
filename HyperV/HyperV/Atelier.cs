@@ -213,7 +213,7 @@ namespace HyperV
                     case "#":
                         break;
                     case "SpaceBackground":
-                        Components.Add(SpaceBackground);
+                        //Components.Add(SpaceBackground);
                         break;
                     case "Display3D":
                         Display3D = new Afficheur3D(this);
@@ -224,12 +224,12 @@ namespace HyperV
                     case "Camera":
                         if (usePosition)
                         {
-                            Camera = new CaméraAvecColissions(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+                            Camera = new CaméraAvecColissions(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, 5000);//RenderDistance);
                             (Camera as CaméraAvecColissions).InitializeDirection(Direction);                            
                         }
                         else
                         {
-                            Camera = new CaméraAvecColissions(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval, RenderDistance);                           
+                            Camera = new CaméraAvecColissions(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), FpsInterval, 5000);//RenderDistance);                           
                         }
                         //(Camera as Camera2).SetRenderDistance(RenderDistance);
                         Services.RemoveService(typeof(Caméra));
@@ -338,7 +338,6 @@ namespace HyperV
                         AjouterBoutons();
                         break;
                     case "Skybox":
-                        Components.Add(new Afficheur3D(this));
                         Components.Add(new Skybox(this, parts[1]));
                         break;
                 }
@@ -741,7 +740,7 @@ namespace HyperV
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Orange);
+            GraphicsDevice.Clear(Color.Black);
             base.Draw(gameTime);
         }
     }

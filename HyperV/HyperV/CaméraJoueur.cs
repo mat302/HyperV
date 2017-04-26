@@ -22,8 +22,8 @@ namespace HyperV
         const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
 
         protected bool DésactiverDéplacement { get; set; }
-        public Vector3 Direction { get; protected set; }//
-        public Vector3 Latéral { get; private set; }//
+        public Vector3 Direction { get; protected set; }
+        public Vector3 Latéral { get; private set; }
         Gazon Gazon { get; set; }
         protected float VitesseTranslation { get; set; }
         float VitesseRotation { get; set; }

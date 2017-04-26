@@ -80,13 +80,13 @@ namespace HyperV
         }
 
         public override void Draw(GameTime gameTime)
-        {
+        {            
             Matrix[] transforms = new Matrix[Modele3D.Bones.Count];
             Modele3D.CopyAbsoluteBoneTransformsTo(transforms);
 
             foreach (ModelMesh mesh in Modele3D.Meshes)
             {
-                SphèreColision.Add(mesh.BoundingSphere);
+                SphèreColision.Add(mesh.BoundingSphere);                
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     if (Texture2D != null)

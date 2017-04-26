@@ -41,7 +41,6 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
-
             TempsÉcouléMAJ += (float)gameTime.ElapsedGameTime.TotalSeconds;      
             TempsActivationRune += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (TempsÉcouléMAJ >= 1 / 60f)
@@ -80,7 +79,7 @@ namespace HyperV
             }
             else
             {
-                CubeRuneActivée = new CreateurModele(Game, "Cube", new Vector3(PositionInitiale.X - 1, PositionInitiale.Y + 2, PositionInitiale.Z + 1), 0.6f, 0);
+                CubeRuneActivée = new CreateurModele(Game, "axle", new Vector3(PositionInitiale.X, PositionInitiale.Y + 2, PositionInitiale.Z), 0.6f, 0);
                 Game.Components.Add(new Afficheur3D(Game));
                 Game.Components.Add(CubeRuneActivée);
                 RuneActivée.Play();

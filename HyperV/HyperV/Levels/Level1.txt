@@ -1,6 +1,7 @@
 SpaceBackground
-Display3D
 Camera;{X:0 Y:-16 Z:60};{X:20 Y:0 Z:0};{X:0 Y:1 Z:0}
+Skybox;skybox
+Display3D
 Runes
 Livres
 Boutons
