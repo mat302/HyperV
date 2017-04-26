@@ -76,6 +76,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AfficheurPointage.cs" />
     <Compile Include="AmmunitionCatapulte.cs" />
     <Compile Include="Arc.cs" />
     <Compile Include="BalleRebondissante.cs" />
