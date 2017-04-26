@@ -17,3 +17,6 @@ Portal;1;{X:0 Y:-1.570796 Z:0};{X:-90 Y:-10 Z:-435};{X:30 Y:20};BleuBlancRouge;7
 Portal;1;{X:0 Y:3.141593 Z:0};{X:45 Y:-10 Z:-360};{X:30 Y:20};BleuBlancRouge;8
 UnlockableWall;1;{X:0 Y:1.570796 Z:0};{X:30 Y:-10 Z:-205};{X:30 Y:20};5stones;5
 Portal;1;{X:0 Y:1.570796 Z:0};{X:30 Y:-10 Z:-75};{X:30 Y:20};BleuBlancRouge;9
+#;Runes
+#;Livres
+#;Boutons

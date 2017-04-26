@@ -1,0 +1,7 @@
+﻿PositionX;PositionZ;NomRune
+-228;7;Rune_Rouge
+-228;25;Rune_Jaune
+-228;-14;Rune_Bleu
+-187;7;Rune_Verte
+-187;25;Rune_Orange
+-187;-14;Rune_Mauve
