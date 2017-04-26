@@ -58,10 +58,12 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            ////PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            ////PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            PériphériqueGraphique.PreferredBackBufferWidth = 900;
         }
 
         Gazon Gazon { get; set; }
@@ -758,12 +760,12 @@ namespace HyperV
             Components.Add(Wall);
             Services.AddService(typeof(Walls), Wall);
 
-            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(-50, -60, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
+            Grass = new Grass(this, 1f, Vector3.Zero, new Vector3(-45, -60, -45), new Vector2(10, 10), "Ceiling", new Vector2(13, 4), FpsInterval);
             Components.Add(Grass);
 
-            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(-50, 0, -200), new Vector2(40, 40), "Ceiling", new Vector2(7, 7), FpsInterval);
+            Ceiling = new Ceiling(this, 1f, Vector3.Zero, new Vector3(-45, 0, -45), new Vector2(10, 10), "Ceiling", new Vector2(13, 4), FpsInterval);
             Components.Add(Ceiling);
-            
+
             NiveauRythmé circuit = new NiveauRythmé(this, "../../../Data3.txt", "Fence", FpsInterval);
             Components.Add(circuit);
             Services.AddService(typeof(NiveauRythmé), circuit);
