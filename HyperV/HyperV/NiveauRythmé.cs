@@ -14,6 +14,7 @@ using AtelierXNA;
 
 namespace HyperV
 {
+    //hfttp://xboxforums.create.msdn.com/forums/t/12089.aspx
     public class NiveauRythmé : Microsoft.Xna.Framework.GameComponent
     {
         //Constructeur
@@ -128,6 +129,7 @@ namespace HyperV
                     new Vector2(3, 3), "2"));
             Game.Components.Add(new TuileTexturée(Game, 1, new Vector3(0, -MathHelper.PiOver2, 0), Positions[5] - 1.65f * Vector3.UnitX,
                     new Vector2(3, 3), "3"));
+
         }
 
         public override void Update(GameTime gameTime)
