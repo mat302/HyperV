@@ -38,6 +38,7 @@ namespace HyperV
 
         AfficheurPointage Pointage { get; set; }
 
+
         public NiveauRythmé(Game jeu, string nomFichierLecture, string nomTexture, float intervalleMAJ)
             : base(jeu)
         {
