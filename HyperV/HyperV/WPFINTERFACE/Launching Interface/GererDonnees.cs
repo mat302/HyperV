@@ -171,7 +171,7 @@ namespace Launching_Interface
          ListeCaractéristiquesAAfficher0 = new List<string>();
          ListeCaractéristiquesAAfficher1 = new List<string>();
          ListeCaractéristiquesAAfficher2 = new List<string>();
-            InitializeComplete();
+            //InitializeComplete();
          LireFichiers("Langues","En.txt");
          LireFichiers("Langues","Es.txt");
          LireFichiers("Langues","Jp.txt");
@@ -192,6 +192,7 @@ namespace Launching_Interface
 
         public static void RefreshSaves()
         {
+            InitializeComplete();
             CheckForExistingGames();
             if (GameExists[0])
             {
