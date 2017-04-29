@@ -135,6 +135,7 @@
     <Content Include="CharacterScripts\Robot.txt" />
     <Content Include="Levels\Level4.txt" />
     <Content Include="Levels\Level6.txt" />
+    <Content Include="Levels\Level7.txt" />
     <Content Include="Monde1_Modeles.txt" />
     <Content Include="Monde1_Runes.txt" />
     <Content Include="PositionBoutons.txt" />

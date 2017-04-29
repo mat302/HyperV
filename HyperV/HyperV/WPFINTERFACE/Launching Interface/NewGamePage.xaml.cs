@@ -136,7 +136,7 @@ namespace Launching_Interface
                break;
          }
 
-         OrganiserMargesDesCaractéristiques();
+         OrganiserMargesCaractéristiques();
          ChangeBorderBrushColor(i);
       }
 
@@ -145,30 +145,71 @@ namespace Launching_Interface
          return LangueOficielleNewPage[i].Replace("\n", string.Empty);
       }
 
-      void OrganiserMargesDesCaractéristiques()
-      {
-         Thickness margesSave =new Thickness( 0);
-         Thickness margesLevel = new Thickness(0);
+        //void OrganiserMargesDesCaractéristiques()
+        //{
+        //   Thickness margesSave =new Thickness( 0);
+        //   Thickness margesLevel = new Thickness(0);
 
-         if (GererDonnees.Langue != 0)
-         {
-            margesSave = new Thickness(20, 0, 20, 0);
-         }
-         slotA.Margin = margesSave;
-         slotB.Margin = margesSave;
-         slotC.Margin = margesSave;
-
-      
-         if (GererDonnees.Langue ==3)
-         {
-            margesLevel = new Thickness(10, 0, 10, 0);
-         }
-         Level0.Margin = margesLevel;
-         Level1.Margin = margesLevel;
-         Level2.Margin = margesLevel;
+        //   if (GererDonnees.Langue != 0)
+        //   {
+        //      margesSave = new Thickness(20, 0, 20, 0);
+        //   }
+        //   slotA.Margin = margesSave;
+        //   slotB.Margin = margesSave;
+        //   slotC.Margin = margesSave;
 
 
-      }
+        //   if (GererDonnees.Langue ==3)
+        //   {
+        //      margesLevel = new Thickness(10, 0, 10, 0);
+        //   }
+        //   Level0.Margin = margesLevel;
+        //   Level1.Margin = margesLevel;
+        //   Level2.Margin = margesLevel;
+
+
+        //}
+
+        void OrganiserMargesCaractéristiques()
+        {
+            switch (GererDonnees.Langue)
+            {
+                case 0:
+                    LangueOficielleNewPage = GererDonnees.ListeFrancais;
+                    tbtitre.Margin = new Thickness(-38, 13, 43, 5);
+                    BackButton.Margin = new Thickness(36, 17, 105, 50);
+                    slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(15, -11, 15, 10);
+                    Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
+                    Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
+
+                    break;
+                case 1:
+                    LangueOficielleNewPage = GererDonnees.ListeAnglais;
+                    tbtitre.Margin = new Thickness(-35, 13, 49, 5);
+                    BackButton.Margin = new Thickness(36, 17, 105, 50);
+                    slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(33, -11, 33, 10);
+                    Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
+                    Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
+                    break;
+                case 2:
+                    LangueOficielleNewPage = GererDonnees.ListeEspagnol;
+                    tbtitre.Margin = new Thickness(-39, 13, 42, 5);
+                    BackButton.Margin = new Thickness(33, 17, 107, 52);
+                    slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(27, -11, 27, 10);
+                    Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
+                    Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
+                    break;
+                case 3:
+                    LangueOficielleNewPage = GererDonnees.ListeJaponais;
+                    tbtitre.Margin = new Thickness(-41, 13, 53, 5);
+                    BackButton.Margin = new Thickness(36, 17, 105, 52);
+                    slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(26, -11, 26, 10);
+                    Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(14, -5, 14, 5);
+                    Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
+                    break;
+
+            }
+        }
 
       void ChangeBorderBrushColor(int i)
       {
@@ -209,13 +250,13 @@ namespace Launching_Interface
          switch (i)
          {
             case 0:
-               CreateImage(Load0);
+               CreateImage(Save0/*Load0*/);
                break;
             case 1:
-               CreateImage(Load1);
+               CreateImage(Save1/*Load1*/);
                break;
             case 2:
-               CreateImage(Load2);
+               CreateImage(Save2/*Load2*/);
                break;
          }
             ChangeBorderBrushColor(i);
