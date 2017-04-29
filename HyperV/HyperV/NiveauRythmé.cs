@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 
-
 namespace HyperV
 {
     public class NiveauRythmé : Microsoft.Xna.Framework.GameComponent
