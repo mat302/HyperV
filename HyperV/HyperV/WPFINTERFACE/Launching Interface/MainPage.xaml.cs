@@ -29,10 +29,10 @@ namespace Launching_Interface
       {
          LangueOficielleMain = new List<string>();
          InitializeComponent();
-         if (GererDonnees.Langue == 0) { LangueOficielleMain = GererDonnees.ListeFrancais; }
-         if (GererDonnees.Langue == 1) { LangueOficielleMain = GererDonnees.ListeAnglais; }
-         if (GererDonnees.Langue == 2) { LangueOficielleMain = GererDonnees.ListeEspagnol; }
-         if (GererDonnees.Langue == 3) { LangueOficielleMain = GererDonnees.ListeJaponais; }
+         if (GererDonnees.Langue == 0) { LangueOficielleMain = GererDonnees.ListeFrancais; lg.Margin = new Thickness(55, 10, 50, 10); ng.Margin = new Thickness(55, 10, 55, 10); se.Margin = new Thickness(55, 10, 55, 10); }
+         if (GererDonnees.Langue == 1) { LangueOficielleMain = GererDonnees.ListeAnglais;  lg.Margin = new Thickness(57, 10, 46, 10); ng.Margin = new Thickness(57, 10, 51, 10); se.Margin = new Thickness(55, 10, 55, 10); }
+         if (GererDonnees.Langue == 2) { LangueOficielleMain = GererDonnees.ListeEspagnol; lg.Margin = new Thickness(55, 10, 50, 10); ng.Margin = new Thickness(55, 10, 55, 10); se.Margin = new Thickness(55, 10, 55, 10); }
+         if (GererDonnees.Langue == 3) { LangueOficielleMain = GererDonnees.ListeJaponais; lg.Margin = new Thickness(55, 10, 50, 10); ng.Margin = new Thickness(57, 10, 51, 10); se.Margin = new Thickness(57, 10, 53, 10); }
 
          ng.Text = LangueOficielleMain[1];
          lg.Text = LangueOficielleMain[32];

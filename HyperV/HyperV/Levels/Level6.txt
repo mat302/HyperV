@@ -1,3 +1,3 @@
 ﻿Display3D
-#;Camera;{X:5 Y:5 Z:5};{X:20 Y:0 Z:0};{X:5 Y:0 Z:5}
+Camera;{X:76 Y:-20 Z:-45};{X:20 Y:0 Z:0};{X:5 Y:0 Z:0}
 Prison

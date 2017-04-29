@@ -28,11 +28,11 @@
                 <Button Name="allo" Content="                     " FontWeight="DemiBold" Margin="13,10,85,58" ClickMode="Press" Background="Transparent" Click="BackButton_Click" BorderThickness="1" Foreground="White" BorderBrush="White"  />
             </Viewbox>
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox Name="BackButton" Text="       Back        " BorderThickness="0" IsHitTestVisible="False" Margin="28,19,113,88"  Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" Height="16" MinHeight="16"/>
+                <TextBlock Name="BackButton" Text="       Back        " Margin="28,19,113,88"  Background="Transparent" Foreground="White" FontWeight="SemiBold" Height="16" MinHeight="16"/>
             </Viewbox>
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="2">
-                <TextBox Text="Credits" Name="TitreSett" BorderThickness="0" IsHitTestVisible="False" Margin="-22,10,35,13" MinHeight="17" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" HorizontalAlignment="Stretch" Width="auto" Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch" Height="17"/>
+                <TextBlock Text="Credits" Name="TitreSett" IsHitTestVisible="False" Margin="-20,10,35,13" MinHeight="17" Background="Transparent" Foreground="White" FontWeight="SemiBold" HorizontalAlignment="Stretch" Width="auto" Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch" Height="17"/>
             </Viewbox>
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="2" Grid.Row="1">
@@ -56,19 +56,19 @@
             </Viewbox>
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="3">
-                <TextBox Text=" Raphaël Brulé" BorderThickness="0" IsHitTestVisible="False" FontWeight="DemiBold" Margin="70,0,65,30" Background="Transparent" Foreground="White" BorderBrush="Transparent"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <TextBlock Text=" Raphaël Brulé" IsHitTestVisible="False" FontWeight="DemiBold" Margin="70,0,65,30" Background="Transparent" Foreground="White"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Viewbox>
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="2" Grid.Row="3">
-                <TextBox Text="Mathieu Godin" BorderThickness="0" IsHitTestVisible="False" FontWeight="DemiBold" Margin="110,0,135,50" Background="Transparent" Foreground="White"  FontSize="20" BorderBrush="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <TextBlock Text="Mathieu Godin"  IsHitTestVisible="False" FontWeight="DemiBold" Margin="110,0,135,50" Background="Transparent" Foreground="White"  FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Viewbox>
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="2" Grid.Row="3">
-                <TextBox Text="Mathieu Godin" BorderThickness="0" IsHitTestVisible="False" FontWeight="DemiBold" Margin="110,0,135,50" Background="Transparent" Foreground="White"  FontSize="20" BorderBrush="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <TextBlock Text="Mathieu Godin"  IsHitTestVisible="False" FontWeight="DemiBold" Margin="110,0,135,50" Background="Transparent" Foreground="White"  FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Viewbox>
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="3" Grid.Row="3">
-                <TextBox Text="Anthony R.D." BorderThickness="0" IsHitTestVisible="False" FontWeight="DemiBold" Margin="55,0,90,30" Background="Transparent" Foreground="White" BorderBrush="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <TextBlock Text="Anthony R.D." FontWeight="DemiBold" Margin="55,0,90,30" Background="Transparent" Foreground="White"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Viewbox>
 
             <Image Source="Pictures/Laj.png"   Margin="70,10,10,30" Grid.Column="0" Grid.Row="2" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />

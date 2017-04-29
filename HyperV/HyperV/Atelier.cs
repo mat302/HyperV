@@ -58,10 +58,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
-            PériphériqueGraphique.PreferredBackBufferHeight = 400;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1000;
+            PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 400;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1000;
         }
 
         Gazon Gazon { get; set; }
@@ -317,7 +317,7 @@ namespace HyperV
                         Services.AddService(typeof(List<Walls>), Walls);
                         break;
                     case "Portal":
-                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), level == 1 && Complete[Portals.Count + 2] ? "Complete" : parts[5], int.Parse(parts[6]), FpsInterval));
+                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), level == 1 && Complete[Portals.Count/*+ 2*/] ? "Complete" : parts[5], int.Parse(parts[6]), FpsInterval));
                         Components.Add(Portals.Last());
                         break;
                     case "CutscenePlayer":
@@ -359,7 +359,7 @@ namespace HyperV
                         Services.AddService(typeof(List<House>), Houses);
                         break;
                     case "UnlockableWall":
-                        int a = int.Parse(parts[6]) + 1;
+                        int a = int.Parse(parts[6]);
                         if (CountComplete() < a)
                         {
                             Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
@@ -394,10 +394,7 @@ namespace HyperV
                 Services.RemoveService(typeof(LifeBar[]));
                 Services.AddService(typeof(LifeBar[]), LifeBars);
                 AddCharacterLabels();
-                if (!prison)
-                {
-                    Components.Add(Camera);
-                }
+                Components.Add(Camera);
                 Components.Remove(Loading);
                 Components.Add(Crosshair);
                 Components.Add(FPSLabel);
@@ -528,14 +525,15 @@ namespace HyperV
                 writer.WriteLine("Position: {X:5 Y:5 Z:5}");
                 writer.WriteLine("Direction: {X:5 Y:5 Z:5}");
             }
-            writer.WriteLine("Time Played: " + TimePlayed.ToString());
+            TimeSpan time = new TimeSpan(TimePlayed.Hours, TimePlayed.Minutes, TimePlayed.Seconds);
+            writer.WriteLine("Time Played: " + time.ToString());
             writer.WriteLine("Max Life: " + LifeBars[0].MaxLife.ToString());
             writer.WriteLine("Attack: " + (LifeBars[0].MaxLife - LifeBars[0].Life).ToString());
-            writer.WriteLine();
-            for (int i = 0; i < Complete.Count; ++i)
+            for (int i = 0; i < Complete.Count - 1; ++i)
             {
                 writer.Write(Complete[i].ToString() + ";");
             }
+            writer.Write(Complete.Last().ToString());
             writer.Close();
         }
 
@@ -558,7 +556,8 @@ namespace HyperV
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
 
             Sleep = false;
-            Services.AddService(typeof(Random), new Random());
+            Random = new Random();
+            Services.AddService(typeof(Random), Random);
             FirstGameOver = true;
             FpsInterval = 1f / 60f;
             SongManager = new RessourcesManager<Song>(this, "Songs");
@@ -590,7 +589,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 1;
+            //Level = 0;
             SelectWorld(true);
             base.Initialize();
         }
@@ -716,7 +715,10 @@ namespace HyperV
                     PressSpaceLabel.Visible = true;
                     if (InputManager.EstEnfoncée(Keys.Space))
                     {
-                        Complete[Level] = true;
+                        if (Level > 1)
+                        {
+                            Complete[Level - 2] = true;
+                        }
                         Save();
                         Components.Add(Loading);
                         Level = p.Level;
@@ -848,14 +850,13 @@ namespace HyperV
 
         BalleRebondissante Balle { get; set; }
         Epee Épée { get; set; }
-        Random GénérateurAléatoire { get; set; }
+        Random Random { get; set; }
         const int LARGEUR_TUILE = 20, NBRE_BALLES_DÉSIRÉS = 20;
         const float ÉCHELLE_ÉPÉE = 0.009f;
         const string NOM_MODÈLE_ÉPÉE = "robot";
 
         void LevelPrison(bool usePosition)
         {
-            GénérateurAléatoire = new Random();
             CréationCaméra(usePosition);
             CréationMurs("imagePrisonMur", "DataPrison.txt");
             CréerPlancherEtPlafond(LARGEUR_TUILE);
@@ -869,9 +870,9 @@ namespace HyperV
         }
         Vector3 CalculerPositionInitiale()
         {
-            float x = GénérateurAléatoire.Next(-190, 70);
-            float z = GénérateurAléatoire.Next(-40, 220);
-            float y = GénérateurAléatoire.Next(-35, -15);
+            float x = Random.Next(-190, 70);
+            float z = Random.Next(-40, 220);
+            float y = Random.Next(-35, -15);
             return new Vector3(x, y, z);
         }
 
@@ -885,20 +886,21 @@ namespace HyperV
 
         void CréationCaméra(bool usePosition)
         {
-            if (usePosition)
-            {
-                Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                (Camera as Camera2).InitializeDirection(Direction);
-            }
-            else
-            {
-                Camera = new Camera2 (this, new Vector3(76, -20, -45), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-            }
+            //if (usePosition)
+            //{
+            //    Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+            //    (Camera as Camera2).InitializeDirection(Direction);
+            //}
+            //else
+            //{
+            //    Camera = new Camera2 (this, new Vector3(76, -20, -45), new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
+            //    (Camera as Camera2).InitializeDirection(Direction);
+            //}
 
-            Services.RemoveService(typeof(Caméra));
-            Services.AddService(typeof(Caméra), Camera);
+            //Services.RemoveService(typeof(Caméra));
+            //Services.AddService(typeof(Caméra), Camera);
 
-            Components.Add(Camera);
+            //Components.Add(Camera);
         }
 
         Walls Murs { get; set; }
