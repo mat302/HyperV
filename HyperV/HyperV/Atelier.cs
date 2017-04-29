@@ -34,7 +34,7 @@ namespace HyperV
         const float INTERVALLE_CALCUL_FPS = 1f;
         float FpsInterval { get; set; }
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
-
+        //nothing
         Caméra Camera { get; set; }
         List<Maze> Maze { get; set; }
         InputManager InputManager { get; set; }
