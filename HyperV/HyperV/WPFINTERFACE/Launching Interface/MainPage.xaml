@@ -36,7 +36,7 @@
             </Grid.RowDefinitions>
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox Text="Hyper-V" BorderThickness="0" Margin="-40,-5,40,1" MinHeight="17" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="Bold"  Width="auto" Height="auto" IsHitTestVisible="False"/>
+                <TextBlock Text="Hyper-V" Margin="-37,-5,41,1" MinHeight="17" Background="Transparent" Foreground="White" FontWeight="Bold"  Width="auto" Height="auto" IsHitTestVisible="False"/>
             </Viewbox>
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -60,22 +60,22 @@
 
 
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox Name="cr" Text="Credits" BorderThickness="0" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
+                <TextBlock Name="cr" Text="Credits" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White"  FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
             </Viewbox>
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox Name="hi" Text="Highscores" BorderThickness="0" Margin="50,10,50,10" MinHeight="17" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
+                <TextBlock Name="hi" Text="Highscores" Margin="50,10,50,10" MinHeight="17" Background="Transparent" Foreground="White"  FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
             </Viewbox>
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox Name="se" Text="Settings" BorderThickness="0" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
+                <TextBlock Name="se" Text="Settings" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White"  FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
             </Viewbox>
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox Name="lg" Text="Manage Games" BorderThickness="0" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
+                <TextBlock Name="lg" Text="Manage Games" Margin="55,10,50,10" MinHeight="17" Background="Transparent" Foreground="White" FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
             </Viewbox>
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox Name="ng" Text="New Game" BorderThickness="0" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
+                <TextBlock Name="ng" Text="New Game" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White"  FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
             </Viewbox>
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBox Name="exit" Text="Exit" BorderThickness="0" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White" BorderBrush="Transparent" FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
+                <TextBlock Name="exit" Text="Exit"  Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White"  FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
             </Viewbox>
         </Grid>
     </Grid>

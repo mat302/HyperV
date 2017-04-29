@@ -91,6 +91,7 @@
       <DependentUpon>HighscoresPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GererDonnees.cs" />
+    <Compile Include="Joueur.cs" />
     <Compile Include="MenuDansJeu.xaml.cs">
       <DependentUpon>MenuDansJeu.xaml</DependentUpon>
     </Compile>
@@ -229,9 +230,6 @@
     <Resource Include="Langues\Es.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Langues\versMenu.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Pictures\Create.png" />
   </ItemGroup>
   <ItemGroup>
@@ -270,11 +268,17 @@
     <Resource Include="Saves\save1.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Saves\Settings.txt" />
     <Resource Include="Pictures\Instructions\TouchesManette\A_Xbox.png" />
     <Resource Include="Pictures\Instructions\TouchesManette\LT_Xbox.png" />
     <Resource Include="Pictures\Instructions\TouchesManette\Start_Xbox.png" />
     <Resource Include="Pictures\Instructions\TouchesManette\Stick_Xbox.png" />
     <Resource Include="Pictures\Instructions\TouchesManette\X_Xbox.png" />
+    <Resource Include="Pictures\Empty.png" />
+    <Resource Include="Pictures\EmptyES.png" />
+    <Resource Include="Pictures\EmptyFR.png" />
+    <Resource Include="Pictures\EmptyJA.png" />
+    <Resource Include="Saves\pendingsave.txt" />
     <Content Include="Saves\screenshot0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

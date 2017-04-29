@@ -6,5 +6,10 @@
              xmlns:local="clr-namespace:Launching_Interface"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Image Name ="Image" Width="auto" Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,5,5,5" />
+    <Viewbox Stretch="Fill" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Viewbox Stretch="Fill" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Margin="50,65,50,90">
+            <Image Name ="Image" Stretch="Fill" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Viewbox>
+    </Viewbox>
+
 </UserControl>
