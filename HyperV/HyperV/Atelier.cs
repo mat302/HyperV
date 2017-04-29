@@ -590,7 +590,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 7;
+            Level = 0;
             SelectWorld(true);
             base.Initialize();
         }
@@ -858,8 +858,6 @@ namespace HyperV
 
         void LevelPrison(bool usePosition)
         {
-            CréationMurs("imagePrisonMur", "DataPrison.txt");
-            CréerPlancherEtPlafond(LARGEUR_TUILE);
             CréerÉpée(NOM_MODÈLE_ÉPÉE, ÉCHELLE_ÉPÉE);
             for (int i = 0; i < NBRE_BALLES_DÉSIRÉS; i++)
             {
@@ -873,23 +871,6 @@ namespace HyperV
             float z = Random.Next(-40, 220);
             float y = Random.Next(-35, -15);
             return new Vector3(x, y, z);
-        }
-
-        void CréerPlancherEtPlafond(int largeurTuiles)
-        {
-            GrassArray = new Grass[largeurTuiles, largeurTuiles];
-            CeilingArray = new Ceiling[largeurTuiles, largeurTuiles];
-            Components.Add(new Grass(this, 1f, Vector3.Zero, new Vector3(-200, -40, -50), new Vector2(40, 40), "imagePrisonMur", new Vector2(largeurTuiles, largeurTuiles), FpsInterval));
-            Components.Add(new Ceiling(this, 1f, Vector3.Zero, new Vector3(-200, 0, -50), new Vector2(40, 40), "imagePrisonMur", new Vector2(largeurTuiles, largeurTuiles), FpsInterval));
-        }
-
-        Walls Murs { get; set; }
-
-        void CréationMurs(string nomTexture, string nomFichierTexte)
-        {
-            Murs = new Walls(this, FpsInterval, nomTexture, nomFichierTexte, -40);
-            Components.Add(Murs);
-            Services.AddService(typeof(Walls), Murs);
         }
 
         void CréerÉpée(string nomModèle, float échelle)
