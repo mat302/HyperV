@@ -317,7 +317,7 @@ namespace HyperV
                         Services.AddService(typeof(List<Walls>), Walls);
                         break;
                     case "Portal":
-                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), level == 1 && Complete[Portals.Count + 2] ? "Complete" : parts[5], int.Parse(parts[6]), FpsInterval));
+                        Portals.Add(new Portal(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), level == 1 && Complete[Portals.Count/*+ 2*/] ? "Complete" : parts[5], int.Parse(parts[6]), FpsInterval));
                         Components.Add(Portals.Last());
                         break;
                     case "CutscenePlayer":
@@ -359,7 +359,7 @@ namespace HyperV
                         Services.AddService(typeof(List<House>), Houses);
                         break;
                     case "UnlockableWall":
-                        int a = int.Parse(parts[6]) + 1;
+                        int a = int.Parse(parts[6]);
                         if (CountComplete() < a)
                         {
                             Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
@@ -525,14 +525,15 @@ namespace HyperV
                 writer.WriteLine("Position: {X:5 Y:5 Z:5}");
                 writer.WriteLine("Direction: {X:5 Y:5 Z:5}");
             }
-            writer.WriteLine("Time Played: " + TimePlayed.ToString());
+            TimeSpan time = new TimeSpan(TimePlayed.Hours, TimePlayed.Minutes, TimePlayed.Seconds);
+            writer.WriteLine("Time Played: " + time.ToString());
             writer.WriteLine("Max Life: " + LifeBars[0].MaxLife.ToString());
             writer.WriteLine("Attack: " + (LifeBars[0].MaxLife - LifeBars[0].Life).ToString());
-            writer.WriteLine();
-            for (int i = 0; i < Complete.Count; ++i)
+            for (int i = 0; i < Complete.Count - 1; ++i)
             {
                 writer.Write(Complete[i].ToString() + ";");
             }
+            writer.Write(Complete.Last().ToString());
             writer.Close();
         }
 
@@ -588,7 +589,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 1;
+            //Level = 0;
             SelectWorld(true);
             base.Initialize();
         }
@@ -714,7 +715,10 @@ namespace HyperV
                     PressSpaceLabel.Visible = true;
                     if (InputManager.EstEnfoncée(Keys.Space))
                     {
-                        Complete[Level] = true;
+                        if (Level > 1)
+                        {
+                            Complete[Level - 2] = true;
+                        }
                         Save();
                         Components.Add(Loading);
                         Level = p.Level;

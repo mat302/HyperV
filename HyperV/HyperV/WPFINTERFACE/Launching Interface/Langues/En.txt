@@ -1,14 +1,14 @@
-   Back
-   New Game   
+Back
+Load Game 
 Save A
-Time Played A - 10:10
-Completed Levels - 0/3
+Time Played -
+Completed Levels :
 Save B
-Time Played B - 10:10
-Completed Levels - 0/3
+Life :
+Delete
 Save C
-Time Played C - 10:10
-Completed Levels - 0/3
+
+
 Settings
 Game Music
 Sound Effects
@@ -30,7 +30,7 @@ Highscores
 On
 Off
 Language
-   Load Game   
+Delete Game   
 Reset
 Exit Game
 Pause
