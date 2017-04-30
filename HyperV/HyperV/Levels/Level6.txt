@@ -3,4 +3,5 @@ Camera;{X:76 Y:-20 Z:-45};{X:20 Y:0 Z:0};{X:5 Y:0 Z:0}
 Grass;1;{X:0 Y:0 Z:0};{X:-200 Y:-40 Z:-50};{X:40 Y:40};imagePrisonMur;{X:20 Y:20}
 Ceiling;1;{X:0 Y:0 Z:0};{X:-200 Y:0 Z:-50};{X:40 Y:40};imagePrisonMur;{X:20 Y:20}
 Walls;imagePrisonMur;DataPrison.txt;-40
+Epee;robot;0.009;{X:0 Y:0 Z:0};{X:76 Y:-20 Z:-45}
 Prison

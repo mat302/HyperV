@@ -289,7 +289,10 @@ namespace HyperV
                         Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
                         break;
                     case "Epee":
-                        Components.Add(new Epee(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
+                        Épée = new Epee(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]));
+                        Components.Add(Épée);
+                        Services.RemoveService(typeof(Epee));
+                        Services.AddService(typeof(Epee), Épée);
                         break;
                     case "Character":
                         Characters.Add(new Character(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6], parts[7], parts[8], FpsInterval));
@@ -590,7 +593,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            Level = 0;
+            //Level = 0;
             SelectWorld(true);
             base.Initialize();
         }
@@ -875,11 +878,11 @@ namespace HyperV
 
         void CréerÉpée(string nomModèle, float échelle)
         {
-            Épée = new Epee(this, nomModèle, échelle, Vector3.Zero, Camera.Position);
-            Épée.EstRamassée = true;
+            //Épée = new Epee(this, nomModèle, échelle, Vector3.Zero, Camera.Position);
+            //Épée.EstRamassée = true;
 
-            Components.Add(Épée);
-            Services.AddService(typeof(Epee), Épée);
+            //Components.Add(Épée);
+            //Services.AddService(typeof(Epee), Épée);
         }
 
         #endregion
