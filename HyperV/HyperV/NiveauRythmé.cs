@@ -15,7 +15,7 @@ namespace HyperV
 {
     public class NiveauRythmé : Microsoft.Xna.Framework.GameComponent
     {
-        const int NB_À_RÉUSSIR = 5;
+        const int NB_À_RÉUSSIR = 15;
 
         //Constructeur
         readonly string NomFichierLecture;
