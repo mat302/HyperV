@@ -21,7 +21,7 @@ namespace HyperV
         const int FACTEUR_COURSE_MAXIMAL = 4;
         const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
 
-        public Vector3 Direction { get; private set; }//
+        public Vector3 Direction { get; protected set; }//
         public Vector3 Latéral { get; private set; }//
         Gazon Gazon { get; set; }
         protected float VitesseTranslation { get; set; }
@@ -30,8 +30,9 @@ namespace HyperV
         Point NouvellePositionSouris { get; set; }
         public Vector2 DéplacementSouris { get; set; }
 
-        float IntervalleMAJ { get; set; }
-        float TempsÉcouléDepuisMAJ { get; set; }
+        protected bool DésactiverDéplacement { get; set; }
+        protected float IntervalleMAJ { get; set; }
+        protected float TempsÉcouléDepuisMAJ { get; set; }
         InputManager GestionInput { get; set; }
         GamePadManager GestionGamePad { get; set; }
 
@@ -153,7 +154,10 @@ namespace HyperV
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
                 FonctionsSouris();
-                FonctionsClavier();
+                if (!DésactiverDéplacement)
+                {
+                    FonctionsClavier();
+                }
                 FonctionsGamePad();
 
                 GérerHauteur();
@@ -211,7 +215,10 @@ namespace HyperV
         private void GérerRotationSouris()
         {
             GérerLacetSouris();
-            GérerTangageSouris();
+            if (!DésactiverDéplacement)
+            {
+                GérerTangageSouris();
+            }
         }
 
         private void GérerLacetSouris()

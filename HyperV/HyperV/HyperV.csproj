@@ -153,10 +153,10 @@
     <Content Include="Levels\Level0.txt" />
     <Content Include="Levels\Level1.txt" />
     <Content Include="Levels\LevelA.txt" />
-    <Content Include="Levels\Level12.txt" />
+    <Content Include="Levels\Level8.txt" />
     <Content Include="Levels\Level2.txt" />
     <Content Include="Monde3_Modeles.txt" />
-    <Content Include="Monde3_Murs.txt" />
+    <Content Include="Walls\Monde3_Murs.txt" />
     <Content Include="Walls\Walls1.txt" />
   </ItemGroup>
   <ItemGroup>

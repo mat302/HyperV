@@ -1,8 +1,0 @@
-Display3D
-Camera;{X:-26 Y:2 Z:-3};{X:20 Y:0 Z:0}
-Walls;Briques;../../../Monde3_Murs.txt
-Catapulte;catapult;{X:-28 Y:-3.8 Z:-50};0.03;0
-AjouterModeles;../../../Monde3_Modeles.txt
-AjouterArbres
-AjouterTours
-Grass;10;{X:0 Y:0 Z:0};{X:1000 Y:-70 Z:0};{X:100 Y:100};Grass;{X:1 Y:1}

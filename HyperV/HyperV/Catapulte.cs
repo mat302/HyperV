@@ -16,14 +16,16 @@ namespace HyperV
     public class Catapulte : CreateurModele
     {
         const float INTERVALLE_MAJ = 1 / 60f;
-        
+
         float TempsÉcouléMAJ { get; set; }
         float TempsÉcouléMAJ2 { get; set; }
         float CooldownTir { get; set; }
         InputManager GestionInput { get; set; }
-        Camera3 Camera { get; set; }
+        Camera2 Camera { get; set; }
         AmmunitionCatapulte Ammunition { get; set; }
         bool EstActivée { get; set; }
+        RessourcesManager<SoundEffect> SoundManager { get; set; }
+        SoundEffect CatapulteTirée { get; set; }
 
         float angle_;
         float Angle
@@ -75,13 +77,16 @@ namespace HyperV
             base.Initialize();
             EstActivée = false;
             AncienVecteur = new Vector2(Camera.Direction.X, Camera.Direction.Z);
+            CatapulteTirée = SoundManager.Find("CatapulteTirée");
+
         }
 
         protected override void LoadContent()
         {
             base.LoadContent();
-            Camera = Game.Services.GetService(typeof(Caméra)) as Camera3;
+            Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            SoundManager = Game.Services.GetService(typeof(RessourcesManager<SoundEffect>)) as RessourcesManager<SoundEffect>;
         }
 
         public override void Update(GameTime gameTime)
@@ -94,7 +99,7 @@ namespace HyperV
             }
 
             GérerTrajectoire(gameTime);
-            GérerTir(gameTime);           
+            GérerTir(gameTime);
         }
 
         private void TournerModele()
@@ -138,7 +143,7 @@ namespace HyperV
             {
                 if (EstActivée)
                 {
-                    AmmunitionCatapulte Trajectoire = new AmmunitionCatapulte(Game, "Models_Ammunition", new Vector3(Position.X, Position.Y + 15, Position.Z), 1, 180);
+                    AmmunitionCatapulte Trajectoire = new AmmunitionCatapulte(Game, "Models_Ammunition", new Vector3(Position.X, Position.Y + 15, Position.Z), 0.4f, 180);
                     Game.Components.Add(new Afficheur3D(Game));
                     Game.Components.Add(Trajectoire);
                     Trajectoire.TirerProjectile(MathHelper.ToRadians(Angle), Camera.Direction, Vitesse);
@@ -162,18 +167,18 @@ namespace HyperV
                     {
                         if (CooldownTir >= 5)
                         {
-                            AmmunitionCatapulte Ammunition = new AmmunitionCatapulte(Game, "Models_Ammunition", new Vector3(Position.X, Position.Y + 15, Position.Z), 10, 180);
-                            Ammunition.DrawOrder = 3;
+                            AmmunitionCatapulte Ammunition = new AmmunitionCatapulte(Game, "Models_Ammunition", new Vector3(Position.X, Position.Y + 15, Position.Z), 2, 180);
                             Game.Components.Add(new Afficheur3D(Game));
                             Game.Components.Add(Ammunition);
                             Ammunition.TirerProjectile(MathHelper.ToRadians(Angle), Camera.Direction, Vitesse);
                             Ammunition.EstAmmunition = true;
                             CooldownTir = 0;
+                            CatapulteTirée.Play();
                         }
                     }
                 }
                 TempsÉcouléMAJ = 0;
             }
         }
-    }     
+    }
 }
