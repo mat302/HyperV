@@ -5,5 +5,4 @@ Walls;Rockwall;Data2.txt;-60
 Grass;1;{X:0 Y:0 Z:0};{X:-50 Y:-60 Z:-200};{X:40 Y:40};Ceiling;{X:7 Y:7}
 Ceiling;1;{X:0 Y:0 Z:0};{X:-50 Y:0 Z:-200};{X:40 Y:40};Ceiling;{X:7 Y:7}
 UnlockableWall;1;{X:0 Y:3.1415926 Z:0};{X:80 Y:-30 Z:-80};{X:60 Y:60};Rockwall;100
-Portal;1;{X:0 Y:1.570796 Z:0};{X:140 Y:-60 Z:-10};{X:30 Y:20};Transparent;1
 Rythm

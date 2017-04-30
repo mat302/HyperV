@@ -15,7 +15,7 @@ namespace HyperV
 {
     public class NiveauRythmé : Microsoft.Xna.Framework.GameComponent
     {
-        const int NB_À_RÉUSSIR = 15;
+        const int NB_À_RÉUSSIR = 5;
 
         //Constructeur
         readonly string NomFichierLecture;
@@ -40,6 +40,7 @@ namespace HyperV
         InputManager GestionInput { get; set; }
         GamePadManager GestionGamePad { get; set; }
         List<UnlockableWall> MurÀEnlever { get; set; }
+        List<Portal> ListePortails { get; set; }
 
         public NiveauRythmé(Game jeu, string nomFichierLecture, string nomTexture, float intervalleMAJ)
             : base(jeu)
@@ -65,8 +66,9 @@ namespace HyperV
             Positions = new List<Vector3>();
             InitialiserPositions();
             Pointage = new AfficheurPointage(Game, "Arial50", Color.Black, IntervalleMAJ);
-            InitialisationComposants();
             ChargerContenu();
+            InitialisationComposants();
+            
         }
 
         void InitialiserPositions()
@@ -101,11 +103,12 @@ namespace HyperV
             GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
             GénérateurAléatoire = Game.Services.GetService(typeof(Random)) as Random;
             MurÀEnlever = Game.Services.GetService(typeof(List<UnlockableWall>)) as List<UnlockableWall>;
+            ListePortails = Game.Services.GetService(typeof(List<Portal>)) as List<Portal>;
         }
 
         void InitialisationComposants()
         {
-
+          
             Game.Components.Add(Pointage);
             Game.Components.Add(new Afficheur3D(Game));
 
@@ -191,17 +194,25 @@ namespace HyperV
                 NiveauEstTerminé = true;
                 cpt = 121;
                 Game.Components.Remove(MurÀEnlever[0]);
+                ListePortails.Add(new Portal(Game, 1, new Vector3(0, 1.570796f, 0),
+                                  new Vector3(170, -60, -10), new Vector2(40, 40), "Blanc",
+                                  1, IntervalleMAJ));
+                Game.Components.Add(ListePortails.Last());
             }
 
             if (cpt > 120)
             {
                 if (!NiveauEstTerminé)
                 {
-                    int choixPente = GénérateurAléatoire.Next(0, 3) * 2;
-                    Game.Components.Add(new Afficheur3D(Game));
-                    Game.Components.Add(new SphèreRythmée(Game, 1, Vector3.Zero,
-                                        Positions[choixPente], 1, new Vector2(20, 20),
-                                        "BleuBlancRouge", IntervalleMAJ, Positions[choixPente + 1]));
+                    int nbreBalles = GénérateurAléatoire.Next(1, 4);
+                    for(int i = 0; i < nbreBalles; i++)
+                    {
+                        int choixPente = GénérateurAléatoire.Next(0, 3) * 2;
+                        Game.Components.Add(new Afficheur3D(Game));
+                        Game.Components.Add(new SphèreRythmée(Game, 1, Vector3.Zero,
+                                            Positions[choixPente], 1, new Vector2(20, 20),
+                                            "BleuBlancRouge", IntervalleMAJ, Positions[choixPente + 1]));
+                    }
                 }
 
                 cpt = 0;
