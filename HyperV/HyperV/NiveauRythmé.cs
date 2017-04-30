@@ -15,29 +15,31 @@ namespace HyperV
 {
     public class NiveauRythmé : Microsoft.Xna.Framework.GameComponent
     {
+        const int NB_À_RÉUSSIR = 5;
+
         //Constructeur
         readonly string NomFichierLecture;
         readonly string NomTexture;
         readonly float IntervalleMAJ;
 
-        float TempsÉcouléDepuisMAJ { get; set; }
-        List<Vector3> Positions { get; set; }
-
+        //Initialize
         bool BoutonUn { get; set; }
         bool BoutonDeux { get; set; }
         bool BoutonTrois { get; set; }
+        bool NiveauEstTerminé { get; set; }
 
+        float TempsÉcouléDepuisMAJ { get; set; }
+        List<Vector3> Positions { get; set; }
         int cpt { get; set; }
         int nombreRéussi { get; set; }
-        Random GénérateurAléatoire { get; set; }
-
-        InputManager GestionInput { get; set; }
-        GamePadManager GestionGamePad { get; set; }
-
         public Vector3? PositionCubeRouge { get; set; }
-
         AfficheurPointage Pointage { get; set; }
 
+        //ChargerContenu
+        Random GénérateurAléatoire { get; set; }
+        InputManager GestionInput { get; set; }
+        GamePadManager GestionGamePad { get; set; }
+        List<UnlockableWall> MurÀEnlever { get; set; }
 
         public NiveauRythmé(Game jeu, string nomFichierLecture, string nomTexture, float intervalleMAJ)
             : base(jeu)
@@ -54,17 +56,15 @@ namespace HyperV
             BoutonUn = false;
             BoutonDeux = false;
             BoutonTrois = false;
-
+            NiveauEstTerminé = false;
             PositionCubeRouge = null;
-
-            GénérateurAléatoire = new Random();
             nombreRéussi = 0;
             cpt = 0;
             TempsÉcouléDepuisMAJ = 0;
+
             Positions = new List<Vector3>();
             InitialiserPositions();
             Pointage = new AfficheurPointage(Game, "Arial50", Color.Black, IntervalleMAJ);
-
             InitialisationComposants();
             ChargerContenu();
         }
@@ -99,6 +99,8 @@ namespace HyperV
         {
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
+            GénérateurAléatoire = Game.Services.GetService(typeof(Random)) as Random;
+            MurÀEnlever = Game.Services.GetService(typeof(List<UnlockableWall>)) as List<UnlockableWall>;
         }
 
         void InitialisationComposants()
@@ -130,7 +132,10 @@ namespace HyperV
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
-                EffectuerMAJ();
+                if (!NiveauEstTerminé)
+                {
+                    EffectuerMAJ();
+                }
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
@@ -179,15 +184,26 @@ namespace HyperV
                 }
             }
 
-            Pointage.Chaîne = nombreRéussi.ToString() + "/15";
+            Pointage.Chaîne = nombreRéussi.ToString() + "/" + NB_À_RÉUSSIR.ToString();
+
+            if(nombreRéussi >= NB_À_RÉUSSIR)
+            {
+                NiveauEstTerminé = true;
+                cpt = 121;
+                Game.Components.Remove(MurÀEnlever[0]);
+            }
 
             if (cpt > 120)
             {
-                int choixPente = GénérateurAléatoire.Next(0, 3) * 2;
-                //Game.Components.Add(new Afficheur3D(Game));
-                Game.Components.Add(new SphèreRythmée(Game, 1, Vector3.Zero,
-                                    Positions[choixPente], 1, new Vector2(20, 20),
-                                    "BleuBlancRouge", IntervalleMAJ, Positions[choixPente + 1]));
+                if (!NiveauEstTerminé)
+                {
+                    int choixPente = GénérateurAléatoire.Next(0, 3) * 2;
+                    Game.Components.Add(new Afficheur3D(Game));
+                    Game.Components.Add(new SphèreRythmée(Game, 1, Vector3.Zero,
+                                        Positions[choixPente], 1, new Vector2(20, 20),
+                                        "BleuBlancRouge", IntervalleMAJ, Positions[choixPente + 1]));
+                }
+
                 cpt = 0;
 
                 foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
@@ -202,18 +218,21 @@ namespace HyperV
             BoutonTrois = false;
         }
 
-
-
         bool SontVecteursÉgaux(Vector3? a, Vector3 b)
         {
+            bool égaux;
+
             if(a == null)
             {
-                return false;
+                égaux = false;
+            }
+            else
+            {
+                Vector3 c = (Vector3)a - b;
+                égaux = (c.X < 1 && c.X > -1) && (c.Y < 1 && c.Y > -1) && (c.Z < 1 && c.Z > -1);
             }
 
-            Vector3 c = (Vector3)a - b;
-
-            return (c.X < 1 && c.X > -1) && (c.Y < 1 && c.Y > -1) && (c.Z < 1 && c.Z > -1);
+            return égaux;
         }
     }
 }
