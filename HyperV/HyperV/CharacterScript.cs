@@ -34,6 +34,7 @@ namespace HyperV
         SpriteBatch SpriteBatch { get; set; }
         string TextFile { get; set; }
         InputManager InputManager { get; set; }
+        GamePadManager GestionGamePad { get; set; }
         RessourcesManager<Texture2D> TextureManager { get; set; }
         RessourcesManager<SpriteFont> FontManager { get; set; }
         SpriteFont Font { get; set; }
@@ -80,6 +81,7 @@ namespace HyperV
             FaceImage = TextureManager.Find(FaceImageName);
             ScriptRectangle = TextureManager.Find(ScriptRectangleName);
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             Font = FontManager.Find(FontName);
@@ -107,7 +109,7 @@ namespace HyperV
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space))
+            if ((InputManager.EstNouvelleTouche(Keys.Space)|| GestionGamePad.EstNouveauBouton(Buttons.Y)))
             {
                 Visible = !Visible;
                 PressSpaceLabel.Visible = !Visible;
