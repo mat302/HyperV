@@ -101,7 +101,7 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
-            CoupDEpee = (GestionInput.EstEnfoncée(Keys.T) || GestionInput.EstNouveauClicDroit() )&& EstRamassée;
+            CoupDEpee = (GestionInput.EstEnfoncée(Keys.T) || GestionInput.EstNouveauClicDroit() || GestionGamePad.EstNouveauBouton(Buttons.B) )&& EstRamassée;
 
             base.Update(gameTime);
         }
