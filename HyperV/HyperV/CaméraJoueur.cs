@@ -179,7 +179,7 @@ namespace HyperV
         {
             if (!LifeBars[1].Water)
             {
-                if (Courrir && !LifeBars[1].Tired && (GestionInput.EstEnfoncée(Keys.W) || GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.S) || GestionInput.EstEnfoncée(Keys.D)))
+                if (Courrir && !LifeBars[1].Tired && (GestionInput.EstEnfoncée(Keys.W) || GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.S) || GestionInput.EstEnfoncée(Keys.D) || GestionGamePad.PositionThumbStickGauche.X!=0 || GestionGamePad.PositionThumbStickGauche.Y != 0))
                 {
                     LifeBars[1].Attack();
                 }
@@ -337,7 +337,7 @@ namespace HyperV
             Ramasser = GestionInput.EstNouveauClicGauche() ||
                        GestionInput.EstAncienClicGauche() ||
                        GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtAutresClavierActivé ||
-                       GestionGamePad.EstNouveauBouton(Buttons.RightStick);
+                       GestionGamePad.EstNouveauBouton(Buttons.X);
         }
 
         protected virtual void GérerHauteur()
