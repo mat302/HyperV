@@ -8,17 +8,17 @@ Character;Robot;0.03;{X:0 Y:1.570796 Z:0};{X:25 Y:0 Z:10};../../../CharacterScri
 Character;Robot;0.03;{X:0 Y:1.570796 Z:0};{X:65 Y:0 Z:70};../../../CharacterScripts/c52.txt;FaceImages/Robot;ScriptRectangle;Arial
 Character;Robot;0.03;{X:0 Y:1.570796 Z:0};{X:10 Y:0 Z:55};../../../CharacterScripts/c53.txt;FaceImages/Robot;ScriptRectangle;Arial
 Epee;sword;0.002;{X:0 Y:0 Z:0};{X:80 Y:0 Z:70}
-Enemy;Robot;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:400};10;3;1
-Enemy;Robot;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:450};10;3;1
-Enemy;Robot;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:500};10;3;1
+#;Enemy;Robot;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:400};10;3;1
+#;Enemy;Robot;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:450};10;3;1
+#;Enemy;Robot;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:500};10;3;1
 House;house;0.08;{X:0 Y:1.570796 Z:0};{X:-680 Y:-9 Z:430};{X:-690 Y:-5 Z:375};{X:-655 Y:20 Z:430}
 Character;Robot;0.03;{X:0 Y:1.570796 Z:0};{X:-645 Y:0 Z:425};../../../CharacterScripts/c54.txt;FaceImages/Robot;ScriptRectangle;Arial
 Grass;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:0};{X:10 Y:10};Grass;{X:15 Y:15}
-Maze;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:150};{X:256 Y:5 Z:256};Herbe;Maze5
+Maze;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:150};{X:256 Y:18 Z:256};GrassFence;Maze5
 #;HeightMap;1;{X:0 Y:0 Z:0};{X:-255 Y:0 Z:295};{X:400 Y:50 Z:400};Map5d;Grass
-HeightMap;1;{X:0 Y:0 Z:0};{X:-255 Y:0 Z:295};{X:400 Y:50 Z:400};Map5d;Herbe;Sable
+HeightMap;1;{X:0 Y:0 Z:0};{X:-255 Y:0 Z:295};{X:400 Y:20 Z:400};Map5d;Herbe;Herbe
 Walls;Fence;Walls5.txt;0
-Maze;1;{X:0 Y:0 Z:0};{X:-300 Y:0 Z:0};{X:256 Y:5 Z:256};GrassFence;Maze5a
+Maze;1;{X:0 Y:0 Z:0};{X:-300 Y:0 Z:0};{X:256 Y:18 Z:256};GrassFence;Maze5a
 #;HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:-5};{X:400 Y:100 Z:400};Map5b;Grass
 HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:-5};{X:400 Y:100 Z:400};Map5b;Herbe;Sable
 #;HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:395};{X:400 Y:100 Z:400};Map5c;Grass
