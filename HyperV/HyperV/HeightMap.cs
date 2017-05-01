@@ -188,7 +188,7 @@ namespace HyperV
             if (i >= 0 && j >= 0 && i + 1 < /*Heights.GetLength(0)*/PtsSommets.GetLength(0) && j + 1 < PtsSommets.GetLength(1)/*Heights.GetLength(1)*/)
             {
                 n = Vector3.Cross(PtsSommets[i + 1, j] - PtsSommets[i, j], PtsSommets[i, j + 1] - PtsSommets[i, j]);
-                height = (n.X * PtsSommets[i, j].X + n.Y * PtsSommets[i, j].Y + n.Z * PtsSommets[i, j].Z - n.X * position.X - n.Z * position.Z) / n.Y + 5;
+                height = (n.X * PtsSommets[i, j].X + n.Y * PtsSommets[i, j].Y + n.Z * PtsSommets[i, j].Z - n.X * position.X - n.Z * position.Z) / n.Y + 5 + PositionInitiale.Y; // - PositionInitiale.Y is new !!!
                 //height = Heights[i, j];
             }
             else
