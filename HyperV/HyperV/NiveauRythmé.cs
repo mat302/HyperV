@@ -200,19 +200,19 @@ namespace HyperV
                 Game.Components.Add(ListePortails.Last());
             }
 
-            if (cpt > 120 || cpt == 60)
+            if (cpt > 120)
             {
                 if (!NiveauEstTerminé)
                 {
-                    int nbreBalles = GénérateurAléatoire.Next(1, 4);
-                    for(int i = 0; i < nbreBalles; i++)
-                    {
+                    //int nbreBalles = GénérateurAléatoire.Next(1, 4);
+                    //for(int i = 0; i < nbreBalles; i++)
+                    //{
                         int choixPente = GénérateurAléatoire.Next(0, 3) * 2;
                         Game.Components.Add(new Afficheur3D(Game));
                         Game.Components.Add(new SphèreRythmée(Game, 1, Vector3.Zero,
                                             Positions[choixPente], 1, new Vector2(20, 20),
                                             "BleuBlancRouge", IntervalleMAJ, Positions[choixPente + 1]));
-                    }
+                    //}
                 }
 
                 cpt = 0;

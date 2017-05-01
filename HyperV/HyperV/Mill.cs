@@ -29,6 +29,7 @@ namespace HyperV
         PressSpaceLabel PressSpaceLabel { get; set; }
         ModeleRamassable[] Takables { get; set; }
         InputManager InputManager { get; set; }
+        GamePadManager GestionGamePad { get; set; }
         bool[] Placed { get; set; }
         bool[] AxleTaken { get; set; }
         int[] AxleObjects { get; set; }
@@ -137,6 +138,8 @@ namespace HyperV
             base.Initialize();
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
+
         }
 
         public void AddLabel()
@@ -164,8 +167,8 @@ namespace HyperV
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            Space = InputManager.EstNouvelleTouche(Keys.Space) ? true : Space;
-            Taken = InputManager.EstNouvelleTouche(Keys.E) ? true : Taken;
+            Space = InputManager.EstNouvelleTouche(Keys.Space) || GestionGamePad.EstNouveauBouton(Buttons.Y) ? true : Space;
+            Taken = InputManager.EstNouvelleTouche(Keys.E) || GestionGamePad.EstNouveauBouton(Buttons.X) ? true : Taken;
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {

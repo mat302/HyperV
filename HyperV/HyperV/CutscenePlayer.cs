@@ -35,6 +35,7 @@ namespace HyperV
         Rectangle Screen { get; set; }
         string VideoName { get; set; }
         InputManager InputManager { get; set; }
+        GamePadManager GestionGamePad { get; set; }
         SkipCutsceneLabel Label { get; set; }
         string FontName { get; set; }
         public bool CutsceneFinished { get; private set; }
@@ -72,6 +73,7 @@ namespace HyperV
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
             VideoManager = Game.Services.GetService(typeof(RessourcesManager<Video>)) as RessourcesManager<Video>;
             InputManager = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
             Label = new SkipCutsceneLabel(Game, FontName);
             Game.Components.Add(Label);
             base.LoadContent();
@@ -88,7 +90,7 @@ namespace HyperV
             //    Player.IsLooped = true;
             //    Player.Play(Video);
             //}
-            if (InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space))
+            if ((InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space) )||GestionGamePad.EstNouveauBouton(Buttons.Start))
             {
                 Player.Stop();
             }
