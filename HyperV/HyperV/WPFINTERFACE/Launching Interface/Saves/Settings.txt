@@ -1,6 +1,6 @@
 Music: 50
 Sound: 50
-Language: 3
+Language: 0
 Render Distance: 1000
 Frame Rate: 60
 Fullscreen: 0
