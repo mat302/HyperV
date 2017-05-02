@@ -342,7 +342,6 @@ namespace HyperV
 
         protected virtual void GérerHauteur()
         {
-            //Position = Gazon.GetPositionAvecHauteur(Position, (int)Hauteur);
             if (!ContinuerSaut)
             {
                 Hauteur = Height;

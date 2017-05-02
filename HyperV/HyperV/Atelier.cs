@@ -195,8 +195,6 @@ namespace HyperV
         {
             MediaPlayer.Stop();
             Components.Clear();
-            //Song = SongManager.Find("castle");
-            //MediaPlayer.Play(Song);
             StreamReader reader = new StreamReader("../../../Levels/Level" + level.ToString() + ".txt");
             string line;
             string[] parts;
@@ -343,15 +341,11 @@ namespace HyperV
                     case "Skybox":
                         Components.Add(new Skybox(this, parts[1]));
                         break;
-                    case "UnlockableWall":
-                        int a = int.Parse(parts[6]);
-                        if (CountComplete() < a)
-                        {
-                            Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
-                            Components.Add(Unlockables.Last());
-                            Services.RemoveService(typeof(List<UnlockableWall>));
-                            Services.AddService(typeof(List<UnlockableWall>), Unlockables);
-                        }
+                    case "UnlockableWall":                        
+                        Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval, int.Parse(parts[6]), CountComplete(), ListeRunes));
+                        Components.Add(Unlockables.Last());
+                        Services.RemoveService(typeof(List<UnlockableWall>));
+                        Services.AddService(typeof(List<UnlockableWall>), Unlockables);                        
                         break;
                     case "Water":
                         Water.Add(new Water(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), FpsInterval));
@@ -449,7 +443,7 @@ namespace HyperV
 
         }
 
-        List<Rune> ListeRunes { get; set; }
+        public List<Rune> ListeRunes { get; private set; }
 
         private void AjouterRunes()
         {
@@ -473,12 +467,12 @@ namespace HyperV
             {
                 string ligneLu = fichier.ReadLine();
                 string[] ligneSplit = ligneLu.Split(';');
-                Livre x = new Livre(this, ligneSplit[0], new Vector3(int.Parse(ligneSplit[1]), int.Parse(ligneSplit[2]), int.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5]), "Briques", "ImageLivre" + (ligneSplit[6]));
+                Livre x = new Livre(this, ligneSplit[0], new Vector3(int.Parse(ligneSplit[1]), int.Parse(ligneSplit[2]), int.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5]), "Texture_livre", "ImageLivre" + (ligneSplit[6]));
                 Components.Add(new Afficheur3D(this));
                 Components.Add(x);
             }
         }
-
+        
         private void AjouterBoutons()
         {
             Random générateur = new Random();
@@ -489,6 +483,7 @@ namespace HyperV
             }
             PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt");
             Components.Add(PuzzleBouton);
+            Services.AddService(typeof(PuzzleBouton), PuzzleBouton);
         }
 
         const int NUM_LEVELS = 10;
@@ -618,9 +613,14 @@ namespace HyperV
         }
 
         float Timer { get; set; }
-
+       
         protected override void Update(GameTime gameTime)
         {
+            if (InputManager.EstNouvelleTouche(Keys.O))
+            {
+
+            }
+
             if (!Sleep)
             {
                 if (Camera != null)

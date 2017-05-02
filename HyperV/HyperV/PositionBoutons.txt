@@ -1,5 +1,5 @@
 ﻿Boutons du puzzle
-Models_Ammunition;-345.4;-15;180;1;0
-Models_Ammunition;-345.4;-15;160;1;0
-Models_Ammunition;-345.4;-15;120;1;0
-Models_Ammunition;-345.4;-15;100;1;0
+Models_Ammunition;-200.4;-15;-225.5;1;30
+Models_Ammunition;-220.4;-15;-225.5;1;30
+Models_Ammunition;-260.4;-15;-225.5;1;30
+Models_Ammunition;-280.4;-15;-225.5;1;30

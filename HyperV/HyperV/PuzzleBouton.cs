@@ -76,6 +76,13 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
+            //Cheat pour mettre dans le titre l'ordre des boutons quil faut peser !
+            if (GestionInputs.EstEnfoncée(Microsoft.Xna.Framework.Input.Keys.B))
+            {
+                Game.Window.Title = OrdreBoutons[0].ToString() + OrdreBoutons[1].ToString() + OrdreBoutons[2].ToString() + OrdreBoutons[3].ToString();
+            }
+
+
             if (GestionInputs.EstNouveauClicGauche())
             {
                 for (int i = 0; i < ListeBoutons.Capacity; ++i)
@@ -210,7 +217,7 @@ namespace HyperV
             {
                 if (bouton.DéplacementBouton)
                 {
-                    bouton.DéplacerModele(0.03f * new Vector3(-(float)(Math.Cos(MathHelper.ToRadians(alpha))), 0, 0));
+                    bouton.DéplacerModele(0.03f * new Vector3(0, 0, -(float)(Math.Cos(MathHelper.ToRadians(alpha)))));
                     alpha += 10;
                     if (alpha > 180)
                     {

@@ -66,24 +66,7 @@ namespace HyperV
                 }
                 base.GÈrerHauteur();
             }
-        }
-
-        //protected override void GÈrerHauteur()
-        //{
-        //    if (!SubjectiveCamera)
-        //    {
-        //        if (HeightMap.Count > 0)
-        //        {
-        //            float height = 5;
-        //            for (int i = 0; i < HeightMap.Count && height == 5; ++i)
-        //            {
-        //                height = HeightMap[i].GetHeight(Position);
-        //            }
-        //            Height = height;
-        //        }
-        //        base.GÈrerHauteur();
-        //    }
-        //}
+        }   
 
         protected override void ManageLifeBars()
         {
@@ -265,38 +248,7 @@ namespace HyperV
             Direction = new Vector3(1, 0, 0);
         }
 
-        bool placerJoueur { get; set; }
-
-        //public override void Update(GameTime gameTime) // To make the catapult work
-        //{
-        //    float Temps…coulÈ = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        //    Temps…coulÈDepuisMAJ += Temps…coulÈ;
-        //    if (Temps…coulÈDepuisMAJ >= IntervalleMAJ)
-        //    {
-        //        {
-        //            if (!DÈsactiverDÈplacement)
-        //            {
-        //                if (placerJoueur)
-        //                {
-        //                    Height = 2;
-        //                    placerJoueur = false;
-        //                    Position = new Vector3(-27, 2, -28);
-        //                }
-        //            }
-        //            if (DÈsactiverDÈplacement)
-        //            {
-        //                Height = 15;
-        //                Position = new Vector3(-57, 15, -52);
-        //                placerJoueur = true;
-        //            }
-        //            Position = new Vector3(Position.X, Height, Position.Z);
-        //        }
-        //        Temps…coulÈDepuisMAJ = 0;
-        //    }
-        //    base.Update(gameTime);
-        //}
-
-
+        bool placerJoueur { get; set; }         
     }
 }
 

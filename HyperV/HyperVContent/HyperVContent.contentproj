@@ -217,16 +217,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Ceiling.jpg">
-      <Name>Ceiling</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\Rockwall.jpg">
-      <Name>Rockwall</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Textures\Texture_Rockwall.jpg">
       <Name>Texture_Rockwall</Name>
       <Importer>TextureImporter</Importer>
@@ -554,13 +544,6 @@
     </Compile>
     <Compile Include="Models\catapult.fbm\wurfarm-map.jpg">
       <Name>wurfarm-map</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\Briques.jpg">
-      <Name>Briques</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1001,8 +984,46 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Floor.jpg">
-      <Name>Floor</Name>
+    <Compile Include="Textures\ImageLivre3.jpg">
+      <Name>ImageLivre3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\ImageLivre5.jpg">
+      <Name>ImageLivre5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\ImageLivre6.jpg">
+      <Name>ImageLivre6</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Texture_livre.jpg">
+      <Name>Texture_livre</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Texture_mur_hub.png">
+      <Name>Texture_mur_hub</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Texture_plancher_hub.jpg">
+      <Name>Texture_plancher_hub</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Texture_plafond_hub.jpg">
+      <Name>Texture_plafond_hub</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
