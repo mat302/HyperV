@@ -82,7 +82,7 @@ namespace Launching_Interface
 
       private void Highscores_Click(object sender, RoutedEventArgs e)
       {
-         // NavigationService.Navigate(new Uri("HighscoresPage.xaml", UriKind.Relative));     À REMETTRE
+         //NavigationService.Navigate(new Uri("HighscoresPage.xaml", UriKind.Relative));
       }
 
       private void Quit_Click(object sender, RoutedEventArgs e)

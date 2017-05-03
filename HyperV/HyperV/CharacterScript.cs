@@ -33,6 +33,7 @@ namespace HyperV
         string FaceImageName { get; set; }
         SpriteBatch SpriteBatch { get; set; }
         string TextFile { get; set; }
+        string Script { get; set; }
         InputManager InputManager { get; set; }
         GamePadManager GestionGamePad { get; set; }
         RessourcesManager<Texture2D> TextureManager { get; set; }
@@ -46,13 +47,15 @@ namespace HyperV
         Character Character { get; set; }
         string FontName { get; set; }
         public PressSpaceLabel PressSpaceLabel { get; private set; }
+        Language Language { get; set; }
+        string PartialFile { get; set; }
 
         public CharacterScript(Game game, Character character, string faceImageName, string textFile, string scriptRectangleName, string fontName, float interval) : base(game)
         {
             Character = character;
             FaceImageName = faceImageName;
-            TextFile = textFile;
             ScriptRectangleName = scriptRectangleName;
+            PartialFile = textFile;
             FontName = fontName;
             Interval = interval;
         }
@@ -65,6 +68,7 @@ namespace HyperV
         {
             Visible = false;
             base.Initialize();
+            UpdateLanguage();
             float height = (160f / 600f) * Game.Window.ClientBounds.Height;
             FaceImageRectangle = new Rectangle(10, (int)(Game.Window.ClientBounds.Height - height - 10) - 20, (int)((250f / 800f) * Game.Window.ClientBounds.Width) - 100, (int)height + 20);
             ScriptRectanglePosition = new Rectangle(FaceImageRectangle.X + FaceImageRectangle.Width + 10, FaceImageRectangle.Y + 10, (int)((510f / 800f) * Game.Window.ClientBounds.Width) + 140, (int)((143f / 600f) * Game.Window.ClientBounds.Height) + 25);
@@ -72,6 +76,31 @@ namespace HyperV
             PressSpaceLabel = new PressSpaceLabel(Game);
             Game.Components.Add(PressSpaceLabel);
         } // 800x600 510x143
+
+        string AffectLanguage(Language l)
+        {
+            string r = "EN";
+            switch (l)
+            {
+                case Language.French:
+                    r = "FR";
+                    break;
+                case Language.Spanish:
+                    r = "ES";
+                    break;
+                case Language.Japanese:
+                    r = "JA";
+                    break;
+            }
+            return r;
+        }
+
+        public void UpdateLanguage()
+        {
+            Language = (Language)Game.Services.GetService(typeof(Language));
+            TextFile = "../../../CharacterScripts/" + PartialFile + AffectLanguage(Language) + ".txt";
+            ReadScript();
+        }
 
         protected override void LoadContent()
         {
@@ -85,16 +114,15 @@ namespace HyperV
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             Font = FontManager.Find(FontName);
-            ReadScript();
         }
 
         void ReadScript()
         {
             StreamReader reader = new StreamReader(TextFile);
-            TextFile = "";
+            Script = "";
             while(!reader.EndOfStream)
             {
-                TextFile += reader.ReadLine() + "\n";
+                Script += reader.ReadLine() + "\n";
             }
             reader.Close();
         }
@@ -119,6 +147,7 @@ namespace HyperV
             if (Timer >= Interval)
             {
                 ManageCollision();
+
                 Timer = 0;
             }
             base.Update(gameTime);
@@ -164,7 +193,7 @@ namespace HyperV
             SpriteBatch.Begin();
             SpriteBatch.Draw(ScriptRectangle, ScriptRectanglePosition, Color.White);
             SpriteBatch.Draw(FaceImage, FaceImageRectangle, Color.White);
-            SpriteBatch.DrawString(Font, TextFile, TextPosition, Color.Black, 0, Vector2.Zero, (float)(ScriptRectanglePosition.Width) / (Game.Window.ClientBounds.Width * 1.6f), SpriteEffects.None, 0);
+            SpriteBatch.DrawString(Font, Script, TextPosition, Color.Black, 0, Vector2.Zero, (float)(ScriptRectanglePosition.Width) / (Game.Window.ClientBounds.Width * 1.6f), SpriteEffects.None, 0);
             SpriteBatch.End();
         }
     }

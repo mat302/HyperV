@@ -171,8 +171,9 @@ namespace Launching_Interface
          ListeCaractéristiquesAAfficher0 = new List<string>();
          ListeCaractéristiquesAAfficher1 = new List<string>();
          ListeCaractéristiquesAAfficher2 = new List<string>();
+            ListeJoueurs = new List<Joueur>();
             //InitializeComplete();
-         LireFichiers("Langues","En.txt");
+            LireFichiers("Langues","En.txt");
          LireFichiers("Langues","Es.txt");
          LireFichiers("Langues","Jp.txt");
          LireFichiers("Langues","Fr.txt");
@@ -208,6 +209,8 @@ namespace Launching_Interface
                 LireFichiers("Saves", "save2.txt");
             }
         }
+
+        public static List<Joueur> ListeJoueurs { get; private set; }
 
       static void LireFichiers(string nomDossier,string nomFichier)
       {
@@ -316,7 +319,98 @@ namespace Launching_Interface
 
             AssocierBonneListeAfficher(i,listeCaractéristiquestemporaire);
       }
+        // DÉBUT
+        //static void GérerFichiersSaves(StreamReader lecteurDonnées, int i)
+        //{
+        //    List<string> listeCaractéristiquestemporaire = new List<string>();
+        //    string symboleQuiSépare = " ", line = "";
+        //    string[] parts;
 
+        //    for (int j = 0; j < 7; j++)
+        //    {
+        //        line = lecteurDonnées.ReadLine();
+        //        switch (j)
+        //        {
+        //            case 0:
+        //                symboleQuiSépare = "l: ";
+        //                break;
+        //            case 1:
+        //                symboleQuiSépare = "n: ";
+        //                break;
+        //            case 2:
+        //                symboleQuiSépare = "n: ";
+        //                break;
+        //            case 3:
+        //                symboleQuiSépare = "d: ";
+        //                break;
+        //            case 4:
+        //                symboleQuiSépare = "e: ";
+        //                break;
+        //            case 5:
+        //                symboleQuiSépare = "k: ";
+        //                break;
+        //            case 6:
+        //                symboleQuiSépare = ";";
+        //                break;
+        //        }
+        //        parts = line.Split(new string[] { symboleQuiSépare }, StringSplitOptions.None);
+        //        if (i != 6)
+        //        {
+        //            listeCaractéristiquestemporaire.Add(parts[1]);
+        //        }
+        //        else
+        //        {
+        //            listeCaractéristiquestemporaire.Add(parts[0]);
+        //            listeCaractéristiquestemporaire.Add(parts[1]);
+        //            listeCaractéristiquestemporaire.Add(parts[2]);
+        //        }
+        //    }
+        //    AssocierBonneListeAfficher(i, listeCaractéristiquestemporaire);
+
+        //    // listeCaractéristiquestemporaire.Add(lecteurDonnées.ReadLine());   //  nom  (#8)
+
+        //    GérerTemps(lecteurDonnées, lecteurDonnées.ReadLine());
+
+        //}
+
+        //static void AssocierBonneListeAfficher(int i, List<string> listeCaractéristiquestemporaire)
+        //{
+        //    switch (i)
+        //    {
+        //        case 0:
+        //            ListeCaractéristiquesAAfficher0 = listeCaractéristiquestemporaire;
+        //            break;
+        //        case 1:
+        //            ListeCaractéristiquesAAfficher1 = listeCaractéristiquestemporaire;
+        //            break;
+        //        case 2:
+        //            ListeCaractéristiquesAAfficher2 = listeCaractéristiquestemporaire;
+        //            break;
+        //    }
+        //}
+
+        //static void GérerTemps(StreamReader lecteurDonnées, string nomJoueur)
+        //{
+        //    string line;
+        //    string[] séparateurTimeSpan, parts;
+
+        //    List<TimeSpan> listeTempsTemporaire = new List<TimeSpan>();
+        //    for (int k = 0; k < NBRE_NIVEAUX; k++)
+        //    {
+        //        line = lecteurDonnées.ReadLine();
+        //        parts = line.Split(new string[] { ";" }, StringSplitOptions.None);
+        //        séparateurTimeSpan = parts[1].Split(new string[] { ":" }, StringSplitOptions.None);
+        //        listeTempsTemporaire.Add(new TimeSpan(int.Parse(séparateurTimeSpan[0]),
+        //                                              int.Parse(séparateurTimeSpan[1]),
+        //                                              int.Parse(séparateurTimeSpan[2])));
+        //    }
+        //    Joueur joueur = new Joueur(nomJoueur, listeTempsTemporaire[0], listeTempsTemporaire[1],
+        //                                          listeTempsTemporaire[2], listeTempsTemporaire[3],
+        //                                          listeTempsTemporaire[4], listeTempsTemporaire[5],
+        //                                          listeTempsTemporaire[6], listeTempsTemporaire[7]);
+        //    ListeJoueurs.Add(joueur);
+        //}
+        // FIN
         static List<bool>[] Complete { get; set; }
 
         public static int CountComplete(int i)

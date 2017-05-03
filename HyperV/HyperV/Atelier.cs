@@ -104,6 +104,8 @@ namespace HyperV
             line = reader.ReadLine();
             parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
             Language = (Language)int.Parse(parts[1]);
+            Services.RemoveService(typeof(Language));
+            Services.AddService(typeof(Language), Language);
             line = reader.ReadLine();
             parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
             RenderDistance = int.Parse(parts[1]);
@@ -691,6 +693,16 @@ namespace HyperV
             }
             IsMouseVisible = false;
             LoadSettings();
+            UpdateLanguages();
+
+        }
+
+        void UpdateLanguages()
+        {
+            foreach (Character c in Characters)
+            {
+                c.UpdateLanguage();
+            }
         }
 
         protected override void OnDeactivated(object sender, EventArgs args)

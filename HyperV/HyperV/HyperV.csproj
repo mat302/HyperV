@@ -132,6 +132,8 @@
     <Content Include="CharacterScripts\c53.txt" />
     <Content Include="CharacterScripts\c52.txt" />
     <Content Include="CharacterScripts\c54.txt" />
+    <Content Include="CharacterScripts\ctEN.txt" />
+    <Content Include="CharacterScripts\ctFR.txt" />
     <Content Include="CharacterScripts\Robot.txt" />
     <Content Include="Levels\Level4.txt" />
     <Content Include="Levels\Level5.txt" />

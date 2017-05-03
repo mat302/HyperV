@@ -50,6 +50,11 @@ namespace HyperV
             Radius = 9;
         }
 
+        public void UpdateLanguage()
+        {
+            CharacterScript.UpdateLanguage();
+        }
+
         public void AddLabel()
         {
             CharacterScript = new CharacterScript(Game, this, FaceImageName, TextFile, ScriptRectangleName, FontName, LabelInterval);
