@@ -31,6 +31,7 @@ namespace HyperV
         Random GénérateurAléatoire { get; set; }
         float AngleDéplacementTeta { get; set; }
         float AngleDéplacementPhi { get; set; }
+        public bool estÉliminé { get; private set; }
 
         Epee Épée { get; set; }
         float Rayon { get; set; }
@@ -51,6 +52,7 @@ namespace HyperV
             IntervalleMAJDéplacement = intervalleMAJ * FACTEUR_VITESSE_INTERVALLE;
             Position = positionInitiale;
             Rayon = rayon;
+            ++Count;
         }
 
         public override void Initialize()
@@ -122,11 +124,20 @@ namespace HyperV
             }
         }
 
+        public static int Count { get; private set; }
+
+        static BalleRebondissante()
+        {
+            Count = 0;
+        }
+
         void GérerCollisionsBalle()
         {
             if (EstEnCollisionBalle(CameraPrison.Viseur) < LONGUEUR_VISEUR && Épée.ContinuerCoupDEpee)
             {
                 Game.Components.Remove(this);
+                estÉliminé = true;
+                --Count;
             }
             if (CollisionBalleCaméra(DISTANCE_COLLISION))
             {

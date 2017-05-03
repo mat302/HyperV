@@ -137,6 +137,7 @@
     <Content Include="Levels\Level5.txt" />
     <Content Include="Levels\Level6.txt" />
     <Content Include="Levels\Level7.txt" />
+    <Content Include="Levels\Level9.txt" />
     <Content Include="Monde1_Modeles.txt" />
     <Content Include="Monde1_Runes.txt" />
     <Content Include="PositionBoutons.txt" />
@@ -159,6 +160,7 @@
     <Content Include="Monde3_Modeles.txt" />
     <Content Include="Walls\Monde3_Murs.txt" />
     <Content Include="Walls\Walls1.txt" />
+    <Content Include="Walls\Walls9.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
