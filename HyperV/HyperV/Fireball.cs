@@ -70,7 +70,7 @@ namespace HyperV
             WaitTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval && WaitTime > 0)
             {
-                if (ResetTimer > 5)
+                if (ResetTimer > 5 && Vector3.Distance(Camera.Position, PositionInitiale) < 500) // second AND can be deactivated
                 {
                     ResetTimer = 0;
                     Position = InitialPosition;
