@@ -342,11 +342,19 @@ namespace HyperV
 
         protected virtual void GérerHauteur()
         {
-            if (!ContinuerSaut)
+            bool flotter = false;
+            if (GestionInput.EstNouvelleTouche(Keys.H))
             {
-                Hauteur = Height;
+                flotter = !flotter;
             }
-            Position = new Vector3(Position.X, Hauteur, Position.Z);
+            if (!flotter)
+            {
+                if (!ContinuerSaut)
+                {
+                    Hauteur = Height;
+                }
+                Position = new Vector3(Position.X, Hauteur, Position.Z);
+            }
         }
 
         private int GérerTouche(Keys touche)

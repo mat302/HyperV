@@ -38,8 +38,8 @@ namespace AtelierXNA
          JeuDepthBufferState.DepthBufferEnable = true;
          JeuRasterizerState = new RasterizerState();
          JeuRasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
-         //JeuBlendState = BlendState.NonPremultiplied;
-         base.Initialize();
+            JeuBlendState = BlendState.NonPremultiplied;
+            base.Initialize();
       }
 
       protected override void LoadContent()
@@ -58,8 +58,8 @@ namespace AtelierXNA
       {
          GraphicsDevice.DepthStencilState = JeuDepthBufferState;
          GraphicsDevice.RasterizerState = JeuRasterizerState;
-         //GraphicsDevice.BlendState = JeuBlendState;
-         GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            GraphicsDevice.BlendState = JeuBlendState;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
          base.Draw(gameTime);
       }
 

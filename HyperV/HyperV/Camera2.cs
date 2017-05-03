@@ -47,24 +47,27 @@ namespace HyperV
         //NO WATER
         protected override void GérerHauteur()
         {
-            //Hauteur = HeightMap.GetHeight(Position);
-            //NO WATER
-            if (!SubjectiveCamera)
+            if (!DésactiverDéplacement)
             {
-                if (!LifeBars[1].Water)
+                //Hauteur = HeightMap.GetHeight(Position);
+                //NO WATER
+                if (!SubjectiveCamera)
                 {
-                
-                    if (HeightMap.Count > 0)
+                    if (!LifeBars[1].Water)
                     {
-                        float height = 5;
-                        for (int i = 0; i < HeightMap.Count && height == 5; ++i)
+
+                        if (HeightMap.Count > 0)
                         {
-                            height = HeightMap[i].GetHeight(Position);
+                            float height = 5;
+                            for (int i = 0; i < HeightMap.Count && height == 5; ++i)
+                            {
+                                height = HeightMap[i].GetHeight(Position);
+                            }
+                            Height = height;
                         }
-                        Height = height;
                     }
+                    base.GérerHauteur();
                 }
-                base.GérerHauteur();
             }
         }   
 
@@ -246,6 +249,11 @@ namespace HyperV
         {
             DésactiverDéplacement = !DésactiverDéplacement;
             Direction = new Vector3(1, 0, 0);
+            Position = new Vector3(-64, 17, -49);
+            if (!DésactiverDéplacement)
+            {
+                Position = new Vector3(-30, 2, -18);
+            }
         }
 
         bool placerJoueur { get; set; }         

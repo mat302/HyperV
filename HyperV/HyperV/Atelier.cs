@@ -34,6 +34,7 @@ namespace HyperV
         const float INTERVALLE_CALCUL_FPS = 1f;
         float FpsInterval { get; set; }
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
+        int compteurNiveauxComplete { get; set; }
 
         Caméra Camera { get; set; }
         List<Maze> Maze { get; set; }
@@ -74,7 +75,7 @@ namespace HyperV
         Character Robot { get; set; }
         List<Character> Characters { get; set; }
         int SaveNumber { get; set; }
-        int Level { get; set; }
+        public int Level { get; set; }
         Vector3 Position { get; set; }
         Vector3 Direction { get; set; }
         TexteCentré Loading { get; set; }
@@ -183,7 +184,7 @@ namespace HyperV
             return new Vector3(aXPosition, aYPosition, aZPosition);
         }
 
-        void SelectWorld(bool usePosition)
+        public void SelectWorld(bool usePosition)
         {
             SelectLevel(usePosition, Level);
             //LevelPrison(usePosition);
@@ -378,7 +379,6 @@ namespace HyperV
                 Components.Add(Camera);
                 Components.Remove(Loading);
                 Components.Add(Crosshair);
-                Components.Add(FPSLabel);
             }
         }
 
@@ -475,19 +475,26 @@ namespace HyperV
         
         private void AjouterBoutons()
         {
-            Random générateur = new Random();
-            int[] ordre = new int[4];
-            for (int i = 0; i < ordre.Length; ++i)
+            try
             {
-                ordre[i] = générateur.Next(0, 4);
+                Random générateur = new Random();
+                int[] ordre = new int[4];
+                for (int i = 0; i < ordre.Length; ++i)
+                {
+                    ordre[i] = générateur.Next(0, 4);
+                }
+                PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt");
+                Components.Add(PuzzleBouton);
+                Services.AddService(typeof(PuzzleBouton), PuzzleBouton);
             }
-            PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt");
-            Components.Add(PuzzleBouton);
-            Services.AddService(typeof(PuzzleBouton), PuzzleBouton);
+            catch
+            {
+
+            }
         }
 
         const int NUM_LEVELS = 10;
-        List<bool> Complete { get; set; }
+        public List<bool> Complete { get; set; }
 
         void Save()
         {
@@ -535,6 +542,7 @@ namespace HyperV
 
         protected override void Initialize()
         {
+            compteurNiveauxComplete = 0;
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
 
             Sleep = false;
@@ -548,11 +556,11 @@ namespace HyperV
             Services.AddService(typeof(RessourcesManager<TextureCube>), new RessourcesManager<TextureCube>(this, "Textures"));
             Services.AddService(typeof(RessourcesManager<Effect>), new RessourcesManager<Effect>(this, "Effects"));
             Services.AddService(typeof(RessourcesManager<Texture2D>), TextureManager);
+            Services.AddService(typeof(Atelier), this);
             ModelManager = new RessourcesManager<Model>(this, "Models");
             Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
             FontManager = new RessourcesManager<SpriteFont>(this, "Fonts");
             SpaceBackground = new ArrièrePlanSpatial(this, "CielÉtoilé", FpsInterval);
-            FPSLabel = new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS);
             Loading = new TexteCentré(this, "Loading . . .", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             GameOver = new TexteCentré(this, "Game Over", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             Success = new TexteCentré(this, "Success!", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
@@ -613,12 +621,14 @@ namespace HyperV
         }
 
         float Timer { get; set; }
-       
+
+
         protected override void Update(GameTime gameTime)
         {
             if (InputManager.EstNouvelleTouche(Keys.O))
             {
-
+                Complete[compteurNiveauxComplete] = true;
+                ++compteurNiveauxComplete;
             }
 
             if (!Sleep)
@@ -795,7 +805,7 @@ namespace HyperV
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Orange);
+            GraphicsDevice.Clear(Color.Black);
             base.Draw(gameTime);
         }
 

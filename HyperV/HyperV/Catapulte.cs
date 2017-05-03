@@ -26,6 +26,7 @@ namespace HyperV
         bool EstActivée { get; set; }
         RessourcesManager<SoundEffect> SoundManager { get; set; }
         SoundEffect CatapulteTirée { get; set; }
+        Atelier Atelier { get; set; }
 
         float angle_;
         float Angle
@@ -87,6 +88,7 @@ namespace HyperV
             Camera = Game.Services.GetService(typeof(Caméra)) as Camera2;
             GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
             SoundManager = Game.Services.GetService(typeof(RessourcesManager<SoundEffect>)) as RessourcesManager<SoundEffect>;
+            Atelier = Game.Services.GetService(typeof(Atelier)) as Atelier;
         }
 
         public override void Update(GameTime gameTime)
@@ -100,6 +102,26 @@ namespace HyperV
 
             GérerTrajectoire(gameTime);
             GérerTir(gameTime);
+            VérifierFinNiveau();            
+        }
+
+        private void VérifierFinNiveau()
+        {
+            int nombreTours = 0;
+            foreach(CreateurModele modele in Game.Components.Where(x => x is CreateurModele))
+            {
+                if (modele.EstTour)
+                {
+                    nombreTours++;
+                }
+            }
+
+            if(nombreTours == 0 || GestionInput.EstNouvelleTouche(Keys.T))
+            {
+                Atelier.Complete[6] = true; //le 6eme niveau est complete
+                Atelier.Level = 1;
+                Atelier.SelectWorld(false);            
+            }
         }
 
         private void TournerModele()
