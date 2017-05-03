@@ -638,14 +638,27 @@ namespace HyperV
                         case 0:
                             CheckForCutscene();
                             break;
-                        case 2:
-                            CheckForGameOver();
+                        case 6:
+                            CheckForUnlockableWallBouncingBalls();
                             break;
                     }
                     CheckForPortal();
+                    CheckForGameOver();
                     Timer = 0;
                 }
                 base.Update(gameTime);
+            }
+        }
+
+        void CheckForUnlockableWallBouncingBalls()
+        {
+            if (BalleRebondissante.Count < 5)
+            {
+                foreach (BalleRebondissante e in Components)
+                {
+                    Components.Remove(e);
+                }
+                Components.Remove(Unlockables[0]);
             }
         }
 
