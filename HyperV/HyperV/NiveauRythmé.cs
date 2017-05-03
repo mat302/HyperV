@@ -15,7 +15,7 @@ namespace HyperV
 {
     public class NiveauRythmé : Microsoft.Xna.Framework.GameComponent
     {
-        const int NB_À_RÉUSSIR = 5;
+        const int NB_À_RÉUSSIR = 20;
 
         //Constructeur
         readonly string NomFichierLecture;
@@ -31,9 +31,11 @@ namespace HyperV
         float TempsÉcouléDepuisMAJ { get; set; }
         List<Vector3> Positions { get; set; }
         int cpt { get; set; }
+        int cptt { get; set; }
         int nombreRéussi { get; set; }
         public Vector3? PositionCubeRouge { get; set; }
         AfficheurPointage Pointage { get; set; }
+        int BorneMaximaleCpt { get; set; }
 
         //ChargerContenu
         Random GénérateurAléatoire { get; set; }
@@ -41,6 +43,7 @@ namespace HyperV
         GamePadManager GestionGamePad { get; set; }
         List<UnlockableWall> MurÀEnlever { get; set; }
         List<Portal> ListePortails { get; set; }
+        
 
         public NiveauRythmé(Game jeu, string nomFichierLecture, string nomTexture, float intervalleMAJ)
             : base(jeu)
@@ -61,6 +64,8 @@ namespace HyperV
             PositionCubeRouge = null;
             nombreRéussi = 0;
             cpt = 0;
+            cptt = 0;
+            BorneMaximaleCpt = 120;
             TempsÉcouléDepuisMAJ = 0;
 
             Positions = new List<Vector3>();
@@ -160,6 +165,7 @@ namespace HyperV
         void EffectuerMAJ()
         {
             cpt++;
+            cptt++;
 
             foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
             {
@@ -168,6 +174,7 @@ namespace HyperV
                     cube.NomTextureCube = "Rouge";
                     cube.InitialiserParamètresEffetDeBase();
                     PositionCubeRouge = null;
+                    cptt = 0;
                 }
 
                 foreach (SphèreRythmée sp in Game.Components.Where(composant => composant is SphèreRythmée))
@@ -182,6 +189,7 @@ namespace HyperV
                             cube.NomTextureCube = "Vert";
                             cube.InitialiserParamètresEffetDeBase();
                             ++nombreRéussi;
+                            cptt = 0;
                         }
                     }
                 }
@@ -192,7 +200,7 @@ namespace HyperV
             if(nombreRéussi >= NB_À_RÉUSSIR)
             {
                 NiveauEstTerminé = true;
-                cpt = 121;
+                cpt = 1000;
                 Game.Components.Remove(MurÀEnlever[0]);
                 ListePortails.Add(new Portal(Game, 1, new Vector3(0, 1.570796f, 0),
                                   new Vector3(170, -60, -10), new Vector2(40, 40), "Transparent",
@@ -200,10 +208,12 @@ namespace HyperV
                 Game.Components.Add(ListePortails.Last());
             }
 
-            if (cpt > 120)
+            
+            if (cpt > BorneMaximaleCpt)
             {
                 if (!NiveauEstTerminé)
                 {
+                    BorneMaximaleCpt = GénérateurAléatoire.Next(30, 90);
                     //int nbreBalles = GénérateurAléatoire.Next(1, 4);
                     //for(int i = 0; i < nbreBalles; i++)
                     //{
@@ -217,13 +227,17 @@ namespace HyperV
 
                 cpt = 0;
 
+            }
+
+            if(cptt > 20|| NiveauEstTerminé)
+            {
                 foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
                 {
                     cube.NomTextureCube = "Blanc";
                     cube.InitialiserParamètresEffetDeBase();
                 }
+                cptt = 0;
             }
-
             BoutonUn = false;
             BoutonDeux = false;
             BoutonTrois = false;
