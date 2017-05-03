@@ -30,7 +30,7 @@ namespace HyperV
         protected override void ChargerContenu()
         {
             base.ChargerContenu();
-            SubjectiveCamera = true;
+            SubjectiveCamera = false;
             Maze = Game.Services.GetService(typeof(List<Maze>)) as List<Maze>;
             Characters = Game.Services.GetService(typeof(List<Character>)) as List<Character>;
             Boss = Game.Services.GetService(typeof(Boss)) as Boss;
