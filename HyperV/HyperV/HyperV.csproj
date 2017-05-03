@@ -128,6 +128,10 @@
     <Compile Include="Water.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CharacterScripts\c11EN.txt" />
+    <Content Include="CharacterScripts\c11ES.txt" />
+    <Content Include="CharacterScripts\c11FR.txt" />
+    <Content Include="CharacterScripts\c11JP.txt" />
     <Content Include="CharacterScripts\c51.txt" />
     <Content Include="CharacterScripts\c53.txt" />
     <Content Include="CharacterScripts\c52.txt" />
