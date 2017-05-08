@@ -58,10 +58,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 900;
-            PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            PériphériqueGraphique.PreferredBackBufferWidth = 900;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
         }
 
         Gazon Gazon { get; set; }
@@ -217,7 +217,7 @@ namespace HyperV
                     case "#":
                         break;
                     case "SpaceBackground":
-                        Components.Add(SpaceBackground);
+                        Components.Add(new ArrièrePlanSpatial(this, parts[1], FpsInterval));
                         break;
                     case "Display3D":
                         Display3D = new Afficheur3D(this);

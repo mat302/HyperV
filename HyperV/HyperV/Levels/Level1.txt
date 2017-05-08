@@ -1,4 +1,4 @@
-SpaceBackground
+SpaceBackground;CielEtoile
 Display3D
 Camera;{X:0 Y:-16 Z:60};{X:20 Y:0 Z:0};{X:-1 Y:0 Z:0}
 Character;knight;0.08;{X:0 Y:1.570796 Z:0};{X:-70 Y:-20 Z:80};ct;FaceImages/Robot;ScriptRectangle;Arial
