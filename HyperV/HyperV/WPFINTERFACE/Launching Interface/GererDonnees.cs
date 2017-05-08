@@ -474,39 +474,6 @@ namespace Launching_Interface
          }
       }
 
-
-      //string Lignelue = lecteurDonnées.ReadLine();
-      //string[] séparateur = Lignelue.Split(new string[] { "l: " }, StringSplitOptions.None);
-      //listeCaractéristiquestemporaire.Add(séparateur[1]);
-
-      //Lignelue = lecteurDonnées.ReadLine();
-      //séparateur = Lignelue.Split(new string[] { "n: " }, StringSplitOptions.None);
-      //listeCaractéristiquestemporaire.Add(séparateur[1]);
-
-      //Lignelue = lecteurDonnées.ReadLine();
-      //séparateur = Lignelue.Split(new string[] { "n: " }, StringSplitOptions.None);
-      //listeCaractéristiquestemporaire.Add(séparateur[1]);
-
-      //Lignelue = lecteurDonnées.ReadLine();
-      //séparateur = Lignelue.Split(new string[] { "d: " }, StringSplitOptions.None);
-      //listeCaractéristiquestemporaire.Add(séparateur[1]);
-
-      //Lignelue = lecteurDonnées.ReadLine();
-      //séparateur = Lignelue.Split(new string[] { "e: " }, StringSplitOptions.None);   //   #5
-      //listeCaractéristiquestemporaire.Add(séparateur[1]);
-
-      //Lignelue = lecteurDonnées.ReadLine();
-      //séparateur = Lignelue.Split(new string[] { "k: " }, StringSplitOptions.None);
-      //listeCaractéristiquestemporaire.Add(séparateur[1]);
-
-
-      //Lignelue = lecteurDonnées.ReadLine();
-      //séparateur = Lignelue.Split(new string[] { ";" }, StringSplitOptions.None);    //   #7
-      //listeCaractéristiquestemporaire.Add(séparateur[1]);
-
-      //-----------------------------------------------------------------------------------------------------------------
-      // Caractéristiques du participant (1 nom,8 temps)
-      //    listeCaractéristiquestemporaire.Add(lecteurDonnées.ReadLine());   //  false;false;false
    }
 }
 

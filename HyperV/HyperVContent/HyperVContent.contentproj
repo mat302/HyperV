@@ -702,8 +702,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\sword.fbx">
-      <Name>sword</Name>
+    <Compile Include="Models\Sword.fbx">
+      <Name>Sword</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
@@ -1043,6 +1043,13 @@
   <ItemGroup>
     <Compile Include="Textures\FaceImages\knight.jpg">
       <Name>knight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\color.jpg">
+      <Name>color</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
