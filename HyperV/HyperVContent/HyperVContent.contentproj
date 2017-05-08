@@ -65,13 +65,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Fence.png">
-      <Name>Fence</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\test3.png">
       <Name>test3</Name>
       <Importer>TextureImporter</Importer>
@@ -156,8 +149,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\CielÉtoilé.png">
-      <Name>CielÉtoilé</Name>
+    <Compile Include="Textures\CielEtoile.png">
+      <Name>CielEtoile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -1043,6 +1036,20 @@
   <ItemGroup>
     <Compile Include="Textures\FaceImages\knight.jpg">
       <Name>knight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Fence.jpg">
+      <Name>Fence</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\WhiteSky.jpg">
+      <Name>WhiteSky</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
