@@ -583,7 +583,7 @@ namespace HyperV
             Crosshair = new Sprite(this, "crosshair", new Vector2(Window.ClientBounds.Width / 2 - 18, Window.ClientBounds.Height / 2 - 18));
             LoadSave();
             LoadSettings();
-            //Level = 0;
+            Level = 0;
             SelectWorld(true);
             base.Initialize();
         }
@@ -831,7 +831,11 @@ namespace HyperV
 
         void RythmLevel()
         {
-            NiveauRythmé circuit = new NiveauRythmé(this, "../../../Data3.txt", "Fence", FpsInterval);
+            NiveauRythmé circuit = new NiveauRythmé(this, "Fil Electrique", "../../../Data3.txt",
+                                                    3, "Blanc", "Rouge",
+                                                    "Vert", "BleuBlancRouge", "Arial50",
+                                                    Color.Black, 15, 1,
+                                                    FpsInterval);
             Components.Add(circuit);
             Services.AddService(typeof(NiveauRythmé), circuit);
         }

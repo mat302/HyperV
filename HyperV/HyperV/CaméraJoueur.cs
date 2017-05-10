@@ -21,18 +21,18 @@ namespace HyperV
         const int FACTEUR_COURSE_MAXIMAL = 4;
         const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
 
-        public Vector3 Direction { get; protected set; }//
+        public Vector3 Direction { get; private set; }//
         public Vector3 Latéral { get; private set; }//
         Gazon Gazon { get; set; }
-        protected float VitesseTranslation { get; set; }
+        protected float VitesseTranslation { get; private set; }
         float VitesseRotation { get; set; }
         Point AnciennePositionSouris { get; set; }
         Point NouvellePositionSouris { get; set; }
-        public Vector2 DéplacementSouris { get; set; }   // checker justre point virgule !! ---------------
+        public Vector2 DéplacementSouris { get; private set; }   //**************************
 
         protected bool DésactiverDéplacement { get; set; }
-        protected float IntervalleMAJ { get; set; }
-        protected float TempsÉcouléDepuisMAJ { get; set; }
+        float IntervalleMAJ { get; set; }
+        float TempsÉcouléDepuisMAJ { get; set; }
         InputManager GestionInput { get; set; }
         GamePadManager GestionGamePad { get; set; }
 
@@ -62,8 +62,6 @@ namespace HyperV
             Height = positionCaméra.Y;
             Origin = new Vector2(Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height) / 2;
         }
-
-  
 
         public void SetRenderDistance(float renderDistance)
         {
@@ -152,26 +150,31 @@ namespace HyperV
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
             {
-                FonctionsSouris();
-                if (!DésactiverDéplacement)
-                {
-                    FonctionsClavier();
-                }
-                FonctionsGamePad();
-
-                GérerHauteur();
-                CréerPointDeVue();
-
-                AffecterCommandes(); // Grab moved to AffectCommandsForGrab()
-
-                //GérerRamassage();
-                GérerCourse();
-                GérerSaut();
-
-                ManageLifeBars();
+                EffectuerMAJ();
                 TempsÉcouléDepuisMAJ = 0;
             }
             base.Update(gameTime);
+        }
+
+        protected virtual void EffectuerMAJ()
+        {
+            FonctionsSouris();
+            if (!DésactiverDéplacement)
+            {
+                FonctionsClavier();
+            }
+            FonctionsGamePad();
+
+            GérerHauteur();
+            CréerPointDeVue();
+
+            AffecterCommandes(); // Grab moved to AffectCommandsForGrab()
+
+            //GérerRamassage();
+            GérerCourse();
+            GérerSaut();
+
+            ManageLifeBars();
         }
 
         protected virtual void ManageLifeBars()
@@ -250,6 +253,7 @@ namespace HyperV
             }
         }
 
+ 
         protected virtual void GérerDéplacement(float direction, float latéral)
         {
             float déplacementDirection = direction * VitesseTranslation;
@@ -405,19 +409,6 @@ namespace HyperV
             //NEW
         }
 
-        //private bool Taken()
-        //{
-        //    bool result = false;
-        //    foreach (ModeleRamassable sphereRamassable in Game.Components.Where(composant => composant is ModeleRamassable))
-        //    {
-        //        if (sphereRamassable.EstRamassée && !sphereRamassable.Placed)
-        //        {
-        //            result = true;
-        //            break;
-        //        }
-        //    }
-        //    return result;
-        //}
 
         //Saut
         #region
