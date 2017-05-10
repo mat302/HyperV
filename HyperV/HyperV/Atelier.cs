@@ -364,7 +364,7 @@ namespace HyperV
                         LevelPrison(false);
                         break;
                     case "Rythm":
-                        RythmLevel();
+                        NiveauRythmé();
                         break;
                 }
             }
@@ -825,11 +825,15 @@ namespace HyperV
 
         Walls Wall { get; set; }
 
-        void RythmLevel()
+        void NiveauRythmé()
         {
-            //NiveauRythmé circuit = new NiveauRythmé(this, "../../../Data3.txt", "Fence", FpsInterval);
-            //Components.Add(circuit);
-            //Services.AddService(typeof(NiveauRythmé), circuit);
+            NiveauRythmé circuit = new NiveauRythmé(this, "Fil Electrique", "../../../Data3.txt",
+                                                    3, "Blanc", "Rouge",
+                                                    "Vert", "BleuBlancRouge", "Arial50",
+                                                    Color.Black, 15, 1,
+                                                    FpsInterval);
+            Components.Add(circuit);
+            Services.AddService(typeof(NiveauRythmé), circuit);
         }
 
         // LevelPrison
