@@ -1,7 +1,7 @@
 ﻿Nom modele;X;Y;Z;homotésie;angle;Rotation
 Livre;-250;-20;-20;1;90;1;book
 Livre;-250;-20;5;1;90;2;book
-Livre;-250;-20;22;1;90;4;book
-Livre;-170;-20;-20;1;90;1;book
-Livre;-170;-20;1;1;90;2;book
-Livre;-170;-20;22;1;90;4;book
+Livre;-250;-20;22;1;90;3;book
+Livre;-170;-20;-20;1;90;4;book
+Livre;-170;-20;1;1;90;5;book
+Livre;-170;-20;22;1;90;6;book

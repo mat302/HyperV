@@ -26,9 +26,9 @@ namespace HyperV
         InputManager GestionInputs { get; set; }
         Camera2 Caméra { get; set; }
         RessourcesManager<SoundEffect> SoundManager { get; set; }
-        SoundEffect ClocheRéussi {get;set;}
+        SoundEffect ClocheRéussi { get; set; }
         SoundEffect ClocheManquée { get; set; }
-        SoundEffect PuzzleComplété { get; set; }    
+        SoundEffect PuzzleComplété { get; set; }
 
         public PuzzleBouton(Game game, int[] ordreBoutons, string positionBoutons)
             : base(game)
@@ -53,7 +53,7 @@ namespace HyperV
             {
                 string ligneLu = fichier.ReadLine();
                 string[] ligneSplit = ligneLu.Split(';');
-                CreateurModele x = new CreateurModele(Game, ligneSplit[0], new Vector3(float.Parse(ligneSplit[1]), float.Parse(ligneSplit[2]), float.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5]),"Rock");
+                CreateurModele x = new CreateurModele(Game, ligneSplit[0], new Vector3(float.Parse(ligneSplit[1]), float.Parse(ligneSplit[2]), float.Parse(ligneSplit[3])), int.Parse(ligneSplit[4]), int.Parse(ligneSplit[5]), "Rock");
                 Game.Components.Add(new Afficheur3D(Game));
                 Game.Components.Add(x);
                 ListeBoutons.Add(x);
@@ -76,6 +76,13 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
+            //Cheat pour mettre dans le titre l'ordre des boutons quil faut peser !
+            if (GestionInputs.EstEnfoncée(Microsoft.Xna.Framework.Input.Keys.B))
+            {
+                Game.Window.Title = OrdreBoutons[0].ToString() + OrdreBoutons[1].ToString() + OrdreBoutons[2].ToString() + OrdreBoutons[3].ToString();
+            }
+
+
             if (GestionInputs.EstNouveauClicGauche())
             {
                 for (int i = 0; i < ListeBoutons.Capacity; ++i)
@@ -138,17 +145,17 @@ namespace HyperV
         }
 
         bool TesterPremierBouton(int boutonActivé)
-        {            
+        {
             bool estOk = false;
             if (boutonActivé == OrdreBoutons[0]) //si bon bouton et il na pas ete encore peser correctement
-            {                
+            {
                 ClocheRéussi.Play();
                 estOk = true;
             }
             else
             {
                 ClocheManquée.Play();
-            }            
+            }
             return estOk;
         }
 
@@ -210,7 +217,7 @@ namespace HyperV
             {
                 if (bouton.DéplacementBouton)
                 {
-                    bouton.DéplacerModele(0.03f * new Vector3(-(float)(Math.Cos(MathHelper.ToRadians(alpha))), 0, 0));
+                    bouton.DéplacerModele(0.03f * new Vector3(0, 0, -(float)(Math.Cos(MathHelper.ToRadians(alpha)))));
                     alpha += 10;
                     if (alpha > 180)
                     {
@@ -220,6 +227,6 @@ namespace HyperV
                 }
                 TempsÉcouléMAJ = 0;
             }
-        }        
+        }
     }
 }
