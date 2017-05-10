@@ -156,7 +156,7 @@ namespace HyperV
         void ManageCollision()
         {
             float? collision = Character.Collision(new Ray(Camera.Position, Camera.Direction));
-            if (collision > 0.25f || collision == null)
+            if (collision > 10 || collision == null)
             {
                 Visible = false;
                 PressSpaceLabel.Visible = false;
