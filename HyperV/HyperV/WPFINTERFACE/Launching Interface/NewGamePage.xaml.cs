@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Markup;
 
 namespace Launching_Interface
 {
@@ -33,35 +24,38 @@ namespace Launching_Interface
          ListeÉlémentsAAfficher  = new List<string>();
 
          InitializeComponent();
+         Redimentionner();
+         tbtitre.Text = LangueOficielleNewPage[1];
+         BackButton.Text = LangueOficielleNewPage[0];
+         PlaceContent();
+      }
 
+      void Redimentionner()
+      {
          switch (GererDonnees.Langue)
          {
-            case 0:
+            case GererDonnees.Langues.Francais:
                LangueOficielleNewPage = GererDonnees.ListeFrancais;
                tbtitre.Margin = new Thickness(-40, 13, 42, 5);
                BackButton.Margin = new Thickness(28, 17, 113, 52);
                break;
-            case 1:
+            case GererDonnees.Langues.Anglais:
                LangueOficielleNewPage = GererDonnees.ListeAnglais;
                tbtitre.Margin = new Thickness(-30, 13, 49, 5);
                BackButton.Margin = new Thickness(28, 17, 113, 52);
                break;
-            case 2:
+            case GererDonnees.Langues.Espagnol:
                LangueOficielleNewPage = GererDonnees.ListeEspagnol;
                tbtitre.Margin = new Thickness(-40, 13, 42, 5);
                BackButton.Margin = new Thickness(24, 17, 118, 52);
                break;
-            case 3:
+            case GererDonnees.Langues.Japonais:
                LangueOficielleNewPage = GererDonnees.ListeJaponais;
                tbtitre.Margin = new Thickness(-30, 13, 49, 5);
                BackButton.Margin = new Thickness(28, 17, 113, 52);
                break;
 
          }
-         tbtitre.Text = LangueOficielleNewPage[1];
-         BackButton.Text = LangueOficielleNewPage[0];
-      //   CheckForExistingGames();
-         PlaceContent();
       }
 
       private void PlaceContent()
@@ -75,7 +69,7 @@ namespace Launching_Interface
 
       private void PlaceButtonsContent(int i)
       {
-         if (GererDonnees.GameExists[i])
+         if (GererDonnees.JeuEstExistant[i])
          {
             PlaceRows(i);
          }
@@ -116,23 +110,23 @@ namespace Launching_Interface
             case 0:
                image0.Source = src;
                image0.Margin = new Thickness(30);
-               slotA.Text = ÉlémentFichiersLangues(2);
-               Level0.Text= ÉlémentFichiersLangues(4) + " " + GererDonnees.CountComplete(i) + "/" + GererDonnees.CountLevels(i).ToString();
-               Time0.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];     
+               slotA.Text = LangueOficielleNewPage[2];
+               Level0.Text= LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               Time0.Text = LangueOficielleNewPage[3] + " " + ListeÉlémentsAAfficher[3];     
                break;
             case 1:
                image1.Source = src;
                image1.Margin = new Thickness(30);
-               slotB.Text = ÉlémentFichiersLangues(5);
-               Level1.Text= ÉlémentFichiersLangues(4) + " " + GererDonnees.CountComplete(i) + "/" + GererDonnees.CountLevels(i).ToString();
-               Time1.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];
+               slotB.Text = LangueOficielleNewPage[5];
+               Level1.Text= LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               Time1.Text = LangueOficielleNewPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
             case 2:
                image2.Source = src;
                image2.Margin = new Thickness(30);
-               slotC.Text = ÉlémentFichiersLangues(8);
-               Level2.Text= ÉlémentFichiersLangues(4) + " " + /*ListeÉlémentsAAfficher[0]*/GererDonnees.CountComplete(i) + "/" + GererDonnees.CountLevels(i).ToString();
-               Time2.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];
+               slotC.Text = LangueOficielleNewPage[8];
+               Level2.Text= LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               Time2.Text = LangueOficielleNewPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
          }
 
@@ -140,76 +134,46 @@ namespace Launching_Interface
          ChangeBorderBrushColor(i);
       }
 
-      string ÉlémentFichiersLangues(int i)
+      void OrganiserMargesCaractéristiques()
       {
-         return LangueOficielleNewPage[i].Replace("\n", string.Empty);
+         switch (GererDonnees.Langue)
+         {
+            case GererDonnees.Langues.Francais:
+               LangueOficielleNewPage = GererDonnees.ListeFrancais;
+               tbtitre.Margin = new Thickness(-38, 13, 43, 5);
+               BackButton.Margin = new Thickness(36, 17, 105, 50);
+               slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(15, -11, 15, 10);
+               Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
+               Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
+
+               break;
+            case GererDonnees.Langues.Anglais:
+               LangueOficielleNewPage = GererDonnees.ListeAnglais;
+               tbtitre.Margin = new Thickness(-35, 13, 49, 5);
+               BackButton.Margin = new Thickness(36, 17, 105, 50);
+               slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(33, -11, 33, 10);
+               Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
+               Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
+               break;
+            case GererDonnees.Langues.Espagnol:
+               LangueOficielleNewPage = GererDonnees.ListeEspagnol;
+               tbtitre.Margin = new Thickness(-39, 13, 42, 5);
+               BackButton.Margin = new Thickness(33, 17, 107, 52);
+               slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(27, -11, 27, 10);
+               Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
+               Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
+               break;
+            case GererDonnees.Langues.Japonais:
+               LangueOficielleNewPage = GererDonnees.ListeJaponais;
+               tbtitre.Margin = new Thickness(-41, 13, 53, 5);
+               BackButton.Margin = new Thickness(36, 17, 105, 52);
+               slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(26, -11, 26, 10);
+               Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(14, -5, 14, 5);
+               Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
+               break;
+
+         }
       }
-
-        //void OrganiserMargesDesCaractéristiques()
-        //{
-        //   Thickness margesSave =new Thickness( 0);
-        //   Thickness margesLevel = new Thickness(0);
-
-        //   if (GererDonnees.Langue != 0)
-        //   {
-        //      margesSave = new Thickness(20, 0, 20, 0);
-        //   }
-        //   slotA.Margin = margesSave;
-        //   slotB.Margin = margesSave;
-        //   slotC.Margin = margesSave;
-
-
-        //   if (GererDonnees.Langue ==3)
-        //   {
-        //      margesLevel = new Thickness(10, 0, 10, 0);
-        //   }
-        //   Level0.Margin = margesLevel;
-        //   Level1.Margin = margesLevel;
-        //   Level2.Margin = margesLevel;
-
-
-        //}
-
-        void OrganiserMargesCaractéristiques()
-        {
-            switch (GererDonnees.Langue)
-            {
-                case 0:
-                    LangueOficielleNewPage = GererDonnees.ListeFrancais;
-                    tbtitre.Margin = new Thickness(-38, 13, 43, 5);
-                    BackButton.Margin = new Thickness(36, 17, 105, 50);
-                    slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(15, -11, 15, 10);
-                    Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
-                    Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
-
-                    break;
-                case 1:
-                    LangueOficielleNewPage = GererDonnees.ListeAnglais;
-                    tbtitre.Margin = new Thickness(-35, 13, 49, 5);
-                    BackButton.Margin = new Thickness(36, 17, 105, 50);
-                    slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(33, -11, 33, 10);
-                    Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
-                    Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
-                    break;
-                case 2:
-                    LangueOficielleNewPage = GererDonnees.ListeEspagnol;
-                    tbtitre.Margin = new Thickness(-39, 13, 42, 5);
-                    BackButton.Margin = new Thickness(33, 17, 107, 52);
-                    slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(27, -11, 27, 10);
-                    Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
-                    Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
-                    break;
-                case 3:
-                    LangueOficielleNewPage = GererDonnees.ListeJaponais;
-                    tbtitre.Margin = new Thickness(-41, 13, 53, 5);
-                    BackButton.Margin = new Thickness(36, 17, 105, 52);
-                    slotA.Margin = slotB.Margin = slotC.Margin = new Thickness(26, -11, 26, 10);
-                    Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(14, -5, 14, 5);
-                    Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
-                    break;
-
-            }
-        }
 
       void ChangeBorderBrushColor(int i)
       {
@@ -250,16 +214,17 @@ namespace Launching_Interface
          switch (i)
          {
             case 0:
-               CreateImage(Save0/*Load0*/);
+               CreateImage(Save0);
                break;
             case 1:
-               CreateImage(Save1/*Load1*/);
+               CreateImage(Save1);
                break;
             case 2:
-               CreateImage(Save2/*Load2*/);
+               CreateImage(Save2);
                break;
          }
             ChangeBorderBrushColor(i);
+         Redimentionner();
             RéinitialiserBoutons(i);
       }
 
@@ -268,35 +233,23 @@ namespace Launching_Interface
          Create e = new Create();
          switch (GererDonnees.Langue)
          {
-            case 0:
+            case GererDonnees.Langues.Francais:
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/CreateFR.png", UriKind.Relative));
                break;
-            case 1:
+            case GererDonnees.Langues.Anglais:
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/Create.png", UriKind.Relative));
                break;
-            case 2:
+            case GererDonnees.Langues.Espagnol:
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/CreateES.png", UriKind.Relative));
                break;
-            case 3:
+            case GererDonnees.Langues.Japonais:
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/CreateJA.png", UriKind.Relative));
                break;
          }
+         Redimentionner();
          e.Image.Margin = new Thickness(0, -90, 0, -350);
          l.Children.Add(e);
       }
-
-      //void CheckForExistingGames()
-      //{
-      //   StreamReader r;
-
-      //   GererDonnees.GameExists = new bool[3];
-      //   for (int i = 0; i < 3; ++i)
-      //   {
-      //      r = new StreamReader("../../Saves/save" + i + ".txt");
-      //     GererDonnees. GameExists[i] = r.ReadLine() != "";
-      //      r.Close();
-      //   }
-      //}
 
       void BackButton_Click(object sender, RoutedEventArgs e)
       {
@@ -305,7 +258,7 @@ namespace Launching_Interface
 
       void Save0Button_Click(object sender, RoutedEventArgs e)
       {
-         if (!GererDonnees.GameExists[0])
+         if (!GererDonnees.JeuEstExistant[0])
          {
             CreateSave("0");
          }
@@ -315,17 +268,12 @@ namespace Launching_Interface
       void LoadSave(string saveNumber)
       {
          ManagePause(saveNumber);
-         //string path = "F:/programmation clg/quatrième session/HyperV/HyperV/HyperV/bin/x86/Debug/HyperV.exe";
-         //string path = "C:/Users/Mathieu/Source/Repos/HyperV/HyperV/HyperV/bin/x86/Debug/HyperV.exe";
          string path = System.IO.Path.Combine(Environment.CurrentDirectory, @"../../../../bin/x86/Debug/HyperV.exe");
          ProcessStartInfo p = new ProcessStartInfo();
          p.FileName = path;
          p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);//69
          Process.Start(p);
          Application.Current.Shutdown();
-         //Application.Current.MainWindow.Visibility = Visibility.Collapsed;
-         //Application.Current.MainWindow.ShowInTaskbar = false;
-         //this.NavigationService.Navigate(new MenuDansJeu());
       }
 
       void CreateSave(string saveNumber)
@@ -335,9 +283,6 @@ namespace Launching_Interface
          writer.WriteLine("Level: 0");
          writer.WriteLine("Position: {X:5 Y:5 Z:5}");
          writer.WriteLine("Direction: {X:5 Y:5 Z:5}");
-         //writer.WriteLine("Language: " + GererDonnees.Langue);
-         //writer.WriteLine("World: Lobby");
-         //writer.WriteLine("Percentage: 0%");
          writer.WriteLine("Time Played: " + (new TimeSpan(0, 0, 0)).ToString());
             writer.WriteLine("Max Life: 300");
             writer.WriteLine("Attack: 0");
@@ -356,7 +301,7 @@ namespace Launching_Interface
 
       void Save1Button_Click(object sender, RoutedEventArgs e)
       {
-         if (!GererDonnees.GameExists[1])
+         if (!GererDonnees.JeuEstExistant[1])
          {
             CreateSave("1");
          }
@@ -365,7 +310,7 @@ namespace Launching_Interface
 
       void Save2Button_Click(object sender, RoutedEventArgs e)
       {
-         if (!GererDonnees.GameExists[2])
+         if (!GererDonnees.JeuEstExistant[2])
          {
             CreateSave("2");
          }

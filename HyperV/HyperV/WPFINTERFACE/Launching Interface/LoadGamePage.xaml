@@ -159,7 +159,7 @@
                     <Button Name="allo" Content="                     " FontWeight="DemiBold" Margin="13,10,85,34" ClickMode="Press" Background="Transparent" Click="BackButton_Click" BorderThickness="1" Foreground="White" BorderBrush="White"  />
                 </Viewbox>
                 <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                    <TextBlock Name="BackButton" Text="Retour" IsHitTestVisible="False" Margin="35,17,100,52"  Background="Transparent" Foreground="White"  FontWeight="SemiBold" Height="16" MinHeight="16"/>
+                    <TextBlock Name="BackButton" Text="Retour" IsHitTestVisible="False" Margin="60,17,100,52"  Background="Transparent" Foreground="White"  FontWeight="SemiBold" Height="16" MinHeight="16"/>
                 </Viewbox>
             </Grid>
             <Grid Name="Columnss" Grid.Row="1" HorizontalAlignment="Stretch" Width="auto">
