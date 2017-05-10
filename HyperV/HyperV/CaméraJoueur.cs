@@ -28,7 +28,7 @@ namespace HyperV
         float VitesseRotation { get; set; }
         Point AnciennePositionSouris { get; set; }
         Point NouvellePositionSouris { get; set; }
-        public Vector2 DéplacementSouris { get; set; }
+        public Vector2 DéplacementSouris { get; set; }   // checker justre point virgule !! ---------------
 
         protected bool DésactiverDéplacement { get; set; }
         protected float IntervalleMAJ { get; set; }
@@ -51,7 +51,9 @@ namespace HyperV
         protected LifeBar[] LifeBars { get; set; }
         Vector2 Origin { get; set; }
 
-        public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance) : base(jeu)
+        public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible,
+                            Vector3 orientation, float intervalleMAJ, float renderDistance)
+            : base(jeu)
         {
             DistancePlanÉloigné = renderDistance;
             IntervalleMAJ = intervalleMAJ;
@@ -61,10 +63,7 @@ namespace HyperV
             Origin = new Vector2(Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height) / 2;
         }
 
-        public float GetRenderDistance()
-        {
-            return DistancePlanÉloigné;
-        }
+  
 
         public void SetRenderDistance(float renderDistance)
         {

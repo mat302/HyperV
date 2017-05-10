@@ -1,13 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 
 
@@ -15,7 +6,7 @@ namespace HyperV
 {
     public class SphèreRythmée : SphèreTexturée, ICollisionable
     {
-        public bool ÀDétruire { get; set; }
+        public bool ÀDétruire { get; set; }  // juste point virgule
 
         #region
         float Rayon { get; set; }
@@ -35,7 +26,7 @@ namespace HyperV
         }
         #endregion
 
-        public Vector3 Extrémité1 { get; set; }
+        public Vector3 Extrémité1 { get; set; }  // juste point virgule
         Vector3 Extrémité2 { get; set; }
         Vector3 VecteurDéplacement { get; set; }
         int i { get; set; }
