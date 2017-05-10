@@ -84,7 +84,6 @@ namespace HyperV
                 Position += VecteurDéplacementMAJ;
                 GérerCollisionsBalle();
                 TempsÉcouléDepuisMAJDéplacement = AUCUN_TEMPS_ÉCOULÉ;
-                CameraPrison.Ramasser = true;
 
             }
             base.Update(gameTime);
