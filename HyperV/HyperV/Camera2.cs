@@ -22,6 +22,7 @@ namespace HyperV
         List<House> Houses { get; set; }
         List<UnlockableWall> Unlockables { get; set; }
         bool SubjectiveCamera { get; set; }
+        LifeBar[] LifeBars { get; set; }
 
         public Camera2(Game jeu, Vector3 positionCaméra, Vector3 cible, Vector3 orientation, float intervalleMAJ, float renderDistance)
             : base(jeu, positionCaméra, cible, orientation, intervalleMAJ, renderDistance)
@@ -36,12 +37,14 @@ namespace HyperV
             Boss = Game.Services.GetService(typeof(Boss)) as Boss;
             HeightMap = Game.Services.GetService(typeof(List<HeightMap>)) as List<HeightMap>;
             Grass = Game.Services.GetService(typeof(Grass)) as Grass;
+            LifeBars = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
             GérerHauteur();
             Water = Game.Services.GetService(typeof(List<Water>)) as List<Water>;
             Walls = Game.Services.GetService(typeof(List<Walls>)) as List<Walls>;
             Houses = Game.Services.GetService(typeof(List<House>)) as List<House>;
             Portals = Game.Services.GetService(typeof(List<Portal>)) as List<Portal>;
             Unlockables = Game.Services.GetService(typeof(List<UnlockableWall>)) as List<UnlockableWall>;
+            
         }
 
         //NO WATER
@@ -61,7 +64,7 @@ namespace HyperV
                         {
                             height = HeightMap[i].GetHeight(Position);
                         }
-                        Height = height;
+                        HauteurDeBase = height;
                     }
                 }
                 base.GérerHauteur();
@@ -140,32 +143,32 @@ namespace HyperV
             {
                 if (Sauter)
                 {
-                    Height += 0.4f;
+                    HauteurDeBase += 0.4f;
                     for (int i = 0; i < Water.Count /*&& height == 5*/; ++i)
                     {
-                        if (Height > Water[i].AdjustedHeight)
+                        if (HauteurDeBase > Water[i].AdjustedHeight)
                         {
-                            Height = Water[i].AdjustedHeight;
+                            HauteurDeBase = Water[i].AdjustedHeight;
                             LifeBars[1].Restore();
                             break;
                         }
                     }
-                    Position = new Vector3(Position.X, Height/*HAUTEUR_PERSONNAGE*/, Position.Z);
+                    Position = new Vector3(Position.X, HauteurDeBase/*HAUTEUR_PERSONNAGE*/, Position.Z);
                     //++Hauteur;
                 }
                 else
                 {
-                    Height -= 0.4f;
+                    HauteurDeBase -= 0.4f;
                     for (int i = 0; i < HeightMap.Count /*&& height == 5*/; ++i)
                     {
-                        if (Height < HeightMap[i].GetHeight(Position))
+                        if (HauteurDeBase < HeightMap[i].GetHeight(Position))
                         {
-                            Height = HeightMap[i].GetHeight(Position);
+                            HauteurDeBase = HeightMap[i].GetHeight(Position);
                             break;
                         }
                     }
                     
-                    Position = new Vector3(Position.X, Height/*HAUTEUR_PERSONNAGE*/, Position.Z);
+                    Position = new Vector3(Position.X, HauteurDeBase/*HAUTEUR_PERSONNAGE*/, Position.Z);
                     //--Hauteur;
                 }
             }
@@ -277,18 +280,18 @@ namespace HyperV
             {
                 if (placerJoueur)
                 {
-                    Height = 2;
+                    HauteurDeBase = 2;
                     placerJoueur = false;
                     Position = new Vector3(-27, 2, -28);
                 }
             }
             if (DésactiverDéplacement)
             {
-                Height = 15;
+                HauteurDeBase = 15;
                 Position = new Vector3(-57, 15, -52);
                 placerJoueur = true;
             }
-            Position = new Vector3(Position.X, Height, Position.Z);
+            Position = new Vector3(Position.X, HauteurDeBase, Position.Z);
         }
 
 
