@@ -68,6 +68,8 @@ namespace HyperV
             }
         }
 
+     
+
         //protected override void GÈrerHauteur()
         //{
         //    if (!SubjectiveCamera)
@@ -262,39 +264,32 @@ namespace HyperV
         public void DÈsactiverCamÈra()
         {
             DÈsactiverDÈplacement = !DÈsactiverDÈplacement;
-            Direction = new Vector3(1, 0, 0);
+            InitializeDirection(new Vector3(1, 0, 0));
         }
 
         bool placerJoueur { get; set; }
 
-        //public override void Update(GameTime gameTime) // To make the catapult work
-        //{
-        //    float Temps…coulÈ = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        //    Temps…coulÈDepuisMAJ += Temps…coulÈ;
-        //    if (Temps…coulÈDepuisMAJ >= IntervalleMAJ)
-        //    {
-        //        {
-        //            if (!DÈsactiverDÈplacement)
-        //            {
-        //                if (placerJoueur)
-        //                {
-        //                    Height = 2;
-        //                    placerJoueur = false;
-        //                    Position = new Vector3(-27, 2, -28);
-        //                }
-        //            }
-        //            if (DÈsactiverDÈplacement)
-        //            {
-        //                Height = 15;
-        //                Position = new Vector3(-57, 15, -52);
-        //                placerJoueur = true;
-        //            }
-        //            Position = new Vector3(Position.X, Height, Position.Z);
-        //        }
-        //        Temps…coulÈDepuisMAJ = 0;
-        //    }
-        //    base.Update(gameTime);
-        //}
+
+        protected override void EffectuerMAJ()
+        {
+            base.EffectuerMAJ();
+            if (!DÈsactiverDÈplacement)
+            {
+                if (placerJoueur)
+                {
+                    Height = 2;
+                    placerJoueur = false;
+                    Position = new Vector3(-27, 2, -28);
+                }
+            }
+            if (DÈsactiverDÈplacement)
+            {
+                Height = 15;
+                Position = new Vector3(-57, 15, -52);
+                placerJoueur = true;
+            }
+            Position = new Vector3(Position.X, Height, Position.Z);
+        }
 
 
     }

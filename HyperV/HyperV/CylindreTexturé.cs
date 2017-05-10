@@ -105,6 +105,7 @@ namespace HyperV
             {
                 for (int j = 0; j < PtsSommets.GetLength(1); ++j)
                 {
+                    // ptite fonction-----------------------------------------------------------------------------------
                     PtsSommets[i, j] = new Vector3(Origine.X - (i/NbColonnes * (Extrémité2 - Extrémité1).Length()* (Vector3.Normalize(Extrémité1 - Extrémité2).X)) + Extrémité1.X,
                                                    Origine.Y - (i / NbColonnes * (Extrémité2 - Extrémité1).Length() * (Vector3.Normalize(Extrémité1 - Extrémité2).Y)) + (float)Math.Cos(j * 2 * Math.PI / NbLignes) + Extrémité1.Y,
                                                    Origine.Z - (i / NbColonnes * (Extrémité2 - Extrémité1).Length() * (Vector3.Normalize(Extrémité1 - Extrémité2).Z))+(float)Math.Sin(j * 2 * Math.PI / NbLignes) + Extrémité1.Z);
