@@ -139,6 +139,9 @@ namespace HyperV
             string line = reader.ReadLine();
             string[] parts = line.Split(new char[] { ' ' });
             Level = int.Parse(parts[1]);
+
+       
+
             line = reader.ReadLine();
             parts = line.Split(new string[] { "n: " }, StringSplitOptions.None);
             Position = Vector3Parse(parts[1]);
@@ -214,7 +217,7 @@ namespace HyperV
                     case "#":
                         break;
                     case "SpaceBackground":
-                        Components.Add(SpaceBackground);
+                        Components.Add(new ArrièrePlanSpatial(this, parts[1], FpsInterval));
                         break;
                     case "Display3D":
                         Display3D = new Afficheur3D(this);
