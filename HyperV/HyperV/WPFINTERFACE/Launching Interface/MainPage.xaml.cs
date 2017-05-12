@@ -38,7 +38,7 @@ namespace Launching_Interface
          lg.Text = LangueOficielleMain[32];
          se.Text = LangueOficielleMain[11];
          cr.Text = LangueOficielleMain[24];
-         hi.Text = LangueOficielleMain[28];
+         //hi.Text = LangueOficielleMain[28];
          exit.Text = LangueOficielleMain[34];
 
 
