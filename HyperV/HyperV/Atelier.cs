@@ -489,6 +489,7 @@ namespace HyperV
                 ordre[i] = générateur.Next(0, 4);
             }
             PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt");
+            Services.RemoveService(typeof(PuzzleBouton));
             Services.AddService(typeof(PuzzleBouton),PuzzleBouton);
             Components.Add(PuzzleBouton);
         }
