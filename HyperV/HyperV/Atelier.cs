@@ -349,14 +349,10 @@ namespace HyperV
                         Components.Add(new Skybox(this, parts[1]));
                         break;
                     case "UnlockableWall":
-                        int a = int.Parse(parts[6]);
-                        if (CountComplete() < a)
-                        {
-                            Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval));
-                            Components.Add(Unlockables.Last());
-                            Services.RemoveService(typeof(List<UnlockableWall>));
-                            Services.AddService(typeof(List<UnlockableWall>), Unlockables);
-                        }
+                        Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval, int.Parse(parts[6]), CountComplete(), ListeRunes));
+                        Components.Add(Unlockables.Last());
+                        Services.RemoveService(typeof(List<UnlockableWall>));
+                        Services.AddService(typeof(List<UnlockableWall>), Unlockables);
                         break;
                     case "Water":
                         Water.Add(new Water(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), FpsInterval));
@@ -368,7 +364,7 @@ namespace HyperV
                         LevelPrison(false);
                         break;
                     case "Rythm":
-                        RythmLevel();
+                        NiveauRythmé();
                         break;
                 }
             }
@@ -493,6 +489,7 @@ namespace HyperV
                 ordre[i] = générateur.Next(0, 4);
             }
             PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt");
+            Services.AddService(typeof(PuzzleBouton),PuzzleBouton);
             Components.Add(PuzzleBouton);
         }
 
@@ -829,9 +826,13 @@ namespace HyperV
 
         Walls Wall { get; set; }
 
-        void RythmLevel()
+        void NiveauRythmé()
         {
-            NiveauRythmé circuit = new NiveauRythmé(this, "../../../Data3.txt", "Fence", FpsInterval);
+            NiveauRythmé circuit = new NiveauRythmé(this, "Fil Electrique", "../../../Data3.txt",
+                                                    3, "Blanc", "Rouge",
+                                                    "Vert", "BleuBlancRouge", "Arial50",
+                                                    Color.Black, 15, 1,
+                                                    FpsInterval);
             Components.Add(circuit);
             Services.AddService(typeof(NiveauRythmé), circuit);
         }

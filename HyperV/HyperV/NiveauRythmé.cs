@@ -20,7 +20,7 @@ namespace HyperV
     //}
 
 
-        //Faire enlever de la vie si pese touche pas colision
+    //Faire enlever de la vie si pese touche pas colision
     public class NiveauRythmé : Microsoft.Xna.Framework.GameComponent
     {
         //CONSTRUCTEUR
@@ -65,12 +65,12 @@ namespace HyperV
         GamePadManager GestionGamePad { get; set; }
         List<UnlockableWall> MurÀEnlever { get; set; }
         List<Portal> ListePortails { get; set; }
-        
+
 
         public NiveauRythmé(Game jeu, string textureCylindre, string nomFichierLecturePositionsCylindre,
                             float longueurArêteCube, string textureCubeBase, string textureCubeÉchec,
                             string textureCubeRéussite, string textureSphèreRythmée, string nomPolicePointage,
-                            Color couleurPointage, int nbreBalleÀRéussir, int difficultée, 
+                            Color couleurPointage, int nbreBalleÀRéussir, int difficultée,
                             float intervalleMAJ)
             : base(jeu)
         {
@@ -113,7 +113,7 @@ namespace HyperV
             Pointage = new AfficheurPointage(Game, NomPolicePointage, CouleurPointage, IntervalleMAJ);
             ChargerContenu();
             InitialisationComposants();
-            
+
         }
 
         void InitialiserPositions()
@@ -127,7 +127,7 @@ namespace HyperV
             while (!lecteurFichier.EndOfStream)
             {
                 ligneLue = lecteurFichier.ReadLine();
-                 // Faire fonction une ligne
+                // Faire fonction une ligne
                 indicateurDebut = ligneLue.IndexOf("X:") + 2;
                 composanteX = float.Parse(ligneLue.Substring(indicateurDebut, ligneLue.IndexOf(" Y") - indicateurDebut));
 
@@ -153,24 +153,24 @@ namespace HyperV
 
         void InitialisationComposants()
         {
-          
+
             Game.Components.Add(Pointage);
             Game.Components.Add(new Afficheur3D(Game));
 
-            for(int i = 0; i < Positions.Count; i += 2)
+            for (int i = 0; i < Positions.Count; i += 2)
             {
                 // constantes ---------------------------------------------------------------------
 
                 Game.Components.Add(new CylindreTexturé(Game, 1, Vector3.Zero,
                                     Vector3.Zero, new Vector2(1, 1), new Vector2(20, 20),
                                     TextureCylindre, IntervalleMAJ, Positions[i],
-                                    Positions[i+1]));
+                                    Positions[i + 1]));
 
-                Game.Components.Add(new CubeTexturé(Game, 1, Vector3.Zero, Positions[i+1],
+                Game.Components.Add(new CubeTexturé(Game, 1, Vector3.Zero, Positions[i + 1],
                                     TextureCubeBase, new Vector3(LongueurArêteCube, LongueurArêteCube, LongueurArêteCube), IntervalleMAJ));
 
                 Game.Components.Add(new TuileTexturée(Game, 1, new Vector3(0, -MathHelper.PiOver2, 0),
-                                    Positions[i+1] - 1.65f * Vector3.UnitX, new Vector2(LongueurArêteCube, LongueurArêteCube), (i/2+1).ToString()));
+                                    Positions[i + 1] - 1.65f * Vector3.UnitX, new Vector2(LongueurArêteCube, LongueurArêteCube), (i / 2 + 1).ToString()));
             }
         }
 
@@ -193,13 +193,13 @@ namespace HyperV
 
         void RegarderTouches()
         {
-            BoutonUn = GestionInput.EstNouvelleTouche(Keys.NumPad1)|| 
+            BoutonUn = GestionInput.EstNouvelleTouche(Keys.NumPad1) ||
                        GestionInput.EstNouvelleTouche(Keys.D1) ||
                       GestionGamePad.EstEnfoncé(Buttons.DPadLeft) || BoutonUn;
-            BoutonDeux = GestionInput.EstNouvelleTouche(Keys.NumPad2) || 
+            BoutonDeux = GestionInput.EstNouvelleTouche(Keys.NumPad2) ||
                         GestionInput.EstNouvelleTouche(Keys.D2) ||
                       GestionGamePad.EstEnfoncé(Buttons.DPadDown) || BoutonDeux;
-            BoutonTrois = GestionInput.EstNouvelleTouche(Keys.NumPad3) || 
+            BoutonTrois = GestionInput.EstNouvelleTouche(Keys.NumPad3) ||
                         GestionInput.EstNouvelleTouche(Keys.D3) ||
                       GestionGamePad.EstEnfoncé(Buttons.DPadRight) || BoutonTrois;
         }
@@ -260,14 +260,14 @@ namespace HyperV
 
                 if (!NiveauEstTerminé)
                 {
-                    BorneMaximale_i = GénérateurAléatoire.Next(30/Difficultée, 90/Difficultée);
-                    
+                    BorneMaximale_i = GénérateurAléatoire.Next(30 / Difficultée, 90 / Difficultée);
+
                     int choixPente = GénérateurAléatoire.Next(0, 3) * 2;
                     Game.Components.Add(new Afficheur3D(Game));
                     Game.Components.Add(new SphèreRythmée(Game, 1, Vector3.Zero,
                                         Positions[choixPente], 1, new Vector2(20, 20),
                                         TextureSphèreRythmée, IntervalleMAJ, Positions[choixPente + 1]));
-                    
+
                 }
                 i = 0;
             }
@@ -275,10 +275,10 @@ namespace HyperV
 
         void RemettreCubesTextureInitiale(CubeTexturé cube)
         {
-            if (j > BorneMaximale_j/Difficultée || NiveauEstTerminé)
+            if (j > BorneMaximale_j / Difficultée || NiveauEstTerminé)
             {
-                cube.NomTextureCube = TextureCubeBase;
-                cube.InitialiserParamètresEffetDeBase();
+                //cube.NomTextureCube = TextureCubeBase;
+                //cube.InitialiserParamètresEffetDeBase();
 
                 //j = 0;
             }
@@ -286,10 +286,10 @@ namespace HyperV
 
         void GérerÉchec(CubeTexturé cube)
         {
-            if (SontVecteursÉgaux(PositionCubeRouge, cube.Position))
+            //if (SontVecteursÉgaux(PositionCubeRouge, cube.Position))
             {
-                cube.NomTextureCube = TextureCubeÉchec;
-                cube.InitialiserParamètresEffetDeBase();
+                //cube.NomTextureCube = TextureCubeÉchec;
+                //cube.InitialiserParamètresEffetDeBase();
                 PositionCubeRouge = null;
                 j = 0;
             }
@@ -302,8 +302,8 @@ namespace HyperV
                                     SontVecteursÉgaux(sp.Extrémité1, Positions[4]) && BoutonTrois)
             {
                 sp.ÀDétruire = true;
-                cube.NomTextureCube = TextureCubeRéussite;
-                cube.InitialiserParamètresEffetDeBase();
+                //cube.NomTextureCube = TextureCubeRéussite;
+                //cube.InitialiserParamètresEffetDeBase();
                 ++nombreRéussi;
                 j = 0;
             }
@@ -313,7 +313,7 @@ namespace HyperV
         {
             bool égaux;
 
-            if(a == null)
+            if (a == null)
             {
                 égaux = false;
             }

@@ -42,15 +42,15 @@ namespace HyperV
         public override void Update(GameTime gameTime)
         {
 
-            TempsÉcouléMAJ += (float)gameTime.ElapsedGameTime.TotalSeconds;      
+            TempsÉcouléMAJ += (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsActivationRune += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (TempsÉcouléMAJ >= 1 / 60f)
             {
                 TesterPositionJoueur();
                 if (EstSousJoueur)
                 {
-                    if(TempsActivationRune > 2)
-                    ActiverRune();
+                    if (TempsActivationRune > 2)
+                        ActiverRune();
                 }
                 TempsÉcouléMAJ = 0;
             }
@@ -60,7 +60,8 @@ namespace HyperV
 
         private void TesterPositionJoueur()
         {
-            if (Caméra.Position.X < PositionInitiale.X && Caméra.Position.X > PositionInitiale.X - 3 && Caméra.Position.Z > PositionInitiale.Z && Caméra.Position.Z < PositionInitiale.Z + 3)
+            const int GROSSEUR_RUNE = 2;
+            if (Caméra.Position.X < PositionInitiale.X + GROSSEUR_RUNE && Caméra.Position.X > PositionInitiale.X - GROSSEUR_RUNE && Caméra.Position.Z > PositionInitiale.Z - GROSSEUR_RUNE && Caméra.Position.Z < PositionInitiale.Z + GROSSEUR_RUNE)
             {
                 EstSousJoueur = true;
             }
@@ -80,7 +81,7 @@ namespace HyperV
             }
             else
             {
-                CubeRuneActivée = new CreateurModele(Game, "Cube", new Vector3(PositionInitiale.X - 1, PositionInitiale.Y + 2, PositionInitiale.Z + 1), 0.6f, 0);
+                CubeRuneActivée = new CreateurModele(Game, "axle", new Vector3(PositionInitiale.X, PositionInitiale.Y + 2, PositionInitiale.Z), 0.005f, 0);
                 Game.Components.Add(new Afficheur3D(Game));
                 Game.Components.Add(CubeRuneActivée);
                 RuneActivée.Play();

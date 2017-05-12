@@ -84,7 +84,6 @@
     <Compile Include="BossLabel.cs" />
     <Compile Include="Camera1.cs" />
     <Compile Include="Camera2.cs" />
-    <Compile Include="Camera3.cs" />
     <Compile Include="CaméraJoueur.cs" />
     <Compile Include="Catapulte.cs" />
     <Compile Include="Ceiling.cs" />
