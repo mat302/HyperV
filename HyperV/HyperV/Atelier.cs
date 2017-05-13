@@ -14,10 +14,11 @@ using System.Globalization;
 
 namespace HyperV
 {
-   enum Language
+   public enum Language
     {
         French, English, Spanish, Japanese
     }
+   
 
     enum Input
     {
@@ -76,7 +77,7 @@ namespace HyperV
         TexteCentré GameOver { get; set; }
         TexteCentré Success { get; set; }
         TimeSpan TimePlayed { get; set; }
-        Language Language { get; set; }
+        public Language Language { get;private set; }
         int RenderDistance { get; set; }
         bool FullScreen { get; set; }
         Input Input { get; set; }
@@ -380,7 +381,7 @@ namespace HyperV
                 Components.Add(Camera);
                 Components.Remove(Loading);
                 Components.Add(Crosshair);
-                Components.Add(FPSLabel);
+             //   Components.Add(FPSLabel);
             }
         }
 
@@ -671,7 +672,8 @@ namespace HyperV
 
         void CheckForUnlockableWallBouncingBalls()
         {
-            if (BalleRebondissante.Count < 5)
+         const int NBRE_LIMITE_BALLES = 5;
+            if (BalleRebondissante.Count < NBRE_LIMITE_BALLES)
             {
                 foreach (BalleRebondissante e in Components)
                 {
