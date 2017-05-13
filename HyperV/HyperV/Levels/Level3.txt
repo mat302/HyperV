@@ -18,6 +18,10 @@ Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:730 Y:1 Z:175};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:692 Y:1 Z:142};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:692 Y:1 Z:127};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:700 Y:1 Z:134.5};150
+Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:1020 Y:1 Z:206};150
+Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:1233 Y:1 Z:167};150
+Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:1242 Y:1 Z:492};150
+Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:1126 Y:1 Z:474};150
 #;Enemy;Robot;0.05;{X:0 Y:0 Z:0};{X:230 Y:0 Z:120};1;20;0.3
 Enemy;cent;0.4;{X:0 Y:4 Z:0};{X:246 Y:0 Z:127};1;20;0.3
 Enemy;cent;0.4;{X:0 Y:0 Z:0};{X:334 Y:0 Z:109};1;20;0.3
