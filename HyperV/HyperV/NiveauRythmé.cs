@@ -209,6 +209,8 @@ namespace HyperV
             i++;
             j++;
 
+            GérerPointage();
+
             foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
             {
                 RemettreCubesTextureInitiale(cube);
@@ -223,7 +225,7 @@ namespace HyperV
                 }
             }
 
-            GérerPointage();
+            
             AjouterSphères();
 
             BoutonUn = false;
