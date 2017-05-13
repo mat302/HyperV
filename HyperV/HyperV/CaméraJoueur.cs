@@ -8,6 +8,8 @@ namespace HyperV
 {
     public class CaméraJoueur : Caméra
     {
+        const int HAUTEUR_SAUT = 10;
+        const int SAUT = 25;
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         const float ACCÉLÉRATION = 0.001f;
         const float VITESSE_INITIALE_ROTATION = 5f;
@@ -449,7 +451,7 @@ namespace HyperV
         {
             Position = new Vector3(Position.X, HauteurDeBase/*HAUTEUR_PERSONNAGE*/, Position.Z);
             PositionPtsDeControle = new Vector3(Position.X, Position.Y, Position.Z);
-            PositionPtsDeControlePlusUn = Position + Vector3.Normalize(new Vector3(Direction.X, 0, Direction.Z)) * 25;
+            PositionPtsDeControlePlusUn = Position + Vector3.Normalize(new Vector3(Direction.X, 0, Direction.Z)) * SAUT;
             //Position = new Vector3(PositionPtsDeControle.X, PositionPtsDeControle.Y, PositionPtsDeControle.Z);//******
             //Direction = PositionPtsDeControlePlusUn - PositionPtsDeControle;//******
             PtsDeControle = CalculerPointsControle();
@@ -460,8 +462,8 @@ namespace HyperV
             Vector3[] pts = new Vector3[4];
             pts[0] = PositionPtsDeControle;
             pts[3] = PositionPtsDeControlePlusUn;
-            pts[1] = new Vector3(pts[0].X, pts[0].Y + 20, pts[0].Z);
-            pts[2] = new Vector3(pts[3].X, pts[3].Y + 20, pts[3].Z);
+            pts[1] = new Vector3(pts[0].X, pts[0].Y + HAUTEUR_SAUT, pts[0].Z);
+            pts[2] = new Vector3(pts[3].X, pts[3].Y + HAUTEUR_SAUT, pts[3].Z);
             return pts;
         }
 
