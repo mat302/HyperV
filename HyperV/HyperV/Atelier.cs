@@ -557,9 +557,7 @@ namespace HyperV
             FontManager = new RessourcesManager<SpriteFont>(this, "Fonts");
             SpaceBackground = new ArrièrePlanSpatial(this, "CielÉtoilé", FpsInterval);
             FPSLabel = new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS);
-            Loading = new TexteCentré(this, DéterminerTextes(0), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
-            GameOver = new TexteCentré(this, DéterminerTextes(1), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
-            Success = new TexteCentré(this, DéterminerTextes(2), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
+            UpdateText();
             InputManager = new InputManager(this);
             Services.AddService(typeof(RessourcesManager<SpriteFont>), FontManager);
             Services.AddService(typeof(InputManager), InputManager);
@@ -582,6 +580,12 @@ namespace HyperV
             base.Initialize();
         }
 
+        public void UpdateText()
+        {
+            Loading = new TexteCentré(this, DéterminerTextes(0), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
+            GameOver = new TexteCentré(this, DéterminerTextes(1), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
+            Success = new TexteCentré(this, DéterminerTextes(2), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
+        }
 
       string DéterminerTextes(int i)
       {
@@ -713,7 +717,7 @@ namespace HyperV
             IsMouseVisible = false;
             LoadSettings();
             UpdateLanguages();
-
+            UpdateText();
         }
 
         void UpdateLanguages()

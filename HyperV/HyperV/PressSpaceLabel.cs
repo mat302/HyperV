@@ -30,8 +30,8 @@ namespace HyperV
         public override void Initialize()
         {
             DéterminerMesage();
-            Position = new Vector2(Game.Window.ClientBounds.Width - 150, Game.Window.ClientBounds.Height - 50);
-            Scale = 0.25f;
+            Position = new Vector2(Game.Window.ClientBounds.Width - 250, Game.Window.ClientBounds.Height - 80);
+            Scale = 0.5f;
             base.Initialize();
         }
 
@@ -43,13 +43,13 @@ namespace HyperV
                Message = "Appuyer sur R";
                break;
             case Language.English:
-               Message = "Press on R";
+               Message = "Press R";
                break;
             case Language.Spanish:
                Message = "Seguir adelante R";
                break;
             case Language.Japanese:
-               Message = "押す R";
+               Message = "Rを押して";
                break;
          }
       }
