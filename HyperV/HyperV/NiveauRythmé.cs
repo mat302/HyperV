@@ -240,7 +240,6 @@ namespace HyperV
 
                 // constantes  ----------------------------------
 
-
                 NiveauEstTerminé = true;
                 i = 1000;
                 Game.Components.Remove(MurÀEnlever[0]);
@@ -277,8 +276,8 @@ namespace HyperV
         {
             if (j > BorneMaximale_j / Difficultée || NiveauEstTerminé)
             {
-                //cube.NomTextureCube = TextureCubeBase;
-                //cube.InitialiserParamètresEffetDeBase();
+                cube.NomTextureCube = TextureCubeBase;
+                cube.InitialiserParamètresEffetDeBase();
 
                 //j = 0;
             }
@@ -286,10 +285,10 @@ namespace HyperV
 
         void GérerÉchec(CubeTexturé cube)
         {
-            //if (SontVecteursÉgaux(PositionCubeRouge, cube.Position))
+            if (SontVecteursÉgaux(PositionCubeRouge, cube.Position))
             {
-                //cube.NomTextureCube = TextureCubeÉchec;
-                //cube.InitialiserParamètresEffetDeBase();
+                cube.NomTextureCube = TextureCubeÉchec;
+                cube.InitialiserParamètresEffetDeBase();
                 PositionCubeRouge = null;
                 j = 0;
             }
@@ -302,8 +301,8 @@ namespace HyperV
                                     SontVecteursÉgaux(sp.Extrémité1, Positions[4]) && BoutonTrois)
             {
                 sp.ÀDétruire = true;
-                //cube.NomTextureCube = TextureCubeRéussite;
-                //cube.InitialiserParamètresEffetDeBase();
+                cube.NomTextureCube = TextureCubeRéussite;
+                cube.InitialiserParamètresEffetDeBase();
                 ++nombreRéussi;
                 j = 0;
             }
