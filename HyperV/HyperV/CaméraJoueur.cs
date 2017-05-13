@@ -330,7 +330,7 @@ namespace HyperV
                       (GestionInput.EstEnfoncée(Keys.LeftShift) && EstDéplacementEtAutresClavierActivé) ||
                       GestionGamePad.PositionsGâchettes.X > 0;
 
-            Sauter = (GestionInput.EstEnfoncée(Keys.R/*Keys.Space*/) && EstDéplacementEtAutresClavierActivé) ||
+            Sauter = (GestionInput.EstEnfoncée(/*Keys.R*/Keys.Space) && EstDéplacementEtAutresClavierActivé) ||
                      GestionGamePad.EstEnfoncé(Buttons.A);
 
             //Ramasser = GestionInput.EstNouveauClicGauche() ||
