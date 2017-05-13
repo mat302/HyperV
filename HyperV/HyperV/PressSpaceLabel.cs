@@ -1,22 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
-
 
 namespace HyperV
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
-    public class PressSpaceLabel : Microsoft.Xna.Framework.DrawableGameComponent
+   /// <summary>
+   /// This is a game component that implements IUpdateable.
+   /// </summary>
+   public class PressSpaceLabel : Microsoft.Xna.Framework.DrawableGameComponent
     {
         string Message { get; set; }
         Vector2 Position { get; set; }
@@ -25,6 +16,7 @@ namespace HyperV
         RessourcesManager<SpriteFont> FontManager { get; set; }
         Vector2 Origin { get; set; }
         float Scale { get; set; }
+      Language Language { get; set; }
 
         public PressSpaceLabel(Game game) : base(game)
         {
@@ -37,11 +29,30 @@ namespace HyperV
         /// </summary>
         public override void Initialize()
         {
-            Message = "Press R/Y";//"Press Space/Y";
-            Position = new Vector2(Game.Window.ClientBounds.Width - 190, Game.Window.ClientBounds.Height - 70);
-            Scale = 0.5f;//0.25f;
+            DéterminerMesage();
+            Position = new Vector2(Game.Window.ClientBounds.Width - 150, Game.Window.ClientBounds.Height - 50);
+            Scale = 0.25f;
             base.Initialize();
         }
+
+       void DéterminerMesage()
+      {
+         switch ((Game as Atelier).Language)
+        {
+            case Language.French:
+               Message = "Appuyer sur R";
+               break;
+            case Language.English:
+               Message = "Press on R";
+               break;
+            case Language.Spanish:
+               Message = "Seguir adelante R";
+               break;
+            case Language.Japanese:
+               Message = "押す R";
+               break;
+         }
+      }
 
         protected override void LoadContent()
         {
@@ -50,7 +61,8 @@ namespace HyperV
             Vector2 dimension = Font.MeasureString(Message);
             Origin = new Vector2(dimension.X / 2, dimension.Y / 2);
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
-        }
+
+      }
 
         public override void Draw(GameTime gameTime)
         {
