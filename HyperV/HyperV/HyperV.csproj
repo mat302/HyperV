@@ -132,9 +132,13 @@
     <Content Include="CharacterScripts\c11FR.txt" />
     <Content Include="CharacterScripts\c11JP.txt" />
     <Content Include="CharacterScripts\c51EN.txt" />
+    <Content Include="CharacterScripts\c51FR.txt" />
+    <Content Include="CharacterScripts\c52FR.txt" />
     <Content Include="CharacterScripts\c53EN.txt" />
     <Content Include="CharacterScripts\c52EN.txt" />
+    <Content Include="CharacterScripts\c53FR.txt" />
     <Content Include="CharacterScripts\c54EN.txt" />
+    <Content Include="CharacterScripts\c54FR.txt" />
     <Content Include="CharacterScripts\ctEN.txt" />
     <Content Include="CharacterScripts\ctFR.txt" />
     <Content Include="CharacterScripts\RobotEN.txt" />
