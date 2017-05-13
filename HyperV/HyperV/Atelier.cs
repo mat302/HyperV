@@ -383,6 +383,9 @@ namespace HyperV
                 Components.Add(Camera);
                 Components.Remove(Loading);
                 Components.Add(Crosshair);
+                //LifeBars[0].Visible = false;
+                //LifeBars[1].Visible = false;
+
                 //Components.Add(FPSLabel);
             }
         }
@@ -738,6 +741,10 @@ namespace HyperV
             foreach (Character c in Characters)
             {
                 c.UpdateLanguage();
+            }
+            foreach (PressSpaceLabel e in Components.Where(a => a is PressSpaceLabel))
+            {
+                e.DéterminerMesage();
             }
         }
 

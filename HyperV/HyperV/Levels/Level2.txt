@@ -5,15 +5,15 @@ Camera;{X:5 Y:5 Z:5};{X:20 Y:0 Z:0};{X:5 Y:0 Z:5}
 House;Medhouse4;0.08;{X:0 Y:0 Z:0};{X:100 Y:0 Z:105};{X:80 Y:-5 Z:75};{X:115 Y:20 Z:135}
 House;Medhouse4;0.08;{X:0 Y:0 Z:0};{X:25 Y:0 Z:110};{X:5 Y:-5 Z:75};{X:40 Y:20 Z:135}
 House;Medhouse4;0.08;{X:0 Y:1.570796 Z:0};{X:110 Y:0 Z:35};{X:80 Y:-5 Z:15};{X:135 Y:20 Z:50}
-Character;bg;0.15;{X:0 Y:-1.570796 Z:0};{X:70 Y:0 Z:30};c51;FaceImages/Robot;ScriptRectangle;Arial
-Character;bg;0.15;{X:0 Y:-1.570796 Z:0};{X:75 Y:0 Z:80};c52;FaceImages/Robot;ScriptRectangle;Arial
-Character;bg;0.15;{X:0 Y:3.141592 Z:0};{X:30 Y:0 Z:70};c53;FaceImages/Robot;ScriptRectangle;Arial
+Character;bg;0.15;{X:0 Y:-1.570796 Z:0};{X:70 Y:0 Z:30};c51;FaceImages/K0;ScriptRectangle;Arial
+Character;bg;0.15;{X:0 Y:-1.570796 Z:0};{X:75 Y:0 Z:80};c52;FaceImages/K2;ScriptRectangle;Arial
+Character;bg;0.15;{X:0 Y:3.141592 Z:0};{X:30 Y:0 Z:70};c53;FaceImages/K1;ScriptRectangle;Arial
 Epee;shop;0.0025;{X:0 Y:0 Z:0};{X:70 Y:0 Z:70};5
 Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:400};1;10;1
 Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:450};1;10;1
 Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:500};1;10;1
 House;Medhouse4;0.08;{X:0 Y:0 Z:0};{X:-680 Y:0 Z:430};{X:-690 Y:-5 Z:375};{X:-655 Y:20 Z:430}
-Character;bg;0.15;{X:0 Y:1.570796 Z:0};{X:-645 Y:0 Z:425};c54;FaceImages/old;ScriptRectangle;Arial
+Character;bg;0.15;{X:0 Y:1.570796 Z:0};{X:-645 Y:0 Z:425};c54;FaceImages/K3;ScriptRectangle;Arial
 Grass;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:0};{X:10 Y:10};Grass;{X:15 Y:15}
 Maze;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:150};{X:256 Y:18 Z:256};GrassFence;Maze5
 #;HeightMap;1;{X:0 Y:0 Z:0};{X:-255 Y:0 Z:295};{X:400 Y:50 Z:400};Map5d;Grass
