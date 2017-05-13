@@ -44,28 +44,28 @@ namespace Launching_Interface
         {
             switch (GererDonnees.Langue)
             {
-                case 0:
+                case GererDonnees.Langues.Francais:
                     LangueOficielleHighscoresPage = GererDonnees.ListeFrancais;
                     HStitre.Margin = new Thickness(-31, 13, 40, 5);
                     BackButtonText.Margin = new Thickness(36, 17, 105, 50);
                     ButNiveau1Text.Margin = new Thickness(120, 17, 35, 29);
                     ButNiveau5Text.Margin = new Thickness(35, 17, 120, 29);
                     break;
-                case 1:
+                case GererDonnees.Langues.Anglais:
                     LangueOficielleHighscoresPage = GererDonnees.ListeAnglais;
                     HStitre.Margin = new Thickness(-31, 13, 40, 5);
                     BackButtonText.Margin = new Thickness(36, 17, 105, 50);
                     ButNiveau1Text.Margin = new Thickness(120, 17, 35, 29);
                     ButNiveau5Text.Margin = new Thickness(35, 17, 120, 29);
                     break;
-                case 2:
+                case GererDonnees.Langues.Espagnol:
                     LangueOficielleHighscoresPage = GererDonnees.ListeEspagnol;
                     HStitre.Margin = new Thickness(-36, 13, 40, 5);
                     BackButtonText.Margin = new Thickness(33, 17, 107, 52);
                     ButNiveau1Text.Margin = new Thickness(120, 17, 35, 29);
                     ButNiveau5Text.Margin = new Thickness(35, 17, 120, 29);
                     break;
-                case 3:
+                case GererDonnees.Langues.Japonais:
                     LangueOficielleHighscoresPage = GererDonnees.ListeJaponais;
                     HStitre.Margin = new Thickness(-20, 13, 53, 5);
                     BackButtonText.Margin = new Thickness(36, 17, 105, 52);

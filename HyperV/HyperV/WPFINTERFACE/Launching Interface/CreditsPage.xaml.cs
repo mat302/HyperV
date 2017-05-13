@@ -18,15 +18,26 @@ namespace Launching_Interface
       }
       private void BackButton_Click(object sender, RoutedEventArgs e)
       {
-         this.NavigationService.Navigate(new MainPage());
+         NavigationService.Navigate(new MainPage());
       }
 
       void GérerLangues()
       {
-         if (GererDonnees.Langue == 0) { LangueOficielleCredits = GererDonnees.ListeFrancais; BackButton.Margin = new Thickness(35, 19, 101, 88); }
-         if (GererDonnees.Langue == 1) { LangueOficielleCredits = GererDonnees.ListeAnglais;  BackButton.Margin = new Thickness(36, 19, 104, 88); }
-         if (GererDonnees.Langue == 2) { LangueOficielleCredits = GererDonnees.ListeEspagnol; BackButton.Margin = new Thickness(31, 19, 109, 88); }
-         if (GererDonnees.Langue == 3) { LangueOficielleCredits = GererDonnees.ListeJaponais; BackButton.Margin = new Thickness(35, 19, 102, 88); }
+         switch(GererDonnees.Langue)
+         {
+            case GererDonnees.Langues.Francais:
+               LangueOficielleCredits = GererDonnees.ListeFrancais; BackButton.Margin = new Thickness(35, 19, 101, 88);
+               break;
+            case GererDonnees.Langues.Anglais:
+               LangueOficielleCredits = GererDonnees.ListeFrancais; BackButton.Margin = new Thickness(36, 19, 104, 88);
+               break;
+            case GererDonnees.Langues.Espagnol:
+               LangueOficielleCredits = GererDonnees.ListeFrancais; BackButton.Margin = new Thickness(31, 19, 109, 88);
+               break;
+            case GererDonnees.Langues.Japonais:
+               LangueOficielleCredits = GererDonnees.ListeFrancais; BackButton.Margin = new Thickness(35, 19, 102, 88);
+               break;
+         }
 
          sim.Text = LangueOficielleCredits[25];
          clg.Text = LangueOficielleCredits[26];
