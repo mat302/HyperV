@@ -105,21 +105,21 @@ namespace Launching_Interface
                image0.Source = src;
                image0.Margin = new Thickness(30);
                slotA.Text = LangueOficielleLoadPage[2];
-               Level0.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NombreNiveaux(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               Level0.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
                Time0.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
             case 1:
                image1.Source = src;
                image1.Margin = new Thickness(30);
                slotB.Text = LangueOficielleLoadPage[5];
-               Level1.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NombreNiveaux(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               Level1.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
                Time1.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
             case 2:
                image2.Source = src;
                image2.Margin = new Thickness(30);
                slotC.Text = LangueOficielleLoadPage[8];
-               Level2.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NombreNiveaux(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               Level2.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
                Time2.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
          }
