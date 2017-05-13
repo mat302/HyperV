@@ -1,4 +1,4 @@
-// By Mathieu Godin
+Ôªø// By Mathieu Godin
 // Created on January 2017
 
 using System;
@@ -33,14 +33,14 @@ namespace HyperV
     {
         const float INTERVALLE_CALCUL_FPS = 1f;
         float FpsInterval { get; set; }
-        GraphicsDeviceManager PÈriphÈriqueGraphique { get; set; }
+        GraphicsDeviceManager P√©riph√©riqueGraphique { get; set; }
 
-        CamÈra Camera { get; set; }
+        Cam√©ra Camera { get; set; }
         List<Maze> Maze { get; set; }
         InputManager InputManager { get; set; }
         GamePadManager GamePadManager { get; set; }
 
-        //GraphicsDeviceManager PÈriphÈriqueGraphique { get; set; }
+        //GraphicsDeviceManager P√©riph√©riqueGraphique { get; set; }
         SpriteBatch SpriteBatch { get; set; }
 
         RessourcesManager<SpriteFont> FontManager { get; set; }
@@ -49,19 +49,19 @@ namespace HyperV
         RessourcesManager<Song> SongManager { get; set; } 
         Song Song { get; set; }
         PressSpaceLabel PressSpaceLabel { get; set; }
-        //CamÈra CamÈraJeu { get; set; }
+        //Cam√©ra Cam√©raJeu { get; set; }
 
         public Atelier()
         {
-            PÈriphÈriqueGraphique = new GraphicsDeviceManager(this);
+            P√©riph√©riqueGraphique = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            PÈriphÈriqueGraphique.SynchronizeWithVerticalRetrace = false;
+            P√©riph√©riqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PÈriphÈriqueGraphique.PreferredBackBufferHeight = 500;
-            //PÈriphÈriqueGraphique.PreferredBackBufferWidth = 900;
-            PÈriphÈriqueGraphique.PreferredBackBufferHeight = 800;
-            PÈriphÈriqueGraphique.PreferredBackBufferWidth = 1500;
+            //P√©riph√©riqueGraphique.PreferredBackBufferHeight = 500;
+            //P√©riph√©riqueGraphique.PreferredBackBufferWidth = 900;
+            P√©riph√©riqueGraphique.PreferredBackBufferHeight = 800;
+            P√©riph√©riqueGraphique.PreferredBackBufferWidth = 1500;
         }
 
         Gazon Gazon { get; set; }
@@ -77,9 +77,9 @@ namespace HyperV
         int Level { get; set; }
         Vector3 Position { get; set; }
         Vector3 Direction { get; set; }
-        TexteCentrÈ Loading { get; set; }
-        TexteCentrÈ GameOver { get; set; }
-        TexteCentrÈ Success { get; set; }
+        TexteCentr√© Loading { get; set; }
+        TexteCentr√© GameOver { get; set; }
+        TexteCentr√© Success { get; set; }
         TimeSpan TimePlayed { get; set; }
         Language Language { get; set; }
         int RenderDistance { get; set; }
@@ -92,7 +92,7 @@ namespace HyperV
 
         void LoadSettings()
         {
-            //StreamReader reader = new StreamReader("F:/programmation clg/quatriËme session/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
+            //StreamReader reader = new StreamReader("F:/programmation clg/quatri√®me session/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
             //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
             StreamReader reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/Settings.txt");
             string line = reader.ReadLine();
@@ -111,7 +111,7 @@ namespace HyperV
             RenderDistance = int.Parse(parts[1]);
             if (Camera != null)
             {
-                (Camera as CamÈraJoueur).SetRenderDistance(RenderDistance);
+                (Camera as Cam√©raJoueur).SetRenderDistance(RenderDistance);
             }
             line = reader.ReadLine();
             parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
@@ -120,9 +120,9 @@ namespace HyperV
             line = reader.ReadLine();
             parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
             FullScreen = int.Parse(parts[1]) == 1;
-            if (FullScreen != PÈriphÈriqueGraphique.IsFullScreen)
+            if (FullScreen != P√©riph√©riqueGraphique.IsFullScreen)
             {
-                //PÈriphÈriqueGraphique.ToggleFullScreen();
+                //P√©riph√©riqueGraphique.ToggleFullScreen();
             }
             line = reader.ReadLine();
             parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
@@ -217,7 +217,7 @@ namespace HyperV
                     case "#":
                         break;
                     case "SpaceBackground":
-                        Components.Add(new ArriËrePlanSpatial(this, parts[1], FpsInterval));
+                        Components.Add(new Arri√®rePlanSpatial(this, parts[1], FpsInterval));
                         break;
                     case "Display3D":
                         Display3D = new Afficheur3D(this);
@@ -237,8 +237,8 @@ namespace HyperV
                             (Camera as Camera2).InitializeDirection(Vector3Parse(parts[3]));
                         }
                         //(Camera as Camera2).SetRenderDistance(RenderDistance);
-                        Services.RemoveService(typeof(CamÈra));
-                        Services.AddService(typeof(CamÈra), Camera);
+                        Services.RemoveService(typeof(Cam√©ra));
+                        Services.AddService(typeof(Cam√©ra), Camera);
                         break;
                     case "Runes":
                         AjouterRunes();
@@ -278,10 +278,10 @@ namespace HyperV
                         Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
                         break;
                     case "Epee":
-                        …pÈe = new Epee(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]));
-                        Components.Add(…pÈe);
+                        √âp√©e = new Epee(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]));
+                        Components.Add(√âp√©e);
                         Services.RemoveService(typeof(Epee));
-                        Services.AddService(typeof(Epee), …pÈe);
+                        Services.AddService(typeof(Epee), √âp√©e);
                         break;
                     case "Character":
                         Characters.Add(new Character(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), parts[5], parts[6], parts[7], parts[8], FpsInterval));
@@ -364,7 +364,7 @@ namespace HyperV
                         LevelPrison(false);
                         break;
                     case "Rythm":
-                        NiveauRythmÈ();
+                        NiveauRythm√©();
                         break;
                 }
             }
@@ -399,7 +399,7 @@ namespace HyperV
 
         Grass[,] GrassArray { get; set; }
         Ceiling[,] CeilingArray { get; set; }
-        ArriËrePlanSpatial SpaceBackground { get; set; }
+        Arri√®rePlanSpatial SpaceBackground { get; set; }
         AfficheurFPS FPSLabel { get; set; }
         List<Portal> Portals { get; set; }
         Boss Boss { get; set; }
@@ -482,11 +482,11 @@ namespace HyperV
 
         private void AjouterBoutons()
         {
-            Random gÈnÈrateur = new Random();
+            Random g√©n√©rateur = new Random();
             int[] ordre = new int[4];
             for (int i = 0; i < ordre.Length; ++i)
             {
-                ordre[i] = gÈnÈrateur.Next(0, 4);
+                ordre[i] = g√©n√©rateur.Next(0, 4);
             }
             PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt");
             Services.RemoveService(typeof(PuzzleBouton));
@@ -507,7 +507,7 @@ namespace HyperV
                 writer.WriteLine("Position: " + Camera.Position.ToString());
                 if (Level != 8)
                 {
-                    writer.WriteLine("Direction: " + (Camera as CamÈraJoueur).Direction.ToString());
+                    writer.WriteLine("Direction: " + (Camera as Cam√©raJoueur).Direction.ToString());
                 }
             }
             else
@@ -559,11 +559,11 @@ namespace HyperV
             ModelManager = new RessourcesManager<Model>(this, "Models");
             Services.AddService(typeof(RessourcesManager<Model>), ModelManager);
             FontManager = new RessourcesManager<SpriteFont>(this, "Fonts");
-            SpaceBackground = new ArriËrePlanSpatial(this, "Ciel…toilÈ", FpsInterval);
+            SpaceBackground = new Arri√®rePlanSpatial(this, "Ciel√âtoil√©", FpsInterval);
             FPSLabel = new AfficheurFPS(this, "Arial", Color.Tomato, INTERVALLE_CALCUL_FPS);
-            Loading = new TexteCentrÈ(this, "Loading . . .", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
-            GameOver = new TexteCentrÈ(this, "Game Over", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
-            Success = new TexteCentrÈ(this, "Success!", "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
+            Loading = new TexteCentr√©(this, D√©terminerTextes(0), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
+            GameOver = new TexteCentr√©(this, D√©terminerTextes(1), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
+            Success = new TexteCentr√©(this, D√©terminerTextes(2), "Arial", new Rectangle(Window.ClientBounds.Width / 2 - 200, Window.ClientBounds.Height / 2 - 40, 400, 80), Color.White, 0);
             InputManager = new InputManager(this);
             Services.AddService(typeof(RessourcesManager<SpriteFont>), FontManager);
             Services.AddService(typeof(InputManager), InputManager);
@@ -585,6 +585,27 @@ namespace HyperV
             SelectWorld(true);
             base.Initialize();
         }
+
+
+      string D√©terminerTextes(int i)
+      {
+         const int NBRE_TEXTES = 3;
+         string[] tableauxTextes = new string[NBRE_TEXTES] { "Loading ...", "Game Over", "Success!" };
+         switch (Language)
+         {
+            case Language.French:
+               tableauxTextes = new string[NBRE_TEXTES] {"Chargement ...","Fin de partie", "R√©ussi!" };
+               break;
+            case Language.Spanish:
+               tableauxTextes = new string[NBRE_TEXTES] {"Cargando ...", "Juego terminado", "¬°√âxito!" };
+               break;
+            case Language.Japanese:
+               tableauxTextes = new string[NBRE_TEXTES] { "Ë™≠„ÅøËæº„Çì„Åß„ÅÑ„Åæ„Åô...", "„Ç≤„Éº„É†„Ç™„Éº„Éê„Éº", "ÊàêÂäüÔºÅ" };
+               break;
+         }
+         return tableauxTextes[i];
+      }
+
 
         void ResetLists()
         {
@@ -690,7 +711,7 @@ namespace HyperV
             base.OnActivated(sender, args);
             if (Camera != null)
             {
-                (Camera as CamÈraJoueur).EstCamÈraSourisActivÈe = true;
+                (Camera as Cam√©raJoueur).EstCam√©raSourisActiv√©e = true;
             }
             IsMouseVisible = false;
             LoadSettings();
@@ -714,7 +735,7 @@ namespace HyperV
             {
                 if (Level != 8)
                 {
-                    (Camera as CamÈraJoueur).EstCamÈraSourisActivÈe = false;
+                    (Camera as Cam√©raJoueur).EstCam√©raSourisActiv√©e = false;
                 }
             }
             IsMouseVisible = true;
@@ -728,7 +749,7 @@ namespace HyperV
                 if (collision < 30 && collision != null)
                 {
                     PressSpaceLabel.Visible = true;
-                    if (InputManager.EstEnfoncÈe(Keys.Space) || GamePadManager.EstEnfoncÈ(Buttons.Y))
+                    if (InputManager.EstEnfonc√©e(Keys.Space) || GamePadManager.EstEnfonc√©(Buttons.Y))
                     {
                         if (Level > 1)
                         {
@@ -785,7 +806,7 @@ namespace HyperV
             p.FileName = path;
             p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);
             Process.Start(p);
-            //(Camera as CamÈraJoueur).EstCamÈraSourisActivÈe = false;
+            //(Camera as Cam√©raJoueur).EstCam√©raSourisActiv√©e = false;
             //Exit();
         }
 
@@ -827,31 +848,31 @@ namespace HyperV
 
         Walls Wall { get; set; }
 
-        void NiveauRythmÈ()
+        void NiveauRythm√©()
         {
-            NiveauRythmÈ circuit = new NiveauRythmÈ(this, "Fil Electrique", "../../../Data3.txt",
+            NiveauRythm√© circuit = new NiveauRythm√©(this, "Fil Electrique", "../../../Data3.txt",
                                                     3, "Blanc", "Rouge",
                                                     "Vert", "BleuBlancRouge", "Arial50",
                                                     Color.Black, 15, 1,
                                                     FpsInterval);
             Components.Add(circuit);
-            Services.AddService(typeof(NiveauRythmÈ), circuit);
+            Services.AddService(typeof(NiveauRythm√©), circuit);
         }
 
         // LevelPrison
         #region
 
         BalleRebondissante Balle { get; set; }
-        Epee …pÈe { get; set; }
+        Epee √âp√©e { get; set; }
         Random Random { get; set; }
-        const int LARGEUR_TUILE = 20, NBRE_BALLES_D…SIR…S = 20;
-        const float …CHELLE_…P…E = 0.009f;
-        const string NOM_MOD»LE_…P…E = "robot";
+        const int LARGEUR_TUILE = 20, NBRE_BALLES_D√âSIR√âS = 20;
+        const float √âCHELLE_√âP√âE = 0.009f;
+        const string NOM_MOD√àLE_√âP√âE = "robot";
 
         void LevelPrison(bool usePosition)
         {
-            CrÈer…pÈe(NOM_MOD»LE_…P…E, …CHELLE_…P…E);
-            for (int i = 0; i < NBRE_BALLES_D…SIR…S; i++)
+            Cr√©er√âp√©e(NOM_MOD√àLE_√âP√âE, √âCHELLE_√âP√âE);
+            for (int i = 0; i < NBRE_BALLES_D√âSIR√âS; i++)
             {
                 Balle = new BalleRebondissante(this, 1f, Vector3.Zero, CalculerPositionInitiale(), 5f, new Vector2(50), "Balle_Bois", FpsInterval);
                 Components.Add(Balle);
@@ -865,13 +886,13 @@ namespace HyperV
             return new Vector3(x, y, z);
         }
 
-        void CrÈer…pÈe(string nomModËle, float Èchelle)
+        void Cr√©er√âp√©e(string nomMod√®le, float √©chelle)
         {
-            //…pÈe = new Epee(this, nomModËle, Èchelle, Vector3.Zero, Camera.Position);
-            //…pÈe.EstRamassÈe = true;
+            //√âp√©e = new Epee(this, nomMod√®le, √©chelle, Vector3.Zero, Camera.Position);
+            //√âp√©e.EstRamass√©e = true;
 
-            //Components.Add(…pÈe);
-            //Services.AddService(typeof(Epee), …pÈe);
+            //Components.Add(√âp√©e);
+            //Services.AddService(typeof(Epee), √âp√©e);
         }
 
         #endregion
