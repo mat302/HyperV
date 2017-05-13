@@ -54,10 +54,10 @@ namespace HyperV
             PériphériqueGraphique.SynchronizeWithVerticalRetrace = false;
             IsFixedTimeStep = false;
             IsMouseVisible = false;
-            //PériphériqueGraphique.PreferredBackBufferHeight = 500;
-            //PériphériqueGraphique.PreferredBackBufferWidth = 900;
-            PériphériqueGraphique.PreferredBackBufferHeight = 800;
-            PériphériqueGraphique.PreferredBackBufferWidth = 1500;
+            PériphériqueGraphique.PreferredBackBufferHeight = 500;
+            PériphériqueGraphique.PreferredBackBufferWidth = 900;
+            //PériphériqueGraphique.PreferredBackBufferHeight = 800;
+            //PériphériqueGraphique.PreferredBackBufferWidth = 1500;
         }
 
         Gazon Gazon { get; set; }
@@ -695,7 +695,7 @@ namespace HyperV
          const int NBRE_LIMITE_BALLES = 5;
             if (BalleRebondissante.Count < NBRE_LIMITE_BALLES)
             {
-                foreach (BalleRebondissante e in Components)
+                foreach (BalleRebondissante e in (Components.Where(a => a is BalleRebondissante)))
                 {
                     Components.Remove(e);
                 }

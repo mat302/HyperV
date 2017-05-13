@@ -2,7 +2,6 @@
 Walls.cs
 --------
 
-By Mathieu Godin
 
 Role : Creates walls based on their
        positions written in the specified
@@ -14,21 +13,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 using System.IO;
 
 namespace HyperV
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
-    public class Walls : DrawableGameComponent
+   /// <summary>
+   /// This is a game component that implements IUpdateable.
+   /// </summary>
+   public class Walls : DrawableGameComponent
     {
         const int NUM_TRIANGLES_PER_TILE = 2, NUM_VERTICES_PER_TRIANGLE = 3;
 

@@ -1,16 +1,10 @@
-using AtelierXNA;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace HyperV
 {
-    public class Camera2 : CaméraJoueur
+   public class Camera2 : CaméraJoueur
     {
-        //Added from first Camera1
-        //float Height { get; set; }
-
         List<Maze> Maze { get; set; }
         List<Character> Characters { get; set; }
         Boss Boss { get; set; }
@@ -118,7 +112,7 @@ namespace HyperV
                 Position += direction * VITESSE_INITIALE_TRANSLATION * Direction;
                 Position -= latéral * VITESSE_INITIALE_TRANSLATION * Latéral;
             }
-            for (int i = 0; i < Water.Count /*&& height == 5*/; ++i)
+            for (int i = 0; i < Water.Count; ++i)
             {
                 if (!LifeBars[1].Water && Position.Y <= Water[i].AdjustedHeight)
                 {

@@ -1,4 +1,4 @@
-﻿SpaceBackground;CielEtoile
+﻿SpaceBackground;WhiteSky
 Display3D
 Camera;{X:980 Y:50 Z:225};{X:20 Y:0 Z:0};{X:-0.5 Y:0 Z:-0.5}
 HeightMap;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:0};{X:2000 Y:500 Z:2000};Map4;Swamp0;Swamp1

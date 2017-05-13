@@ -1,6 +1,7 @@
 ﻿using System;
 using AtelierXNA;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace HyperV
 {
@@ -15,15 +16,17 @@ namespace HyperV
                   ABSCISSE_UNITAIRE = 1,
                   ORDONNÉE_UNITAIRE = 1;
 
-        const int DISTANCE_COLLISION = 9,                     //Autres constantes
-                  AUCUN_TEMPS_ÉCOULÉ = 0,
-                  LONGUEUR_VISEUR = 25,
-                  VALEUR_ATTAQUE = 10,
-                  VITESSE_MIN_X_DIX = 6,
-                  VITESSE_MAX_X_DIX = 10;
+      const int DISTANCE_COLLISION = 9,                     //Autres constantes
+                AUCUN_TEMPS_ÉCOULÉ = 0,
+                LONGUEUR_VISEUR = 33,
+                VALEUR_ATTAQUE = 10,
+                VITESSE_MIN_X_DIX = 6,
+                VITESSE_MAX_X_DIX = 10;
 
-        const float ÉCHELLE_RAYON = 1.4f,
-                    FACTEUR_VITESSE_INTERVALLE = 0.6f;
+
+      const float ÉCHELLE_RAYON = 1.4f,
+                  FACTEUR_VITESSE_INTERVALLE = 0.6f,
+                  FACTEUR_RALENTISSEMENT = 10f;
 
         float TempsÉcouléDepuisMAJDéplacement { get; set; }
         float IntervalleMAJDéplacement { get; set; }
@@ -38,7 +41,9 @@ namespace HyperV
         CaméraJoueur CameraPrison { get; set; }
         float Vitesse { get; set; }
 
-        int[] Marges { get; set; }
+       List<BalleRebondissante> ListeBalles { get; set; }
+
+      int[] Marges { get; set; }
 
         public BoundingSphere SphèreDeCollisionBalle
         {
@@ -49,6 +54,7 @@ namespace HyperV
                                  float rayon, Vector2 charpente, string nomTexture, float intervalleMAJ)
            : base(jeu, homothétieInitiale, rotationInitiale, positionInitiale, rayon, charpente, nomTexture, intervalleMAJ)
         {
+         
             IntervalleMAJDéplacement = intervalleMAJ * FACTEUR_VITESSE_INTERVALLE;
             Position = positionInitiale;
             Rayon = rayon;
@@ -58,7 +64,8 @@ namespace HyperV
         public override void Initialize()
         {
             base.Initialize();
-            Marges = new int[] { -200, 80, -40, 0, -50, 230 };    // MargesX(2),MargesY(2),MargesZ(2)
+            ListeBalles = Game.Services.GetService(typeof(List<BalleRebondissante>)) as List<BalleRebondissante>;
+            Marges = new int[6] { -200, 80, -40, 0, -50, 230 };    // MargesX(2),MargesY(2),MargesZ(2)
             CalculerVecteurDéplacement();
             TempsÉcouléDepuisMAJDéplacement = AUCUN_TEMPS_ÉCOULÉ;
 
@@ -72,7 +79,7 @@ namespace HyperV
 
             AngleDéplacementTeta = CalculerAngleDéplacementAléatoire();
             AngleDéplacementPhi = CalculerAngleDéplacementAléatoire();
-            Vitesse = (GénérateurAléatoire.Next(VITESSE_MIN_X_DIX, VITESSE_MAX_X_DIX)) / 10f;
+            Vitesse = (GénérateurAléatoire.Next(VITESSE_MIN_X_DIX, VITESSE_MAX_X_DIX)) / FACTEUR_RALENTISSEMENT;
         }
 
         public override void Update(GameTime gameTime)
@@ -104,21 +111,20 @@ namespace HyperV
 
             if (positionActuelle <= borneMin || positionActuelle >= borneMax)
             {
-                if (indicateur == "x")
-                {
-                    AngleDéplacementTeta = ANGLE_PLAT + AngleDéplacementTeta;
-                    AngleDéplacementPhi = ANGLE_PLAT + AngleDéplacementPhi;
-                }
-                else if (indicateur == "z")
-                {
-                    AngleDéplacementPhi = ANGLE_PLAT + AngleDéplacementPhi;
 
-                }
-                else if (indicateur == "y")
-                {
-                    AngleDéplacementTeta = -AngleDéplacementTeta;
-
-                }
+            switch(indicateur)
+            {
+               case "x":
+                  AngleDéplacementTeta = ANGLE_PLAT + AngleDéplacementTeta;
+                  AngleDéplacementPhi = ANGLE_PLAT + AngleDéplacementPhi;
+                  break;
+               case "y":
+                  AngleDéplacementTeta = -AngleDéplacementTeta;
+                  break;
+               case "z":
+                  AngleDéplacementPhi = ANGLE_PLAT + AngleDéplacementPhi;
+                  break;
+            }
                 CalculerVecteurDéplacement();
             }
         }
@@ -129,12 +135,13 @@ namespace HyperV
         {
             Count = 0;
         }
-      // rien
+      
         void GérerCollisionsBalle()
         {
             if (EstEnCollisionBalle(CameraPrison.Viseur) < LONGUEUR_VISEUR && Épée.ContinuerCoupDEpee)
             {
                 Game.Components.Remove(this);
+                 ListeBalles.Remove(this);
                 estÉliminé = true;
                 --Count;
             }
