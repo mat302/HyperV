@@ -1,13 +1,8 @@
-﻿// By Mathieu Godin
-// Created on January 2017
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -19,7 +14,7 @@ using System.Globalization;
 
 namespace HyperV
 {
-    enum Language
+   enum Language
     {
         French, English, Spanish, Japanese
     }
@@ -871,7 +866,6 @@ namespace HyperV
 
         void LevelPrison(bool usePosition)
         {
-            CréerÉpée(NOM_MODÈLE_ÉPÉE, ÉCHELLE_ÉPÉE);
             for (int i = 0; i < NBRE_BALLES_DÉSIRÉS; i++)
             {
                 Balle = new BalleRebondissante(this, 1f, Vector3.Zero, CalculerPositionInitiale(), 5f, new Vector2(50), "Balle_Bois", FpsInterval);
@@ -886,14 +880,6 @@ namespace HyperV
             return new Vector3(x, y, z);
         }
 
-        void CréerÉpée(string nomModèle, float échelle)
-        {
-            //Épée = new Epee(this, nomModèle, échelle, Vector3.Zero, Camera.Position);
-            //Épée.EstRamassée = true;
-
-            //Components.Add(Épée);
-            //Services.AddService(typeof(Epee), Épée);
-        }
 
         #endregion
     }
