@@ -260,9 +260,10 @@ namespace HyperV
                         Services.AddService(typeof(Mill), Mill);
                         break;
                     case "Food":
-                        Food = new Food(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]), FpsInterval);
-                        Components.Add(Food);
-                        Food.AddLabel();
+                        Food.Add(new Food(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]), FpsInterval));
+                        Components.Add(Food.Last());
+                        Services.RemoveService(typeof(List<Food>));
+                        Services.AddService(typeof(List<Food>), Food);
                         break;
                     case "Enemy":
                         Enemy.Add(new Enemy(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]), int.Parse(parts[6]), float.Parse(parts[7]), FpsInterval));
@@ -274,7 +275,7 @@ namespace HyperV
                     //    Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
                         break;
                     case "Epee":
-                        Épée = new Epee(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]));
+                        Épée = new Epee(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]));
                         Components.Add(Épée);
                         Services.RemoveService(typeof(Epee));
                         Services.AddService(typeof(Epee), Épée);
@@ -378,16 +379,25 @@ namespace HyperV
                 Services.RemoveService(typeof(LifeBar[]));
                 Services.AddService(typeof(LifeBar[]), LifeBars);
                 AddCharacterLabels();
+                AddFoodLabels();
                 Components.Add(Camera);
                 Components.Remove(Loading);
                 Components.Add(Crosshair);
-             //   Components.Add(FPSLabel);
+                //Components.Add(FPSLabel);
             }
         }
 
         void AddCharacterLabels()
         {
             foreach(Character e in Characters)
+            {
+                e.AddLabel();
+            }
+        }
+
+        void AddFoodLabels()
+        {
+            foreach (Food e in Food)
             {
                 e.AddLabel();
             }
@@ -404,7 +414,7 @@ namespace HyperV
         LifeBar[] LifeBars { get; set; }
         Afficheur3D Display3D { get; set; }
         List<Water> Water { get; set; }
-        Food Food { get; set; }
+        List<Food> Food { get; set; }
         List<Enemy> Enemy { get; set; }
 
         private void AjouterModeles(string chemin)
@@ -619,6 +629,7 @@ namespace HyperV
             Unlockables = new List<UnlockableWall>();
             Water = new List<Water>();
             ListeRunes = new List<Rune>();
+            Food = new List<Food>();
             Services.RemoveService(typeof(List<Rune>));
             Services.AddService(typeof(List<Rune>), ListeRunes);
             Services.RemoveService(typeof(List<Character>));
@@ -639,6 +650,8 @@ namespace HyperV
             Services.AddService(typeof(List<Water>), Water);
             Services.RemoveService(typeof(List<Walls>));
             Services.AddService(typeof(List<Walls>), Walls);
+            Services.RemoveService(typeof(List<Food>));
+            Services.AddService(typeof(List<Food>), Food);
         }
 
         float Timer { get; set; }

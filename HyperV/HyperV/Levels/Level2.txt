@@ -8,10 +8,10 @@ House;Medhouse4;0.08;{X:0 Y:1.570796 Z:0};{X:110 Y:0 Z:35};{X:80 Y:-5 Z:15};{X:1
 Character;bg;0.15;{X:0 Y:-1.570796 Z:0};{X:70 Y:0 Z:30};c51;FaceImages/Robot;ScriptRectangle;Arial
 Character;bg;0.15;{X:0 Y:-1.570796 Z:0};{X:75 Y:0 Z:80};c52;FaceImages/Robot;ScriptRectangle;Arial
 Character;bg;0.15;{X:0 Y:3.141592 Z:0};{X:30 Y:0 Z:70};c53;FaceImages/Robot;ScriptRectangle;Arial
-Epee;shop;0.0025;{X:0 Y:0 Z:0};{X:70 Y:0 Z:70}
-Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:400};10;3;1
-Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:450};10;3;1
-Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:500};10;3;1
+Epee;shop;0.0025;{X:0 Y:0 Z:0};{X:70 Y:0 Z:70};5
+Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:400};10;30;1
+Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:450};10;30;1
+Enemy;bear;0.05;{X:0 Y:0 Z:0};{X:-100 Y:0 Z:500};10;30;1
 House;Medhouse4;0.08;{X:0 Y:0 Z:0};{X:-680 Y:0 Z:430};{X:-690 Y:-5 Z:375};{X:-655 Y:20 Z:430}
 Character;bg;0.15;{X:0 Y:1.570796 Z:0};{X:-645 Y:0 Z:425};c54;FaceImages/old;ScriptRectangle;Arial
 Grass;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:0};{X:10 Y:10};Grass;{X:15 Y:15}
@@ -26,3 +26,4 @@ HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:-5};{X:400 Y:100 Z:400};Map5b;Herbe;Sabl
 HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:395};{X:400 Y:100 Z:400};Map5c;Herbe;Sable
 Portal;1;{X:0 Y:0 Z:0};{X:-500 Y:25 Z:590};{X:1 Y:1};Transparent;1
 House;RG;10;{X:0 Y:0 Z:0};{X:-505 Y:27 Z:580};{X:-525 Y:20 Z:570};{X:-485 Y:40 Z:590}
+Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:-657 Y:1 Z:401};150
