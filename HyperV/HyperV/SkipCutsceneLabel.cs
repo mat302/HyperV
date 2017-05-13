@@ -52,7 +52,7 @@ namespace HyperV
         {
             Timer = 0;
             Scale = 0;
-            Message = "Press Space/Start to skip";
+            Message = "Press R/Start to skip";//"Press Space/Start to skip";
             Position = new Vector2(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height - 50);
             base.Initialize();
         }

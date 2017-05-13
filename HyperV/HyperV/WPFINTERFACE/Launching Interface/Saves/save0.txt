@@ -1,1 +1,7 @@
-
+Level: 3
+Position: {X:1197.884 Y:5.86211 Z:922.9254}
+Direction: {X:-0.01774132 Y:0.019388 Z:0.9996547}
+Time Played: 00:01:08
+Max Life: 300
+Attack: 0
+False;False;False;False;False;False;False;False

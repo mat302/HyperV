@@ -746,7 +746,7 @@ namespace HyperV
                 if (collision < 30 && collision != null)
                 {
                     PressSpaceLabel.Visible = true;
-                    if (InputManager.EstEnfoncée(Keys.Space) || GamePadManager.EstEnfoncé(Buttons.Y))
+                    if (InputManager.EstEnfoncée(/*Keys.Space*/Keys.R) || GamePadManager.EstEnfoncé(Buttons.Y))
                     {
                         if (Level > 1)
                         {
@@ -839,7 +839,7 @@ namespace HyperV
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Orange);
+            GraphicsDevice.Clear(Color.Black);
             base.Draw(gameTime);
         }
 

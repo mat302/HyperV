@@ -67,7 +67,7 @@ namespace HyperV
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            Input = InputManager.EstNouvelleTouche(Keys.Space) || GamePadManager.EstNouveauBouton(Buttons.A) ? true : Input;
+            Input = InputManager.EstNouvelleTouche(/*Keys.Space*/Keys.R) || GamePadManager.EstNouveauBouton(Buttons.A) ? true : Input;
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
             {

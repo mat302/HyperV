@@ -1034,13 +1034,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\FaceImages\knight.jpg">
-      <Name>knight</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\WhiteSky.jpg">
       <Name>WhiteSky</Name>
       <Importer>TextureImporter</Importer>
@@ -1263,6 +1256,20 @@
     </Compile>
     <Compile Include="Textures\ImageLivre6.jpg">
       <Name>ImageLivre6</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\FaceImages\KnightImage.png">
+      <Name>KnightImage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\FaceImages\old.jpg">
+      <Name>old</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
