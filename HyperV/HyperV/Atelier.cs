@@ -385,7 +385,7 @@ namespace HyperV
                 Components.Add(Camera);
                 Components.Remove(Loading);
                 Components.Add(Crosshair);
-                Components.Add(FPSLabel);
+              //  Components.Add(FPSLabel);
             }
         }
 
@@ -769,7 +769,7 @@ namespace HyperV
 
         void ManageKeyboard(GameTime gameTime)
         {
-            if (InputManager.EstNouvelleTouche(Keys.Escape) || GamePadManager.EstNouveauBouton(Buttons.Start) && Level > 0)
+            if (InputManager.EstNouvelleTouche(Keys.Escape) || GamePadManager.EstNouveauBouton(Buttons.Start) && Level > 0 || InputManager.EstNouvelleTouche(Keys.P))
             {
                 LaunchPause();
             }
