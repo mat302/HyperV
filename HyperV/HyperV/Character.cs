@@ -6,8 +6,6 @@ Role : Used to create a non-playable
        character rendered with a .fbx 
        3d model that can talk to the
        player
-
-Created : 2/28/17
 */
 using Microsoft.Xna.Framework;
 using AtelierXNA;
@@ -60,17 +58,6 @@ namespace HyperV
         {
             return new Vector3(Position.X, Position.Y, Position.Z);
         }
-
-        ///// <summary>
-        ///// Allows the game component to update itself.
-        ///// </summary>
-        ///// <param name="gameTime">Provides a snapshot of timing values.</param>
-        //public override void Update(GameTime gameTime)
-        //{
-        //    // TODO: Add your update code here
-
-        //    base.Update(gameTime);
-        //}
 
         public float? Collision(Ray ray)
         {

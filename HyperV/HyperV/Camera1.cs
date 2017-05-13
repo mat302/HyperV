@@ -1,13 +1,9 @@
-// By Mathieu Godin
-using AtelierXNA;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace HyperV
 {
-    public class Camera1 : CaméraJoueur
+   public class Camera1 : CaméraJoueur
     {
         const float MAX_DISTANCE = 4.5f;
 
