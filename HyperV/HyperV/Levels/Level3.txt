@@ -18,7 +18,6 @@ Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:730 Y:1 Z:175};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:692 Y:1 Z:142};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:692 Y:1 Z:127};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:700 Y:1 Z:134.5};150
-
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:1020 Y:1 Z:206};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:1233 Y:1 Z:167};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:1242 Y:1 Z:492};150
