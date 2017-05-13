@@ -24,5 +24,5 @@ Maze;1;{X:0 Y:0 Z:0};{X:-300 Y:0 Z:0};{X:256 Y:18 Z:256};GrassFence;Maze5a
 HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:-5};{X:400 Y:100 Z:400};Map5b;Herbe;Sable
 #;HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:395};{X:400 Y:100 Z:400};Map5c;Grass
 HeightMap;1;{X:0 Y:0 Z:0};{X:-705 Y:0 Z:395};{X:400 Y:100 Z:400};Map5c;Herbe;Sable
-Portal;1;{X:0 Y:0 Z:0};{X:-495 Y:35 Z:570};{X:30 Y:20};Transparent;1
-#;House;RG;3;{X:0 Y:0 Z:0};{X:0 Y:0 Z:0};{X:-495 Y:25 Z:570};{X:-495 Y:25 Z:570}
+Portal;1;{X:0 Y:0 Z:0};{X:-500 Y:25 Z:590};{X:1 Y:1};Transparent;1
+House;RG;10;{X:0 Y:0 Z:0};{X:-505 Y:27 Z:580};{X:-525 Y:20 Z:570};{X:-485 Y:40 Z:590}

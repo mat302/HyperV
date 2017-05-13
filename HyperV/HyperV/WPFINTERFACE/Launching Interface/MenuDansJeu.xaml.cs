@@ -28,18 +28,42 @@ namespace Launching_Interface
 
          BonScreenshot();
          GérerFPS();
-         GererDonnees.RenderDistenceModifiée = true;
-         InitialiserListesLangues();
+         GererDonnees.RD = true;
+         GérerLangues();
          GérerRenderDistance();
          GérerSon();
+       //  GérerBoutons();
          ChangerRéglages();
 
       }
 
       private void RefreshData()
       {
+         //StreamReader reader = new StreamReader("F:/programmation clg/quatrième session/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
+         //StreamReader reader = new StreamReader("C:/Users/Mathieu/Source/Repos/WPFINTERFACE/Launching Interface/Saves/Settings.txt");
          StreamReader reader = new StreamReader("../../Saves/Settings.txt");
-         GererDonnees.InitialiserGererDonnees(reader);
+         string line = reader.ReadLine();
+         string[] parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
+         GererDonnees.VolMusique = int.Parse(parts[1]);
+         line = reader.ReadLine();
+         parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
+         GererDonnees.VolEffets = int.Parse(parts[1]);
+         line = reader.ReadLine();
+         parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
+         GererDonnees.Langue = int.Parse(parts[1]);
+         line = reader.ReadLine();
+         parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
+         GererDonnees.RenderDistance = int.Parse(parts[1]);
+         line = reader.ReadLine();
+         parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
+         GererDonnees.Fps = int.Parse(parts[1]);
+         line = reader.ReadLine();
+         parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
+         GererDonnees.FullscreenMode = int.Parse(parts[1]);
+         line = reader.ReadLine();
+         parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
+         GererDonnees.KeyboardMode = int.Parse(parts[1]);
+         reader.Close();
       }
 
 
@@ -57,11 +81,11 @@ namespace Launching_Interface
          StreamWriter w = new StreamWriter("../../Saves/Settings.txt");
          w.WriteLine("Music: " + GererDonnees.VolMusique.ToString());
          w.WriteLine("Sound: " + GererDonnees.VolEffets.ToString());
-         w.WriteLine("Language: " + ((int)GererDonnees.Langue).ToString());
+         w.WriteLine("Language: " + GererDonnees.Langue.ToString());
          w.WriteLine("Render Distance: " + GererDonnees.RenderDistance.ToString());
          w.WriteLine("Frame Rate: " + GererDonnees.Fps.ToString());
-         w.WriteLine("Fullscreen: " + ((int)GererDonnees.FullscreenMode).ToString());
-         w.WriteLine("Input: " + ((int)GererDonnees.KeyboardMode).ToString());
+         w.WriteLine("Fullscreen: " + GererDonnees.FullscreenMode.ToString());
+         w.WriteLine("Input: " + GererDonnees.KeyboardMode.ToString());
          w.Close();
       }
 
@@ -76,9 +100,9 @@ namespace Launching_Interface
       private void RDistanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
       {
          double value = 0;
-         if (GererDonnees.RenderDistenceModifiée == true)
+         if (GererDonnees.RD == true)
          {
-            GererDonnees.RenderDistenceModifiée = false;
+            GererDonnees.RD = false;
             switch (GererDonnees.RenderDistance)
             {
                case 10:
@@ -201,26 +225,30 @@ namespace Launching_Interface
 
       private void ButFull_Unchecked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.FullscreenMode = GererDonnees.Fullscreen.non;
+         GererDonnees.FullscreenMode = 0;
+       //  GérerBoutons();
          Instructions();
 
       }
 
       private void ButFull_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.FullscreenMode = GererDonnees.Fullscreen.oui;
+         GererDonnees.FullscreenMode = 1;
+      //   GérerBoutons();
          Instructions();
       }
 
       private void ButCont_Unchecked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.KeyboardMode = GererDonnees.Controller.Clavier;
+         GererDonnees.KeyboardMode = 1;
+        // GérerBoutons();
          Instructions();
       }
 
       private void ButCont_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.KeyboardMode = GererDonnees.Controller.Manette;
+         GererDonnees.KeyboardMode = 0;
+      //   GérerBoutons();
          Instructions();
       }
 
@@ -229,26 +257,29 @@ namespace Launching_Interface
 
       private void RBes_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.Langue = GererDonnees.Langues.Espagnol;
+         GererDonnees.Langue = 2;
          ListeLangueOficielle = GererDonnees.ListeEspagnol;
+
          ChangerRéglages();
       }
       private void RBjp_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.Langue = GererDonnees.Langues.Japonais;
+         GererDonnees.Langue = 3;
          ListeLangueOficielle = GererDonnees.ListeJaponais;
+
          ChangerRéglages();
       }
       private void RBfr_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.Langue = GererDonnees.Langues.Francais;
+         GererDonnees.Langue = 0;
          ListeLangueOficielle = GererDonnees.ListeFrancais;
          ChangerRéglages();
       }
       private void RBan_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.Langue = GererDonnees.Langues.Anglais;
+         GererDonnees.Langue = 1;
          ListeLangueOficielle = GererDonnees.ListeAnglais;
+
          ChangerRéglages();
       }
 
@@ -275,22 +306,22 @@ namespace Launching_Interface
 
          switch (GererDonnees.Langue)
          {
-            case GererDonnees.Langues.Francais:
+            case 0:
                Backtext.Margin = new Thickness(38, 19, 110, 88);
                Resettext2.Margin = new Thickness(113, 19, 28, 88);
                saveText.Margin = new Thickness(29, 60, 118, 48);
                break;
-            case GererDonnees.Langues.Anglais:
+            case 1:
                Backtext.Margin = new Thickness(38, 19, 113, 88);
                Resettext2.Margin = new Thickness(107, 19, 33, 88);
                saveText.Margin = new Thickness(40, 64, 118, 48);
                break;
-            case GererDonnees.Langues.Espagnol:
+            case 2:
                Backtext.Margin = new Thickness(34, 19, 110, 88);
                Resettext2.Margin = new Thickness(111, 19, 30, 88);
                saveText.Margin = new Thickness(40, 64, 118, 48);
                break;
-            case GererDonnees.Langues.Japonais:
+            case 3:
                Backtext.Margin = new Thickness(38, 19, 113, 88);
                Resettext2.Margin = new Thickness(107, 19, 33, 88);
                saveText.Margin = new Thickness(40, 64, 118, 48);
@@ -308,8 +339,7 @@ namespace Launching_Interface
          Instructions();
       }
 
-
-      void InitialiserListesLangues()
+      void GérerLangues()
       {
          RBfr.IsChecked = false;
          RBan.IsChecked = false;
@@ -318,19 +348,19 @@ namespace Launching_Interface
 
          switch (GererDonnees.Langue)
          {
-            case GererDonnees.Langues.Francais:
+            case 0:
                ListeLangueOficielle = GererDonnees.ListeFrancais;
                RBfr.IsChecked = true;
                break;
-            case GererDonnees.Langues.Anglais:
+            case 1:
                ListeLangueOficielle = GererDonnees.ListeAnglais;
                RBan.IsChecked = true;
                break;
-            case GererDonnees.Langues.Espagnol:
+            case 2:
                ListeLangueOficielle = GererDonnees.ListeEspagnol;
                RBes.IsChecked = true;
                break;
-            case GererDonnees.Langues.Japonais:
+            case 3:
                ListeLangueOficielle = GererDonnees.ListeJaponais;
                RBjp.IsChecked = true;
                break;
@@ -385,13 +415,13 @@ namespace Launching_Interface
 
       private void ResetButton_Click(object sender, RoutedEventArgs e)
       {
-         GererDonnees.PremierFichier = true;
-         GererDonnees.RenderDistenceModifiée = true;
+         GererDonnees.PremierFichier = true; //nothing for commit
+         GererDonnees.RD = true;
          GererDonnees.RéglagesBase();
          ChangerRéglages();
          GérerFPS();
          GérerRenderDistance();
-         InitialiserListesLangues();
+         GérerLangues();
          GérerSon();
          GérerBoutons();
       }
@@ -426,7 +456,30 @@ namespace Launching_Interface
       {
          Process[] procs = Process.GetProcessesByName("HyperV");
          Process hypervProc = procs[0];
+
          hypervProc.Kill();
+
+         //try
+         //{
+         //    procs = Process.GetProcessesByName("HyperV");
+
+         //    Process hypervProc = procs[0];
+
+         //    if (!hypervProc.HasExited)
+         //    {
+         //        hypervProc.Kill();
+         //    }
+         //}
+         //finally
+         //{
+         //    if (procs != null)
+         //    {
+         //        foreach (Process p in procs)
+         //        {
+         //            p.Dispose();
+         //        }
+         //    }
+         //}
       }
 
       void BonScreenshot()
@@ -441,12 +494,13 @@ namespace Launching_Interface
 
       void Instructions()
       {
-         if (GererDonnees.KeyboardMode == GererDonnees.Controller.Clavier)
+         if (GererDonnees.KeyboardMode == 1)
          {
             ButCont.Content = ListeLangueOficielle[23];
             ButCont.IsChecked = false;
             ChangerImagesClavier();
             ChangerMargesClavier();
+
             textL.Text = " ";
             textR.Text = " ";
          }
@@ -456,6 +510,7 @@ namespace Launching_Interface
             ButCont.IsChecked = true;
             ChangerImagesManette();
             ChangerMargesManette();
+
             textL.Text = ListeLangueOficielle[43];
             textR.Text = ListeLangueOficielle[44];
          }
@@ -487,7 +542,7 @@ namespace Launching_Interface
 
          switch (GererDonnees.Langue)
          {
-            case GererDonnees.Langues.Francais:
+            case 0:
                textWASD.Margin = new Thickness(110, 8, -32, -5);
                textP.Margin = new Thickness(80, 0, 44, 4);
                textShift.Margin = new Thickness(80, 10, 44, -3);
@@ -495,7 +550,7 @@ namespace Launching_Interface
                textSpace.Margin = new Thickness(72, 5, -11, -2);
                textE.Margin = new Thickness(54, 0, 5.5, 4);
                break;
-            case GererDonnees.Langues.Anglais:
+            case 1:
                textWASD.Margin = new Thickness(90, 8, -18, -5);
                textP.Margin = new Thickness(80, 0, 44, 4);
                textShift.Margin = new Thickness(72, 10, 46, -3);
@@ -503,7 +558,7 @@ namespace Launching_Interface
                textSpace.Margin = new Thickness(69, 5, -7, -2);
                textE.Margin = new Thickness(48, 0, 10, 4);
                break;
-            case GererDonnees.Langues.Espagnol:
+            case 2:
                textWASD.Margin = new Thickness(90, 8, -18, -5);
                textP.Margin = new Thickness(80, 0, 44, 4);
                textShift.Margin = new Thickness(80, 10, 44, -3);
@@ -511,7 +566,7 @@ namespace Launching_Interface
                textSpace.Margin = new Thickness(72, 5, -7, -2);
                textE.Margin = new Thickness(54, 0, 15, 4);
                break;
-            case GererDonnees.Langues.Japonais:
+            case 3:
                textWASD.Margin = new Thickness(90, 8, -18, -5);
                textP.Margin = new Thickness(80, 2, 44, 4);
                textShift.Margin = new Thickness(72, 10, 46, -3);
@@ -519,8 +574,7 @@ namespace Launching_Interface
                textSpace.Margin = new Thickness(77, 5, -11, -2);
                textE.Margin = new Thickness(38, 0, 21, 4);
                break;
-         
-      }
+         }
 
       }
 
@@ -546,7 +600,7 @@ namespace Launching_Interface
 
          switch (GererDonnees.Langue)
          {
-            case GererDonnees.Langues.Francais:
+            case 0:
                textFleches.Margin = new Thickness(59, 8, 0, -5);
                textSpace.Margin = new Thickness(53, 9, 29, -2);
                textWASD.Margin = new Thickness(67, 8, -33, -5);
@@ -554,37 +608,37 @@ namespace Launching_Interface
                textP.Margin = new Thickness(67, -2, 50, 5);
                textShift.Margin = new Thickness(67, 8, 45, -3);
                textE.Margin = new Thickness(52, -1, 12, 5);
-               textR.Margin = new Thickness(44, 15, 77, -4);
+               textR.Margin = new Thickness(44, 15, 74, -4);
                break;
-            case GererDonnees.Langues.Anglais:
+            case 1:
                textFleches.Margin = new Thickness(63, 8, -3, -5);
                textSpace.Margin = new Thickness(50, 9, 29, -2);
                textWASD.Margin = new Thickness(70, 8, 0, -5);
-               textL.Margin = new Thickness(40, 19, 76, -4);
+               textL.Margin = new Thickness(37, 19, 71, -4);
                textP.Margin = new Thickness(67, -2, 50, 5);
                textShift.Margin = new Thickness(61, 8, 54, -3);
                textE.Margin = new Thickness(50, -1, 20, 6);
-               textR.Margin = new Thickness(44, 15, 77, -4);
+               textR.Margin = new Thickness(52, -1, 12, 6);
                break;
-            case GererDonnees.Langues.Espagnol:
+            case 2:
                textFleches.Margin = new Thickness(78, 8, -15, -5);
                textSpace.Margin = new Thickness(50, 9, 29, -2);
                textWASD.Margin = new Thickness(75, 8, 0, -5);
-               textL.Margin = new Thickness(40, 19, 76, -4);
+               textL.Margin = new Thickness(38, 19, 71, -4);
                textP.Margin = new Thickness(67, -2, 50, 5);
                textShift.Margin = new Thickness(67, 8, 45, -3);
                textE.Margin = new Thickness(51.5, -1, 18, 6);
-               textR.Margin = new Thickness(44, 15, 77, -4);
+               textR.Margin = new Thickness(52, -1, 12, 6);
                break;
-            case GererDonnees.Langues.Japonais:
+            case 3:
                textFleches.Margin = new Thickness(46, 8, 6, -5);
                textSpace.Margin = new Thickness(53, 9, 29, -2);
                textWASD.Margin = new Thickness(70, 8, 0, -5);
-               textL.Margin = new Thickness(40, 19, 76, -4);
+               textL.Margin = new Thickness(51, 22, 98, -5);
                textP.Margin = new Thickness(67, 0, 56, 6);
                textShift.Margin = new Thickness(58, 8, 57, -3);
                textE.Margin = new Thickness(38, -1, 27, 6);
-               textR.Margin = new Thickness(44, 15, 77, -4);
+               textR.Margin = new Thickness(52, -1, 12, 6);
                break;
          }
 
@@ -597,12 +651,12 @@ namespace Launching_Interface
          r.Close();
          File.Copy("../../Saves/pendingsave.txt", "../../Saves/save" + n + ".txt", true);
          File.Copy("../../Saves/pendingscreenshot.png", "../../Saves/screenshot" + n + ".png", true);
-         GererDonnees.RafraichirSauvegardes();
+            GererDonnees.RefreshSaves();
       }
 
       void GérerBoutons()
       {
-         if (GererDonnees.FullscreenMode == GererDonnees.Fullscreen.oui)
+         if (GererDonnees.FullscreenMode == 1)
          {
             ButFull.IsChecked = true;
             AppliquerFondÉcran();
@@ -613,10 +667,9 @@ namespace Launching_Interface
             if (EstPremiereFoisFondÉcran == true) { EstPremiereFoisFondÉcran = false; }
             RetirerDondÉcran();
             ButFull.Content = ListeLangueOficielle[30];
-            ButFull.IsChecked = false;
          }
 
-         if (GererDonnees.KeyboardMode == GererDonnees.Controller.Clavier)
+         if (GererDonnees.KeyboardMode == 1)
          {
             ButCont.Content = ListeLangueOficielle[23];
             ImageInstructions.Source = new BitmapImage(new Uri(@"/Pictures/Instructions/keyboard.png", UriKind.Relative));
@@ -652,6 +705,9 @@ namespace Launching_Interface
 
       void RetirerDondÉcran()
       {
+         Application.Current.MainWindow.Height = 750;
+         Application.Current.MainWindow.Width = 1400;
+
          Application.Current.MainWindow.WindowState = WindowState.Normal;
          Application.Current.MainWindow.WindowStyle = WindowStyle.SingleBorderWindow;
          Application.Current.MainWindow.ResizeMode = ResizeMode.CanResize;

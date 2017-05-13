@@ -87,7 +87,11 @@
     </Compile>
     <Compile Include="GlobalHotkey.cs" />
     <Compile Include="GraphicsDeviceService.cs" />
+    <Compile Include="HighscoresPage.xaml.cs">
+      <DependentUpon>HighscoresPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GererDonnees.cs" />
+    <Compile Include="Joueur.cs" />
     <Compile Include="MenuDansJeu.xaml.cs">
       <DependentUpon>MenuDansJeu.xaml</DependentUpon>
     </Compile>
@@ -114,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GamePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HighscoresPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

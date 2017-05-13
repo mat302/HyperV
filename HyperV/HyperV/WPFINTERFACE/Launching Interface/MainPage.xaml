@@ -27,8 +27,8 @@
                 <RowDefinition Height="22*" />
                 <RowDefinition Height="15*" />
                 <RowDefinition Height="22*" />
+                <!--<RowDefinition Height="22*" />-->
                 <RowDefinition Height="22*" />
-
                 <RowDefinition Height="22*" />
                 <RowDefinition Height="22*" />
                 <RowDefinition Height="22*" />
@@ -51,7 +51,9 @@
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button Name="CreditsButton" Content="                       "   Margin="20,3,20,3" Click="CreditsButton_Click" BorderBrush="White" Opacity="0.6" Background="Gray" BorderThickness="1"  />
             </Viewbox>
-          
+            <!--<Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Button Name="Highscores" Content="                       "   Margin="20,3,20,3" Click="Highscores_Click" BorderBrush="White" Opacity="0.6" Background="Gray" BorderThickness="1"  />
+            </Viewbox>-->
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Button Name="Quit" Content="                       "   Margin="20,3,20,3" Click="Quit_Click" BorderBrush="White" Opacity="0.6" Background="Gray" BorderThickness="1"  />
             </Viewbox>
@@ -60,7 +62,9 @@
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <TextBlock Name="cr" Text="Credits" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White"  FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
             </Viewbox>
-   
+            <!--<Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBlock Name="hi" Text="Highscores" Margin="50,10,50,10" MinHeight="17" Background="Transparent" Foreground="White"  FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
+            </Viewbox>-->
             <Viewbox Stretch="Fill" Width="auto" Height="auto" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <TextBlock Name="se" Text="Settings" Margin="55,10,55,10" MinHeight="17" Background="Transparent" Foreground="White"  FontWeight="SemiBold" IsHitTestVisible="False" Height="16"/>
             </Viewbox>
