@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="AfficheurPointage.cs" />
     <Compile Include="AmmunitionCatapulte.cs" />
+    <Compile Include="Arc.cs" />
     <Compile Include="BalleRebondissante.cs" />
     <Compile Include="Boss.cs" />
     <Compile Include="BossLabel.cs" />

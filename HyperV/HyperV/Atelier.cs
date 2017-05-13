@@ -272,7 +272,7 @@ namespace HyperV
                         Services.AddService(typeof(List<Enemy>), Enemy);
                         break;
                     case "Arc":
-                    //    Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
+                        Components.Add(new Arc(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4])));
                         break;
                     case "Epee":
                         Épée = new Epee(this, parts[1], float.Parse(parts[2]), Vector3Parse(parts[3]), Vector3Parse(parts[4]), int.Parse(parts[5]));
