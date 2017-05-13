@@ -37,9 +37,9 @@ namespace HyperV
         /// </summary>
         public override void Initialize()
         {
-            Message = "Press Space/Y";
-            Position = new Vector2(Game.Window.ClientBounds.Width - 150, Game.Window.ClientBounds.Height - 50);
-            Scale = 0.25f;
+            Message = "Press R/Y";//"Press Space/Y";
+            Position = new Vector2(Game.Window.ClientBounds.Width - 190, Game.Window.ClientBounds.Height - 70);
+            Scale = 0.5f;//0.25f;
             base.Initialize();
         }
 
