@@ -46,7 +46,7 @@ namespace HyperV
         protected override void LoadContent()
         {
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
-            Font = FontManager.Find("BLKCHCRY");
+            Font = FontManager.Find("Arial");
             Vector2 dimension = Font.MeasureString(Message);
             Origin = new Vector2(dimension.X / 2, dimension.Y / 2);
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
