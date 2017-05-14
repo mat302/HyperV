@@ -65,6 +65,7 @@ namespace HyperV
         GamePadManager GestionGamePad { get; set; }
         List<UnlockableWall> MurÀEnlever { get; set; }
         List<Portal> ListePortails { get; set; }
+        LifeBar[] BarreDeVie { get; set; }
 
 
         public NiveauRythmé(Game jeu, string textureCylindre, string nomFichierLecturePositionsCylindre,
@@ -149,6 +150,8 @@ namespace HyperV
             GénérateurAléatoire = Game.Services.GetService(typeof(Random)) as Random;
             MurÀEnlever = Game.Services.GetService(typeof(List<UnlockableWall>)) as List<UnlockableWall>;
             ListePortails = Game.Services.GetService(typeof(List<Portal>)) as List<Portal>;
+            BarreDeVie = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
+
         }
 
         void InitialisationComposants()
@@ -210,10 +213,31 @@ namespace HyperV
             j++;
 
             GérerPointage();
-
+            foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
+            {
+                if (BoutonUn)
+                {
+                    PositionCubeRouge = Positions[1];
+                    GérerÉchec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
+                if (BoutonDeux)
+                {
+                    PositionCubeRouge = Positions[3];
+                    GérerÉchec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
+                if (BoutonTrois)
+                {
+                    PositionCubeRouge = Positions[5];
+                    GérerÉchec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
+            }
             foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
             {
                 RemettreCubesTextureInitiale(cube);
+
                 GérerÉchec(cube);
 
                 foreach (SphèreRythmée sp in Game.Components.Where(composant => composant is SphèreRythmée))
@@ -222,15 +246,18 @@ namespace HyperV
                     {
                         GérerRéussite(sp, cube);
                     }
+                    
                 }
+
             }
 
-            
+
             AjouterSphères();
 
             BoutonUn = false;
             BoutonDeux = false;
             BoutonTrois = false;
+            
         }
 
         void GérerPointage()
@@ -299,15 +326,18 @@ namespace HyperV
         void GérerRéussite(SphèreRythmée sp, CubeTexturé cube)
         {
             if (SontVecteursÉgaux(sp.Extrémité1, Positions[0]) && BoutonUn ||
-                                    SontVecteursÉgaux(sp.Extrémité1, Positions[2]) && BoutonDeux ||
-                                    SontVecteursÉgaux(sp.Extrémité1, Positions[4]) && BoutonTrois)
+                SontVecteursÉgaux(sp.Extrémité1, Positions[2]) && BoutonDeux ||
+                SontVecteursÉgaux(sp.Extrémité1, Positions[4]) && BoutonTrois)
             {
                 sp.ÀDétruire = true;
                 cube.NomTextureCube = TextureCubeRéussite;
                 cube.InitialiserParamètresEffetDeBase();
                 ++nombreRéussi;
                 j = 0;
+                BarreDeVie[0].Heal(6);
+
             }
+              
         }
 
         bool SontVecteursÉgaux(Vector3? a, Vector3 b)
