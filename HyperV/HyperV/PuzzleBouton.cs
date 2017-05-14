@@ -24,6 +24,7 @@ namespace HyperV
         List<CreateurModele> ListeBoutons { get; set; }
         string PositionBoutons { get; set; }
         InputManager GestionInputs { get; set; }
+        GamePadManager GestionManette { get; set; }
         Camera2 Caméra { get; set; }
         RessourcesManager<SoundEffect> SoundManager { get; set; }
         SoundEffect ClocheRéussi { get; set; }
@@ -39,6 +40,7 @@ namespace HyperV
         protected override void LoadContent()
         {
             GestionInputs = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            GestionManette = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
             Caméra = Game.Services.GetService(typeof(Caméra)) as Camera2;
             SoundManager = Game.Services.GetService(typeof(RessourcesManager<SoundEffect>)) as RessourcesManager<SoundEffect>;
         }
@@ -47,7 +49,7 @@ namespace HyperV
         {
             base.Initialize();
             ListeBoutons = new List<CreateurModele>();
-            StreamReader fichier = new StreamReader(PositionBoutons);
+            StreamReader fichier = new StreamReader(PositionBoutons);            
             fichier.ReadLine();
             while (!fichier.EndOfStream)
             {
@@ -83,7 +85,7 @@ namespace HyperV
             }
 
 
-            if (GestionInputs.EstNouveauClicGauche())
+            if (GestionInputs.EstNouveauClicGauche() || GestionInputs.EstNouvelleTouche(Microsoft.Xna.Framework.Input.Keys.R) || GestionManette.EstNouveauBouton(Microsoft.Xna.Framework.Input.Buttons.A))
             {
                 for (int i = 0; i < ListeBoutons.Capacity; ++i)
                 {
