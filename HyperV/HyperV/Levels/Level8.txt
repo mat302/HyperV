@@ -1,7 +1,7 @@
 Camera;{X:-26 Y:2 Z:-3};{X:20 Y:0 Z:0};{X:5 Y:0 Z:0}
-Skybox;SkyBox
+SpaceBackground;WhiteSky
 Display3D
-Walls;Briques;Monde3_Murs.txt;-6
+#Walls;Briques;Monde3_Murs.txt;-6
 Catapulte;catapult;{X:-28 Y:-3.8 Z:-50};0.03;0
 AjouterModeles;../../../Monde3_Modeles.txt
 AjouterArbres
