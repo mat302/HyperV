@@ -40,16 +40,16 @@ namespace HyperV
          switch ((Game as Atelier).Language)
         {
             case Language.French:
-               Message = "Appuyer sur R/Y";
+               Message = "Appuyer sur R";
                break;
             case Language.English:
-               Message = "Press R/Y";
+               Message = "Press R";
                break;
             case Language.Spanish:
-               Message = "Seguir adelante R/Y";
+               Message = "Seguir adelante R";
                break;
             case Language.Japanese:
-               Message = "R/Yを押して";
+               Message = "Rを押して";
                break;
          }
       }
