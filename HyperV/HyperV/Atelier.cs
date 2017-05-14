@@ -27,6 +27,7 @@ namespace HyperV
 
     public class Atelier : Microsoft.Xna.Framework.Game
     {
+        bool PuzzleRuneCompletePremiereFois { get; set; }
         const float INTERVALLE_CALCUL_FPS = 1f;
         float FpsInterval { get; set; }
         GraphicsDeviceManager PériphériqueGraphique { get; set; }
@@ -131,12 +132,11 @@ namespace HyperV
             StreamReader reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/save.txt");
             SaveNumber = int.Parse(reader.ReadLine());
             reader.Close();
-            reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber.ToString() + ".txt");
+
+            reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/save" + SaveNumber + ".txt");
             string line = reader.ReadLine();
             string[] parts = line.Split(new char[] { ' ' });
             Level = int.Parse(parts[1]);
-
-       
 
             line = reader.ReadLine();
             parts = line.Split(new string[] { "n: " }, StringSplitOptions.None);
@@ -346,7 +346,7 @@ namespace HyperV
                         Components.Add(new Skybox(this, parts[1]));
                         break;
                     case "UnlockableWall":
-                        Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval, int.Parse(parts[6]), CountComplete(), ListeRunes));
+                        Unlockables.Add(new UnlockableWall(this, float.Parse(parts[1]), Vector3Parse(parts[2]), Vector3Parse(parts[3]), Vector2Parse(parts[4]), parts[5], FpsInterval, int.Parse(parts[6]), CountComplete(), ListeRunes, SaveNumber));
                         Components.Add(Unlockables.Last());
                         Services.RemoveService(typeof(List<UnlockableWall>));
                         Services.AddService(typeof(List<UnlockableWall>), Unlockables);
@@ -365,6 +365,7 @@ namespace HyperV
                         break;
                 }
             }
+            reader.Close();
             if (Level != 0)
             {
                 Components.Add(PressSpaceLabel);
@@ -432,6 +433,7 @@ namespace HyperV
                 Components.Add(new Afficheur3D(this));
                 Components.Add(x);
             }
+            fichier.Close();
         }
 
         private void AjouterArbres()
@@ -473,6 +475,7 @@ namespace HyperV
                 ListeRunes.Add(x);
                 Components.Add(x);
             }
+            fichier.Close();
         }
 
         private void AjouterLivres()
@@ -487,6 +490,7 @@ namespace HyperV
                 Components.Add(new Afficheur3D(this));
                 Components.Add(x);
             }
+            fichier.Close();
         }
 
         private void AjouterBoutons()
@@ -497,7 +501,7 @@ namespace HyperV
             {
                 ordre[i] = générateur.Next(0, 4);
             }
-            PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt");
+            PuzzleBouton PuzzleBouton = new PuzzleBouton(this, ordre, "../../../PositionBoutons.txt", SaveNumber);
             Services.RemoveService(typeof(PuzzleBouton));
             Services.AddService(typeof(PuzzleBouton),PuzzleBouton);
             Components.Add(PuzzleBouton);
@@ -554,6 +558,7 @@ namespace HyperV
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
 
+            PuzzleRuneCompletePremiereFois = true;
             Sleep = false;
             Random = new Random();
             Services.AddService(typeof(Random), Random);
@@ -687,6 +692,18 @@ namespace HyperV
                     Timer = 0;
                 }
                 base.Update(gameTime);
+            }
+            if (PuzzleRunesComplete() && PuzzleRuneCompletePremiereFois)
+            {
+                StreamReader reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + SaveNumber + ".txt");
+                string autrePuzzle = reader.ReadLine();
+                reader.Close();
+
+                StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + SaveNumber + ".txt");
+                writer.WriteLine(autrePuzzle);
+                writer.WriteLine(true);
+                writer.Close();
+                PuzzleRuneCompletePremiereFois = false;
             }
         }
 

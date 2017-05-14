@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
+using System.IO;
 
 namespace HyperV
 {
@@ -45,6 +46,7 @@ namespace HyperV
         float Magnitude { get; set; }
         int NombreRunesOuvrirMur { get; set; }
         int NombreNiveauxComplétés { get; set; }
+        int NumeroSave { get; set; }
 
         List<Rune> ListeRunes { get; set; }
         PuzzleBouton PuzzleBoutons { get; set; }
@@ -55,7 +57,7 @@ namespace HyperV
             return (valeur >= borneA && valeur <= borneB || valeur <= borneA && valeur >= borneB);
         }
 
-        public UnlockableWall(Game game, float homothétieInitiale, Vector3 rotationInitiale, Vector3 positionInitiale, Vector2 étendue, string nomTextureTuile, float intervalleMAJ, int nombreRunesOuvrirMur, int nombreNiveauxComplétés, List<Rune> listeRunes) : base(game, homothétieInitiale, rotationInitiale, positionInitiale)
+        public UnlockableWall(Game game, float homothétieInitiale, Vector3 rotationInitiale, Vector3 positionInitiale, Vector2 étendue, string nomTextureTuile, float intervalleMAJ, int nombreRunesOuvrirMur, int nombreNiveauxComplétés, List<Rune> listeRunes, int numeroSave) : base(game, homothétieInitiale, rotationInitiale, positionInitiale)
         {
             NomTextureTuile = nomTextureTuile;
             IntervalleMAJ = intervalleMAJ;
@@ -64,6 +66,7 @@ namespace HyperV
             NombreRunesOuvrirMur = nombreRunesOuvrirMur;
             NombreNiveauxComplétés = nombreNiveauxComplétés;
             ListeRunes = listeRunes;
+            NumeroSave = numeroSave;
         }
 
         public override void Initialize()
@@ -103,8 +106,7 @@ namespace HyperV
             Magnitude = PlaneEquation.Length();
             base.Initialize();
         }
-
-
+        
         private void CréerTableauPoints()
         {
             PtsSommets[0, 0] = new Vector3(Origine.X, Origine.Y, Origine.Z);
@@ -212,7 +214,10 @@ namespace HyperV
 
         public bool PuzzleRunesComplete()
         {
-            return ListeRunes[0].EstActivée && !ListeRunes[1].EstActivée && ListeRunes[2].EstActivée && !ListeRunes[3].EstActivée && !ListeRunes[4].EstActivée && ListeRunes[5].EstActivée;
+            StreamReader save = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + NumeroSave + ".txt");
+            save.ReadLine();
+            string ligneSave = save.ReadLine();
+            return (ListeRunes[0].EstActivée && !ListeRunes[1].EstActivée && ListeRunes[2].EstActivée && !ListeRunes[3].EstActivée && !ListeRunes[4].EstActivée && ListeRunes[5].EstActivée) || (ligneSave == "True");
         }
 
         public override void Update(GameTime gameTime)
