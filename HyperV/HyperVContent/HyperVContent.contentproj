@@ -163,13 +163,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\Garden.jpg">
-      <Name>Garden</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Textures\Maze.png">
       <Name>Maze</Name>
       <Importer>TextureImporter</Importer>
@@ -1330,6 +1323,13 @@
     </Compile>
     <Compile Include="Textures\FaceImages\K3.png">
       <Name>K3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Garden.png">
+      <Name>Garden</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
