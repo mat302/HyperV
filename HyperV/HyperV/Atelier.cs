@@ -849,7 +849,7 @@ namespace HyperV
                 {
                     stream = File.OpenWrite("../../../WPFINTERFACE/Launching Interface/Saves/pendingscreenshot.png");
                 }
-                catch (IOException e)
+                catch (Exception)
                 {
                     continue;
                 }

@@ -1,5 +1,4 @@
 SpaceBackground;WhiteSky
-Skybox;Skybox
 Display3D
 Camera;{X:5 Y:5 Z:5};{X:20 Y:0 Z:0};{X:5 Y:0 Z:5}
 House;Medhouse4;0.08;{X:0 Y:0 Z:0};{X:100 Y:0 Z:105};{X:80 Y:-5 Z:75};{X:115 Y:20 Z:135}
