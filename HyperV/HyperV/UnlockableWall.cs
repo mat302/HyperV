@@ -153,8 +153,6 @@ namespace HyperV
             {
                 for (int i = 0; i < 2; ++i)
                 {
-                    //Sommets[++NoSommet] = new VertexPositionColor(PtsSommets[i, j], Color.LawnGreen);
-                    //Sommets[++NoSommet] = new VertexPositionColor(PtsSommets[i, j + 1], Color.LawnGreen);
                     Sommets[++NoSommet] = new VertexPositionTexture(PtsSommets[i, j], PtsTexture[i, j]);
                     Sommets[++NoSommet] = new VertexPositionTexture(PtsSommets[i, j + 1], PtsTexture[i, j + 1]);
                 }
@@ -178,7 +176,6 @@ namespace HyperV
 
         protected void DessinerTriangleStrip()
         {
-            //GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, Sommets, 0, NB_TRIANGLES);
             GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleStrip, Sommets, 0, NB_TRIANGLES);
         }
 
@@ -209,7 +206,6 @@ namespace HyperV
                 AP = Position - PlanePoint;
                 wallDistance = Vector2.Distance(FirstVertex, SecondVertex);
                 result = Math.Abs(Vector3.Dot(AP, PlaneEquation)) / Magnitude < MAX_DISTANCE && (Position - new Vector3(FirstVertex.X, Position.Y, FirstVertex.Y)).Length() < wallDistance && (Position - new Vector3(SecondVertex.X, Position.Y, SecondVertex.Y)).Length() < wallDistance;
-                //CreateNewDirection(result, i, Direction, ref newDirection);
             }
             return result;
         }

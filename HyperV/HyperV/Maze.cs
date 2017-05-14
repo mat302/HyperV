@@ -1,14 +1,4 @@
-/*
-Maze.cs
--------
 
-By Mathieu Godin
-
-Role : Used to create a maze from its
-       map in an image format
-
-Created : 2/13/17
-*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -183,34 +173,34 @@ namespace HyperV
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 1 == maxJ ? j : j + 1], TileTexturePositions[1, 1]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i, j + 1 == maxJ ? j : j + 1], TileTexturePositions[1, 0]);
 
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 2 == maxI ? i : i + 2, j], WallTexturePositions[0, 0]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 3 == maxI ? i : i + 3, j], WallTexturePositions[0, 1]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 2 == maxI ? i : i + 2, j + 1 == maxJ ? j : j + 1], WallTexturePositions[1, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 2 == maxI ? i : i + 2, j], WallTexturePositions[1, 1]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 3 == maxI ? i : i + 3, j], WallTexturePositions[1, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 2 == maxI ? i : i + 2, j + 1 == maxJ ? j : j + 1], WallTexturePositions[0, 1]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 3 == maxI ? i : i + 3, j], TileTexturePositions[0, 1]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 3 == maxI ? i : i + 3, j + 1 == maxJ ? j : j + 1], WallTexturePositions[1, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 3 == maxI ? i : i + 3, j + 1 == maxJ ? j : j + 1], WallTexturePositions[ 1, 0]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 2 == maxI ? i : i + 2, j + 1 == maxJ ? j : j + 1], WallTexturePositions[1, 1]);
 
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 4 == maxI ? i : i + 4, j], WallTexturePositions[0, 0]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 5 == maxI ? i : i + 5, j], WallTexturePositions[0, 1]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 4 == maxI ? i : i + 4, j + 1 == maxJ ? j : j + 1], WallTexturePositions[1, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 4 == maxI ? i : i + 4, j], WallTexturePositions[1, 1]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 5 == maxI ? i : i + 5, j], WallTexturePositions[1, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 4 == maxI ? i : i + 4, j + 1 == maxJ ? j : j + 1], WallTexturePositions[0,1]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 5 == maxI ? i : i + 5, j], TileTexturePositions[0, 1]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 5 == maxI ? i : i + 5, j + 1 == maxJ ? j : j + 1], WallTexturePositions[1, 0]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 4 == maxI ? i : i + 4, j + 1 == maxJ ? j : j + 1], WallTexturePositions[1, 1]);
 
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 2 == maxJ ? j : j + 2], WallTexturePositions[0, 0]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 3 == maxJ ? j : j + 3], WallTexturePositions[0, 1]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 2 == maxJ ? j : j + 2], WallTexturePositions[1, 0]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 3 == maxJ ? j : j + 3], WallTexturePositions[0, 1]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 3 == maxJ ? j : j + 3], WallTexturePositions[1, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 2 == maxJ ? j : j + 2], WallTexturePositions[1, 1]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 3 == maxJ ? j : j + 3], WallTexturePositions[1, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 2 == maxJ ? j : j + 2], WallTexturePositions[0,1]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 3 == maxJ ? j : j + 3], WallTexturePositions[0, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 3 == maxJ ? j : j + 3], WallTexturePositions[1,0]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 2 == maxJ ? j : j + 2], WallTexturePositions[1, 1]);
 
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 4 == maxJ ? j : j + 4], WallTexturePositions[0, 0]);
+                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 4 == maxJ ? j : j + 4], WallTexturePositions[1, 1]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 5 == maxJ ? j : j + 5], WallTexturePositions[1, 0]);
                     Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 4 == maxJ ? j : j + 4], WallTexturePositions[0, 1]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 5 == maxJ ? j : j + 5], WallTexturePositions[1, 1]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 5 == maxJ ? j : j + 5], WallTexturePositions[1, 0]);
-                    Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 4 == maxJ ? j : j + 4], WallTexturePositions[0, 1]);
-                }
+               Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i == maxI ? i : i, j + 5 == maxJ ? j : j + 5], WallTexturePositions[0, 0]);
+               Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 5 == maxJ ? j : j + 5], WallTexturePositions[1, 0]);
+               Vertices[++cpt] = new VertexPositionTexture(VerticesPositions[i + 1 == maxI ? i : i + 1, j + 4 == maxJ ? j : j + 4], WallTexturePositions[1, 1]);
+            }
             }
         }
 

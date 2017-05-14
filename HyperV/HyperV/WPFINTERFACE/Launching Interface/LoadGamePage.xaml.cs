@@ -18,50 +18,52 @@ namespace Launching_Interface
 
 
       public LoadGamePage()
-      {
-         LangueOficielleLoadPage = new List<string>();
-         ListeÉlémentsAAfficher = new List<string>();
-         InitializeComponent();
-         OrganiserLangueEtMarges();        
-         PlaceContent();
-         OrganiserMargesCaractéristiques();
+        {
+            Refresh();
       }
 
-      void OrganiserLangueEtMarges()
-      {
-         switch (GererDonnees.Langue)
-         {
-            case GererDonnees.Langues.Francais:
-               LangueOficielleLoadPage = GererDonnees.ListeFrancais;
-               tbtitre.Margin = new Thickness(-40, 13, 42, 5);
-               BackButton.Margin = new Thickness(28, 17, 113, 52);
-               break;
-            case GererDonnees.Langues.Anglais:
-               LangueOficielleLoadPage = GererDonnees.ListeAnglais;
-               tbtitre.Margin = new Thickness(-30, 13, 49, 5);
-               BackButton.Margin = new Thickness(28, 17, 113, 52);
-               break;
-            case GererDonnees.Langues.Espagnol:
-               LangueOficielleLoadPage = GererDonnees.ListeEspagnol;
-               tbtitre.Margin = new Thickness(-40, 13, 42, 5);
-               BackButton.Margin = new Thickness(24, 17, 118, 52);
-               break;
-            case GererDonnees.Langues.Japonais:
-               LangueOficielleLoadPage = GererDonnees.ListeJaponais;
-               tbtitre.Margin = new Thickness(-30, 13, 49, 5);
-               BackButton.Margin = new Thickness(28, 17, 113, 52);
-               break;
+        void Refresh()
+        {
+            LangueOficielleLoadPage = new List<string>();
+            ListeÉlémentsAAfficher = new List<string>();
 
-         }
-         tbtitre.Text = LangueOficielleLoadPage[32];
-         BackButton.Text = LangueOficielleLoadPage[0];
-      }
+            InitializeComponent();
+            switch (GererDonnees.Langue)
+            {
+                case 0:
+                    LangueOficielleLoadPage = GererDonnees.ListeFrancais;
+                    tbtitre.Margin = new Thickness(-40, 13, 42, 5);
+                    BackButton.Margin = new Thickness(28, 17, 113, 52);
+                    break;
+                case 1:
+                    LangueOficielleLoadPage = GererDonnees.ListeAnglais;
+                    tbtitre.Margin = new Thickness(-30, 13, 49, 5);
+                    BackButton.Margin = new Thickness(28, 17, 113, 52);
+                    break;
+                case 2:
+                    LangueOficielleLoadPage = GererDonnees.ListeEspagnol;
+                    tbtitre.Margin = new Thickness(-40, 13, 42, 5);
+                    BackButton.Margin = new Thickness(24, 17, 118, 52);
+                    break;
+                case 3:
+                    LangueOficielleLoadPage = GererDonnees.ListeJaponais;
+                    tbtitre.Margin = new Thickness(-30, 13, 49, 5);
+                    BackButton.Margin = new Thickness(28, 17, 113, 52);
+                    break;
+
+            }
+            tbtitre.Text = LangueOficielleLoadPage[32];
+            BackButton.Text = LangueOficielleLoadPage[0];
+
+            //CheckForExistingGames();
+            PlaceContent();
+        }
 
       private void PlaceContent()
       {
          for (int i = 0; i < 3; ++i)
          {
-            if (GererDonnees.JeuEstExistant[i])
+            if (GererDonnees.GameExists[i])
             {
                PlaceRows(i);
             }
@@ -104,25 +106,48 @@ namespace Launching_Interface
             case 0:
                image0.Source = src;
                image0.Margin = new Thickness(30);
-               slotA.Text = LangueOficielleLoadPage[2];
-               Level0.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
-               Time0.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
+               slotA.Text = ÉlémentFichiersLangues(2);
+               Level0.Text = ÉlémentFichiersLangues(4) + " " + GererDonnees.CountComplete(i) + "/" + GererDonnees.CountLevels(i).ToString();
+               Time0.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];
                break;
             case 1:
                image1.Source = src;
                image1.Margin = new Thickness(30);
-               slotB.Text = LangueOficielleLoadPage[5];
-               Level1.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
-               Time1.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
+               slotB.Text = ÉlémentFichiersLangues(5);
+               Level1.Text = ÉlémentFichiersLangues(4) + " " + GererDonnees.CountComplete(i) + "/" + GererDonnees.CountLevels(i).ToString();
+               Time1.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];
                break;
             case 2:
                image2.Source = src;
                image2.Margin = new Thickness(30);
-               slotC.Text = LangueOficielleLoadPage[8];
-               Level2.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
-               Time2.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
+               slotC.Text = ÉlémentFichiersLangues(8);
+               Level2.Text = ÉlémentFichiersLangues(4) + " " + GererDonnees.CountComplete(i) + "/" + GererDonnees.CountLevels(i).ToString();
+               Time2.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];
                break;
+               //case 0:
+               //   image0.Source = src;
+               //   image0.Margin = new Thickness(30);
+               //   slotA.Text = ÉlémentFichiersLangues(7) + " A";
+               //   Level0.Text = ÉlémentFichiersLangues(4) + " " + ListeÉlémentsAAfficher[0] + "/" + GererDonnees.NBRE_NIVEAUX.ToString();
+               //   Time0.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];
+               //   break;
+               //case 1:
+               //   image1.Source = src;
+               //   image1.Margin = new Thickness(30);
+               //   slotB.Text = ÉlémentFichiersLangues(7) + " B";
+               //   Level1.Text = ÉlémentFichiersLangues(4) + " " + ListeÉlémentsAAfficher[0] + "/" + GererDonnees.NBRE_NIVEAUX.ToString();
+               //   Time1.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];
+               //   break;
+               //case 2:
+               //   image2.Source = src;
+               //   image2.Margin = new Thickness(30);
+               //   slotC.Text = ÉlémentFichiersLangues(7) + " C";
+               //   Level2.Text = ÉlémentFichiersLangues(4) + " " + ListeÉlémentsAAfficher[0] + "/" + GererDonnees.NBRE_NIVEAUX.ToString();
+               //   Time2.Text = ÉlémentFichiersLangues(3) + " " + ListeÉlémentsAAfficher[3];
+               //   break;
          }
+         //ListeÉlémentsAAfficher.Clear();
+
          OrganiserMargesCaractéristiques();
          RendreTexteRouge(i);
       }
@@ -146,27 +171,57 @@ namespace Launching_Interface
          }
       }
 
-      void ChangeBorderBrushColor(int i)
+        void ChangeBorderBrushColor(int i)
         {
             switch (i)
             {
                 case 0:
-                    Load0Button.BorderBrush = Brushes.Black;
+                    Load0Button.BorderBrush = Brushes.Black;//DarkBlue;
                     break;
                 case 1:
-                    Load1Button.BorderBrush = Brushes.Black;
+                    Load1Button.BorderBrush = Brushes.Black;//DarkBlue;
                     break;
                 case 2:
-                    Load2Button.BorderBrush = Brushes.Black;
+                    Load2Button.BorderBrush = Brushes.Black;//DarkBlue;
                     break;
             }
         }
 
-      void OrganiserMargesCaractéristiques()
+        string ÉlémentFichiersLangues(int i)
+      {
+         return LangueOficielleLoadPage[i].Replace("\n", string.Empty);
+      }
+
+        //void OrganiserMargesDesCaractéristiques()
+        //{
+        //   Thickness margesSave = new Thickness(10,0,10,0);
+        //   Thickness margesLevel = new Thickness(0);
+
+        //   if (GererDonnees.Langue != 0)
+        //   {
+        //      margesSave = new Thickness(20, 0, 20, 0);
+        //   }
+        //   slotA.Margin = margesSave;
+        //   slotB.Margin = margesSave;
+        //   slotC.Margin = margesSave;
+
+
+        //   if (GererDonnees.Langue == 3)
+        //   {
+        //      margesLevel = new Thickness(10, 0, 10, 0);
+        //   }
+        //   Level0.Margin = margesLevel;
+        //   Level1.Margin = margesLevel;
+        //   Level2.Margin = margesLevel;
+
+
+        //}
+
+        void OrganiserMargesCaractéristiques()
         {
             switch (GererDonnees.Langue)
             {
-                case GererDonnees.Langues.Francais:
+                case 0:
                     LangueOficielleLoadPage = GererDonnees.ListeFrancais;
                     tbtitre.Margin = new Thickness(-38, 13, 43, 5);
                     BackButton.Margin = new Thickness(36, 17, 105, 50);
@@ -175,7 +230,7 @@ namespace Launching_Interface
                     Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
 
                     break;
-                case GererDonnees.Langues.Anglais:
+                case 1:
                     LangueOficielleLoadPage = GererDonnees.ListeAnglais;
                     tbtitre.Margin = new Thickness(-35, 13, 49, 5);
                     BackButton.Margin = new Thickness(36, 17, 105, 50);
@@ -183,7 +238,7 @@ namespace Launching_Interface
                     Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
                     Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
                     break;
-                case GererDonnees.Langues.Espagnol:
+                case 2:
                     LangueOficielleLoadPage = GererDonnees.ListeEspagnol;
                     tbtitre.Margin = new Thickness(-39, 13, 42, 5);
                     BackButton.Margin = new Thickness(33, 17, 107, 52);
@@ -191,7 +246,7 @@ namespace Launching_Interface
                     Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(5, -5, 5, 5);
                     Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
                     break;
-                case GererDonnees.Langues.Japonais:
+                case 3:
                     LangueOficielleLoadPage = GererDonnees.ListeJaponais;
                     tbtitre.Margin = new Thickness(-41, 13, 53, 5);
                     BackButton.Margin = new Thickness(36, 17, 105, 52);
@@ -199,10 +254,11 @@ namespace Launching_Interface
                     Level0.Margin = Level1.Margin = Level2.Margin = new Thickness(14, -5, 14, 5);
                     Time0.Margin = Time1.Margin = Time2.Margin = new Thickness(20, 0, 20, 0);
                     break;
+
             }
         }
 
-      void LireInformationsNouvellePartie(int i)
+            void LireInformationsNouvellePartie(int i)
       {
          switch (i)
          {
@@ -241,16 +297,16 @@ namespace Launching_Interface
          Create e = new Create();
          switch (GererDonnees.Langue)
          {
-            case GererDonnees.Langues.Francais:
+            case 0:
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/EmptyFR.png", UriKind.Relative));
                break;
-            case GererDonnees.Langues.Anglais:
+            case 1:
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/Empty.png", UriKind.Relative));
                break;
-            case GererDonnees.Langues.Espagnol:
+            case 2:
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/EmptyES.png", UriKind.Relative));
                break;
-            case GererDonnees.Langues.Japonais:
+            case 3:
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/EmptyJA.png", UriKind.Relative));
                break;
          }
@@ -280,24 +336,26 @@ namespace Launching_Interface
          }
       }
 
-      private void BackButton_Click(object sender, RoutedEventArgs e)
-      {
-          NavigationService.Navigate(new MainPage());
-      }
+      //----------------------------------------------------------------------------------------------------------
 
-      void DeleteSave(string saveNumber)
+      private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new MainPage());
+        }
+
+        void DeleteSave(string saveNumber)
         {
             StreamWriter writer = new StreamWriter("../../Saves/save" + saveNumber + ".txt");
             writer.WriteLine();
             writer.Close();
-            GererDonnees.RafraichirSauvegardes();
+            GererDonnees.RefreshSaves();
             image0.Source = null;
             image1.Source = null;
             image2.Source = null;
-         PlaceContent();
+            Refresh();
         }
 
-      private void Load1Button_Click(object sender, RoutedEventArgs e)
+        private void Load1Button_Click(object sender, RoutedEventArgs e)
       {
             DeleteSave("0");
       }

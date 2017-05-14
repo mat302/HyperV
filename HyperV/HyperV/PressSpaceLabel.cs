@@ -35,7 +35,7 @@ namespace HyperV
             base.Initialize();
         }
 
-       void DéterminerMesage()
+      public void DéterminerMesage()
       {
          switch ((Game as Atelier).Language)
         {

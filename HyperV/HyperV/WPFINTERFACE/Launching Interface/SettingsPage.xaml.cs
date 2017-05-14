@@ -7,6 +7,19 @@ using System.Windows.Controls;
 
 namespace Launching_Interface
 {
+   //enum Language
+   //{
+   //    French, English, Spanish, Japanese
+   //}
+
+   //enum Input
+   //{
+   //    Controller, Keyboard
+   //}
+
+   /// <summary>
+   /// Interaction logic for SettingsPage.xaml
+   /// </summary>
    public partial class SettingsPage : Page
    {
       List<string> ListeLangueOficielle { get; set; }
@@ -14,42 +27,44 @@ namespace Launching_Interface
       public SettingsPage()
       {
          ListeLangueOficielle = new List<string>();
+
          InitializeComponent();
          GérerFPS();
-         GererDonnees.RenderDistenceModifiée = true;
+         GererDonnees.RD = true;
          GérerLangues();
-         ChangerRéglages();
-       GérerRenderDistance();
-       GérerSon();
+         GérerRenderDistance();
+         GérerSon();
          GérerBoutons();
+         ChangerRéglages();
          
       }
 
       public void BackButton_Click(object sender, RoutedEventArgs e)
       {
          SaveSettings();
-         NavigationService.Navigate(new MainPage());
+         this.NavigationService.Navigate(new MainPage());
       }
 
       private void SaveSettings()
       {
-         StreamWriter lecteurDonnées = new StreamWriter("../../Saves/Settings.txt");
-         lecteurDonnées.WriteLine("Music: " + GererDonnees.VolMusique.ToString());
-         lecteurDonnées.WriteLine("Sound: " + GererDonnees.VolEffets.ToString());
-         lecteurDonnées.WriteLine("Language: " + ((int)GererDonnees.Langue).ToString());
-         lecteurDonnées.WriteLine("Render Distance: " + GererDonnees.RenderDistance.ToString());
-         lecteurDonnées.WriteLine("Frame Rate: " + GererDonnees.Fps.ToString());
-         lecteurDonnées.WriteLine("Fullscreen: " + ((int)GererDonnees.FullscreenMode).ToString());
-         lecteurDonnées.WriteLine("Input: " + ((int)GererDonnees.KeyboardMode).ToString());
-         lecteurDonnées.Close();
+         StreamWriter w = new StreamWriter("../../Saves/Settings.txt");
+
+         w.WriteLine("Music: " + GererDonnees.VolMusique.ToString());
+         w.WriteLine("Sound: " + GererDonnees.VolEffets.ToString());
+         w.WriteLine("Language: " + GererDonnees.Langue.ToString());
+         w.WriteLine("Render Distance: " + GererDonnees.RenderDistance.ToString());
+         w.WriteLine("Frame Rate: " + GererDonnees.Fps.ToString());
+         w.WriteLine("Fullscreen: " + GererDonnees.FullscreenMode.ToString());
+         w.WriteLine("Input: " + GererDonnees.KeyboardMode.ToString());
+         w.Close();
       }
   
       private void RDistanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) 
       {
          double value = 0;
-         if (GererDonnees.RenderDistenceModifiée == true)
+         if (GererDonnees.RD == true)
          {
-            GererDonnees.RenderDistenceModifiée = false;
+            GererDonnees.RD = false;
             switch (GererDonnees.RenderDistance)
             {
                case 10:
@@ -172,7 +187,7 @@ namespace Launching_Interface
 
       private void ButFull_Unchecked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.FullscreenMode = GererDonnees.Fullscreen.non;
+         GererDonnees.FullscreenMode = 0;
          GérerBoutons();
 
          Application.Current.MainWindow.WindowState = WindowState.Normal;
@@ -182,7 +197,7 @@ namespace Launching_Interface
 
       private void ButFull_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.FullscreenMode = GererDonnees.Fullscreen.oui;
+         GererDonnees.FullscreenMode = 1;
          GérerBoutons();
 
          Application.Current.MainWindow.WindowStyle = WindowStyle.None;
@@ -196,13 +211,13 @@ namespace Launching_Interface
 
       private void ButCont_Unchecked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.KeyboardMode = GererDonnees.Controller.Clavier;
+         GererDonnees.KeyboardMode = 0;
          GérerBoutons();
       }
 
       private void ButCont_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.KeyboardMode = GererDonnees.Controller.Manette;
+         GererDonnees.KeyboardMode = 1;
          GérerBoutons();
       }
 
@@ -211,7 +226,7 @@ namespace Launching_Interface
 
       private void RBes_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.Langue = GererDonnees.Langues.Espagnol;
+         GererDonnees.Langue = 2;
          ListeLangueOficielle = GererDonnees.ListeEspagnol;
 
          ChangerRéglages();
@@ -220,7 +235,7 @@ namespace Launching_Interface
 
       private void RBjp_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.Langue = GererDonnees.Langues.Japonais;
+         GererDonnees.Langue = 3;
          ListeLangueOficielle = GererDonnees.ListeJaponais;
          ChangerRéglages();
          GérerBoutons();
@@ -228,7 +243,7 @@ namespace Launching_Interface
 
       private void RBfr_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.Langue = GererDonnees.Langues.Francais;
+         GererDonnees.Langue = 0;
          ListeLangueOficielle = GererDonnees.ListeFrancais;
          ChangerRéglages();
          GérerBoutons();
@@ -236,7 +251,7 @@ namespace Launching_Interface
 
       private void RBan_Checked(object sender, RoutedEventArgs e)
       {
-         GererDonnees.Langue = GererDonnees.Langues.Anglais;
+         GererDonnees.Langue = 1;
          ListeLangueOficielle = GererDonnees.ListeAnglais;
          ChangerRéglages();
          GérerBoutons();
@@ -260,7 +275,6 @@ namespace Launching_Interface
          Resettext2.Text = ListeLangueOficielle[33];
 
          GererCaractéristiques();
-       
       }
 
       void GérerLangues()
@@ -272,19 +286,19 @@ namespace Launching_Interface
 
          switch (GererDonnees.Langue)
          {
-            case GererDonnees.Langues.Francais:
+            case 0:
                ListeLangueOficielle = GererDonnees.ListeFrancais;
                RBfr.IsChecked = true;
                break;
-            case GererDonnees.Langues.Anglais:
+            case 1:
                ListeLangueOficielle = GererDonnees.ListeAnglais;
                RBan.IsChecked = true;
                break;
-            case GererDonnees.Langues.Espagnol:
+            case 2:
                ListeLangueOficielle = GererDonnees.ListeEspagnol;
                RBes.IsChecked = true;
                break;
-            case GererDonnees.Langues.Japonais:
+            case 3:
                ListeLangueOficielle = GererDonnees.ListeJaponais;
                RBjp.IsChecked = true;
                break;
@@ -340,7 +354,7 @@ namespace Launching_Interface
 
       void ResetButton_Click(object sender, RoutedEventArgs e)
       {
-         GererDonnees.RenderDistenceModifiée = true;
+         GererDonnees.RD = true;
          GererDonnees.RéglagesBase();
          ChangerRéglages();
          GérerFPS();
@@ -359,29 +373,29 @@ namespace Launching_Interface
 
       void GérerBoutons()
       {
-         if (GererDonnees.FullscreenMode == GererDonnees.Fullscreen.oui)
+         if (GererDonnees.FullscreenMode == 1)
          {
             ButFull.Content = ListeLangueOficielle[29];
-        //    ButFull.IsChecked = true;
+            ButFull.IsChecked = true;
             
          }
          else
          {
             ButFull.Content = ListeLangueOficielle[30];
-            //ButFull.IsChecked = false;
+            ButFull.IsChecked = false;
            
          }
 
-         if (GererDonnees.KeyboardMode == GererDonnees.Controller.Manette)
+         if (GererDonnees.KeyboardMode == 0)
          {
             ButCont.Content = ListeLangueOficielle[23];
-         //   ButCont.IsChecked = false;
+            ButCont.IsChecked = false;
          }
          else
          {
-           
+            GererDonnees.KeyboardMode = 1;
             ButCont.Content = ListeLangueOficielle[22];
-          //  ButCont.IsChecked = true;
+            ButCont.IsChecked = true;
          }
 
       }
@@ -390,22 +404,22 @@ namespace Launching_Interface
       {
          switch(GererDonnees.Langue)
          {
-            case GererDonnees.Langues.Francais:
+            case 0:
                Resettext2.Margin= new Thickness(33, 64, 126, 48);
                Backtext.Margin  = new Thickness(28, 19, 113, 88);
                TitreSett.Margin = new Thickness(-25, 11, 40, 11);
                break;
-            case GererDonnees.Langues.Anglais:
+            case 1:
                Resettext2.Margin= new Thickness(43, 64, 126, 48);
                Backtext.Margin  = new Thickness(28, 19, 113, 88);
                TitreSett.Margin = new Thickness(-24, 11, 38, 11);
                break;
-            case GererDonnees.Langues.Espagnol:
+            case 2:
                Resettext2.Margin = new Thickness(37, 64, 122, 48);
                Backtext.Margin   = new Thickness(22, 19, 114, 88);
                TitreSett.Margin  = new Thickness(-21, 11, 35, 11);
                break;
-            case GererDonnees.Langues.Japonais:
+            case 3:
                Resettext2.Margin= new Thickness(39, 64, 123, 48);
                Backtext.Margin  = new Thickness(28, 19, 113, 88);
                TitreSett.Margin = new Thickness(-14, 11, 44, 11);
