@@ -16,8 +16,8 @@ UnlockableWall;1;{X:0 Y:-1.570796 Z:0};{X:-270 Y:-10 Z:-225};{X:30 Y:20};3stones
 Portal;1;{X:0 Y:0 Z:0};{X:-325 Y:-10 Z:-110};{X:30 Y:20};Mill;3
 Portal;1;{X:0 Y:3.141593 Z:0};{X:-155 Y:-10 Z:-170};{X:30 Y:20};Flood;4
 Portal;1;{X:0 Y:3.141593 Z:0};{X:135 Y:-10 Z:150};{X:30 Y:20};Dungeon;5
-Portal;1;{X:0 Y:-1.570796 Z:0};{X:-210 Y:-10 Z:-375};{X:30 Y:20};BleuBlancRouge;6
-Portal;1;{X:0 Y:-1.570796 Z:0};{X:-90 Y:-10 Z:-435};{X:30 Y:20};BleuBlancRouge;7
-Portal;1;{X:0 Y:3.141593 Z:0};{X:45 Y:-10 Z:-360};{X:30 Y:20};BleuBlancRouge;8
+Portal;1;{X:0 Y:-1.570796 Z:0};{X:-210 Y:-10 Z:-375};{X:30 Y:20};BallS;6
+Portal;1;{X:0 Y:-1.570796 Z:0};{X:-90 Y:-10 Z:-435};{X:30 Y:20};CircS;7
+Portal;1;{X:0 Y:3.141593 Z:0};{X:45 Y:-10 Z:-360};{X:30 Y:20};CataS;8
 UnlockableWall;1;{X:0 Y:1.570796 Z:0};{X:30 Y:-10 Z:-205};{X:30 Y:20};5stones;5
 Portal;1;{X:0 Y:1.570796 Z:0};{X:30 Y:-10 Z:-75};{X:30 Y:20};BossS;9
