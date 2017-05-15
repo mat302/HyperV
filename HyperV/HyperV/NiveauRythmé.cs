@@ -8,21 +8,12 @@ using AtelierXNA;
 
 namespace HyperV
 {
-    //void RythmLevel()
-    //{
-    //    NiveauRythmÈ circuit = new NiveauRythmÈ(this, "Fil Electrique", "../../../Data3.txt",
-    //                                            3, "Blanc", "Rouge",
-    //                                            "Vert", "BleuBlancRouge", "Arial50",
-    //                                            Color.Black, 15, 1,
-    //                                            FpsInterval);
-    //    Components.Add(circuit);
-    //    Services.AddService(typeof(NiveauRythmÈ), circuit);
-    //}
-
 
     //Faire enlever de la vie si pese touche pas colision
     public class NiveauRythmÈ : Microsoft.Xna.Framework.GameComponent
     {
+        const float INCERTITUDE_…GALIT…_FLOAT = 0.01f;
+
         //CONSTRUCTEUR
         //Cylindre
         readonly string TextureCylindre,
@@ -213,27 +204,9 @@ namespace HyperV
             j++;
 
             GÈrerPointage();
-            foreach (CubeTexturÈ cube in Game.Components.Where(composant => composant is CubeTexturÈ))
-            {
-                if (BoutonUn)
-                {
-                    PositionCubeRouge = Positions[1];
-                    GÈrer…chec(cube);
-                    BarreDeVie[0].Attack(2);
-                }
-                if (BoutonDeux)
-                {
-                    PositionCubeRouge = Positions[3];
-                    GÈrer…chec(cube);
-                    BarreDeVie[0].Attack(2);
-                }
-                if (BoutonTrois)
-                {
-                    PositionCubeRouge = Positions[5];
-                    GÈrer…chec(cube);
-                    BarreDeVie[0].Attack(2);
-                }
-            }
+
+            GÈrerClicsEnTrop();
+
             foreach (CubeTexturÈ cube in Game.Components.Where(composant => composant is CubeTexturÈ))
             {
                 RemettreCubesTextureInitiale(cube);
@@ -248,7 +221,6 @@ namespace HyperV
                     }
                     
                 }
-
             }
 
 
@@ -270,12 +242,37 @@ namespace HyperV
                 // constantes  ----------------------------------
 
                 NiveauEstTerminÈ = true;
-                i = 1000;
+                i = BorneMaximale_i + 1;
                 Game.Components.Remove(Mur¿Enlever[0]);
                 ListePortails.Add(new Portal(Game, 1, new Vector3(0, MathHelper.PiOver2, 0),
                                   new Vector3(170, -60, -10), new Vector2(40, 40), "Transparent",
                                   1, IntervalleMAJ));
                 Game.Components.Add(ListePortails.Last());
+            }
+        }
+
+        void GÈrerClicsEnTrop()
+        {
+            foreach (CubeTexturÈ cube in Game.Components.Where(composant => composant is CubeTexturÈ))
+            {
+                if (BoutonUn)
+                {
+                    PositionCubeRouge = Positions[1];
+                    GÈrer…chec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
+                if (BoutonDeux)
+                {
+                    PositionCubeRouge = Positions[3];
+                    GÈrer…chec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
+                if (BoutonTrois)
+                {
+                    PositionCubeRouge = Positions[5];
+                    GÈrer…chec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
             }
         }
 
@@ -351,7 +348,9 @@ namespace HyperV
             else
             {
                 Vector3 c = (Vector3)a - b;
-                Ègaux = (c.X < 1 && c.X > -1) && (c.Y < 1 && c.Y > -1) && (c.Z < 1 && c.Z > -1);
+                Ègaux = (c.X < INCERTITUDE_…GALIT…_FLOAT && c.X > -INCERTITUDE_…GALIT…_FLOAT) &&
+                        (c.Y < INCERTITUDE_…GALIT…_FLOAT && c.Y > -INCERTITUDE_…GALIT…_FLOAT) && 
+                        (c.Z < INCERTITUDE_…GALIT…_FLOAT && c.Z > -INCERTITUDE_…GALIT…_FLOAT);
             }
 
             return Ègaux;

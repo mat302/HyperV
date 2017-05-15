@@ -7,6 +7,7 @@ namespace HyperV
 {
     public class CaméraJoueur : Caméra
     {
+        const int VALEUR_SECONDE = 60;
         const int FACTEUR_COURSE_MAXIMAL = 4;
         const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
         const int HAUTEUR_SAUT = 10;
@@ -410,13 +411,13 @@ namespace HyperV
 
             if (ContinuerSaut)
             {
-                if (t > 60)
+                if (t > VALEUR_SECONDE)
                 {
                     InitialiserObjetsComplexesSaut();
                     ContinuerSaut = false;
                     t = 0;
                 }
-                Hauteur = CalculerBesier(t * (1f / 60f), PtsDeControle).Y;
+                Hauteur = CalculerBesier(t * IntervalleMAJ, PtsDeControle).Y;
                 ++t;
             }
         }
