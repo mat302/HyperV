@@ -93,7 +93,7 @@ namespace HyperV
             Sauter = false;
             Ramasser = false;
 
-            //Activé*******************************************************************
+            //Activé
             DésactiverCertainesCommandes = false;
             EstDéplacementEtCommandesClavierActivé = true;
             EstCaméraClavierActivée = true;
