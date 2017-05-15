@@ -215,7 +215,6 @@ namespace HyperV
         public bool PuzzleRunesComplete()
         {
             StreamReader save = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleRunes" + NumeroSave + ".txt");
-            save.ReadLine();
             string ligneSave = save.ReadLine();
             save.Close();
             return (ListeRunes[0].EstActivée && !ListeRunes[1].EstActivée && ListeRunes[2].EstActivée && !ListeRunes[3].EstActivée && !ListeRunes[4].EstActivée && ListeRunes[5].EstActivée) || (ligneSave == "True");

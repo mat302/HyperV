@@ -636,11 +636,11 @@ namespace HyperV
          Walls = new List<Walls>();
          Unlockables = new List<UnlockableWall>();
          Water = new List<Water>();
-         ListeRunes = new List<Rune>();
-         Food = new List<Food>();
+            ListeRunes = new List<Rune>();
+            Food = new List<Food>();
          Services.RemoveService(typeof(List<Rune>));
-         Services.AddService(typeof(List<Rune>), ListeRunes);
-         Services.RemoveService(typeof(List<Character>));
+            Services.AddService(typeof(List<Rune>), ListeRunes);
+            Services.RemoveService(typeof(List<Character>));
          Services.AddService(typeof(List<Character>), Characters);
          Services.RemoveService(typeof(List<Enemy>));
          Services.AddService(typeof(List<Enemy>), Enemy);
@@ -693,18 +693,16 @@ namespace HyperV
             }
             base.Update(gameTime);
          }
-         if (PuzzleRunesComplete() && PuzzleRuneCompletePremiereFois)
-         {
-            StreamReader reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + SaveNumber + ".txt");
-            string autrePuzzle = reader.ReadLine();
-            reader.Close();
-
-            StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + SaveNumber + ".txt");
-            writer.WriteLine(autrePuzzle);
-            writer.WriteLine(true);
-            writer.Close();
-            PuzzleRuneCompletePremiereFois = false;
-         }
+         if(Level == 1)
+            {
+                if (PuzzleRunesComplete() && PuzzleRuneCompletePremiereFois)
+                {
+                    StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleRunes" + SaveNumber + ".txt");
+                    writer.WriteLine(true);
+                    writer.Close();
+                    PuzzleRuneCompletePremiereFois = false;
+                }
+            }
       }
 
 
@@ -729,7 +727,7 @@ namespace HyperV
 
       private bool PuzzleRunesComplete()
       {
-         return true;//ListeRunes[0].EstActivée && !ListeRunes[1].EstActivée && ListeRunes[2].EstActivée && !ListeRunes[3].EstActivée && !ListeRunes[4].EstActivée && ListeRunes[5].EstActivée;
+         return ListeRunes[0].EstActivée && !ListeRunes[1].EstActivée && ListeRunes[2].EstActivée && !ListeRunes[3].EstActivée && !ListeRunes[4].EstActivée && ListeRunes[5].EstActivée;
       }
 
 
