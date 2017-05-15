@@ -1,4 +1,4 @@
-/*
+﻿/*
 SkipCutSceneLabel.cs
 --------------------
 
@@ -40,6 +40,7 @@ namespace HyperV
         float Timer { get; set; }
         RessourcesManager<SpriteFont> FontManager { get; set; }
         string FontName { get; set; }
+        Language Language { get; set; }
 
         const float ZOOM_INCREMENT = 0.0001F;
 
@@ -50,20 +51,35 @@ namespace HyperV
         
         public override void Initialize()
         {
+            base.Initialize();
+
             Timer = 0;
             Scale = 0;
-            Message = "Press R/Start to skip";//"Press Space/Start to skip";
+
+            
+            Message = "Press R/Start to skip";
+            switch (Language)
+            {
+                case Language.French:
+                    Message = "Appuyez sur R/Start pour passer la vidéo";
+                    break;
+                case Language.Spanish:
+                    Message = "Pulse sur R/Comienza para pasar la video";
+                    break;
+                case Language.Japanese:
+                    Message = "R/Startを押してビデオをスキップする";
+                    break;
+            }
+            Vector2 dimension = Font.MeasureString(Message);
+            Origin = new Vector2(dimension.X / 2, dimension.Y / 2);
             Position = new Vector2(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height - 50);
-            base.Initialize();
         }
 
         protected override void LoadContent()
         {
+            Language = (Language)Game.Services.GetService(typeof(Language));
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
             Font = FontManager.Find(FontName);
-            
-            Vector2 dimension = Font.MeasureString(Message);
-            Origin = new Vector2(dimension.X / 2, dimension.Y / 2);
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;
         }
         
