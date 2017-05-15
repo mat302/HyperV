@@ -7,22 +7,17 @@ namespace HyperV
 {
     public class CaméraJoueur : Caméra
     {
-        const float VITESSE_LORSQUE_FATIGUÉ = 0.1f;
+        const int FACTEUR_COURSE_MAXIMAL = 4;
+        const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
         const int HAUTEUR_SAUT = 10;
         const int SAUT = 25;
         const int VALEURE_VECTORIELLE_DÉPLACEMENT_GAMEPAD = 35;
-        const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
-        const float ACCÉLÉRATION = 0.001f;
+        const float VITESSE_LORSQUE_FATIGUÉ = 0.1f;
         const float VITESSE_INITIALE_ROTATION = 5f;
         const float VITESSE_INITIALE_ROTATION_SOURIS = 0.1f;
         protected const float VITESSE_INITIALE_TRANSLATION = 0.5f;
-        const float DELTA_LACET = MathHelper.Pi / 180; // 1 degré à la fois
-        const float DELTA_TANGAGE = MathHelper.Pi / 180; // 1 degré à la fois
-        const float DELTA_ROULIS = MathHelper.Pi / 180; // 1 degré à la fois
-        const float RAYON_COLLISION = 1f;
-        const int HAUTEUR_PERSONNAGE = 10;
-        const int FACTEUR_COURSE_MAXIMAL = 4;
-        const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
+        const float DELTA_LACET = MathHelper.Pi / 180; 
+        const float DELTA_TANGAGE = MathHelper.Pi / 180; 
 
 
         //CONSTRUCTEUR
@@ -32,6 +27,7 @@ namespace HyperV
         //CréerPointDeVue
         public Vector3 Direction { get; private set; }
         public Vector3 Latéral { get; private set; }
+
 
         //INITIALIZE
         //Souris
@@ -113,9 +109,10 @@ namespace HyperV
             ContinuerSaut = false;
             t = 0;
             Hauteur = HauteurDeBase;
+            InitialiserObjetsComplexesSaut();
+
             base.Initialize();
             ChargerContenu();
-            InitialiserObjetsComplexesSaut();
         }
 
         protected virtual void ChargerContenu()
