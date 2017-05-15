@@ -8,228 +8,171 @@ namespace Launching_Interface
    {
       const string CHEMIN_LECTURE_BASE = "../../";
 
-      public static bool RD = true;
-      //public const int NBRE_NIVEAUX = 8;
-      const int LANGUE_BASE = 0;
-      const int FPS_BASE = 60;
-      const int RENDER_D_BASE = 500;
-      const int VOL_MUS_BASE = 50;
-      const int VOL_EFF_BASE = 50;
-      const int NB_NIVEAUX_BASE = 0;
-      const int NBRE_CARACTÉRISTIQUES = 7;
-      static TimeSpan TEMPS_BASE = new TimeSpan(0,0,0);  //pour nous, constante
+      public static bool RenderDistenceModifiée = true;
+      public const int NBRE_SAUVEGARDES = 3,
+                       FPS_BASE = 60,
+                       RENDER_D_BASE = 500,
+                       VOL_MUS_BASE = 50,
+                       VOL_EFF_BASE = 50,
+                       NB_NIVEAUX_BASE = 0,
+                       NBRE_CARACTÉRISTIQUES_RÉGLAGES = 7,
+                       NBRE_CARACTÉRISTIQUE_HYPERV = 6,
+                       NBRE_RENDER_DISTANCE = 9,
+                       NBRE_FPS = 4;
 
-      enum Langues { Francais, Anglais, Espagnol, japonais }
-      enum Fullscreen { oui,non }
-      enum Controller { Manette, Clavier}
-      enum NbreNiveauxFinis { Auncun,Un,Deux,Trois,Quatres,Cinq,Six,Sept,Huit}
+      public enum Langues { Francais, Anglais, Espagnol, Japonais }
+      public enum Fullscreen { oui, non }
+      public enum Controller { Manette, Clavier }
 
-      static int langue;
-      static int fullscreen;
-      static int controller;
-      static int nbreNiveauxFinis;
-  //    static TimeSpan temps;
+      static Langues langue;
+      static Fullscreen fullscreen;
+      static Controller controller;
 
-      public static int Langue
+      public static Langues Langue
       {
          get { return langue; }
          set
          {
-            if (value >= (int)Langues.Francais && value <= (int)Langues.japonais)
+            if (value >= Langues.Francais && value <= Langues.Japonais)
             {
                langue = value;
             }
             else
             {
-               //throw new ArgumentException("Langue invalide");
                langue = (int)Langues.Francais;
             }
          }
       }
-      public static int Fps;    // 30,60,90,120
-      public static int RenderDistance; // 10,50,100,500,1000,5000,10000,50000,100000
-      public static int VolMusique; // de 0 à 100
-      public static int VolEffets; // de 0 à 100
-      public static int FullscreenMode // 0 = false || 1 = true
+      public static int Fps;   
+      public static int RenderDistance; 
+      public static int VolMusique; 
+      public static int VolEffets; 
+      public static Fullscreen FullscreenMode 
       {
          get { return fullscreen; }
          set
          {
-            if (value == (int)Fullscreen.non || value == (int)Fullscreen.oui)
+            if (value == Fullscreen.non || value == Fullscreen.oui)
             {
                fullscreen = value;
             }
             else
             {
-               fullscreen = (int)Fullscreen.oui;
+               fullscreen = Fullscreen.oui;
             }
          }
-      } 
-      public static int KeyboardMode // 0 = false || 1 = true
+      }
+      public static Controller KeyboardMode 
       {
          get { return controller; }
          set
          {
-            if (value == (int)Controller.Manette || value == (int)Controller.Clavier)
+            if (value == Controller.Manette || value == Controller.Clavier)
             {
                controller = value;
             }
             else
             {
-               controller = (int)Controller.Clavier;
+               controller = Controller.Clavier;
             }
          }
       }
-      public static int NbNiveauxComplétés // 1,2,3,4,5,6,7,8
-      {
-         get { return nbreNiveauxFinis; }
-         set
-         {
-            if (value >= (int)NbreNiveauxFinis.Auncun && value <= (int)NbreNiveauxFinis.Huit)
-            {
-               nbreNiveauxFinis = value;
-            }
-            else
-            {
-               nbreNiveauxFinis = (int)Langues.Francais;
-            }
-         }
-      }     
       public static bool PremierFichier;
-      public static TimeSpan Temps;
-      //{
-      //   get { return temps; }
-      //   set
-      //   {
-      //      value = new TimeSpan(value.Hours, value.Minutes,int.Parse( string.Format("00", value.Seconds)));
-      //      temps = value;
-      //      //a.Seconds = string.Format("00", value.Seconds);
-      //      //if (value = strSeconds )
-      //      //{
-      //      //   langue = value;
-      //      //}
-      //      //else
-      //      //{
-      //      //   //throw new ArgumentException("Langue invalide");
-      //      //   langue = (int)Langues.Francais;
-      //      //}
-      //   }
-      //}
 
       public static List<string> ListeFrancais { get; private set; }
-      public static List<string> ListeAnglais  { get; private set; }
+      public static List<string> ListeAnglais { get; private set; }
       public static List<string> ListeEspagnol { get; private set; }
       public static List<string> ListeJaponais { get; private set; }
-
       public static List<string> ListeCaractéristiquesAAfficher0 { get; private set; }
       public static List<string> ListeCaractéristiquesAAfficher1 { get; private set; }
       public static List<string> ListeCaractéristiquesAAfficher2 { get; private set; }
-      public static bool[] GameExists;
+      static List<bool>[] EstComplété { get; set; }
 
-      public static void InitGererDonnees(StreamReader reader)
+      public static bool[] JeuEstExistant;
+
+
+      public static void InitialiserGererDonnees(StreamReader lecteurDonnées)
       {
-         for (int i = 0; i < NBRE_CARACTÉRISTIQUES; i++)
-         {
-            string line = reader.ReadLine();
-            string[] parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
-            int caractéristique = int.Parse(parts[1]);
+         string[] parties;
+         int[] caractéristiques = new int[NBRE_CARACTÉRISTIQUES_RÉGLAGES];
+         string ligne;
+         int cpt = 0;
 
-            switch (i)
-            {
-               case 0:
-                  VolMusique = caractéristique;
-                  break;
-               case 1:
-                  VolEffets = caractéristique;
-                  break;
-               case 2:
-                  Langue = caractéristique;
-                  break;
-               case 3:
-                  RenderDistance = caractéristique;
-                  break;
-               case 4:
-                  Fps = caractéristique;
-                  break;
-               case 5:
-                  FullscreenMode = caractéristique;
-                  break;
-               case 6:
-                  KeyboardMode = caractéristique;
-                  break;
-            }          
+         for (int i = 0; i < NBRE_CARACTÉRISTIQUES_RÉGLAGES; i++)
+         {
+            ligne = lecteurDonnées.ReadLine();
+            parties = ligne.Split(new string[] { ": " }, StringSplitOptions.None);
+            caractéristiques[i] = int.Parse(parties[1]);
          }
-         reader.Close();
+
+         VolMusique = caractéristiques[cpt]; cpt++;
+         VolEffets = caractéristiques[cpt]; cpt++;
+         Langue = (Langues)caractéristiques[cpt]; cpt++;
+         RenderDistance = caractéristiques[cpt]; cpt++;
+         Fps = caractéristiques[cpt]; cpt++;
+         FullscreenMode = (Fullscreen)caractéristiques[cpt]; cpt++;
+         KeyboardMode = (Controller)caractéristiques[cpt];
+
+         lecteurDonnées.Close();
       }
 
       static GererDonnees()
       {
          ListeFrancais = new List<string>();
-         ListeAnglais  = new List<string>();
+         ListeAnglais = new List<string>();
          ListeEspagnol = new List<string>();
          ListeJaponais = new List<string>();
          ListeCaractéristiquesAAfficher0 = new List<string>();
          ListeCaractéristiquesAAfficher1 = new List<string>();
          ListeCaractéristiquesAAfficher2 = new List<string>();
-            ListeJoueurs = new List<Joueur>();
-            //InitializeComplete();
-            LireFichiers("Langues","En.txt");
-         LireFichiers("Langues","Es.txt");
-         LireFichiers("Langues","Jp.txt");
-         LireFichiers("Langues","Fr.txt");
-
-
-            RefreshSaves();
+         LireFichiers("Langues", "En.txt");
+         LireFichiers("Langues", "Es.txt");
+         LireFichiers("Langues", "Jp.txt");
+         LireFichiers("Langues", "Fr.txt");
+         RafraichirSauvegardes();
       }
 
-        static void InitializeComplete()
-        {
-            Complete = new List<bool>[3];
-            for (int i = 0; i < 3; ++i)
-            {
-                Complete[i] = new List<bool>();
-            }
-        }
-
-        public static void RefreshSaves()
-        {
-            InitializeComplete();
-            CheckForExistingGames();
-            if (GameExists[0])
-            {
-                LireFichiers("Saves", "save0.txt");
-            }
-
-            if (GameExists[1])
-            {
-                LireFichiers("Saves", "save1.txt");
-            }
-            if (GameExists[2])
-            {
-                LireFichiers("Saves", "save2.txt");
-            }
-        }
-
-        public static List<Joueur> ListeJoueurs { get; private set; }
-
-      static void LireFichiers(string nomDossier,string nomFichier)
+      static void InitialisationEstComplété()
       {
-         StreamReader lecteurDonnées = new StreamReader(CHEMIN_LECTURE_BASE + nomDossier+"/" + nomFichier);
+         EstComplété = new List<bool>[NBRE_SAUVEGARDES];
+         for (int i = 0; i < NBRE_SAUVEGARDES; ++i)
+         {
+            EstComplété[i] = new List<bool>();
+         }
+      }
+
+      public static void RafraichirSauvegardes()
+      {
+         InitialisationEstComplété();
+         VérifieExistanceParties();
+
+         for (int i = 0; i < NBRE_SAUVEGARDES; i++)
+         {
+            if (JeuEstExistant[i])
+            {
+               LireFichiers("Saves", "save" + i + ".txt");
+            }
+         }
+      }
+
+      static void LireFichiers(string nomDossier, string nomFichier)
+      {
+         StreamReader lecteurDonnées = new StreamReader(CHEMIN_LECTURE_BASE + nomDossier + "/" + nomFichier);
          while (!lecteurDonnées.EndOfStream)
          {
             switch (nomFichier)
             {
                case "Fr.txt":
-                  ListeFrancais.Add(lecteurDonnées.ReadLine() + '\n');
+                  ListeFrancais.Add(lecteurDonnées.ReadLine());
                   break;
                case "En.txt":
-                  ListeAnglais.Add(lecteurDonnées.ReadLine() + '\n');
+                  ListeAnglais.Add(lecteurDonnées.ReadLine());
                   break;
                case "Es.txt":
-                  ListeEspagnol.Add(lecteurDonnées.ReadLine() + '\n');
+                  ListeEspagnol.Add(lecteurDonnées.ReadLine());
                   break;
                case "Jp.txt":
-                  ListeJaponais.Add(lecteurDonnées.ReadLine() + '\n');
+                  ListeJaponais.Add(lecteurDonnées.ReadLine());
                   break;
                case "save0.txt":
                   GérerFichiersSaves(lecteurDonnées, 0);
@@ -241,198 +184,59 @@ namespace Launching_Interface
                   GérerFichiersSaves(lecteurDonnées, 2);
                   break;
                default:
-                  throw new Exception("Auncun fichier n'a été lu dans la classe statique");                  
+                  throw new Exception("Auncun fichier n'a été lu dans la classe statique");
             }
          }
          lecteurDonnées.Close();
       }
 
-      static void GérerFichiersSaves(StreamReader lecteurDonnées,int i)
+      static void GérerFichiersSaves(StreamReader lecteurDonnées, int i)
       {
          List<string> listeCaractéristiquestemporaire = new List<string>();
 
-         for (int j = 0; j < 6; j++)
+         string[] parties;
+         string[] symboleQuiSépare = new string[NBRE_CARACTÉRISTIQUE_HYPERV] { "l: ", "n: ", "n: ", "d: ", "e: ", "k: " };
+         string ligne;
+
+         for (int j = 0; j < NBRE_CARACTÉRISTIQUE_HYPERV; j++)
          {
-            string line_ = lecteurDonnées.ReadLine();
-            string symboleQuiSépare = " ";
-            
-
-            switch (j)
-            {
-               case 0:
-                  symboleQuiSépare = "l: ";
-                  break;
-               case 1:
-                  symboleQuiSépare = "n: ";
-                  break;
-               case 2:
-                  symboleQuiSépare = "n: ";
-                  break;
-               case 3:
-                  symboleQuiSépare = "d: ";
-                  break;
-               case 4:
-                  symboleQuiSépare = "e: ";
-                  break;
-               case 5:
-                  symboleQuiSépare = "k: ";
-                  break;
-               //case 6:
-               //   symboleQuiSépare = ";";
-               //   break;
-            }
-            string[] parts_ = line_.Split(new string[] { symboleQuiSépare }, StringSplitOptions.None);
-            listeCaractéristiquestemporaire.Add(parts_[1]);
-
-            //if (j == 3)
-            //{
-
-            //   string[] séparateur = parts[1].Split(new string[] { ":" }, StringSplitOptions.None);
-            //   string tempsFormater = séparateur[2].Remove(2);
-            //   string aa = parts[1].Remove(6) + tempsFormater;
-            //   listeCaractéristiquestemporaire.Add(aa);
-            //}
-            //else
-            //{
-
-            //}
-
-
-
+            ligne = lecteurDonnées.ReadLine();
+            parties = ligne.Split(new string[] { symboleQuiSépare[j] }, StringSplitOptions.None);
+            listeCaractéristiquestemporaire.Add(parties[1]);
          }
 
-            //listeCaractéristiquestemporaire.Add(lecteurDonnées.ReadLine());   //  nom  (#8)
-            string line = lecteurDonnées.ReadLine();
-            string[] parts = line.Split(new char[] { ';' });
-            for (int j = 0; j < parts.Length; ++j)
-            {
-                Complete[i].Add(bool.Parse(parts[j]));
-            }
-            //   string ligneLue = lecteurDonnées.ReadLine();
-            //   string[] séparateurTemps = ligneLue.Split(new string[] { ";" }, StringSplitOptions.None);
-            //   for (int k = 0; k < NBRE_NIVEAUX; k++)
-            //{
-            //   //string ligneLue = lecteurDonnées.ReadLine();
-            //   //string[] séparateurTemps = ligneLue.Split(new string[] { ";" }, StringSplitOptions.None);
-            //   listeCaractéristiquestemporaire.Add(séparateurTemps[/*1*/k]);                       
-            //}
+         ligne = lecteurDonnées.ReadLine();
+         parties = ligne.Split(new char[] { ';' });
+         for (int j = 0; j < parties.Length; ++j)
+         {
+            EstComplété[i].Add(bool.Parse(parties[j]));
+            listeCaractéristiquestemporaire.Add(bool.Parse(parties[j]).ToString());
+         }
+         AssocierBonneListeAfficher(i, listeCaractéristiquestemporaire);
 
-            AssocierBonneListeAfficher(i,listeCaractéristiquestemporaire);
       }
-        // DÉBUT
-        //static void GérerFichiersSaves(StreamReader lecteurDonnées, int i)
-        //{
-        //    List<string> listeCaractéristiquestemporaire = new List<string>();
-        //    string symboleQuiSépare = " ", line = "";
-        //    string[] parts;
 
-        //    for (int j = 0; j < 7; j++)
-        //    {
-        //        line = lecteurDonnées.ReadLine();
-        //        switch (j)
-        //        {
-        //            case 0:
-        //                symboleQuiSépare = "l: ";
-        //                break;
-        //            case 1:
-        //                symboleQuiSépare = "n: ";
-        //                break;
-        //            case 2:
-        //                symboleQuiSépare = "n: ";
-        //                break;
-        //            case 3:
-        //                symboleQuiSépare = "d: ";
-        //                break;
-        //            case 4:
-        //                symboleQuiSépare = "e: ";
-        //                break;
-        //            case 5:
-        //                symboleQuiSépare = "k: ";
-        //                break;
-        //            case 6:
-        //                symboleQuiSépare = ";";
-        //                break;
-        //        }
-        //        parts = line.Split(new string[] { symboleQuiSépare }, StringSplitOptions.None);
-        //        if (i != 6)
-        //        {
-        //            listeCaractéristiquestemporaire.Add(parts[1]);
-        //        }
-        //        else
-        //        {
-        //            listeCaractéristiquestemporaire.Add(parts[0]);
-        //            listeCaractéristiquestemporaire.Add(parts[1]);
-        //            listeCaractéristiquestemporaire.Add(parts[2]);
-        //        }
-        //    }
-        //    AssocierBonneListeAfficher(i, listeCaractéristiquestemporaire);
 
-        //    // listeCaractéristiquestemporaire.Add(lecteurDonnées.ReadLine());   //  nom  (#8)
+      public static int NbreNiveauxComplétés(int i)
+      {
+         int numComplete = 0;
 
-        //    GérerTemps(lecteurDonnées, lecteurDonnées.ReadLine());
-
-        //}
-
-        //static void AssocierBonneListeAfficher(int i, List<string> listeCaractéristiquestemporaire)
-        //{
-        //    switch (i)
-        //    {
-        //        case 0:
-        //            ListeCaractéristiquesAAfficher0 = listeCaractéristiquestemporaire;
-        //            break;
-        //        case 1:
-        //            ListeCaractéristiquesAAfficher1 = listeCaractéristiquestemporaire;
-        //            break;
-        //        case 2:
-        //            ListeCaractéristiquesAAfficher2 = listeCaractéristiquestemporaire;
-        //            break;
-        //    }
-        //}
-
-        //static void GérerTemps(StreamReader lecteurDonnées, string nomJoueur)
-        //{
-        //    string line;
-        //    string[] séparateurTimeSpan, parts;
-
-        //    List<TimeSpan> listeTempsTemporaire = new List<TimeSpan>();
-        //    for (int k = 0; k < NBRE_NIVEAUX; k++)
-        //    {
-        //        line = lecteurDonnées.ReadLine();
-        //        parts = line.Split(new string[] { ";" }, StringSplitOptions.None);
-        //        séparateurTimeSpan = parts[1].Split(new string[] { ":" }, StringSplitOptions.None);
-        //        listeTempsTemporaire.Add(new TimeSpan(int.Parse(séparateurTimeSpan[0]),
-        //                                              int.Parse(séparateurTimeSpan[1]),
-        //                                              int.Parse(séparateurTimeSpan[2])));
-        //    }
-        //    Joueur joueur = new Joueur(nomJoueur, listeTempsTemporaire[0], listeTempsTemporaire[1],
-        //                                          listeTempsTemporaire[2], listeTempsTemporaire[3],
-        //                                          listeTempsTemporaire[4], listeTempsTemporaire[5],
-        //                                          listeTempsTemporaire[6], listeTempsTemporaire[7]);
-        //    ListeJoueurs.Add(joueur);
-        //}
-        // FIN
-        static List<bool>[] Complete { get; set; }
-
-        public static int CountComplete(int i)
-        {
-            int numComplete = 0;
-
-            foreach (bool e in Complete[i])
+         foreach (bool e in EstComplété[i])
+         {
+            if (e)
             {
-                if (e)
-                {
-                    ++numComplete;
-                }
+               ++numComplete;
             }
-            return numComplete;
-        }
+         }
+         return numComplete;
+      }
 
-        public static int CountLevels(int i)
-        {
-            return Complete[i].Count;
-        }
+      public static int NbreNiveauxTotal(int i)
+      {
+         return EstComplété[i].Count;
+      }
 
-        static void AssocierBonneListeAfficher(int i,List<string> listeCaractéristiquestemporaire)
+      static void AssocierBonneListeAfficher(int i, List<string> listeCaractéristiquestemporaire)
       {
          switch (i)
          {
@@ -450,30 +254,26 @@ namespace Launching_Interface
 
       public static void RéglagesBase()
       {
-         Langue = LANGUE_BASE;
+         Langue = Langues.Francais;
          RenderDistance = RENDER_D_BASE;
          Fps = FPS_BASE;
          VolMusique = VOL_MUS_BASE;
          VolEffets = VOL_EFF_BASE;
-         FullscreenMode = 1;
-         KeyboardMode = 1;
-         NbNiveauxComplétés = NB_NIVEAUX_BASE;
-         Temps = TEMPS_BASE;
+         FullscreenMode = Fullscreen.oui;
+         KeyboardMode = Controller.Manette;
       }
 
-      static void CheckForExistingGames()
+      static void VérifieExistanceParties()
       {
-         StreamReader r;
-
-         GererDonnees.GameExists = new bool[3];
-         for (int i = 0; i < 3; ++i)
+         StreamReader lecteurDonnées;
+         JeuEstExistant = new bool[NBRE_SAUVEGARDES];
+         for (int i = 0; i < NBRE_SAUVEGARDES; ++i)
          {
-            r = new StreamReader("../../Saves/save" + i + ".txt");
-            GererDonnees.GameExists[i] = r.ReadLine() != "";
-            r.Close();
+            lecteurDonnées = new StreamReader("../../Saves/save" + i + ".txt");
+            JeuEstExistant[i] = lecteurDonnées.ReadLine() != "";
+            lecteurDonnées.Close();
          }
       }
 
    }
 }
-
