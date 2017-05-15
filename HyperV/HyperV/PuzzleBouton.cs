@@ -53,6 +53,7 @@ namespace HyperV
             ListeBoutons = new List<CreateurModele>();
             StreamReader fichier = new StreamReader(PositionBoutons);
             StreamReader save = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleBouton" + NumeroSave + ".txt");
+            DoitSave = true;
 
             string ligneSave = save.ReadLine();
             fichier.ReadLine();
@@ -243,12 +244,17 @@ namespace HyperV
             }
         }
 
+
+        bool DoitSave { get; set; }
         void Save()
         {
-            Game.Window.Title = "k"; 
-            StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleBouton" + NumeroSave.ToString() + ".txt");
-            writer.WriteLine(true);
-            writer.Close();
+            if(DoitSave)
+            {
+                StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleBouton" + NumeroSave.ToString() + ".txt");
+                writer.WriteLine(true);
+                writer.Close();
+                DoitSave = false;
+            }
         }
     }
 }
