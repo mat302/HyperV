@@ -44,7 +44,7 @@ namespace HyperV
             {
                 if (LancerFleche)
                 {
-                    Game.Components.Add(new Fleche(Game, "Robot", 0.002f, new Vector3(angleY, angleX + (float)Math.PI / 2, Rotation.Z),
+                    Game.Components.Add(new Fleche(Game, "shop", 0.0025f, new Vector3(angleY, 1.57f/*angleX + (float)Math.PI / 2*/, 1.57f/*Rotation.Z*/),
                                                    CaméraJoueur.Position, CaméraJoueur.Direction));
                 }
             }
