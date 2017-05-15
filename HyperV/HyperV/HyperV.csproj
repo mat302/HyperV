@@ -87,14 +87,12 @@
     <Compile Include="BasicComponents\CaméraSubjective.cs" />
     <Compile Include="BasicComponents\CubeTexturé.cs" />
     <Compile Include="BasicComponents\CubeTexturéFlottant.cs" />
-    <Compile Include="BasicComponents\DataPiste.cs" />
     <Compile Include="BasicComponents\Drapeau.cs" />
     <Compile Include="BasicComponents\ICollisionable.cs" />
     <Compile Include="BasicComponents\IDestructible.cs" />
     <Compile Include="BasicComponents\InputManager.cs" />
     <Compile Include="BasicComponents\ObjetDeBase.cs" />
     <Compile Include="BasicComponents\ObjetDeDémo.cs" />
-    <Compile Include="BasicComponents\Piste.cs" />
     <Compile Include="BasicComponents\Plan.cs" />
     <Compile Include="BasicComponents\PlanColoré.cs" />
     <Compile Include="BasicComponents\PlanTexturé.cs" />
@@ -103,7 +101,6 @@
     <Compile Include="BasicComponents\RessourceDeBase.cs" />
     <Compile Include="BasicComponents\RessourcesManager.cs" />
     <Compile Include="BasicComponents\SphèreTexturée.cs" />
-    <Compile Include="BasicComponents\SphèreTexturéeAutomate.cs" />
     <Compile Include="BasicComponents\Sprite.cs" />
     <Compile Include="BasicComponents\SpriteMobile.cs" />
     <Compile Include="BasicComponents\SpriteMobileAnimé.cs" />

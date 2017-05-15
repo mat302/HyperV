@@ -17,28 +17,32 @@ namespace HyperV
         bool TroisièmeBouton { get; set; }
         bool QuatrièmeBouton { get; set; }
         public bool EstComplété { get; set; }
-
+        int NumeroSave { get; set; }
         float alpha { get; set; }
         float TempsÉcouléMAJ { get; set; }
         int[] OrdreBoutons { get; set; }
         List<CreateurModele> ListeBoutons { get; set; }
         string PositionBoutons { get; set; }
         InputManager GestionInputs { get; set; }
+        GamePadManager GestionManette { get; set; }
         Camera2 Caméra { get; set; }
         RessourcesManager<SoundEffect> SoundManager { get; set; }
         SoundEffect ClocheRéussi { get; set; }
         SoundEffect ClocheManquée { get; set; }
         SoundEffect PuzzleComplété { get; set; }
 
-        public PuzzleBouton(Game game, int[] ordreBoutons, string positionBoutons)
+        public PuzzleBouton(Game game, int[] ordreBoutons, string positionBoutons, int numeroSave)
             : base(game)
         {
             OrdreBoutons = ordreBoutons;
             PositionBoutons = positionBoutons;
+            NumeroSave = numeroSave;
         }
+
         protected override void LoadContent()
         {
             GestionInputs = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            GestionManette = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
             Caméra = Game.Services.GetService(typeof(Caméra)) as Camera2;
             SoundManager = Game.Services.GetService(typeof(RessourcesManager<SoundEffect>)) as RessourcesManager<SoundEffect>;
         }
@@ -48,6 +52,9 @@ namespace HyperV
             base.Initialize();
             ListeBoutons = new List<CreateurModele>();
             StreamReader fichier = new StreamReader(PositionBoutons);
+            StreamReader save = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + NumeroSave + ".txt");
+
+            string ligneSave = save.ReadLine();
             fichier.ReadLine();
             while (!fichier.EndOfStream)
             {
@@ -67,6 +74,12 @@ namespace HyperV
             TroisièmeBouton = false;
             QuatrièmeBouton = false;
             EstComplété = false;
+            if (ligneSave == "True")
+            {
+                EstComplété = true;
+            }
+            fichier.Close();
+            save.Close();
         }
 
         float? TrouverDistance(Ray autreObjet, BoundingSphere SphèreDeCollision)
@@ -83,7 +96,7 @@ namespace HyperV
             }
 
 
-            if (GestionInputs.EstNouveauClicGauche())
+            if (GestionInputs.EstNouveauClicGauche() || GestionInputs.EstNouvelleTouche(Microsoft.Xna.Framework.Input.Keys.R) || GestionManette.EstNouveauBouton(Microsoft.Xna.Framework.Input.Buttons.A))
             {
                 for (int i = 0; i < ListeBoutons.Capacity; ++i)
                 {
@@ -104,6 +117,7 @@ namespace HyperV
             if (QuatrièmeBouton)
             {
                 EstComplété = true;
+                Save();
             }
         }
 
@@ -227,6 +241,13 @@ namespace HyperV
                 }
                 TempsÉcouléMAJ = 0;
             }
+        }
+
+        void Save()
+        {
+            StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + NumeroSave.ToString() + ".txt");
+            writer.WriteLine(true);
+            writer.Close();
         }
     }
 }

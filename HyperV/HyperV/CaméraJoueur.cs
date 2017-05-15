@@ -1,7 +1,6 @@
 ﻿using AtelierXNA;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace HyperV
@@ -23,40 +22,41 @@ namespace HyperV
         const int FACTEUR_COURSE_MAXIMAL = 4;
         const int DISTANCE_MINIMALE_POUR_RAMASSAGE = 45;
 
-        //Constructeur
+
+        //CONSTRUCTEUR
         readonly float IntervalleMAJ;
         protected float HauteurDeBase { get; set; }
         Vector2 Origine { get; set; }
+        //CréerPointDeVue
+        public Vector3 Direction { get; private set; }
+        public Vector3 Latéral { get; private set; }
 
-        //Initialize
-        protected float VitesseTranslation { get; set; }
-        //readonly float VitesseRotation;
-
-
-        public Vector3 Direction { get; private set; }//
-        public Vector3 Latéral { get; private set; }//
-
+        //INITIALIZE
+        //Souris
         Point AnciennePositionSouris { get; set; }
         Point NouvellePositionSouris { get; set; }
-        public Vector2 DéplacementSouris { get; private set; }   //**************************
-
-        protected bool DésactiverDéplacement { get; set; }
-
+        public Vector2 DéplacementSouris { get; private set; }
+        //Déplacement
+        protected float VitesseTranslation { get; set; }
+        //Actions joueur
         protected bool Sauter { get; private set; }
         bool Courrir { get; set; }
         bool Ramasser { get; set; }
-
+        //Activé
+        protected bool DésactiverDéplacement { get; set; }
         public bool EstCaméraSourisActivée { get; set; }
-        bool EstDéplacementEtAutresClavierActivé { get; set; }
         bool EstCaméraClavierActivée { get; set; }
-
+        bool EstDéplacementEtAutresClavierActivé { get; set; }
+        public bool EstMort { get; private set; }
+        //Autres
         public Ray Viseur { get; private set; }
-
         float TempsÉcouléDepuisMAJ { get; set; }
 
-        LifeBar[] BarresDeVie { get; set; }
+        //ChargerContenu
         InputManager GestionInput { get; set; }
         GamePadManager GestionGamePad { get; set; }
+        LifeBar[] BarresDeVie { get; set; }
+
 
         public CaméraJoueur(Game jeu, Vector3 positionCaméra, Vector3 cible,
                             Vector3 orientation, float intervalleMAJ, float distanceDeRendu)
@@ -71,6 +71,46 @@ namespace HyperV
             Origine = new Vector2(Game.Window.ClientBounds.Width, Game.Window.ClientBounds.Height) / 2;
         }
 
+        public override void Initialize()
+        {
+            //Souris
+            NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
+            AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
+            Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
+            DéplacementSouris = Vector2.Zero;
+
+            //Déplacement
+            VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
+
+            //Actions joueur
+            Courrir = false;
+            Sauter = false;
+            Ramasser = false;
+
+            //Activé*******************************************************************
+            EstDéplacementEtAutresClavierActivé = true;
+            EstCaméraClavierActivée = true;
+            EstCaméraSourisActivée = true;
+            EstMort = false;
+
+            ContinuerSaut = false;
+            
+            Viseur = new Ray();
+            Hauteur = HauteurDeBase;
+            TempsÉcouléDepuisMAJ = 0;
+
+            base.Initialize();
+            ChargerContenu();
+            InitialiserObjetsComplexesSaut();
+        }
+
+        protected virtual void ChargerContenu()
+        {
+            GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
+            BarresDeVie = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
+        }
+
         public void SetRenderDistance(float distanceDeRendu)
         {
             DistancePlanÉloigné = distanceDeRendu;
@@ -82,45 +122,7 @@ namespace HyperV
             Direction = direction;
         }
 
-        public override void Initialize()
-        {
-            //VitesseRotation = VITESSE_INITIALE_ROTATION;
-            VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
-            TempsÉcouléDepuisMAJ = 0;
-
-            EstDéplacementEtAutresClavierActivé = true;
-            EstCaméraClavierActivée = true;
-
-            Courrir = false;
-            Sauter = false;
-            Ramasser = false;
-            ContinuerSaut= false;
-            EstCaméraSourisActivée = true;
-
-
-            Viseur = new Ray();
-
-            NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
-            AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
-            Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
-
-            base.Initialize();
-            ChargerContenu();
-
-            InitialiserObjetsComplexesSaut();
-            Hauteur = HauteurDeBase;//HAUTEUR_PERSONNAGE;
-        }
-
-        protected virtual void ChargerContenu()
-        {
-            GestionInput = Game.Services.GetService(typeof(InputManager)) as InputManager;
-            GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
-            BarresDeVie = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
-        }
-
-        public bool Dead { get; private set; }
-
-        public void Attack(int val)
+        public void Attaquer(int val)
         {
             BarresDeVie[0].Attack(val);
         }
@@ -251,14 +253,13 @@ namespace HyperV
             if (EstDéplacementEtAutresClavierActivé)
             {
                 GérerDéplacement((GérerTouche(Keys.W) - GérerTouche(Keys.S)),
-                             (GérerTouche(Keys.A) - GérerTouche(Keys.D)));
+                                (GérerTouche(Keys.A) - GérerTouche(Keys.D)));
             }
             if (EstCaméraClavierActivée)
             {
                 GérerRotationClavier();
             }
         }
-
  
         protected virtual void GérerDéplacement(float direction, float latéral)
         {
