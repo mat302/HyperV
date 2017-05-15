@@ -227,7 +227,7 @@ namespace HyperV
                         Song = SongManager.Find("Elf");
                         break;
                     case 9:
-                        Song = SongManager.Find("lil");
+                        Song = SongManager.Find("Final Getsuga");
                         break;
                 }
                 MediaPlayer.Play(Song);

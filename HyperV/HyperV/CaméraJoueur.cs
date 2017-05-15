@@ -10,6 +10,7 @@ namespace HyperV
         const float VITESSE_LORSQUE_FATIGUÉ = 0.1f;
         const int HAUTEUR_SAUT = 10;
         const int SAUT = 25;
+        const int VALEURE_VECTORIELLE_DÉPLACEMENT_GAMEPAD = 35;
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
         const float ACCÉLÉRATION = 0.001f;
         const float VITESSE_INITIALE_ROTATION = 5f;
@@ -36,7 +37,7 @@ namespace HyperV
         //Souris
         Point AnciennePositionSouris { get; set; }
         Point NouvellePositionSouris { get; set; }
-        public Vector2 DéplacementSouris { get; private set; }
+        public Vector2 DéplacementSourisOuStickGamePad { get; private set; }//Cette protection pour la catapulte
         //Déplacement
         protected float VitesseTranslation { get; set; }
         //Actions joueur
@@ -44,10 +45,10 @@ namespace HyperV
         bool Courrir { get; set; }
         bool Ramasser { get; set; }
         //Activé
-        protected bool DésactiverDéplacement { get; set; }
+        protected bool DésactiverCertainesCommandes { get; set; } //Utile pour le niveau catapulte
         public bool EstCaméraSourisActivée { get; set; }
-        bool EstCaméraClavierActivée { get; set; }
-        bool EstDéplacementEtAutresClavierActivé { get; set; }
+        public bool EstCaméraClavierActivée { get; set; }
+        public bool EstDéplacementEtCommandesClavierActivé { get; set; }
         public bool EstMort { get; private set; }
         //Autres
         public Ray Viseur { get; private set; }
@@ -86,7 +87,7 @@ namespace HyperV
             NouvellePositionSouris = new Point(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height / 2);
             AnciennePositionSouris = new Point(NouvellePositionSouris.X, NouvellePositionSouris.Y);
             Mouse.SetPosition(NouvellePositionSouris.X, NouvellePositionSouris.Y);
-            DéplacementSouris = Vector2.Zero;
+            DéplacementSourisOuStickGamePad = Vector2.Zero;
 
             //Déplacement
             VitesseTranslation = VITESSE_INITIALE_TRANSLATION;
@@ -97,18 +98,21 @@ namespace HyperV
             Ramasser = false;
 
             //Activé*******************************************************************
-            EstDéplacementEtAutresClavierActivé = true;
+            DésactiverCertainesCommandes = false;
+            EstDéplacementEtCommandesClavierActivé = true;
             EstCaméraClavierActivée = true;
             EstCaméraSourisActivée = true;
             EstMort = false;
 
             //Autres
             Viseur = new Ray();
-            Hauteur = HauteurDeBase;
+            
             TempsÉcouléDepuisMAJ = 0;
 
+            //*Saut*
             ContinuerSaut = false;
-
+            t = 0;
+            Hauteur = HauteurDeBase;
             base.Initialize();
             ChargerContenu();
             InitialiserObjetsComplexesSaut();
@@ -121,25 +125,9 @@ namespace HyperV
             BarresDeVie = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
         }
 
-        public void ÉtablirDistenceDeRendu(float distanceDeRendu)
-        {
-            DistancePlanÉloigné = distanceDeRendu;
-            CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, DistancePlanÉloigné);
-        }
-
-        public void ÉtablirDirection(Vector3 direction)
-        {
-            Direction = direction;
-        }
-
-        public void Attaquer(int val)
-        {
-            BarresDeVie[0].Attack(val);
-        }
-
         protected override void CréerPointDeVue()
         {
-            Direction = Vector3.Normalize(Direction); 
+            Direction = Vector3.Normalize(Direction);
             Vector3.Normalize(OrientationVerticale);
             Vector3.Normalize(Latéral);
 
@@ -159,6 +147,40 @@ namespace HyperV
             CréerPointDeVue();
         }
 
+        public void ÉtablirDistenceDeRendu(float distanceDeRendu)
+        {
+            DistancePlanÉloigné = distanceDeRendu;
+            CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, DistancePlanÉloigné);
+        }
+
+        public void ÉtablirDirection(Vector3 direction)
+        {
+            Direction = direction;
+        }
+
+        public void Attaquer(int val)
+        {
+            BarresDeVie[0].Attack(val);
+        }
+
+        protected virtual void GérerBarresDeVie()
+        {
+            if (!BarresDeVie[1].Water)
+            {
+                if (Courrir && !BarresDeVie[1].Tired && (GestionInput.EstEnfoncée(Keys.W) ||
+                    GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.S) ||
+                    GestionInput.EstEnfoncée(Keys.D) || GestionGamePad.PositionThumbStickGauche.X != 0 ||
+                    GestionGamePad.PositionThumbStickGauche.Y != 0))
+                {
+                    BarresDeVie[1].Attack();
+                }
+                else
+                {
+                    BarresDeVie[1].AttackNegative();
+                }
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
             AffecterCommandes();
@@ -175,7 +197,7 @@ namespace HyperV
         protected virtual void EffectuerMAJ()
         {
             FonctionsSouris();
-            if (!DésactiverDéplacement)
+            if (!DésactiverCertainesCommandes)
             {
                 FonctionsClavier();
             }
@@ -192,21 +214,6 @@ namespace HyperV
             GérerBarresDeVie();
         }
 
-        protected virtual void GérerBarresDeVie()
-        {
-            if (!BarresDeVie[1].Water)
-            {
-                if (Courrir && !BarresDeVie[1].Tired && (GestionInput.EstEnfoncée(Keys.W) || GestionInput.EstEnfoncée(Keys.A) || GestionInput.EstEnfoncée(Keys.S) || GestionInput.EstEnfoncée(Keys.D) || GestionGamePad.PositionThumbStickGauche.X!=0 || GestionGamePad.PositionThumbStickGauche.Y != 0))
-                {
-                    BarresDeVie[1].Attack();
-                }
-                else
-                {
-                    BarresDeVie[1].AttackNegative();
-                }
-            }
-        }
-
 
         //Souris
         #region
@@ -216,7 +223,7 @@ namespace HyperV
             {
                 AnciennePositionSouris = NouvellePositionSouris;
                 NouvellePositionSouris = GestionInput.GetPositionSouris();
-                DéplacementSouris = new Vector2(NouvellePositionSouris.X - AnciennePositionSouris.X, NouvellePositionSouris.Y - AnciennePositionSouris.Y);
+                DéplacementSourisOuStickGamePad = new Vector2(NouvellePositionSouris.X - AnciennePositionSouris.X, NouvellePositionSouris.Y - AnciennePositionSouris.Y);
 
                 GérerRotationSouris();
 
@@ -232,7 +239,7 @@ namespace HyperV
         private void GérerRotationSouris()
         {
             GérerLacetSouris();
-            if (!DésactiverDéplacement)
+            if (!DésactiverCertainesCommandes)
             {
                 GérerTangageSouris();
             }
@@ -240,14 +247,14 @@ namespace HyperV
 
         private void GérerLacetSouris()
         {
-            Matrix matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET * VITESSE_INITIALE_ROTATION_SOURIS * -DéplacementSouris.X);
+            Matrix matriceLacet = Matrix.CreateFromAxisAngle(OrientationVerticale, DELTA_LACET * VITESSE_INITIALE_ROTATION_SOURIS * -DéplacementSourisOuStickGamePad.X);
 
             Direction = Vector3.Transform(Direction, matriceLacet);
         }
 
         private void GérerTangageSouris()
         {
-            Matrix matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE * VITESSE_INITIALE_ROTATION_SOURIS * -DéplacementSouris.Y);
+            Matrix matriceTangage = Matrix.CreateFromAxisAngle(Latéral, DELTA_TANGAGE * VITESSE_INITIALE_ROTATION_SOURIS * -DéplacementSourisOuStickGamePad.Y);
 
             Direction = Vector3.Transform(Direction, matriceTangage);
         }
@@ -257,7 +264,7 @@ namespace HyperV
         #region
         private void FonctionsClavier()
         {
-            if (EstDéplacementEtAutresClavierActivé)
+            if (EstDéplacementEtCommandesClavierActivé)
             {
                 GérerDéplacement((GérerTouche(Keys.W) - GérerTouche(Keys.S)),
                                 (GérerTouche(Keys.A) - GérerTouche(Keys.D)));
@@ -328,24 +335,25 @@ namespace HyperV
                 GérerDéplacement(GestionGamePad.PositionThumbStickGauche.Y,
                                  -GestionGamePad.PositionThumbStickGauche.X);
 
-                DéplacementSouris = new Vector2(35, -35) * GestionGamePad.PositionThumbStickDroit;
-                GérerRotationSouris();
+                DéplacementSourisOuStickGamePad = new Vector2(VALEURE_VECTORIELLE_DÉPLACEMENT_GAMEPAD,
+                                                            -VALEURE_VECTORIELLE_DÉPLACEMENT_GAMEPAD) * GestionGamePad.PositionThumbStickDroit;
+                GérerRotationSouris();//Fonctionne avec variable précédente, donc rotation Gamepad aussi 
             }
         }
         #endregion
 
         private void AffecterCommandes()
         {
-            Courrir = (GestionInput.EstEnfoncée(Keys.RightShift) && EstDéplacementEtAutresClavierActivé) ||
-                      (GestionInput.EstEnfoncée(Keys.LeftShift) && EstDéplacementEtAutresClavierActivé) ||
+            Courrir = (GestionInput.EstEnfoncée(Keys.RightShift) && EstDéplacementEtCommandesClavierActivé) ||
+                      (GestionInput.EstEnfoncée(Keys.LeftShift) && EstDéplacementEtCommandesClavierActivé) ||
                       GestionGamePad.PositionsGâchettes.X > 0;
 
-            Sauter = (GestionInput.EstEnfoncée(Keys.Space) && EstDéplacementEtAutresClavierActivé) ||
+            Sauter = (GestionInput.EstEnfoncée(Keys.Space) && EstDéplacementEtCommandesClavierActivé) ||
                      GestionGamePad.EstEnfoncé(Buttons.A);
 
             Ramasser = GestionInput.EstNouveauClicGauche() ||
                        GestionInput.EstAncienClicGauche() ||
-                       GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtAutresClavierActivé ||
+                       GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtCommandesClavierActivé ||
                        GestionGamePad.EstNouveauBouton(Buttons.RightStick) || Ramasser;
         }
 
