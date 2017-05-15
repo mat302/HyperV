@@ -108,7 +108,7 @@ namespace HyperV
          RenderDistance = int.Parse(parts[1]);
          if (Camera != null)
          {
-            (Camera as CaméraJoueur).SetRenderDistance(RenderDistance);
+            (Camera as CaméraJoueur).ÉtablirDistenceDeRendu(RenderDistance);
          }
          line = reader.ReadLine();
          parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
@@ -196,9 +196,9 @@ namespace HyperV
       {
          MediaPlayer.Stop();
          Components.Clear();
-         //Song = SongManager.Find("castle");
-         //MediaPlayer.Play(Song);
-         StreamReader reader = new StreamReader("../../../Levels/Level" + level.ToString() + ".txt");
+            //Song = SongManager.Find("castle");
+            //MediaPlayer.Play(Song);
+            StreamReader reader = new StreamReader("../../../Levels/Level" + level.ToString() + ".txt");
          string line;
          string[] parts;
          bool boss = false;
