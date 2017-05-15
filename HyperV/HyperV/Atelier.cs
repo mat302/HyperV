@@ -194,6 +194,7 @@ namespace HyperV
 
       void SelectLevel(bool usePosition, int level)
       {
+            ModeleRamassable.DéjàPris = false;
          MediaPlayer.Stop();
          Components.Clear();
 

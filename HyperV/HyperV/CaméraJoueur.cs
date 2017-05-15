@@ -373,18 +373,18 @@ namespace HyperV
                 sphereRamassable.Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
                            sphereRamassable.EstEnCollision(Viseur) != null && Ramasser;
 
-                if (sphereRamassable.Ramasser && !sphereRamassable.Placed)
+                if (sphereRamassable.Ramasser && !sphereRamassable.Placé)
                 {
-                    if (!ModeleRamassable.Taken)
+                    if (!ModeleRamassable.DéjàPris)
                     {
                         sphereRamassable.EstRamassée = true;
-                        ModeleRamassable.Taken = true;
+                        ModeleRamassable.DéjàPris = true;
                         break;
                     }
-                    else if (sphereRamassable.EstRamassée)
+                    else 
                     {
                         sphereRamassable.EstRamassée = false;
-                        ModeleRamassable.Taken = false;
+                        ModeleRamassable.DéjàPris = false;
                         break;
                     }
                 }
