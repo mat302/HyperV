@@ -293,8 +293,13 @@ namespace Launching_Interface
          writer.WriteLine("false;false;false;false;false;false;false;false");
          writer.Close();
          File.Copy("../../Saves/startscreenshot.png", "../../Saves/screenshot" + saveNumber + ".png", true);
-      }
-
+            writer = new StreamWriter("../../Saves/SavePuzzleRunes" + saveNumber + ".txt");
+            writer.WriteLine(false);
+            writer.Close();
+            writer = new StreamWriter("../../Saves/SavePuzzleBouton" + saveNumber + ".txt");
+            writer.WriteLine(false);
+            writer.Close();
+        }
 
       void ManagePause(string saveNumber)
       {
