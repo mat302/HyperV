@@ -107,7 +107,7 @@ namespace HyperV
                 if (CheckForCollision(MAX_DISTANCE_ENEMY))
                 {
                     Position -= Shifting * Speed;
-                    Camera.Attack(Strength);
+                    Camera.Attaquer(Strength);
                 }
                 if (Dead)
                 {
