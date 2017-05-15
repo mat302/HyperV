@@ -111,7 +111,7 @@ namespace HyperV
             BarresDeVie = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
         }
 
-        public void SetRenderDistance(float distanceDeRendu)
+        public void ÉtablirDistenceDeRendu(float distanceDeRendu)
         {
             DistancePlanÉloigné = distanceDeRendu;
             CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, DistancePlanÉloigné);
@@ -182,10 +182,10 @@ namespace HyperV
             GérerCourse();
             GérerSaut();
 
-            ManageLifeBars();
+            GérerBarresDeVie();
         }
 
-        protected virtual void ManageLifeBars()
+        protected virtual void GérerBarresDeVie()
         {
             if (!BarresDeVie[1].Water)
             {

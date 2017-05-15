@@ -84,11 +84,11 @@ namespace HyperV
         //    }
         //}
 
-        protected override void ManageLifeBars()
+        protected override void GérerBarresDeVie()
         {
             if (!SubjectiveCamera)
             {
-                base.ManageLifeBars();
+                base.GérerBarresDeVie();
             }
         }
 
