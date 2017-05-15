@@ -7,6 +7,7 @@ namespace HyperV
 {
     public class CaméraJoueur : Caméra
     {
+        const float VITESSE_LORSQUE_FATIGUÉ = 0.1f;
         const int HAUTEUR_SAUT = 10;
         const int SAUT = 25;
         const float INTERVALLE_MAJ_STANDARD = 1f / 60f;
@@ -51,6 +52,14 @@ namespace HyperV
         //Autres
         public Ray Viseur { get; private set; }
         float TempsÉcouléDepuisMAJ { get; set; }
+        //*Saut*
+        bool ContinuerSaut { get; set; }
+        float t { get; set; }
+        protected float Hauteur { get; set; }
+        Vector3 PositionPtsDeControle { get; set; }
+        Vector3 PositionPtsDeControlePlusUn { get; set; }
+        Vector3[] PtsDeControle { get; set; }
+
 
         //ChargerContenu
         InputManager GestionInput { get; set; }
@@ -93,11 +102,12 @@ namespace HyperV
             EstCaméraSourisActivée = true;
             EstMort = false;
 
-            ContinuerSaut = false;
-            
+            //Autres
             Viseur = new Ray();
             Hauteur = HauteurDeBase;
             TempsÉcouléDepuisMAJ = 0;
+
+            ContinuerSaut = false;
 
             base.Initialize();
             ChargerContenu();
@@ -129,10 +139,9 @@ namespace HyperV
 
         protected override void CréerPointDeVue()
         {
-            Direction = Vector3.Normalize(Direction); // NEW FROM 4/7/2017 2:30 AM was only Vector3.Normalize(Direction); before ******************************************************************************************************************************************************************
+            Direction = Vector3.Normalize(Direction); 
             Vector3.Normalize(OrientationVerticale);
             Vector3.Normalize(Latéral);
-            //Position -= new Vector3(Origin.X, 0, Origin.Y);
 
             Vue = Matrix.CreateLookAt(Position, Position + Direction, OrientationVerticale);
         }
@@ -152,8 +161,7 @@ namespace HyperV
 
         public override void Update(GameTime gameTime)
         {
-            AffectCommandsForGrab();
-            GérerRamassage();
+            AffecterCommandes();
             float TempsÉcoulé = (float)gameTime.ElapsedGameTime.TotalSeconds;
             TempsÉcouléDepuisMAJ += TempsÉcoulé;
             if (TempsÉcouléDepuisMAJ >= IntervalleMAJ)
@@ -176,9 +184,8 @@ namespace HyperV
             GérerHauteur();
             CréerPointDeVue();
 
-            AffecterCommandes(); // Grab moved to AffectCommandsForGrab()
 
-            //GérerRamassage();
+            GérerRamassage();
             GérerCourse();
             GérerSaut();
 
@@ -333,26 +340,18 @@ namespace HyperV
                       (GestionInput.EstEnfoncée(Keys.LeftShift) && EstDéplacementEtAutresClavierActivé) ||
                       GestionGamePad.PositionsGâchettes.X > 0;
 
-            Sauter = (GestionInput.EstEnfoncée(/*Keys.R*/Keys.Space) && EstDéplacementEtAutresClavierActivé) ||
+            Sauter = (GestionInput.EstEnfoncée(Keys.Space) && EstDéplacementEtAutresClavierActivé) ||
                      GestionGamePad.EstEnfoncé(Buttons.A);
 
-            //Ramasser = GestionInput.EstNouveauClicGauche() ||
-            //           GestionInput.EstAncienClicGauche() ||
-            //           GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtAutresClavierActivé ||
-            //           GestionGamePad.EstNouveauBouton(Buttons.RightStick);
-        }
-
-        private void AffectCommandsForGrab()
-        {
             Ramasser = GestionInput.EstNouveauClicGauche() ||
                        GestionInput.EstAncienClicGauche() ||
                        GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtAutresClavierActivé ||
-                       GestionGamePad.EstNouveauBouton(Buttons.X);
+                       GestionGamePad.EstNouveauBouton(Buttons.RightStick);
         }
+
 
         protected virtual void GérerHauteur()
         {
-            //Position = Gazon.GetPositionAvecHauteur(Position, (int)Hauteur);
             if (!ContinuerSaut)
             {
                 Hauteur = HauteurDeBase;
@@ -390,30 +389,6 @@ namespace HyperV
                     }
                 }
             }
-
-            ////NEW
-            ////foreach (Arc sphereRamassable in Game.Components.Where(composant => composant is Arc))
-            ////{
-            ////    sphereRamassable.Ramasser = sphereRamassable.EstEnCollision(Viseur) <= DISTANCE_MINIMALE_POUR_RAMASSAGE &&
-            ////               sphereRamassable.EstEnCollision(Viseur) != null && Ramasser;
-
-            ////    if (sphereRamassable.Ramasser && !sphereRamassable.Placed)
-            ////    {
-            ////        if (/*!ModeleRamassable.Taken*/true)
-            ////        {
-            ////            sphereRamassable.EstRamassée = true;
-            ////            ModeleRamassable.Taken = true;
-            ////            break;
-            ////        }
-            ////        else if (sphereRamassable.EstRamassée)
-            ////        {
-            ////            sphereRamassable.EstRamassée = false;
-            ////            ModeleRamassable.Taken = false;
-            ////            break;
-            ////        }
-            ////    }
-            ////}
-            ////NEW
         }
 
 
@@ -440,21 +415,11 @@ namespace HyperV
             }
         }
 
-        bool ContinuerSaut { get; set; }
-        float t { get; set; }
-        protected float Hauteur { get; set; }
-
-        Vector3 PositionPtsDeControle { get; set; }
-        Vector3 PositionPtsDeControlePlusUn { get; set; }
-        Vector3[] PtsDeControle { get; set; }
-
         void InitialiserObjetsComplexesSaut()
         {
-            Position = new Vector3(Position.X, HauteurDeBase/*HAUTEUR_PERSONNAGE*/, Position.Z);
+            Position = new Vector3(Position.X, HauteurDeBase, Position.Z);
             PositionPtsDeControle = new Vector3(Position.X, Position.Y, Position.Z);
             PositionPtsDeControlePlusUn = Position + Vector3.Normalize(new Vector3(Direction.X, 0, Direction.Z)) * SAUT;
-            //Position = new Vector3(PositionPtsDeControle.X, PositionPtsDeControle.Y, PositionPtsDeControle.Z);//******
-            //Direction = PositionPtsDeControlePlusUn - PositionPtsDeControle;//******
             PtsDeControle = CalculerPointsControle();
         }
 
@@ -479,11 +444,11 @@ namespace HyperV
         }
         #endregion
 
-        const float TIRED_SPEED = 0.1f;
+        
 
         private void GérerCourse()
         {
-            VitesseTranslation = BarresDeVie[1].Tired ? TIRED_SPEED : Courrir ? (GestionGamePad.PositionsGâchettes.X > 0 ? GestionGamePad.PositionsGâchettes.X : 1) * FACTEUR_COURSE_MAXIMAL * VITESSE_INITIALE_TRANSLATION : VITESSE_INITIALE_TRANSLATION;
+            VitesseTranslation = BarresDeVie[1].Tired ? VITESSE_LORSQUE_FATIGUÉ : Courrir ? (GestionGamePad.PositionsGâchettes.X > 0 ? GestionGamePad.PositionsGâchettes.X : 1) * FACTEUR_COURSE_MAXIMAL * VITESSE_INITIALE_TRANSLATION : VITESSE_INITIALE_TRANSLATION;
         }
     }
 }
