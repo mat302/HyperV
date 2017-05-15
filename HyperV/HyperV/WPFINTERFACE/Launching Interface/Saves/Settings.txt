@@ -1,4 +1,4 @@
-Music: 16
+Music: 20
 Sound: 50
 Language: 0
 Render Distance: 500
