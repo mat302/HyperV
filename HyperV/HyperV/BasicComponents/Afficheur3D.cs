@@ -65,10 +65,10 @@ namespace AtelierXNA
 
       void GestionClavier()
       {
-         if (GestionInput.EstNouvelleTouche(Keys.F))
-         {
-            EstAffichéEnWireframe = !EstAffichéEnWireframe;
-         }
+         //if (GestionInput.EstNouvelleTouche(Keys.F))
+         //{
+         //   EstAffichéEnWireframe = !EstAffichéEnWireframe;
+         //}
       }
    }
 }

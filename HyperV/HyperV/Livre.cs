@@ -35,7 +35,9 @@ namespace HyperV
             base.Initialize();
             PressSpaceLabel = new PressSpaceLabel(Game);
             PressSpaceLabel.Visible = false;
+            PressSpaceLabel.DrawOrder = 1000;
             Game.Components.Add(PressSpaceLabel);
+            Shown = !Shown;
         }
 
         float? TrouverDistance(Ray autreObjet, BoundingSphere SphèreDeCollision)

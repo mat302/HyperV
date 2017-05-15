@@ -224,7 +224,7 @@ namespace HyperV
                         Song = SongManager.Find("exid");
                         break;
                     case 8:
-                        Song = SongManager.Find("Elf");
+                        Song = SongManager.Find("lil");
                         break;
                     case 9:
                         Song = SongManager.Find("Final Getsuga");
@@ -415,19 +415,18 @@ namespace HyperV
             }
             Components.Add(LifeBars[0]);
             Components.Add(LifeBars[1]);
-            Services.RemoveService(typeof(LifeBar[]));
-            Services.AddService(typeof(LifeBar[]), LifeBars);
             AddCharacterLabels();
             AddFoodLabels();
             Components.Add(Camera);
             Components.Remove(Loading);
-         Components.Add(Crosshair);
+            Components.Add(Crosshair);
             //LifeBars[0].Visible = false;
             //LifeBars[1].Visible = false;
-
             //Components.Add(FPSLabel);
          }
-      }
+            Services.RemoveService(typeof(LifeBar[]));
+            Services.AddService(typeof(LifeBar[]), LifeBars);
+        }
 
       void AddCharacterLabels()
       {
@@ -485,18 +484,19 @@ namespace HyperV
          }
       }
 
-      private void AjouterTours()
+        public int NB_Tours = 2;
+
+        private void AjouterTours()
       {
          Random generateur = new Random();
-         const int NB_Tours = 10;
+         
          for (int i = 0; i < NB_Tours; ++i)
          {
             Components.Add(new Afficheur3D(this));
-            CreateurModele x = new CreateurModele(this, "Models_Tower", new Vector3(generateur.Next(50, 300), -70, generateur.Next(-300, 300)), 0.05f, generateur.Next(0, 360));
+            CreateurModele x = new CreateurModele(this, "Models_Tower", new Vector3(generateur.Next(50, 300), -70, generateur.Next(-70, 70)), 0.05f, generateur.Next(0, 360));
             Components.Add(x);
             x.EstTour = true;
          }
-
       }
 
       List<Rune> ListeRunes { get; set; }
@@ -865,6 +865,15 @@ namespace HyperV
                PressSpaceLabel.Visible = false;
             }
          }
+         if (Level == 8 && NB_Tours == 0)
+         {
+                Complete[Level - 2] = true;
+                Save();
+                Components.Add(Loading);
+                Level = 1;
+                ResetLists();
+                SelectWorld(false);
+            }
       }
 
       void CheckForCutscene()
