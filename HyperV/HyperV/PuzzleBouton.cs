@@ -52,7 +52,7 @@ namespace HyperV
             base.Initialize();
             ListeBoutons = new List<CreateurModele>();
             StreamReader fichier = new StreamReader(PositionBoutons);
-            StreamReader save = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + NumeroSave + ".txt");
+            StreamReader save = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleBouton" + NumeroSave + ".txt");
 
             string ligneSave = save.ReadLine();
             fichier.ReadLine();
@@ -245,7 +245,7 @@ namespace HyperV
 
         void Save()
         {
-            StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + NumeroSave.ToString() + ".txt");
+            StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleBouton" + NumeroSave.ToString() + ".txt");
             writer.WriteLine(true);
             writer.Close();
         }

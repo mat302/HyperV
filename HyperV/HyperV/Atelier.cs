@@ -695,12 +695,7 @@ namespace HyperV
             }
             if (PuzzleRunesComplete() && PuzzleRuneCompletePremiereFois)
             {
-                StreamReader reader = new StreamReader("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + SaveNumber + ".txt");
-                string autrePuzzle = reader.ReadLine();
-                reader.Close();
-
-                StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/PuzzlesSave" + SaveNumber + ".txt");
-                writer.WriteLine(autrePuzzle);
+                StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleRunes" + SaveNumber.ToString() + ".txt");               
                 writer.WriteLine(true);
                 writer.Close();
                 PuzzleRuneCompletePremiereFois = false;
