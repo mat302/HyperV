@@ -196,6 +196,7 @@
     <Content Include="Walls\DataPrison.txt" />
     <Content Include="Levels\Level3.txt" />
     <Content Include="Walls\Walls3.txt" />
+    <Content Include="Walls\Walls8.txt" />
     <Content Include="Walls\Walls55.txt" />
     <Content Include="Walls\Walls5.txt" />
     <Content Include="Game.ico" />

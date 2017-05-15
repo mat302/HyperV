@@ -7,3 +7,4 @@ AjouterModeles;../../../Monde3_Modeles.txt
 AjouterArbres
 AjouterTours
 Grass;10;{X:0 Y:0 Z:0};{X:0 Y:-70 Z:0};{X:100 Y:100};Grass;{X:1 Y:1}
+Walls;Transparent;Walls8.txt;0

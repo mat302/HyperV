@@ -708,7 +708,7 @@ namespace HyperV
          {
             if (Camera != null)
             {
-               //Window.Title = Camera.Position.ToString();
+               Window.Title = Camera.Position.ToString();
             }
             ManageKeyboard(gameTime);
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
