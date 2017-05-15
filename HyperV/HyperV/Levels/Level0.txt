@@ -1,1 +1,1 @@
-CutscenePlayer;test1;false;Arial
+CutscenePlayer;VID;false;Arial

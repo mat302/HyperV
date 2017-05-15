@@ -187,7 +187,6 @@ namespace HyperV
 
         bool CheckForMazeCollision()
         {
-            return false;
             bool result = false;
             int i;
 
