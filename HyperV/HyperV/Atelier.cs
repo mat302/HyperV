@@ -116,7 +116,7 @@ namespace HyperV
          TargetElapsedTime = new TimeSpan((int)(FpsInterval * 10000000));
          line = reader.ReadLine();
          parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
-         FullScreen = int.Parse(parts[1]) == 1;
+         FullScreen = int.Parse(parts[1]) == 0;
          if (FullScreen != PériphériqueGraphique.IsFullScreen)
          {
             PériphériqueGraphique.ToggleFullScreen();
@@ -231,6 +231,7 @@ namespace HyperV
                         break;
                 }
                 MediaPlayer.Play(Song);
+                MediaPlayer.IsRepeating = true;
             }
 
 
@@ -707,7 +708,7 @@ namespace HyperV
          {
             if (Camera != null)
             {
-               Window.Title = Camera.Position.ToString();
+               //Window.Title = Camera.Position.ToString();
             }
             ManageKeyboard(gameTime);
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -755,6 +756,10 @@ namespace HyperV
                 writer.WriteLine(true);
                 writer.Close();
                 PuzzleRuneCompletePremiereFois = false;
+                writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleBouton" + SaveNumber.ToString() + ".txt");
+                writer.WriteLine(true);
+                writer.Close();
+                //DoitSave = false;
                 Save();
                 Components.Add(Loading);
                 Level = 1;
