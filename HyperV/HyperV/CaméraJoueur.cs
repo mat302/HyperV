@@ -346,7 +346,7 @@ namespace HyperV
             Ramasser = GestionInput.EstNouveauClicGauche() ||
                        GestionInput.EstAncienClicGauche() ||
                        GestionInput.EstNouvelleTouche(Keys.E) && EstDéplacementEtAutresClavierActivé ||
-                       GestionGamePad.EstNouveauBouton(Buttons.RightStick);
+                       GestionGamePad.EstNouveauBouton(Buttons.RightStick) || Ramasser;
         }
 
 
@@ -389,6 +389,7 @@ namespace HyperV
                     }
                 }
             }
+            Ramasser = false;
         }
 
 
