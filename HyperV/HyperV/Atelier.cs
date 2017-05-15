@@ -108,7 +108,7 @@ namespace HyperV
          RenderDistance = int.Parse(parts[1]);
          if (Camera != null)
          {
-            (Camera as CaméraJoueur).SetRenderDistance(RenderDistance);
+            (Camera as CaméraJoueur).ÉtablirDistenceDeRendu(RenderDistance);
          }
          line = reader.ReadLine();
          parts = line.Split(new string[] { ": " }, StringSplitOptions.None);
@@ -196,8 +196,44 @@ namespace HyperV
       {
          MediaPlayer.Stop();
          Components.Clear();
-         //Song = SongManager.Find("castle");
-         //MediaPlayer.Play(Song);
+
+            if (level > 0)
+            {
+                switch (level)
+                {
+                    case 1:
+                        Song = SongManager.Find("castle");
+                        break;
+                    case 2:
+                        Song = SongManager.Find("Elf");
+                        break;
+                    case 3:
+                        Song = SongManager.Find("Elf");
+                        break;
+                    case 4:
+                        Song = SongManager.Find("King Arthur");
+                        break;
+                    case 5:
+                        Song = SongManager.Find("Kingdom of Bards");
+                        break;
+                    case 6:
+                        Song = SongManager.Find("Elf");
+                        break;
+                    case 7:
+                        Song = SongManager.Find("exid");
+                        break;
+                    case 8:
+                        Song = SongManager.Find("Elf");
+                        break;
+                    case 9:
+                        Song = SongManager.Find("Elf");
+                        break;
+                }
+                MediaPlayer.Play(Song);
+            }
+
+
+
          StreamReader reader = new StreamReader("../../../Levels/Level" + level.ToString() + ".txt");
          string line;
          string[] parts;
@@ -225,12 +261,12 @@ namespace HyperV
                   if (usePosition)
                   {
                      Camera = new Camera2(this, Position, new Vector3(20, 0, 0), Vector3.Up, FpsInterval, RenderDistance);
-                     (Camera as Camera2).InitializeDirection(Direction);
+                     (Camera as Camera2).ÉtablirDirection(Direction);
                   }
                   else
                   {
                      Camera = new Camera2(this, Vector3Parse(parts[1]), Vector3Parse(parts[2]), Vector3.Up, FpsInterval, RenderDistance);
-                     (Camera as Camera2).InitializeDirection(Vector3Parse(parts[3]));
+                     (Camera as Camera2).ÉtablirDirection(Vector3Parse(parts[3]));
                   }
                   //(Camera as Camera2).SetRenderDistance(RenderDistance);
                   Services.RemoveService(typeof(Caméra));
@@ -383,7 +419,7 @@ namespace HyperV
             AddFoodLabels();
             Components.Add(Camera);
             Components.Remove(Loading);
-            Components.Add(Crosshair);
+         Components.Add(Crosshair);
             //LifeBars[0].Visible = false;
             //LifeBars[1].Visible = false;
 
@@ -827,6 +863,7 @@ namespace HyperV
          if (InputManager.EstNouvelleTouche(Keys.P) || InputManager.EstNouvelleTouche(Keys.Escape) || GamePadManager.EstNouveauBouton(Buttons.Start) && Level > 0)
          {
             LaunchPause();
+               
          }
       }
 
@@ -887,7 +924,7 @@ namespace HyperV
          NiveauRythmé circuit = new NiveauRythmé(this, "Fil Electrique", "../../../Data3.txt",
                                                  3, "Blanc", "Rouge",
                                                  "Vert", "BleuBlancRouge", "Arial50",
-                                                 Color.Black, 15, 1,
+                                                 Color.Black, 100, 1,
                                                  FpsInterval);
          Components.Add(circuit);
          Services.AddService(typeof(NiveauRythmé), circuit);

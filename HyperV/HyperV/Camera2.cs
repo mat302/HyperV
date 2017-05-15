@@ -84,11 +84,11 @@ namespace HyperV
         //    }
         //}
 
-        protected override void ManageLifeBars()
+        protected override void GérerBarresDeVie()
         {
             if (!SubjectiveCamera)
             {
-                base.ManageLifeBars();
+                base.GérerBarresDeVie();
             }
         }
 
@@ -261,7 +261,7 @@ namespace HyperV
         public void DésactiverCaméra()
         {
             DésactiverDéplacement = !DésactiverDéplacement;
-            InitializeDirection(new Vector3(1, 0, 0));
+            ÉtablirDirection(new Vector3(1, 0, 0));
         }
 
         bool placerJoueur { get; set; }
