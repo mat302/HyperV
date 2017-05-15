@@ -1,6 +1,6 @@
 ﻿SpaceBackground;WhiteSky
 Display3D
-Camera;{X:10 Y:5 Z:15};{X:20 Y:0 Z:0};{X:-0.5 Y:0 Z:-0.5}
+Camera;{X:10 Y:5 Z:15};{X:20 Y:0 Z:0};{X:0.5 Y:0 Z:0.5}
 Grass;1;{X:0 Y:0 Z:0};{X:0 Y:0 Z:-50};{X:10 Y:10};Grass;{X:98 Y:25}
 HeightMap;1;{X:0 Y:0 Z:0};{X:975 Y:0 Z:-20};{X:400 Y:100 Z:400};Map3a;Herbe;Sable
 HeightMap;1;{X:0 Y:0 Z:0};{X:975 Y:0 Z:380};{X:400 Y:100 Z:400};Map3b;Herbe;Sable
@@ -10,9 +10,8 @@ House;mill;0.2;{X:0 Y:1.570796 Z:0};{X:1260 Y:17 Z:520};{X:1250 Y:0 Z:510};{X:12
 House;mill;0.2;{X:0 Y:1.570796 Z:0};{X:1100 Y:17 Z:500};{X:1090 Y:0 Z:490};{X:1110 Y:100 Z:510}
 House;mill;1;{X:0 Y:1.570796 Z:0};{X:1200 Y:120 Z:890};{X:1500 Y:0 Z:490};{X:1510 Y:100 Z:510}
 Maze;1;{X:0 Y:0 Z:0};{X:1110 Y:0 Z:785};{X:256 Y:5 Z:256};GrassFence;Mmill3
-Mill;1;{X:0 Y:3.141593 Z:0};{X:1230 Y:6 Z:850};Fence;{X:50 Y:50};Mill1
 Walls;Fence;Walls3.txt;0
-Epee;shop;0.0025;{X:0 Y:0 Z:0};{X:50 Y:1 Z:56};5
+Epee;shop;0.0025;{X:0 Y:0 Z:0};{X:81 Y:1 Z:85};5
 Character;knight;0.07;{X:0 Y:-1.57 Z:0};{X:85 Y:0 Z:92};c11;FaceImages/KnightImage2;ScriptRectangle;Arial
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:730 Y:1 Z:175};150
 Food;6_pumpkin;0.02;{X:0 Y:0 Z:0};{X:692 Y:1 Z:142};150
@@ -43,3 +42,4 @@ Enemy;cent;0.4;{X:0 Y:4 Z:0};{X:1168 Y:0 Z:762};1;20;0.3
 Enemy;cent;0.4;{X:0 Y:4 Z:0};{X:1246 Y:0 Z:762};1;20;0.3
 Portal;1;{X:0 Y:0 Z:0};{X:1200 Y:0 Z:1020};{X:1 Y:1};Transparent;1
 House;RBK;10;{X:0 Y:0 Z:0};{X:1200 Y:0 Z:1000};{X:1180 Y:-5 Z:990};{X:1220 Y:20 Z:1010}
+Mill;1;{X:0 Y:3.141593 Z:0};{X:1230 Y:6 Z:850};Fence;{X:50 Y:50};Mill1

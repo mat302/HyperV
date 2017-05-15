@@ -117,7 +117,7 @@ namespace HyperV
             CréerVolumeDeVisualisation(OUVERTURE_OBJECTIF, DISTANCE_PLAN_RAPPROCHÉ, DistancePlanÉloigné);
         }
 
-        public void InitializeDirection(Vector3 direction)
+        public void ÉtablirDirection(Vector3 direction)
         {
             Direction = direction;
         }
