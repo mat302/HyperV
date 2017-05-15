@@ -415,19 +415,18 @@ namespace HyperV
             }
             Components.Add(LifeBars[0]);
             Components.Add(LifeBars[1]);
-            Services.RemoveService(typeof(LifeBar[]));
-            Services.AddService(typeof(LifeBar[]), LifeBars);
             AddCharacterLabels();
             AddFoodLabels();
             Components.Add(Camera);
             Components.Remove(Loading);
-         Components.Add(Crosshair);
+            Components.Add(Crosshair);
             //LifeBars[0].Visible = false;
             //LifeBars[1].Visible = false;
-
             //Components.Add(FPSLabel);
          }
-      }
+            Services.RemoveService(typeof(LifeBar[]));
+            Services.AddService(typeof(LifeBar[]), LifeBars);
+        }
 
       void AddCharacterLabels()
       {
