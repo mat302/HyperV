@@ -725,6 +725,7 @@ namespace HyperV
                }
                CheckForPortal();
                CheckForGameOver();
+               Cheat();
                Timer = 0;
             }
             base.Update(gameTime);
@@ -740,6 +741,26 @@ namespace HyperV
                 }
             }
       }
+
+        void Cheat()
+        {
+            if (InputManager.EstEnfoncée(Keys.V) && InputManager.EstEnfoncée(Keys.E))
+            {
+                for (int i = 0; i < Complete.Count; ++i)
+                {
+                    Complete[i] = true;
+                }
+                StreamWriter writer = new StreamWriter("../../../WPFINTERFACE/Launching Interface/Saves/SavePuzzleRunes" + SaveNumber + ".txt");
+                writer.WriteLine(true);
+                writer.Close();
+                PuzzleRuneCompletePremiereFois = false;
+                Save();
+                Components.Add(Loading);
+                Level = 1;
+                ResetLists();
+                SelectWorld(false);
+            }
+        }
 
 
       bool FirstGameOver { get; set; }
