@@ -30,7 +30,7 @@ namespace HyperV
         public override void Initialize()
         {
             DéterminerMesage();
-            Position = new Vector2(Game.Window.ClientBounds.Width - 250, Game.Window.ClientBounds.Height - 80);
+            Position = new Vector2(Game.Window.ClientBounds.Width - 400, Game.Window.ClientBounds.Height - 80);
             Scale = 0.5f;
             base.Initialize();
         }
