@@ -41,6 +41,7 @@ namespace HyperV
         CaméraJoueur CameraPrison { get; set; }
         float Vitesse { get; set; }
 
+
        List<BalleRebondissante> ListeBalles { get; set; }
 
       int[] Marges { get; set; }
