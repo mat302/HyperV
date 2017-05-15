@@ -419,7 +419,7 @@ namespace HyperV
             AddFoodLabels();
             Components.Add(Camera);
             Components.Remove(Loading);
-            Components.Add(Crosshair);
+         Components.Add(Crosshair);
             //LifeBars[0].Visible = false;
             //LifeBars[1].Visible = false;
 
