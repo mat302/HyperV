@@ -13,6 +13,7 @@ namespace HyperV
         const int HAUTEUR_SAUT = 10;
         const int SAUT = 25;
         const int VALEURE_VECTORIELLE_DÉPLACEMENT_GAMEPAD = 35;
+        const float INTERVALLE_MAJ_STANDARD_SAUT = 1f / 60f;
         const float VITESSE_LORSQUE_FATIGUÉ = 0.1f;
         const float VITESSE_INITIALE_ROTATION = 5f;
         const float VITESSE_INITIALE_ROTATION_SOURIS = 0.1f;
@@ -417,7 +418,7 @@ namespace HyperV
                     ContinuerSaut = false;
                     t = 0;
                 }
-                Hauteur = CalculerBesier(t * IntervalleMAJ, PtsDeControle).Y;
+                Hauteur = CalculerBesier(t * INTERVALLE_MAJ_STANDARD_SAUT, PtsDeControle).Y;
                 ++t;
             }
         }
