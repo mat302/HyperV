@@ -1,19 +1,12 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 
 
 namespace HyperV
 {
-    public class Epee : ModeleRamassable
+   public class Epee : ModeleRamassable
     {
         bool CoupDEpee { get; set; }
         public bool ContinuerCoupDEpee { get; private set; }

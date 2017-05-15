@@ -41,6 +41,7 @@ namespace HyperV
         CaméraJoueur CameraPrison { get; set; }
         float Vitesse { get; set; }
 
+
        List<BalleRebondissante> ListeBalles { get; set; }
 
       int[] Marges { get; set; }
@@ -147,7 +148,7 @@ namespace HyperV
             }
             if (CollisionBalleCaméra(DISTANCE_COLLISION))
             {
-                CameraPrison.Attack(VALEUR_ATTAQUE);
+                CameraPrison.Attaquer(VALEUR_ATTAQUE);
             }
 
             Bordures(Marges[0], Marges[1], Position.X, "x");

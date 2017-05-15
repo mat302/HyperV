@@ -82,7 +82,7 @@ namespace HyperV
                     SoundEffect.Play();
                     //Visible = false;
                     Position = InitialPosition;
-                    Camera.Attack(20);
+                    Camera.Attaquer(20);
                 }
                 Timer = 0;
             }
