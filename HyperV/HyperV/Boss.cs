@@ -52,7 +52,7 @@ namespace HyperV
            for (int i = 0; i < NBRE_FIREBALLS; i++)
            {
                Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, i));
-               Game.Components.Add(Fireballs[NBRE_FIREBALLS]);
+               Game.Components.Add(Fireballs[i]);
            }
         }
 
