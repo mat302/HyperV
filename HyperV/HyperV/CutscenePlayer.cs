@@ -2,19 +2,10 @@
 CutscenePlayer.cs
 -----------------
 
-By Mathieu Godin
-
 Role : Creates a cutscene
 
-Created : 2/25/17
 */
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -22,10 +13,10 @@ using AtelierXNA;
 
 namespace HyperV
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
-    public class CutscenePlayer : Microsoft.Xna.Framework.DrawableGameComponent
+   /// <summary>
+   /// This is a game component that implements IUpdateable.
+   /// </summary>
+   public class CutscenePlayer : Microsoft.Xna.Framework.DrawableGameComponent
     {
         Video Video { get; set; }
         VideoPlayer Player { get; set; }
@@ -52,12 +43,6 @@ namespace HyperV
             CutsceneFinished = false;
         }
 
-        //public TexteCentré Loading { get; private set; }
-
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
             base.Initialize();
@@ -90,7 +75,7 @@ namespace HyperV
             //    Player.IsLooped = true;
             //    Player.Play(Video);
             //}
-            if ((InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(Keys.Space) )||GestionGamePad.EstNouveauBouton(Buttons.Start))
+            if ((InputManager.EstClavierActivé && InputManager.EstNouvelleTouche(/*Keys.Space*/Keys.R) )||GestionGamePad.EstNouveauBouton(Buttons.Start))
             {
                 Player.Stop();
             }

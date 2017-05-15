@@ -8,21 +8,12 @@ using AtelierXNA;
 
 namespace HyperV
 {
-    //void RythmLevel()
-    //{
-    //    NiveauRythmé circuit = new NiveauRythmé(this, "Fil Electrique", "../../../Data3.txt",
-    //                                            3, "Blanc", "Rouge",
-    //                                            "Vert", "BleuBlancRouge", "Arial50",
-    //                                            Color.Black, 15, 1,
-    //                                            FpsInterval);
-    //    Components.Add(circuit);
-    //    Services.AddService(typeof(NiveauRythmé), circuit);
-    //}
-
 
     //Faire enlever de la vie si pese touche pas colision
     public class NiveauRythmé : Microsoft.Xna.Framework.GameComponent
     {
+        const float INCERTITUDE_ÉGALITÉ_FLOAT = 0.01f;
+
         //CONSTRUCTEUR
         //Cylindre
         readonly string TextureCylindre,
@@ -65,6 +56,7 @@ namespace HyperV
         GamePadManager GestionGamePad { get; set; }
         List<UnlockableWall> MurÀEnlever { get; set; }
         List<Portal> ListePortails { get; set; }
+        LifeBar[] BarreDeVie { get; set; }
 
 
         public NiveauRythmé(Game jeu, string textureCylindre, string nomFichierLecturePositionsCylindre,
@@ -149,6 +141,8 @@ namespace HyperV
             GénérateurAléatoire = Game.Services.GetService(typeof(Random)) as Random;
             MurÀEnlever = Game.Services.GetService(typeof(List<UnlockableWall>)) as List<UnlockableWall>;
             ListePortails = Game.Services.GetService(typeof(List<Portal>)) as List<Portal>;
+            BarreDeVie = Game.Services.GetService(typeof(LifeBar[])) as LifeBar[];
+
         }
 
         void InitialisationComposants()
@@ -209,9 +203,14 @@ namespace HyperV
             i++;
             j++;
 
+            GérerPointage();
+
+            GérerClicsEnTrop();
+
             foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
             {
                 RemettreCubesTextureInitiale(cube);
+
                 GérerÉchec(cube);
 
                 foreach (SphèreRythmée sp in Game.Components.Where(composant => composant is SphèreRythmée))
@@ -220,15 +219,17 @@ namespace HyperV
                     {
                         GérerRéussite(sp, cube);
                     }
+                    
                 }
             }
 
-            GérerPointage();
+
             AjouterSphères();
 
             BoutonUn = false;
             BoutonDeux = false;
             BoutonTrois = false;
+            
         }
 
         void GérerPointage()
@@ -240,14 +241,38 @@ namespace HyperV
 
                 // constantes  ----------------------------------
 
-
                 NiveauEstTerminé = true;
-                i = 1000;
+                i = BorneMaximale_i + 1;
                 Game.Components.Remove(MurÀEnlever[0]);
                 ListePortails.Add(new Portal(Game, 1, new Vector3(0, MathHelper.PiOver2, 0),
                                   new Vector3(170, -60, -10), new Vector2(40, 40), "Transparent",
                                   1, IntervalleMAJ));
                 Game.Components.Add(ListePortails.Last());
+            }
+        }
+
+        void GérerClicsEnTrop()
+        {
+            foreach (CubeTexturé cube in Game.Components.Where(composant => composant is CubeTexturé))
+            {
+                if (BoutonUn)
+                {
+                    PositionCubeRouge = Positions[1];
+                    GérerÉchec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
+                if (BoutonDeux)
+                {
+                    PositionCubeRouge = Positions[3];
+                    GérerÉchec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
+                if (BoutonTrois)
+                {
+                    PositionCubeRouge = Positions[5];
+                    GérerÉchec(cube);
+                    BarreDeVie[0].Attack(2);
+                }
             }
         }
 
@@ -277,8 +302,8 @@ namespace HyperV
         {
             if (j > BorneMaximale_j / Difficultée || NiveauEstTerminé)
             {
-                //cube.NomTextureCube = TextureCubeBase;
-                //cube.InitialiserParamètresEffetDeBase();
+                cube.NomTextureCube = TextureCubeBase;
+                cube.InitialiserParamètresEffetDeBase();
 
                 //j = 0;
             }
@@ -286,10 +311,10 @@ namespace HyperV
 
         void GérerÉchec(CubeTexturé cube)
         {
-            //if (SontVecteursÉgaux(PositionCubeRouge, cube.Position))
+            if (SontVecteursÉgaux(PositionCubeRouge, cube.Position))
             {
-                //cube.NomTextureCube = TextureCubeÉchec;
-                //cube.InitialiserParamètresEffetDeBase();
+                cube.NomTextureCube = TextureCubeÉchec;
+                cube.InitialiserParamètresEffetDeBase();
                 PositionCubeRouge = null;
                 j = 0;
             }
@@ -298,15 +323,18 @@ namespace HyperV
         void GérerRéussite(SphèreRythmée sp, CubeTexturé cube)
         {
             if (SontVecteursÉgaux(sp.Extrémité1, Positions[0]) && BoutonUn ||
-                                    SontVecteursÉgaux(sp.Extrémité1, Positions[2]) && BoutonDeux ||
-                                    SontVecteursÉgaux(sp.Extrémité1, Positions[4]) && BoutonTrois)
+                SontVecteursÉgaux(sp.Extrémité1, Positions[2]) && BoutonDeux ||
+                SontVecteursÉgaux(sp.Extrémité1, Positions[4]) && BoutonTrois)
             {
                 sp.ÀDétruire = true;
-                //cube.NomTextureCube = TextureCubeRéussite;
-                //cube.InitialiserParamètresEffetDeBase();
+                cube.NomTextureCube = TextureCubeRéussite;
+                cube.InitialiserParamètresEffetDeBase();
                 ++nombreRéussi;
                 j = 0;
+                BarreDeVie[0].Heal(6);
+
             }
+              
         }
 
         bool SontVecteursÉgaux(Vector3? a, Vector3 b)
@@ -320,7 +348,9 @@ namespace HyperV
             else
             {
                 Vector3 c = (Vector3)a - b;
-                égaux = (c.X < 1 && c.X > -1) && (c.Y < 1 && c.Y > -1) && (c.Z < 1 && c.Z > -1);
+                égaux = (c.X < INCERTITUDE_ÉGALITÉ_FLOAT && c.X > -INCERTITUDE_ÉGALITÉ_FLOAT) &&
+                        (c.Y < INCERTITUDE_ÉGALITÉ_FLOAT && c.Y > -INCERTITUDE_ÉGALITÉ_FLOAT) && 
+                        (c.Z < INCERTITUDE_ÉGALITÉ_FLOAT && c.Z > -INCERTITUDE_ÉGALITÉ_FLOAT);
             }
 
             return égaux;

@@ -18,7 +18,7 @@ namespace Launching_Interface
       }
       private void BackButton_Click(object sender, RoutedEventArgs e)
       {
-         NavigationService.Navigate(new MainPage());
+         this.NavigationService.Navigate(new MainPage());
       }
 
       void GérerLangues()

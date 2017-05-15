@@ -18,19 +18,26 @@ namespace HyperV
         string ImageLivre { get; set; }
 
         InputManager GestionInputs { get; set; }
+        GamePadManager GestionGamePad { get; set; }
         Camera2 Caméra { get; set; }
         Sprite Texte { get; set; }
-
+        public PressSpaceLabel PressSpaceLabel { get; private set; }
 
         public Livre(Game game, string modele3D, Vector3 position, float homothésie, float rotation, string nomModele2D, string imageLivre)
             : base(game, modele3D, position, homothésie, rotation, nomModele2D)
         {
             ImageLivre = imageLivre;
+            Shown = false;
         }
 
         public override void Initialize()
         {           
             base.Initialize();
+            PressSpaceLabel = new PressSpaceLabel(Game);
+            PressSpaceLabel.Visible = false;
+            PressSpaceLabel.DrawOrder = 1000;
+            Game.Components.Add(PressSpaceLabel);
+            Shown = !Shown;
         }
 
         float? TrouverDistance(Ray autreObjet, BoundingSphere SphèreDeCollision)
@@ -42,27 +49,55 @@ namespace HyperV
         {
             base.LoadContent();
             GestionInputs = Game.Services.GetService(typeof(InputManager)) as InputManager;
+            GestionGamePad = Game.Services.GetService(typeof(GamePadManager)) as GamePadManager;
             Caméra = Game.Services.GetService(typeof(Caméra)) as Camera2;
         }
 
+        bool Shown { get; set; }
+
         public override void Update(GameTime gameTime)        
         {
-            if (GestionInputs.EstNouveauClicGauche())
-            {                
-                if (EstABonneDistance(this))
-                {
-                    if (Game.Components.Contains(Texte))
-                    {
-                        Game.Components.Remove(Texte);
-                    }
-                    Texte = new Sprite(Game, ImageLivre, new Vector2(GraphicsDevice.DisplayMode.Width / 2 - 450, GraphicsDevice.DisplayMode.Height / 2 - 350));
-                    Game.Components.Add(Texte);
-                }
-            }
-            if (GestionInputs.EstAncienClicDroit())
+            if (EstABonneDistance(this) && !Shown)
             {
-                Game.Components.Remove(Texte);
+                PressSpaceLabel.Visible = true;
             }
+            else
+            {
+                PressSpaceLabel.Visible = false;
+            }
+            if (GestionInputs.EstNouvelleTouche(Keys.R)/*EstNouveauClicGauche()*/|| GestionGamePad.EstNouveauBouton(Buttons.Y))
+            {
+                if (Shown)
+                {
+                    Game.Components.Remove(Texte);
+                }
+                else
+                {
+                    if (EstABonneDistance(this))
+                    {
+                        if (Game.Components.Contains(Texte))
+                        {
+                            Game.Components.Remove(Texte);
+                        }
+                        Texte = new Sprite(Game, ImageLivre, new Vector2(GraphicsDevice.DisplayMode.Width / 2 - 450, GraphicsDevice.DisplayMode.Height / 2 - 350));
+                        Game.Components.Add(Texte);
+                    }
+                }
+                Shown = !Shown;              
+                //if (EstABonneDistance(this))
+                //{
+                //    if (Game.Components.Contains(Texte))
+                //    {
+                //        Game.Components.Remove(Texte);
+                //    }
+                //    Texte = new Sprite(Game, ImageLivre, new Vector2(GraphicsDevice.DisplayMode.Width / 2 - 450, GraphicsDevice.DisplayMode.Height / 2 - 350));
+                //    Game.Components.Add(Texte);
+                //}
+            }
+            //if (GestionInputs./*EstAncienClicDroit()*/)
+            //{
+            //    Game.Components.Remove(Texte);
+            //}
         }
 
         bool EstABonneDistance(CreateurModele modele)

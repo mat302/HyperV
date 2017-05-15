@@ -37,19 +37,19 @@ namespace Launching_Interface
 
       private void SaveSettings()
       {
-         StreamWriter w = new StreamWriter("../../Saves/Settings.txt");
 
+         StreamWriter w = new StreamWriter("../../Saves/Settings.txt");
          w.WriteLine("Music: " + GererDonnees.VolMusique.ToString());
          w.WriteLine("Sound: " + GererDonnees.VolEffets.ToString());
-         w.WriteLine("Language: " + ((int)GererDonnees.Langue).ToString());
+         w.WriteLine("Language: " + (Convert.ToInt32(GererDonnees.Langue)).ToString());
          w.WriteLine("Render Distance: " + GererDonnees.RenderDistance.ToString());
          w.WriteLine("Frame Rate: " + GererDonnees.Fps.ToString());
-         w.WriteLine("Fullscreen: " + ((int)GererDonnees.FullscreenMode).ToString());
-         w.WriteLine("Input: " + ((int)GererDonnees.KeyboardMode).ToString());
+         w.WriteLine("Fullscreen: " + (Convert.ToInt32(GererDonnees.FullscreenMode)).ToString());
+         w.WriteLine("Input: " + (Convert.ToInt32(GererDonnees.KeyboardMode)).ToString());
          w.Close();
       }
-  
-      private void RDistanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e) 
+
+      private void RDistanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
       {
          double value = 0;
          if (GererDonnees.RenderDistenceModifiée == true)
@@ -84,8 +84,8 @@ namespace Launching_Interface
                case 100000:
                   value = 10;
                   break;
+            }
          }
-      }
          else
          {
             var slider = sender as Slider;
@@ -109,12 +109,12 @@ namespace Launching_Interface
                GererDonnees.RenderDistance = 100;
                RDistanceSlider.Value = 2.5;
             }
-           else  if (value > 3.7 && value < 3.8)
+            else if (value > 3.7 && value < 3.8)
             {
                GererDonnees.RenderDistance = 500;
                RDistanceSlider.Value = 3.75;
             }
-           else  if (value > 4.9 && value < 5.1)
+            else if (value > 4.9 && value < 5.1)
             {
                GererDonnees.RenderDistance = 1000;
                RDistanceSlider.Value = 5;
@@ -248,7 +248,7 @@ namespace Launching_Interface
          Perfo.Text = ListeLangueOficielle[19];
          Inp.Text = ListeLangueOficielle[21];
          Full.Text = ListeLangueOficielle[20];
-         Lang.Text = ListeLangueOficielle[31];       
+         Lang.Text = ListeLangueOficielle[31];
          Resettext2.Text = ListeLangueOficielle[33];
 
          GererCaractéristiques();
@@ -287,11 +287,11 @@ namespace Launching_Interface
       void GérerFPS()
       {
          float valeurPerformance = 0;
-         switch(GererDonnees.Fps)
+         switch (GererDonnees.Fps)
          {
             case 30:
                valeurPerformance = 0;
-            break;
+               break;
             case 60:
                valeurPerformance = 3.3333f;
                break;
@@ -303,13 +303,13 @@ namespace Launching_Interface
                break;
          }
          PerformanceSlider.Value = valeurPerformance;
-        
-         if (PerformanceSlider.Value < 0.2) { valeurPerfo.Text = "30 FPS"; } 
+
+         if (PerformanceSlider.Value < 0.2) { valeurPerfo.Text = "30 FPS"; }
       }
 
       void GérerRenderDistance()
-      {        
-         RDistanceSlider.Value = GererDonnees.RenderDistance;       
+      {
+         RDistanceSlider.Value = GererDonnees.RenderDistance;
       }
 
       void GameMusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -339,7 +339,8 @@ namespace Launching_Interface
          InitialiserListesLangues();
          GérerSon();
          GérerBoutons();
-      } 
+
+      }
 
       void GérerSon()
       {
@@ -404,7 +405,6 @@ namespace Launching_Interface
          }
       }
 
-
       void AppliquerFondÉcran()
       {
          Application.Current.MainWindow.WindowStyle = WindowStyle.None;
@@ -429,7 +429,6 @@ namespace Launching_Interface
          Application.Current.MainWindow.ResizeMode = ResizeMode.CanResize;
 
       }
-
 
       //Fonctions nécessaires mais non-utilisés
       #region   

@@ -1,16 +1,10 @@
-using AtelierXNA;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace HyperV
 {
-    public class Camera2 : CaméraJoueur
+   public class Camera2 : CaméraJoueur
     {
-        //Added from first Camera1
-        //float Height { get; set; }
-
         List<Maze> Maze { get; set; }
         List<Character> Characters { get; set; }
         Boss Boss { get; set; }
@@ -90,11 +84,11 @@ namespace HyperV
         //    }
         //}
 
-        protected override void ManageLifeBars()
+        protected override void GérerBarresDeVie()
         {
             if (!SubjectiveCamera)
             {
-                base.ManageLifeBars();
+                base.GérerBarresDeVie();
             }
         }
 
@@ -118,7 +112,7 @@ namespace HyperV
                 Position += direction * VITESSE_INITIALE_TRANSLATION * Direction;
                 Position -= latéral * VITESSE_INITIALE_TRANSLATION * Latéral;
             }
-            for (int i = 0; i < Water.Count /*&& height == 5*/; ++i)
+            for (int i = 0; i < Water.Count; ++i)
             {
                 if (!LifeBars[1].Water && Position.Y <= Water[i].AdjustedHeight)
                 {
@@ -266,8 +260,8 @@ namespace HyperV
 
         public void DésactiverCaméra()
         {
-            DésactiverDéplacement = !DésactiverDéplacement;
-            InitializeDirection(new Vector3(1, 0, 0));
+            DésactiverCertainesCommandes = !DésactiverCertainesCommandes;
+            ÉtablirDirection(new Vector3(1, 0, 0));
         }
 
         bool placerJoueur { get; set; }
@@ -275,26 +269,31 @@ namespace HyperV
 
         protected override void EffectuerMAJ()
         {
-            base.EffectuerMAJ();
-            if (!DésactiverDéplacement)
+            if (!SubjectiveCamera)
             {
-                if (placerJoueur)
+                base.EffectuerMAJ();
+                if (!DésactiverCertainesCommandes)
                 {
-                    HauteurDeBase = 2;
-                    placerJoueur = false;
-                    Position = new Vector3(-27, 2, -28);
+                    if (placerJoueur)
+                    {
+                        HauteurDeBase = 2;
+                        placerJoueur = false;
+                        Position = new Vector3(-27, 2, -28);
+                    }
                 }
+                if (DésactiverCertainesCommandes)
+                {
+                    HauteurDeBase = 15;
+                    Position = new Vector3(-57, 15, -52);
+                    placerJoueur = true;
+                }
+                Position = new Vector3(Position.X, HauteurDeBase, Position.Z);
             }
-            if (DésactiverDéplacement)
+            else
             {
-                HauteurDeBase = 15;
-                Position = new Vector3(-57, 15, -52);
-                placerJoueur = true;
+                base.EffectuerMAJ();
             }
-            Position = new Vector3(Position.X, HauteurDeBase, Position.Z);
         }
-
-
     }
 }
 

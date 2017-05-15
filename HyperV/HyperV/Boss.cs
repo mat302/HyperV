@@ -1,35 +1,16 @@
-/*
-Boss.cs
--------
-
-By Mathieu Godin
-
-Role : Used to create a non-playable
-       boss rendered with a .fbx 
-       3d model that can have a fight
-       with the player
-
-Created : 3/12/17
-*/
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 
 
 namespace HyperV
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
-    public class Boss : ObjetDeBase
+   /// <summary>
+   /// This is a game component that implements IUpdateable.
+   /// </summary>
+   public class Boss : ObjetDeBase
     {
         float Interval { get; set; }
         float Radius { get; set; }
@@ -46,6 +27,9 @@ namespace HyperV
         Camera2 Camera { get; set; }
         List<Fireball> Fireballs { get; set; }
         Vector3 FireBallPosition { get; set; }
+
+
+      const int NBRE_FIREBALLS = 9;
 
         public Boss(Game game, string name, int maxLife, string modelName, string gaugeName, string dockName, string fontName, float interval, float labelInterval, float startScale, Vector3 startRotation, Vector3 startPosition) : base(game, modelName, startScale, startRotation, startPosition)
         {
@@ -64,30 +48,12 @@ namespace HyperV
 
         public void AddFireball()
         {
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 0));
-            Game.Components.Add(Fireballs[0]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 1));
-            Game.Components.Add(Fireballs[1]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 2));
-            Game.Components.Add(Fireballs[2]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 3));
-            Game.Components.Add(Fireballs[3]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 4));
-            Game.Components.Add(Fireballs[4]);
-
-
-
-
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 5));
-            Game.Components.Add(Fireballs[5]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 6));
-            Game.Components.Add(Fireballs[6]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 7));
-            Game.Components.Add(Fireballs[7]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 8));
-            Game.Components.Add(Fireballs[8]);
-            Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, 9));
-            Game.Components.Add(Fireballs[9]);
+          
+           for (int i = 0; i < NBRE_FIREBALLS; i++)
+           {
+               Fireballs.Add(new Fireball(Game, 1, new Vector3(0, MathHelper.ToRadians(180), 0), FireBallPosition, new Vector2(10, 10), "feufollet", new Vector2(20, 1), Interval, i));
+               Game.Components.Add(Fireballs[i]);
+           }
         }
 
         public void RemoveFireball()
@@ -123,10 +89,6 @@ namespace HyperV
         Vector3 Direction { get; set; }
         float Result { get; set; }
 
-        /// <summary> 
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
             Input = InputManager.EstNouvelleTouche(Keys.E) ? true : Input;

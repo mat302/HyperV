@@ -167,7 +167,7 @@ namespace HyperV
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-            Space = InputManager.EstNouvelleTouche(Keys.Space) || GestionGamePad.EstNouveauBouton(Buttons.Y) ? true : Space;
+            Space = InputManager.EstNouvelleTouche(/*Keys.Space*/Keys.R) || GestionGamePad.EstNouveauBouton(Buttons.Y) ? true : Space;
             Taken = InputManager.EstNouvelleTouche(Keys.E) || GestionGamePad.EstNouveauBouton(Buttons.X) ? true : Taken;
             Timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Timer >= Interval)
@@ -210,8 +210,8 @@ namespace HyperV
                                 AxleTaken[i] = true;
                                 Space = false;
                                 AxleObjects[i] = TakenObject;
-                                ModeleRamassable.Taken = false;
-                                Takables[TakenObject].Placed = true;
+                                ModeleRamassable.DéjàPris = false;
+                                Takables[TakenObject].Placé = true;
                             }
                         }
                         else if (AxleTaken[i] && TakenObject == NumGears)
@@ -225,8 +225,8 @@ namespace HyperV
                                 Placed[AxleObjects[i]] = false;
                                 AxleTaken[i] = false;
                                 Space = false;
-                                Takables[AxleObjects[i]].Placed = false;
-                                ModeleRamassable.Taken = true;
+                                Takables[AxleObjects[i]].Placé = false;
+                                ModeleRamassable.DéjàPris = true;
                                 AxleObjects[i] = NumGears;
                             }
                         }

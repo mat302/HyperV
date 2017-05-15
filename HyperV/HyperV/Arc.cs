@@ -1,19 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 
 
 namespace HyperV
 {
-    public class Arc : ModeleRamassable
+   public class Arc : ModeleRamassable
     {
         const float FPS_60_INTERVAL = 1f / 60f;
 
@@ -51,7 +44,7 @@ namespace HyperV
             {
                 if (LancerFleche)
                 {
-                    Game.Components.Add(new Fleche(Game, "Robot", 0.002f, new Vector3(angleY, angleX + (float)Math.PI / 2, Rotation.Z),
+                    Game.Components.Add(new Fleche(Game, "shop", 0.0025f, new Vector3(angleY, 1.57f/*angleX + (float)Math.PI / 2*/, 1.57f/*Rotation.Z*/),
                                                    CaméraJoueur.Position, CaméraJoueur.Direction));
                 }
             }

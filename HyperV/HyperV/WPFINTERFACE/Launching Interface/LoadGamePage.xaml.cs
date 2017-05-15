@@ -55,6 +55,7 @@ namespace Launching_Interface
          tbtitre.Text = LangueOficielleLoadPage[32];
          BackButton.Text = LangueOficielleLoadPage[0];
          PlaceContent();
+         OrganiserMargesCaractéristiques();
       }
 
       private void PlaceContent()
@@ -101,25 +102,26 @@ namespace Launching_Interface
 
          switch (i)
          {
+
             case 0:
                image0.Source = src;
                image0.Margin = new Thickness(30);
-               slotA.Text = LangueOficielleLoadPage[7] + " A";
-               Level0.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               slotA.Text = LangueOficielleLoadPage[2];
+               Level0.Text =LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NbreNiveauxTotal(i).ToString();
                Time0.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
             case 1:
                image1.Source = src;
                image1.Margin = new Thickness(30);
-               slotB.Text = LangueOficielleLoadPage[7] + " B";
-               Level1.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               slotB.Text = LangueOficielleLoadPage[5];
+               Level1.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NbreNiveauxTotal(i).ToString();
                Time1.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
             case 2:
                image2.Source = src;
                image2.Margin = new Thickness(30);
-               slotC.Text = LangueOficielleLoadPage[7] + " C";
-               Level2.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               slotC.Text =LangueOficielleLoadPage[8];
+               Level2.Text = LangueOficielleLoadPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NbreNiveauxTotal(i).ToString();
                Time2.Text = LangueOficielleLoadPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
          }
@@ -277,6 +279,8 @@ namespace Launching_Interface
                break;
          }
       }
+
+      //----------------------------------------------------------------------------------------------------------
 
       private void BackButton_Click(object sender, RoutedEventArgs e)
       {

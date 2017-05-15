@@ -122,6 +122,7 @@ namespace HyperV
                                 modeleDetruire.Add(modele);
                                 aDetruire = true;
                                 TourDétruite.Play();
+                                (Game as Atelier).NB_Tours--;
                             }
                         }
                     }

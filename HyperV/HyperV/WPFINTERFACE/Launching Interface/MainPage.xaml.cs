@@ -96,7 +96,6 @@ namespace Launching_Interface
 
       }
 
-
       private void LoadGameButton_Click(object sender, RoutedEventArgs e)
       {
          NavigationService.Navigate(new LoadGamePage());
@@ -114,6 +113,7 @@ namespace Launching_Interface
       {
          NavigationService.Navigate(new CreditsPage());
       }
+
 
       private void Quit_Click(object sender, RoutedEventArgs e)
       {

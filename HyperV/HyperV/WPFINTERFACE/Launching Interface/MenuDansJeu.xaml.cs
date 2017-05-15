@@ -46,7 +46,6 @@ namespace Launching_Interface
       private void BackButton_Click(object sender, RoutedEventArgs e)
       {
          SaveSettings();
-         // this.NavigationService.Navigate(new MainPage());
 
          PlaceMouseInTheCenter();
          Application.Current.Shutdown();
@@ -57,11 +56,11 @@ namespace Launching_Interface
          StreamWriter w = new StreamWriter("../../Saves/Settings.txt");
          w.WriteLine("Music: " + GererDonnees.VolMusique.ToString());
          w.WriteLine("Sound: " + GererDonnees.VolEffets.ToString());
-         w.WriteLine("Language: " + ((int)GererDonnees.Langue).ToString());
+         w.WriteLine("Language: " + (Convert.ToInt32(GererDonnees.Langue)).ToString());
          w.WriteLine("Render Distance: " + GererDonnees.RenderDistance.ToString());
          w.WriteLine("Frame Rate: " + GererDonnees.Fps.ToString());
-         w.WriteLine("Fullscreen: " + ((int)GererDonnees.FullscreenMode).ToString());
-         w.WriteLine("Input: " + ((int)GererDonnees.KeyboardMode).ToString());
+         w.WriteLine("Fullscreen: " + (Convert.ToInt32(GererDonnees.FullscreenMode)).ToString());
+         w.WriteLine("Input: " + (Convert.ToInt32(GererDonnees.KeyboardMode)).ToString());
          w.Close();
       }
 
@@ -197,6 +196,9 @@ namespace Launching_Interface
             PerformanceSlider.Value = 10;
          }
          valeurPerfo.Text = GererDonnees.Fps.ToString() + " FPS";
+
+         
+
       }
 
       private void ButFull_Unchecked(object sender, RoutedEventArgs e)
@@ -308,7 +310,6 @@ namespace Launching_Interface
          Instructions();
       }
 
-
       void InitialiserListesLangues()
       {
          RBfr.IsChecked = false;
@@ -359,7 +360,7 @@ namespace Launching_Interface
          }
          PerformanceSlider.Value = valeurPerformance;
 
-         if (PerformanceSlider.Value < 0.2) { valeurPerfo.Text = "30 FPS"; }
+         if (PerformanceSlider.Value < 0.2) { valeurPerfo.Text = "30 FPS"; } // Au cas
       }
 
       void GérerRenderDistance()
@@ -385,7 +386,7 @@ namespace Launching_Interface
 
       private void ResetButton_Click(object sender, RoutedEventArgs e)
       {
-         GererDonnees.PremierFichier = true;
+         GererDonnees.PremierFichier = true; //nothing for commit
          GererDonnees.RenderDistenceModifiée = true;
          GererDonnees.RéglagesBase();
          ChangerRéglages();
@@ -474,14 +475,14 @@ namespace Launching_Interface
       }
 
       void ChangerMargesClavier()
-      {        
+      {
          textL.Margin = new Thickness(0);
          textR.Margin = new Thickness(0);
 
          wasd.Margin = new Thickness(50, -140, 500, -360);
          e.Margin = new Thickness(206, -292, 252, -233);
          p.Margin = new Thickness(165, -130, 275, -230);
-         SpaceBar.Margin = new Thickness(-110, -130, 176,-361);
+         SpaceBar.Margin = new Thickness(-110, -130, 176, -361);
          Shift.Margin = new Thickness(167, -230, 213, -280);
          FlèchesClavier.Margin = new Thickness(22, -51, 420, -271);
 
@@ -519,8 +520,7 @@ namespace Launching_Interface
                textSpace.Margin = new Thickness(77, 5, -11, -2);
                textE.Margin = new Thickness(38, 0, 21, 4);
                break;
-         
-      }
+         }
 
       }
 
@@ -536,10 +536,10 @@ namespace Launching_Interface
       }
 
       void ChangerMargesManette()
-      {      
+      {
          wasd.Margin = new Thickness(1900, 500, 3900, -400);
          e.Margin = new Thickness(2860, 100, 5120, 420);
-         p.Margin = new Thickness(130, 72, 580,-74);
+         p.Margin = new Thickness(130, 72, 580, -74);
          SpaceBar.Margin = new Thickness(2255, 1720, 4050, -1300);
          Shift.Margin = new Thickness(175, 35, 370, -37);
          FlèchesClavier.Margin = new Thickness(2100, 500, 3900, -380);
@@ -554,37 +554,37 @@ namespace Launching_Interface
                textP.Margin = new Thickness(67, -2, 50, 5);
                textShift.Margin = new Thickness(67, 8, 45, -3);
                textE.Margin = new Thickness(52, -1, 12, 5);
-               textR.Margin = new Thickness(44, 15, 77, -4);
+               textR.Margin = new Thickness(44, 15, 74, -4);
                break;
             case GererDonnees.Langues.Anglais:
                textFleches.Margin = new Thickness(63, 8, -3, -5);
                textSpace.Margin = new Thickness(50, 9, 29, -2);
                textWASD.Margin = new Thickness(70, 8, 0, -5);
-               textL.Margin = new Thickness(40, 19, 76, -4);
+               textL.Margin = new Thickness(37, 19, 71, -4);
                textP.Margin = new Thickness(67, -2, 50, 5);
                textShift.Margin = new Thickness(61, 8, 54, -3);
                textE.Margin = new Thickness(50, -1, 20, 6);
-               textR.Margin = new Thickness(44, 15, 77, -4);
+               textR.Margin = new Thickness(52, -1, 12, 6);
                break;
             case GererDonnees.Langues.Espagnol:
                textFleches.Margin = new Thickness(78, 8, -15, -5);
                textSpace.Margin = new Thickness(50, 9, 29, -2);
                textWASD.Margin = new Thickness(75, 8, 0, -5);
-               textL.Margin = new Thickness(40, 19, 76, -4);
+               textL.Margin = new Thickness(38, 19, 71, -4);
                textP.Margin = new Thickness(67, -2, 50, 5);
                textShift.Margin = new Thickness(67, 8, 45, -3);
                textE.Margin = new Thickness(51.5, -1, 18, 6);
-               textR.Margin = new Thickness(44, 15, 77, -4);
+               textR.Margin = new Thickness(52, -1, 12, 6);
                break;
             case GererDonnees.Langues.Japonais:
                textFleches.Margin = new Thickness(46, 8, 6, -5);
                textSpace.Margin = new Thickness(53, 9, 29, -2);
                textWASD.Margin = new Thickness(70, 8, 0, -5);
-               textL.Margin = new Thickness(40, 19, 76, -4);
+               textL.Margin = new Thickness(51, 22, 98, -5);
                textP.Margin = new Thickness(67, 0, 56, 6);
                textShift.Margin = new Thickness(58, 8, 57, -3);
                textE.Margin = new Thickness(38, -1, 27, 6);
-               textR.Margin = new Thickness(44, 15, 77, -4);
+               textR.Margin = new Thickness(52, -1, 12, 6);
                break;
          }
 
@@ -592,11 +592,11 @@ namespace Launching_Interface
 
       void saveButton_Click(object sender, RoutedEventArgs e)
       {
-         StreamReader r = new StreamReader("../../Saves/save.txt");
-         int n = int.Parse(r.ReadLine());
-         r.Close();
-         File.Copy("../../Saves/pendingsave.txt", "../../Saves/save" + n + ".txt", true);
-         File.Copy("../../Saves/pendingscreenshot.png", "../../Saves/screenshot" + n + ".png", true);
+         StreamReader lecteurDonnees = new StreamReader("../../Saves/save.txt");
+         int indice = int.Parse(lecteurDonnees.ReadLine());
+         lecteurDonnees.Close();
+         File.Copy("../../Saves/pendingsave.txt", "../../Saves/save" + indice + ".txt", true);
+         File.Copy("../../Saves/pendingscreenshot.png", "../../Saves/screenshot" + indice + ".png", true);
          GererDonnees.RafraichirSauvegardes();
       }
 
@@ -639,7 +639,6 @@ namespace Launching_Interface
          }
          else
          {
-
             Application.Current.MainWindow.WindowStyle = WindowStyle.None;
             Application.Current.MainWindow.ResizeMode = ResizeMode.NoResize;
             Application.Current.MainWindow.Left = 0;

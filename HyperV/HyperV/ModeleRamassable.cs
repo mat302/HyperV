@@ -112,13 +112,13 @@ namespace HyperV
 {
     public class ModeleRamassable : ObjetDeBase
     {
-        public static bool Taken { get; set; }
+        public static bool DÈj‡Pris { get; set; }
 
         static ModeleRamassable()
         {
-            Taken = false;
+            DÈj‡Pris = false;
         }
-        public bool Placed { get; set; }
+        public bool PlacÈ { get; set; }
         public bool Ramasser { get; set; }
         //UP WAS COMMENTED
 

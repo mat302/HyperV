@@ -70,6 +70,7 @@ namespace HyperV
 
         float r { get; set; }
         float theta { get; set; }
+        Vector3 Rotationo { get; set; }
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -82,7 +83,7 @@ namespace HyperV
             {
                 r = (float)Math.Sqrt(Camera.Direction.X * Camera.Direction.X + Camera.Direction.Y * Camera.Direction.Y + Camera.Direction.Z * Camera.Direction.Z);
                 theta = -(float)Math.Acos(Camera.Direction.Z / r);
-                Rotation = new Vector3(0, theta, 0) + Adjustment;
+                Rotationo = new Vector3(0, theta, 0) + Adjustment;
                 Shifting = Vector3.Normalize(Camera.Position - Position);
                 if (Vector3.Distance(Camera.Position, Position) < 200)
                 {
@@ -106,7 +107,7 @@ namespace HyperV
                 if (CheckForCollision(MAX_DISTANCE_ENEMY))
                 {
                     Position -= Shifting * Speed;
-                    Camera.Attack(2);
+                    Camera.Attaquer(Strength);
                 }
                 if (Dead)
                 {

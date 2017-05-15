@@ -1,22 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 
 
 namespace HyperV
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
-    public class Fireball : TuileTexturée
+   /// <summary>
+   /// This is a game component that implements IUpdateable.
+   /// </summary>
+   public class Fireball : TuileTexturée
     {
         Vector2 Description { get; set; }
         Vector2 Delta { get; set; }
@@ -88,7 +82,7 @@ namespace HyperV
                     SoundEffect.Play();
                     //Visible = false;
                     Position = InitialPosition;
-                    Camera.Attack(20);
+                    Camera.Attaquer(20);
                 }
                 Timer = 0;
             }

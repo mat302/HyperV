@@ -1,19 +1,12 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using AtelierXNA;
 
 
 namespace HyperV
 {
-    public class Epee : ModeleRamassable
+   public class Epee : ModeleRamassable
     {
         bool CoupDEpee { get; set; }
         public bool ContinuerCoupDEpee { get; private set; }
@@ -22,11 +15,13 @@ namespace HyperV
         GamePadManager GestionGamePad { get; set; }
         float DiffAngleX { get; set; }
         float DiffAngleY { get; set; }
+        int Attack { get; set; }
 
         public Epee(Game jeu, string nomModèle, float échelleInitiale,
-                    Vector3 rotationInitiale, Vector3 positionInitiale)
+                    Vector3 rotationInitiale, Vector3 positionInitiale, int attack)
             : base(jeu, nomModèle, échelleInitiale, rotationInitiale, positionInitiale)
         {
+            Attack = attack;
         }
 
         public override void Initialize()
@@ -81,13 +76,13 @@ namespace HyperV
                         t = 0;
                         if (Boss != null)
                         {
-                            Boss.CheckForAttack(10);
+                            Boss.CheckForAttack(Attack);
                         }
                         if (Enemy.Count > 0)
                         {
                             foreach (Enemy e in Enemy)
                             {
-                                e.CheckForAttack(10);
+                                e.CheckForAttack(Attack);
                             }
                         }
                     }

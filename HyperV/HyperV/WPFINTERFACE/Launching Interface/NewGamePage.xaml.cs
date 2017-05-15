@@ -14,24 +14,18 @@ namespace Launching_Interface
    /// </summary>
    public partial class NewGamePage : Page
    {
-
       List<string> LangueOficielleNewPage { get; set; }
       List<string> ListeÉlémentsAAfficher { get; set; }
 
       public NewGamePage()
       {
+
+
          LangueOficielleNewPage = new List<string>();
-         ListeÉlémentsAAfficher  = new List<string>();
+         ListeÉlémentsAAfficher = new List<string>();
 
          InitializeComponent();
-         Redimentionner();
-         tbtitre.Text = LangueOficielleNewPage[1];
-         BackButton.Text = LangueOficielleNewPage[0];
-         PlaceContent();
-      }
 
-      void Redimentionner()
-      {
          switch (GererDonnees.Langue)
          {
             case GererDonnees.Langues.Francais:
@@ -56,15 +50,22 @@ namespace Launching_Interface
                break;
 
          }
+         tbtitre.Text = LangueOficielleNewPage[1];
+         BackButton.Text = LangueOficielleNewPage[0];
+         PlaceContent();
+         OrganiserMargesCaractéristiques();
       }
+
+
 
       private void PlaceContent()
       {
          for (int i = 0; i < 3; ++i)
          {
             PlaceButtonsContent(i);
+
          }
-         
+
       }
 
       private void PlaceButtonsContent(int i)
@@ -102,7 +103,7 @@ namespace Launching_Interface
          src.UriSource = new Uri(@"../../Saves/screenshot" + i + ".png", UriKind.Relative);
          src.CacheOption = BitmapCacheOption.OnLoad;
          src.EndInit();
-      
+
          LireInformationsNouvellePartie(i);
 
          switch (i)
@@ -111,21 +112,21 @@ namespace Launching_Interface
                image0.Source = src;
                image0.Margin = new Thickness(30);
                slotA.Text = LangueOficielleNewPage[2];
-               Level0.Text= LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
-               Time0.Text = LangueOficielleNewPage[3] + " " + ListeÉlémentsAAfficher[3];     
+               Level0.Text = LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NbreNiveauxTotal(i).ToString();
+               Time0.Text = LangueOficielleNewPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
             case 1:
                image1.Source = src;
                image1.Margin = new Thickness(30);
                slotB.Text = LangueOficielleNewPage[5];
-               Level1.Text= LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               Level1.Text = LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NbreNiveauxTotal(i).ToString();
                Time1.Text = LangueOficielleNewPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
             case 2:
                image2.Source = src;
                image2.Margin = new Thickness(30);
                slotC.Text = LangueOficielleNewPage[8];
-               Level2.Text= LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NombreNiveaux(i).ToString();
+               Level2.Text = LangueOficielleNewPage[4] + " " + GererDonnees.NbreNiveauxComplétés(i) + "/" + GererDonnees.NbreNiveauxTotal(i).ToString();
                Time2.Text = LangueOficielleNewPage[3] + " " + ListeÉlémentsAAfficher[3];
                break;
          }
@@ -133,6 +134,8 @@ namespace Launching_Interface
          OrganiserMargesCaractéristiques();
          ChangeBorderBrushColor(i);
       }
+
+
 
       void OrganiserMargesCaractéristiques()
       {
@@ -180,13 +183,13 @@ namespace Launching_Interface
          switch (i)
          {
             case 0:
-                    Save0Button.BorderBrush = Brushes.Black;//DarkBlue;
+               Save0Button.BorderBrush = Brushes.Black;//DarkBlue;
                break;
             case 1:
-                    Save1Button.BorderBrush = Brushes.Black;//DarkBlue;
+               Save1Button.BorderBrush = Brushes.Black;//DarkBlue;
                break;
             case 2:
-                    Save2Button.BorderBrush = Brushes.Black;//DarkBlue;
+               Save2Button.BorderBrush = Brushes.Black;//DarkBlue;
                break;
          }
       }
@@ -204,8 +207,8 @@ namespace Launching_Interface
             case 2:
                ListeÉlémentsAAfficher = GererDonnees.ListeCaractéristiquesAAfficher2;
                break;
-          }
-          
+         }
+
 
       }
 
@@ -223,9 +226,8 @@ namespace Launching_Interface
                CreateImage(Save2);
                break;
          }
-            ChangeBorderBrushColor(i);
-         Redimentionner();
-            RéinitialiserBoutons(i);
+         ChangeBorderBrushColor(i);
+         RéinitialiserBoutons(i);
       }
 
       private void CreateImage(Grid l)
@@ -246,14 +248,13 @@ namespace Launching_Interface
                e.Image.Source = new BitmapImage(new Uri(@"/Pictures/CreateJA.png", UriKind.Relative));
                break;
          }
-         Redimentionner();
          e.Image.Margin = new Thickness(0, -90, 0, -350);
          l.Children.Add(e);
       }
 
       void BackButton_Click(object sender, RoutedEventArgs e)
       {
-         this.NavigationService.Navigate(new MainPage());
+         NavigationService.Navigate(new MainPage());
       }
 
       void Save0Button_Click(object sender, RoutedEventArgs e)
@@ -268,12 +269,15 @@ namespace Launching_Interface
       void LoadSave(string saveNumber)
       {
          ManagePause(saveNumber);
+         //string path = "F:/programmation clg/quatrième session/HyperV/HyperV/HyperV/bin/x86/Debug/HyperV.exe";
+         //string path = "C:/Users/Mathieu/Source/Repos/HyperV/HyperV/HyperV/bin/x86/Debug/HyperV.exe";
          string path = System.IO.Path.Combine(Environment.CurrentDirectory, @"../../../../bin/x86/Debug/HyperV.exe");
          ProcessStartInfo p = new ProcessStartInfo();
          p.FileName = path;
          p.WorkingDirectory = System.IO.Path.GetDirectoryName(path);//69
          Process.Start(p);
          Application.Current.Shutdown();
+
       }
 
       void CreateSave(string saveNumber)
@@ -284,12 +288,18 @@ namespace Launching_Interface
          writer.WriteLine("Position: {X:5 Y:5 Z:5}");
          writer.WriteLine("Direction: {X:5 Y:5 Z:5}");
          writer.WriteLine("Time Played: " + (new TimeSpan(0, 0, 0)).ToString());
-            writer.WriteLine("Max Life: 300");
-            writer.WriteLine("Attack: 0");
-            writer.WriteLine("false;false;false;false;false;false;false;false");
-            writer.Close();
+         writer.WriteLine("Max Life: 300");
+         writer.WriteLine("Attack: 0");
+         writer.WriteLine("false;false;false;false;false;false;false;false");
+         writer.Close();
          File.Copy("../../Saves/startscreenshot.png", "../../Saves/screenshot" + saveNumber + ".png", true);
-      }
+            writer = new StreamWriter("../../Saves/SavePuzzleRunes" + saveNumber + ".txt");
+            writer.WriteLine(false);
+            writer.Close();
+            writer = new StreamWriter("../../Saves/SavePuzzleBouton" + saveNumber + ".txt");
+            writer.WriteLine(false);
+            writer.Close();
+        }
 
       void ManagePause(string saveNumber)
       {

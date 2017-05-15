@@ -9,20 +9,16 @@ namespace Launching_Interface
       const string CHEMIN_LECTURE_BASE = "../../";
 
       public static bool RenderDistenceModifiée = true;
-
-      const int NBRE_SAUVEGARDES = 3,
-                LANGUE_BASE = 0,
-                FPS_BASE = 60,
-                RENDER_D_BASE = 500,
-                VOL_MUS_BASE = 50,
-                VOL_EFF_BASE = 50,
-                NB_NIVEAUX_BASE = 0,
-                NBRE_CARACTÉRISTIQUES_RÉGLAGES = 7,
-                NBRE_CARACTÉRISTIQUE_HYPERV = 6,
-                NBRE_RENDER_DISTANCE = 9,
-                NBRE_FPS = 4;
-
-      static TimeSpan TEMPS_BASE = TimeSpan.Zero;  
+      public const int NBRE_SAUVEGARDES = 3,
+                       FPS_BASE = 60,
+                       RENDER_D_BASE = 500,
+                       VOL_MUS_BASE = 50,
+                       VOL_EFF_BASE = 50,
+                       NB_NIVEAUX_BASE = 0,
+                       NBRE_CARACTÉRISTIQUES_RÉGLAGES = 7,
+                       NBRE_CARACTÉRISTIQUE_HYPERV = 6,
+                       NBRE_RENDER_DISTANCE = 9,
+                       NBRE_FPS = 4;
 
       public enum Langues { Francais, Anglais, Espagnol, Japonais }
       public enum Fullscreen { oui, non }
@@ -47,11 +43,11 @@ namespace Launching_Interface
             }
          }
       }
-      public static int Fps;
-      public static int RenderDistance;
-      public static int VolMusique;
-      public static int VolEffets;
-      public static Fullscreen FullscreenMode
+      public static int Fps;   
+      public static int RenderDistance; 
+      public static int VolMusique; 
+      public static int VolEffets; 
+      public static Fullscreen FullscreenMode 
       {
          get { return fullscreen; }
          set
@@ -66,7 +62,7 @@ namespace Launching_Interface
             }
          }
       }
-      public static Controller KeyboardMode
+      public static Controller KeyboardMode 
       {
          get { return controller; }
          set
@@ -82,7 +78,6 @@ namespace Launching_Interface
          }
       }
       public static bool PremierFichier;
-      public static TimeSpan Temps;
 
       public static List<string> ListeFrancais { get; private set; }
       public static List<string> ListeAnglais { get; private set; }
@@ -94,6 +89,7 @@ namespace Launching_Interface
       static List<bool>[] EstComplété { get; set; }
 
       public static bool[] JeuEstExistant;
+
 
       public static void InitialiserGererDonnees(StreamReader lecteurDonnées)
       {
@@ -159,11 +155,9 @@ namespace Launching_Interface
          }
       }
 
-      static void LireFichiers(string nomDossier,string nomFichier)
+      static void LireFichiers(string nomDossier, string nomFichier)
       {
-         StreamReader lecteurDonnées = new StreamReader(CHEMIN_LECTURE_BASE + nomDossier+"/" + nomFichier);
-         int cptFichierSaves = 0;
-
+         StreamReader lecteurDonnées = new StreamReader(CHEMIN_LECTURE_BASE + nomDossier + "/" + nomFichier);
          while (!lecteurDonnées.EndOfStream)
          {
             switch (nomFichier)
@@ -181,28 +175,27 @@ namespace Launching_Interface
                   ListeJaponais.Add(lecteurDonnées.ReadLine());
                   break;
                case "save0.txt":
-                  GérerFichiersSaves(lecteurDonnées, cptFichierSaves);
-                  ++cptFichierSaves;
+                  GérerFichiersSaves(lecteurDonnées, 0);
                   break;
                case "save1.txt":
-                  GérerFichiersSaves(lecteurDonnées, cptFichierSaves);
-                  ++cptFichierSaves;
+                  GérerFichiersSaves(lecteurDonnées, 1);
                   break;
                case "save2.txt":
-                  GérerFichiersSaves(lecteurDonnées, cptFichierSaves);
+                  GérerFichiersSaves(lecteurDonnées, 2);
                   break;
                default:
-                  throw new Exception("Auncun fichier n'a été lu dans la classe statique");                  
+                  throw new Exception("Auncun fichier n'a été lu dans la classe statique");
             }
          }
          lecteurDonnées.Close();
       }
 
-      static void GérerFichiersSaves(StreamReader lecteurDonnées,int i)
+      static void GérerFichiersSaves(StreamReader lecteurDonnées, int i)
       {
          List<string> listeCaractéristiquestemporaire = new List<string>();
+
          string[] parties;
-         string[] symboleQuiSépare = new string[] { "l: ", "n: ", "n: ", "d: ", "e: ", "k: " };
+         string[] symboleQuiSépare = new string[NBRE_CARACTÉRISTIQUE_HYPERV] { "l: ", "n: ", "n: ", "d: ", "e: ", "k: " };
          string ligne;
 
          for (int j = 0; j < NBRE_CARACTÉRISTIQUE_HYPERV; j++)
@@ -212,34 +205,38 @@ namespace Launching_Interface
             listeCaractéristiquestemporaire.Add(parties[1]);
          }
 
-            ligne = lecteurDonnées.ReadLine();
-            parties = ligne.Split(new char[] { ';' });
-            for (int j = 0; j < parties.Length; ++j)
-            {
-                EstComplété[i].Add(bool.Parse(parties[j]));
-            }
-            AssocierBonneListeAfficher(i,listeCaractéristiquestemporaire);
+         ligne = lecteurDonnées.ReadLine();
+         parties = ligne.Split(new char[] { ';' });
+         for (int j = 0; j < parties.Length; ++j)
+         {
+            EstComplété[i].Add(bool.Parse(parties[j]));
+            listeCaractéristiquestemporaire.Add(bool.Parse(parties[j]).ToString());
+         }
+         AssocierBonneListeAfficher(i, listeCaractéristiquestemporaire);
+
       }
+
 
       public static int NbreNiveauxComplétés(int i)
       {
-         int nbreComplétés = 0;
-         foreach (bool élément in EstComplété[i])
+         int numComplete = 0;
+
+         foreach (bool e in EstComplété[i])
          {
-            if (élément)
+            if (e)
             {
-               ++nbreComplétés;
+               ++numComplete;
             }
          }
-         return nbreComplétés;
+         return numComplete;
       }
 
-      public static int NombreNiveaux(int i)
-        {
-            return EstComplété[i].Count;
-        }
+      public static int NbreNiveauxTotal(int i)
+      {
+         return EstComplété[i].Count;
+      }
 
-        static void AssocierBonneListeAfficher(int i,List<string> listeCaractéristiquestemporaire)
+      static void AssocierBonneListeAfficher(int i, List<string> listeCaractéristiquestemporaire)
       {
          switch (i)
          {
@@ -257,14 +254,13 @@ namespace Launching_Interface
 
       public static void RéglagesBase()
       {
-         Langue = LANGUE_BASE;
+         Langue = Langues.Francais;
          RenderDistance = RENDER_D_BASE;
          Fps = FPS_BASE;
          VolMusique = VOL_MUS_BASE;
          VolEffets = VOL_EFF_BASE;
          FullscreenMode = Fullscreen.oui;
          KeyboardMode = Controller.Manette;
-         Temps = TEMPS_BASE;
       }
 
       static void VérifieExistanceParties()
@@ -281,4 +277,3 @@ namespace Launching_Interface
 
    }
 }
-
