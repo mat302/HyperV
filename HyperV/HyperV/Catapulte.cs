@@ -107,7 +107,7 @@ namespace HyperV
             Vector2 NouveauVecteur = new Vector2(Camera.Direction.X, Camera.Direction.Z);
             if (NouveauVecteur != AncienVecteur)
             {
-                Rotation -= Camera.DéplacementSouris.X * MathHelper.Pi / 180 * 0.1f;
+                Rotation -= Camera.DéplacementSourisOuStickGamePad.X * MathHelper.Pi / 180 * 0.1f;
                 AncienVecteur = NouveauVecteur;
             }
         }
