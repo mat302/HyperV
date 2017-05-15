@@ -7,3 +7,4 @@ Water;1;{X:0 Y:0 Z:0};{X:400 Y:-10 Z:310};{X:300 Y:300}
 Maze;1;{X:0 Y:0 Z:0};{X:10 Y:0 Z:415};{X:256 Y:5 Z:256};BlueGrass;Maze5gg
 Portal;1;{X:0 Y:0 Z:0};{X:100 Y:5 Z:640};{X:30 Y:20};Transparent;1
 House;RGY;10;{X:0 Y:0 Z:0};{X:100 Y:0 Z:600};{X:80 Y:0 Z:590};{X:120 Y:20 Z:610}
+Walls;Briques;Walls55.txt;0
