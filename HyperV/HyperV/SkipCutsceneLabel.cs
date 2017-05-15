@@ -56,7 +56,15 @@ namespace HyperV
             Timer = 0;
             Scale = 0;
 
-            
+            MAJLangue();
+
+
+            Position = new Vector2(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height - 50);
+        }
+
+        public void MAJLangue()
+        {
+            Language = (Language)Game.Services.GetService(typeof(Language));
             Message = "Press R/Start to skip";
             switch (Language)
             {
@@ -72,12 +80,11 @@ namespace HyperV
             }
             Vector2 dimension = Font.MeasureString(Message);
             Origin = new Vector2(dimension.X / 2, dimension.Y / 2);
-            Position = new Vector2(Game.Window.ClientBounds.Width / 2, Game.Window.ClientBounds.Height - 50);
         }
 
         protected override void LoadContent()
         {
-            Language = (Language)Game.Services.GetService(typeof(Language));
+            
             FontManager = Game.Services.GetService(typeof(RessourcesManager<SpriteFont>)) as RessourcesManager<SpriteFont>;
             Font = FontManager.Find(FontName);
             SpriteBatch = Game.Services.GetService(typeof(SpriteBatch)) as SpriteBatch;

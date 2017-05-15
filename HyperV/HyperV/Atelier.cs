@@ -757,6 +757,10 @@ namespace HyperV
          {
             e.DéterminerMesage();
          }
+         foreach(SkipCutsceneLabel s in Components.Where(a => a is SkipCutsceneLabel))
+            {
+                s.MAJLangue();
+            }
       }
 
       protected override void OnDeactivated(object sender, EventArgs args)
