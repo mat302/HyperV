@@ -55,6 +55,7 @@ namespace Launching_Interface
          tbtitre.Text = LangueOficielleLoadPage[32];
          BackButton.Text = LangueOficielleLoadPage[0];
          PlaceContent();
+         OrganiserMargesCaractéristiques();
       }
 
       private void PlaceContent()
