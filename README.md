@@ -13,8 +13,6 @@ This is the entrance to World 1
 ![Alt text](/Screenshots/World1Entrance.png?raw=true)
 These are enemies featured in World 1
 ![Alt text](/Screenshots/World1Bears.png?raw=true)
-This is where the game starts
-![Alt text](/Screenshots/Beginning.png?raw=true)
 This is the mountain you reach after fighting the bears
 ![Alt text](/Screenshots/World1Mountain.png?raw=true)
 This is the first puzzle in the game which is absolutely necessary to advance further in the game
