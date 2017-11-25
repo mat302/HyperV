@@ -73,3 +73,36 @@ To see a lot more of what this game features, feel free to play it!
 Because I tought it would be cool, I decided to include screenshots showcasing the evolution of the development of this game over the months.
 
 Here's how HyperV looked like after one week
+![Alt text](/Screenshots/Untitled.png?raw=true)
+Yes, the project was supposed to be on UWP at the beginning, but it had to be changed to WPF due to technical reasons
+![Alt text](/Screenshots/Untitled1.png?raw=true)
+After one month, the project looked like this.
+![Alt text](/Screenshots/Untitled2.png?raw=true)
+As you can see, the front end of the menu was already pretty similar to the final version at this point. It only had front-end though.
+![Alt text](/Screenshots/Untitled4.png?raw=true)
+I must also add that there was an Android version up to this point, which has stopped being developed afterwards due to other technical reasons
+![Alt text](/Screenshots/Untitled3.png?raw=true)
+Now, let's see how it looked after two months
+![Alt text](/Screenshots/Untitled5.png?raw=true)
+As you can see, it included a test level in which the first versions of the bison and the gear puzzle were tested. In the back we can still see the same maze from the version a month before. Other components were added later such as height maps an water.
+![Alt text](/Screenshots/Untitled6.png?raw=true)
+This version also included the hub with a first NPC which was still in a testing phase at that time as you can see.
+![Alt text](/Screenshots/Untitled7.png?raw=true)
+The hub had one "level" wich was was the testing level above. The game already had a pretty complete interface at that time with the possibility to save games anywhere in the game.
+![Alt text](/Screenshots/Untitled8.png?raw=true)
+Recovering this version was more of a pain because it used a dll from a library I created at that time called BasicComponents. Also, it used static file paths I had to change because they were not relevent anymore on my computer. It was a pain but reseeing this version was worth it for the souvenirs and the nostalgia . . .
+After three months, the project looked like this
+![Alt text](/Screenshots/Untitled9.png?raw=true)
+The hub map was completely similar to the current except for the textures, NPCs and little details. All the portals were created but not all ready. Level 1 was not a testing ground anymore but now the one we still have today.
+![Alt text](/Screenshots/Untitled10.png?raw=true)
+The models and textures were not the same and not as pretty though. Especially for that sword XD. Can you recognize the mountain of World 1 though?
+![Alt text](/Screenshots/Untitled11.png?raw=true)
+The swamp level had his first version and same for World 2. Do you recognize World 2's forest?
+![Alt text](/Screenshots/Untitled12.png?raw=true)
+![Alt text](/Screenshots/Untitled13.png?raw=true)
+After this version, the core of the project looked pretty much like today if we forget about the optimization and debugging. It had the system I created to create levels from text files with a particular syntax I invented and compiled in C# and many other technilaties I'll detail too much because it would take a lot of time.
+
+After four months, the project became was it is today.
+![Alt text](/Screenshots/Untitled14.png?raw=true)
+![Alt text](/Screenshots/Untitled15.png?raw=true)
+![Alt text](/Screenshots/Untitled16.png?raw=true)
