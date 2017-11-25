@@ -84,7 +84,7 @@ I must also add that there was an Android version up to this point, which has st
 ![Alt text](/Screenshots/Untitled3.png?raw=true)
 Now, let's see how it looked after two months
 ![Alt text](/Screenshots/Untitled5.png?raw=true)
-As you can see, it included a test level in which the first versions of the bison and the gear puzzle were tested. In the back we can still see the same maze from the version a month before. Other components were added later such as height maps an water.
+As you can see, it included a test level in which the first versions of the bison and the gear puzzle were tested. In the back we can still see the same maze from the version of a month before. Other components were added later such as height maps an water.
 ![Alt text](/Screenshots/Untitled6.png?raw=true)
 This version also included the hub with a first NPC which was still in a testing phase at that time as you can see.
 ![Alt text](/Screenshots/Untitled7.png?raw=true)
