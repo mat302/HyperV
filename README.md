@@ -37,8 +37,6 @@ This is an area of the hub you unlock after completing this third puzzle
 ![Alt text](/Screenshots/Hub.png?raw=true)
 This is the entrance to World 5
 ![Alt text](/Screenshots/World5Entrance.png?raw=true)
-This is World 5
-![Alt text](/Screenshots/World5.png?raw=true)
 The game features a nice and easy to use pause menu
 ![Alt text](/Screenshots/PauseMenu.png?raw=true)
 The game lets you easily save your progress to load one of your games later
@@ -67,7 +65,7 @@ It features the first boss of the game which is a bison that spits fireballs
 ![Alt text](/Screenshots/FireBall.png?raw=true)
 You can throw knives at it to make the fight easier but it will still be not easy
 ![Alt text](/Screenshots/KnivesAgainstBoss.png?raw=true)
-![Alt text](/Screenshots/FightAgainsttheBoss.png?raw=true)
+![Alt text](/Screenshots/FightingAgainsttheBoss.png?raw=true)
 ![Alt text](/Screenshots/GameOver.png?raw=true)
 
 To see a lot more of what this game features, feel free to play it!
