@@ -37,8 +37,6 @@ This is an area of the hub you unlock after completing this third puzzle
 ![Alt text](/Screenshots/Hub.png?raw=true)
 This is the entrance to World 5
 ![Alt text](/Screenshots/World5Entrance.png?raw=true)
-This is World 5
-![Alt text](/Screenshots/World5.png?raw=true)
 The game features a nice and easy to use pause menu
 ![Alt text](/Screenshots/PauseMenu.png?raw=true)
 The game lets you easily save your progress to load one of your games later
