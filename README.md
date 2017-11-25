@@ -63,7 +63,7 @@ Finally, here's World 8
 ![Alt text](/Screenshots/World8.png?raw=true)
 It features the first boss of the game which is a bison that spits fireballs
 ![Alt text](/Screenshots/FireBall.png?raw=true)
-You can throw knives at it to make the fight easier but it will still be not easy
+You can throw knives at it to make the fight easier but it will still not be easy
 ![Alt text](/Screenshots/KnivesAgainstBoss.png?raw=true)
 ![Alt text](/Screenshots/FightingAgainsttheBoss.png?raw=true)
 ![Alt text](/Screenshots/GameOver.png?raw=true)
