@@ -88,21 +88,26 @@ As you can see, it included a test level in which the first versions of the biso
 ![Alt text](/Screenshots/Untitled6.png?raw=true)
 This version also included the hub with a first NPC which was still in a testing phase at that time as you can see.
 ![Alt text](/Screenshots/Untitled7.png?raw=true)
-The hub had one "level" wich was was the testing level above. The game already had a pretty complete interface at that time with the possibility to save games anywhere in the game.
+The hub had one "level" wich was the testing level above. The game already had a pretty complete interface at that time with the possibility to save games anywhere in the game.
 ![Alt text](/Screenshots/Untitled8.png?raw=true)
 Recovering this version was more of a pain because it used a dll from a library I created at that time called BasicComponents. Also, it used static file paths I had to change because they were not relevent anymore on my computer. It was a pain but reseeing this version was worth it for the souvenirs and the nostalgia . . .
 After three months, the project looked like this
 ![Alt text](/Screenshots/Untitled9.png?raw=true)
-The hub map was completely similar to the current except for the textures, NPCs and little details. All the portals were created but not all ready. Level 1 was not a testing ground anymore but now the one we still have today.
+The hub map was completely similar to the current except for the textures, NPCs and little details. All the portals were created but not all of them were ready. Level 1 was not a testing ground anymore but the beginning of what we have today.
 ![Alt text](/Screenshots/Untitled10.png?raw=true)
-The models and textures were not the same and not as pretty though. Especially for that sword XD. Can you recognize the mountain of World 1 though?
+The models and textures were not the same and not as pretty though. Especially for that sword XD. Can you recognize the mountain of World 1?
 ![Alt text](/Screenshots/Untitled11.png?raw=true)
 The swamp level had his first version and same for World 2. Do you recognize World 2's forest?
 ![Alt text](/Screenshots/Untitled12.png?raw=true)
 ![Alt text](/Screenshots/Untitled13.png?raw=true)
-After this version, the core of the project looked pretty much like today if we forget about the optimization and debugging. It had the system I created to create levels from text files with a particular syntax I invented and compiled in C# and many other technilaties I'll detail too much because it would take a lot of time.
+After this version, the core of the project looked pretty much like today if we forget about the optimization and debugging. It had the system I created to create levels from text files with a particular syntax I invented and compiled in C# and many other technilaties I'll not detail too much because it would take a lot of time.
 
 After four months, the project became was it is today.
 ![Alt text](/Screenshots/Untitled14.png?raw=true)
 ![Alt text](/Screenshots/Untitled15.png?raw=true)
 ![Alt text](/Screenshots/Untitled16.png?raw=true)
+
+If you want to test the game, you'll preferably need Microsoft Visual Studio 2015, Microsoft XNA installed and that's it. With that you should be in business to compile the game. If you have any questions, feel free to contact me.
+Sincerly,
+
+Mathieu Godin
