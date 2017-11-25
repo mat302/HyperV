@@ -1,7 +1,7 @@
 # HyperV
 This is HyperV, a 3D video game developed with C#, Microsoft XNA, WPF and XAML.
 
-This is the title screean
+This is the title screen
 ![Alt text](/Screenshots/TitleScreen.png?raw=true)
 This where you create your game
 ![Alt text](/Screenshots/LoadGame.png?raw=true)
