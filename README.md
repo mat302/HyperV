@@ -67,7 +67,7 @@ It features the first boss of the game which is a bison that spits fireballs
 ![Alt text](/Screenshots/FireBall.png?raw=true)
 You can throw knives at it to make the fight easier but it will still be not easy
 ![Alt text](/Screenshots/KnivesAgainstBoss.png?raw=true)
-![Alt text](/Screenshots/FightAgainsttheBoss.png?raw=true)
+![Alt text](/Screenshots/FightingAgainsttheBoss.png?raw=true)
 ![Alt text](/Screenshots/GameOver.png?raw=true)
 
 To see a lot more of what this game features, feel free to play it!
