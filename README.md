@@ -70,7 +70,7 @@ You can throw knives at it to make the fight easier but it will still not be eas
 
 To see a lot more of what this game features, feel free to play it!
 
-I must also add that there used to be an Android version, which has stopped being developed afterwards due to technical reasons
+I must also add there's a partial version of the game on Android. It has not been completelly developed yet because of technical reasons.
 ![Alt text](/Screenshots/Untitled3.png?raw=true)
 
 If you want to test the game, you'll preferably need Microsoft Visual Studio 2015, Microsoft XNA installed and that's it. With that you should be in business to compile the game. If you have any questions, feel free to contact me.
